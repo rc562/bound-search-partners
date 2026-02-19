@@ -172,7 +172,7 @@ export default function App() {
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
         {/* VIDEO PLACEHOLDER — on deploy, this becomes:
         */}
-        <div style={{position:"absolute",inset:0,zIndex:0}}><video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video><video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
+        <div style={{position:"absolute",inset:0,zIndex:0}}><video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="/bound-search-partners/video1.mp4" type="video/mp4"/></video><video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="/bound-search-partners/video2.mp4" type="video/mp4"/></video>
           {/* Animated gradient simulating video feel */}
           <div style={{position:"absolute",inset:0,background:`linear-gradient(135deg, ${C.n} 0%, ${C.nl} 25%, ${C.nm} 50%, #1a0a28 75%, ${C.n} 100%)`,backgroundSize:"400% 400%",animation:"heroShimmer 15s ease infinite"}} />
           {/* Red accent glow */}
