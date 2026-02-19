@@ -13,6 +13,12 @@ export default function App() {
   useEffect(() => {
     setTimeout(() => setLoaded(true), 3500);
     const h = () => setScrolled(window.scrollY > 60);
+    let showV1 = true;
+    const vidInterval = setInterval(() => {
+      const v1 = document.getElementById("vid1");
+      const v2 = document.getElementById("vid2");
+      if (v1 && v2) { showV1 = !showV1; v1.style.opacity = showV1 ? "1" : "0"; v1.style.transition = "opacity 1.5s ease"; v2.style.opacity = showV1 ? "0" : "1"; }
+    }, 10000);
     window.addEventListener("scroll",h);
     return () => window.removeEventListener("scroll",h);
   }, []);
@@ -173,7 +179,7 @@ export default function App() {
             </video>
             JS crossfades opacity between them every 10s
         */}
-        <div style={{position:"absolute",inset:0,zIndex:0}}>
+        <div style={{position:"absolute",inset:0,zIndex:0}}><video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video><video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
           {/* Animated gradient simulating video feel */}
           <div style={{position:"absolute",inset:0,background:`linear-gradient(135deg, ${C.n} 0%, ${C.nl} 25%, ${C.nm} 50%, #1a0a28 75%, ${C.n} 100%)`,backgroundSize:"400% 400%",animation:"heroShimmer 15s ease infinite"}} />
           {/* Red accent glow */}
