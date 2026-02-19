@@ -172,16 +172,8 @@ export default function App() {
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
         {/* VIDEO PLACEHOLDER — on deploy, this becomes:
         */}
-        <div style={{position:"absolute",inset:0,zIndex:0}}><video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="/bound-search-partners/video1.mp4" type="video/mp4"/></video><video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="/bound-search-partners/video2.mp4" type="video/mp4"/></video>
-          {/* Animated gradient simulating video feel */}
-          <div style={{position:"absolute",inset:0,background:`linear-gradient(135deg, ${C.n} 0%, ${C.nl} 25%, ${C.nm} 50%, #1a0a28 75%, ${C.n} 100%)`,backgroundSize:"400% 400%",animation:"heroShimmer 15s ease infinite"}} />
-          {/* Red accent glow */}
-          <div style={{position:"absolute",bottom:"20%",left:"40%",width:"40%",height:"40%",background:"radial-gradient(ellipse,rgba(226,60,65,.06),transparent 70%)",animation:"heroPulse 8s ease infinite"}} />
-          {/* Subtle grid lines for texture */}
-          <div style={{position:"absolute",inset:0,backgroundImage:`linear-gradient(rgba(226,60,65,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(226,60,65,.03) 1px, transparent 1px)`,backgroundSize:"60px 60px",opacity:.5}} />
-          {/* Video label */}
-          <div style={{position:"absolute",bottom:20,right:20,fontSize:9,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:.3,zIndex:5}}>▶ VIDEO HERO — Your 2 Grok videos will play here on deploy</div>
-        </div>
+        <div style={{position:"absolute",inset:0,zIndex:0}}><video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video><video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video></div>
+
         {/* Dark overlay */}
         <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,rgba(14,11,36,.4) 0%,rgba(14,11,36,.15) 30%,rgba(14,11,36,.7) 75%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.8) 0%,transparent 55%)`}} />
         {/* Hero content */}
