@@ -197,15 +197,6 @@ export default function App() {
 
       {/* HERO — Video placeholder (both videos will alternate on deploy) */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
-        {/* VIDEO PLACEHOLDER — on deploy, this becomes:
-            <video id="vid1" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%">
-              <source src="video1.mp4" type="video/mp4">
-            </video>
-            <video id="vid2" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:0">
-              <source src="video2.mp4" type="video/mp4">
-            </video>
-            JS crossfades opacity between them every 10s
-        */}
         <div style={{position:"absolute",inset:0,zIndex:0}}>
           <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video>
           <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
