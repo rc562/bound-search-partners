@@ -197,6 +197,15 @@ export default function App() {
 
       {/* HERO — Video placeholder (both videos will alternate on deploy) */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
+        {/* VIDEO PLACEHOLDER — on deploy, this becomes:
+            <video id="vid1" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%">
+              <source src="video1.mp4" type="video/mp4">
+            </video>
+            <video id="vid2" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:0">
+              <source src="video2.mp4" type="video/mp4">
+            </video>
+            JS crossfades opacity between them every 10s
+        */}
         <div style={{position:"absolute",inset:0,zIndex:0}}>
           <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video>
           <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
@@ -239,17 +248,17 @@ export default function App() {
         <div style={{flex:1,overflow:"hidden",display:"flex",alignItems:"center"}}>
           <div style={{display:"inline-flex",alignItems:"center",whiteSpace:"nowrap",animation:"tickScroll 45s linear infinite"}} onMouseEnter={e=>e.currentTarget.style.animationPlayState="paused"} onMouseLeave={e=>e.currentTarget.style.animationPlayState="running"}>
             {[...Array(2)].map((_,rep) => [
-              ["US factory output posts biggest gain in nearly a year","Bloomberg"],
-              ["Manufacturing ISM expands at fastest pace since 2022","Bloomberg"],
-              ["Philadelphia Fed manufacturing index rises to 16.3","Advisor Perspectives"],
-              ["2026 may be a turnaround year for manufacturing jobs","Marketplace"],
-              ["Core durable goods orders surge amid headwinds","Financial Content"],
-              ["Reshoring reshapes supply chain strategy for 2026","WSI"],
-              ["Can reshoring deliver sustainability benefits?","Mfg Dive"],
-              ["2026 outlook: AI and reshoring as key trends","Deloitte"],
-            ].map(([h,s],i) => (
+              ["US factory output posts biggest gain in nearly a year","Bloomberg","https://www.bloomberg.com/news/articles/2026-02-18/us-industrial-production"],
+              ["Manufacturing ISM expands at fastest pace since 2022","Bloomberg","https://www.bloomberg.com/news/articles/2026-02-02/us-manufacturing-activity"],
+              ["Philadelphia Fed manufacturing index rises to 16.3","Advisor Perspectives","https://www.advisorperspectives.com/dshort/updates/2026/02/19/philadelphia-fed-manufacturing-index"],
+              ["2026 may be a turnaround year for manufacturing jobs","Marketplace","https://www.marketplace.org/story/2026/02/16/will-there-be-more-manufacturing-jobs-in-2026"],
+              ["Core durable goods orders surge amid headwinds","Financial Content","https://markets.financialcontent.com/stocks/article/marketminute-2026-2-18"],
+              ["Reshoring reshapes supply chain strategy for 2026","WSI","https://www.wsinc.com/retail-supply-chain-moves/"],
+              ["Can reshoring deliver sustainability benefits?","Mfg Dive","https://www.manufacturingdive.com/news/can-reshoring-deliver-manufacturing-sustainability-benefits/811430/"],
+              ["2026 outlook: AI and reshoring as key trends","Deloitte","https://www.deloitte.com/us/en/insights/industry/manufacturing-industrial-products/manufacturing-industry-outlook.html"],
+            ].map(([h,s,u],i) => (
               <span key={`${rep}-${i}`} style={{padding:"0 40px",fontSize:12,color:C.gl,display:"inline-flex",alignItems:"center",gap:12}}>
-                <span style={{color:C.r,fontSize:7,opacity:.5}}>◆</span><span>{h}</span><span style={{color:C.g,fontSize:10,opacity:.5}}>{s}</span>
+                <span style={{color:C.r,fontSize:7,opacity:.5}}>◆</span><a href={u} target="_blank" rel="noopener noreferrer" style={{color:C.gl,textDecoration:"none"}}>{h}</a><span style={{color:C.g,fontSize:10,opacity:.5}}>{s}</span>
               </span>
             ))).flat()}
           </div>
