@@ -9,12 +9,13 @@ export default function App() {
   const [procOpen,setProcOpen] = useState(false);
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
+  const [mobileMenu,setMobileMenu] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setLoaded(true), 3500);
     const h = () => setScrolled(window.scrollY > 60);
     let showV1 = true;
-    const vidInterval = setInterval(() => {
+    setInterval(() => {
       const v1 = document.getElementById("vid1");
       const v2 = document.getElementById("vid2");
       if (v1 && v2) { showV1 = !showV1; v1.style.opacity = showV1 ? "1" : "0"; v1.style.transition = "opacity 1.5s ease"; v2.style.opacity = showV1 ? "0" : "1"; }
@@ -29,18 +30,24 @@ export default function App() {
       const el = document.getElementById("bond");
       if (!el) return;
       const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting) {
-            setBondVis(true);
-            obs.disconnect();
-          }
-        });
+        entries.forEach(entry => { if(entry.isIntersecting) { setBondVis(true); obs.disconnect(); } });
       },{threshold:0.15,rootMargin:"0px 0px -50px 0px"});
       obs.observe(el);
-      return () => obs.disconnect();
     }, 500);
     return () => clearTimeout(timer);
   }, [loaded]);
+
+  useEffect(() => {
+    if (!loaded || bondVis) return;
+    const checkBond = () => {
+      const el = document.getElementById("bond");
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.85) { setBondVis(true); window.removeEventListener("scroll", checkBond); }
+    };
+    window.addEventListener("scroll", checkBond);
+    return () => window.removeEventListener("scroll", checkBond);
+  }, [loaded, bondVis]);
 
   const srvs = [
     {n:"01",t:"Retained Executive Search",s:"Retained Search",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Targeting leaders who aren't looking — and convincing them to listen.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain"},
@@ -68,22 +75,6 @@ export default function App() {
     {n:"Real Estate",s:"Development & Construction",r:"VP Development · Director Construction · Head of Acquisitions"},
     {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer"},
   ];
-
-  // Fallback: trigger bond animation on scroll if IntersectionObserver misses
-  useEffect(() => {
-    if (!loaded || bondVis) return;
-    const checkBond = () => {
-      const el = document.getElementById("bond");
-      if (!el) return;
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.85) {
-        setBondVis(true);
-        window.removeEventListener("scroll", checkBond);
-      }
-    };
-    window.addEventListener("scroll", checkBond);
-    return () => window.removeEventListener("scroll", checkBond);
-  }, [loaded, bondVis]);
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
 
@@ -144,14 +135,49 @@ export default function App() {
         @keyframes f2{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
         @keyframes sp{to{transform:rotate(360deg)}}
         @keyframes ep{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(2.5);opacity:0}}
-        
-        @keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-        @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-        @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         @keyframes heroShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
         @keyframes heroPulse{0%,100%{opacity:.03}50%{opacity:.08}}
         *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
         ::selection{background:#e23c4144;color:#fff}input:focus,textarea:focus{border-color:#e23c41!important;outline:none}
+        @keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
+        .mob-grid-stats{display:grid;grid-template-columns:repeat(4,1fr)}
+        .mob-grid-about{display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(3rem,8vw,8rem);align-items:center}
+        .mob-grid-proc{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+        .mob-grid-ind{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+        .mob-grid-contact{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(3rem,5vw,5rem);align-items:start}
+        .mob-grid-founder{display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:center}
+        .mob-grid-sdet{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+        .mob-grid-fr{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px}
+        .mob-tabs{display:flex;gap:2px;margin-bottom:2px}
+        .mob-navlinks{display:flex;align-items:center;gap:2.5rem}
+        .mob-burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+        .mob-ticker{display:flex}
+        .mob-network{display:flex;flex-direction:column;align-items:center;gap:32px}
+        .mob-herobtns{display:flex;gap:24px;flex-wrap:wrap}
+        .mob-footrow{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px}
+        .mob-skyline{display:block}
+        @media(max-width:768px){
+          .mob-grid-stats{grid-template-columns:repeat(2,1fr)!important}
+          .mob-grid-about,.mob-grid-contact,.mob-grid-founder,.mob-grid-sdet{grid-template-columns:1fr!important}
+          .mob-grid-proc{grid-template-columns:repeat(2,1fr)!important}
+          .mob-grid-ind{grid-template-columns:1fr!important}
+          .mob-grid-fr{grid-template-columns:1fr!important}
+          .mob-tabs{flex-direction:column!important}
+          .mob-tabs button{flex:none!important}
+          .mob-navlinks{display:none!important}
+          .mob-burger{display:flex!important}
+          .mob-ticker{display:none!important}
+          .mob-network{display:none!important}
+          .mob-herobtns{flex-direction:column!important;align-items:flex-start!important}
+          .mob-footrow{flex-direction:column!important;align-items:center!important;text-align:center!important}
+          .mob-skyline{display:none!important}
+        }
+        @media(max-width:480px){
+          .mob-grid-stats{grid-template-columns:1fr!important}
+          .mob-grid-proc{grid-template-columns:1fr!important}
+        }
       `}</style>
 
       {/* NAV */}
@@ -160,7 +186,12 @@ export default function App() {
           <div onClick={() => go("home")} style={{cursor:"pointer"}}>
             <svg width="36" height="38" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
           </div>
-          <div style={{display:"flex",alignItems:"center",gap:"2.5rem"}}>
+          <div className="mob-burger" onClick={() => setMobileMenu(!mobileMenu)}>
+              <div style={{width:24,height:2,background:mobileMenu?C.r:C.w,transform:mobileMenu?"rotate(45deg) translateY(7px)":"none",transition:"all .3s"}}/>
+              <div style={{width:24,height:2,background:C.w,opacity:mobileMenu?0:1,transition:"all .3s"}}/>
+              <div style={{width:24,height:2,background:mobileMenu?C.r:C.w,transform:mobileMenu?"rotate(-45deg) translateY(-7px)":"none",transition:"all .3s"}}/>
+            </div>
+            <div className="mob-navlinks">
             {[["home","Home"],["about","About"],["services","Services"],["contact",""]].map(([id,label]) => (
               <span key={id} onClick={() => go(id)} style={{fontSize:12,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",...(id==="contact"?{padding:"8px 24px",background:C.r,color:C.w}:{color:C.gl})}}>{id==="contact"?"Start a Search":label}</span>
             ))}
@@ -168,12 +199,35 @@ export default function App() {
         </div>
       </nav>
 
+      {mobileMenu && <div style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",background:"rgba(14,11,36,.98)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:32}} onClick={() => setMobileMenu(false)}>
+        {[["home","Home"],["about","About"],["services","Services"],["contact","Start a Search"]].map(([id,label]) => (
+          <span key={id} onClick={() => {go(id);setMobileMenu(false)}} style={{fontSize:id==="contact"?16:24,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",color:id==="contact"?C.w:C.gl,...(id==="contact"?{padding:"14px 40px",background:C.r}:{})}}>{label}</span>
+        ))}
+      </div>}
+
       {/* HERO — Video placeholder (both videos will alternate on deploy) */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
         {/* VIDEO PLACEHOLDER — on deploy, this becomes:
+            <video id="vid1" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%">
+              <source src="video1.mp4" type="video/mp4">
+            </video>
+            <video id="vid2" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:0">
+              <source src="video2.mp4" type="video/mp4">
+            </video>
+            JS crossfades opacity between them every 10s
         */}
-        <div style={{position:"absolute",inset:0,zIndex:0}}><video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video><video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video></div>
-
+        <div style={{position:"absolute",inset:0,zIndex:0}}>
+          <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video>
+          <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
+          {/* Animated gradient simulating video feel */}
+          <div style={{position:"absolute",inset:0,background:`linear-gradient(135deg, ${C.n} 0%, ${C.nl} 25%, ${C.nm} 50%, #1a0a28 75%, ${C.n} 100%)`,backgroundSize:"400% 400%",animation:"heroShimmer 15s ease infinite"}} />
+          {/* Red accent glow */}
+          <div style={{position:"absolute",bottom:"20%",left:"40%",width:"40%",height:"40%",background:"radial-gradient(ellipse,rgba(226,60,65,.06),transparent 70%)",animation:"heroPulse 8s ease infinite"}} />
+          {/* Subtle grid lines for texture */}
+          <div style={{position:"absolute",inset:0,backgroundImage:`linear-gradient(rgba(226,60,65,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(226,60,65,.03) 1px, transparent 1px)`,backgroundSize:"60px 60px",opacity:.5}} />
+          {/* Video label */}
+          <div style={{position:"absolute",bottom:20,right:20,fontSize:9,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:.3,zIndex:5}}>▶ VIDEO HERO — Your 2 Grok videos will play here on deploy</div>
+        </div>
         {/* Dark overlay */}
         <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,rgba(14,11,36,.4) 0%,rgba(14,11,36,.15) 30%,rgba(14,11,36,.7) 75%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.8) 0%,transparent 55%)`}} />
         {/* Hero content */}
@@ -182,7 +236,7 @@ export default function App() {
             <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
             <h1 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The leaders who<br/><span style={{color:C.r,fontStyle:"italic"}}>move</span> industries<br/>start here.</h1>
             <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40}}>Bound Search Partners is a boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
-            <div style={{display:"flex",gap:24,flexWrap:"wrap"}}>
+            <div className="mob-herobtns">
               <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer"}}>Start a Conversation →</span>
               <span onClick={() => go("services")} style={{display:"inline-flex",padding:"16px 0",color:C.gl,fontSize:13,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",borderBottom:"1px solid rgba(255,255,255,.12)",cursor:"pointer"}}>Explore Services</span>
             </div>
@@ -192,7 +246,7 @@ export default function App() {
 
       {/* STATS */}
       <div style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
-        <div style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)"}}>
+        <div className="mob-grid-stats" style={{maxWidth:1320,margin:"0 auto"}}>
           {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
             <div key={i} style={{padding:"40px 24px",textAlign:"center",borderRight:i<3?"1px solid rgba(226,60,65,.12)":"none"}}>
               <div style={{fontSize:"clamp(2rem,3.5vw,3rem)",fontWeight:700,color:C.r,lineHeight:1,marginBottom:8}}>{n}</div>
@@ -203,7 +257,7 @@ export default function App() {
       </div>
 
       {/* NEWS TICKER */}
-      <div style={{display:"flex",alignItems:"stretch",background:C.nm,borderBottom:"1px solid rgba(226,60,65,.08)",overflow:"hidden",height:42}}>
+      <div className="mob-ticker" style={{alignItems:"stretch",background:C.nm,borderBottom:"1px solid rgba(226,60,65,.08)",overflow:"hidden",height:42}}>
         <div style={{flexShrink:0,display:"flex",alignItems:"center",gap:8,padding:"0 20px",background:C.n,borderRight:"1px solid rgba(226,60,65,.12)",fontSize:10,fontWeight:700,letterSpacing:".2em",textTransform:"uppercase",color:C.r,whiteSpace:"nowrap"}}>
           <span style={{width:6,height:6,borderRadius:"50%",background:C.r,animation:"beacon 2s ease infinite"}}></span>
           Industry Intel
@@ -213,18 +267,18 @@ export default function App() {
             onMouseEnter={e => e.currentTarget.style.animationPlayState="paused"}
             onMouseLeave={e => e.currentTarget.style.animationPlayState="running"}>
             {[...Array(2)].map((_,rep) => [
-              ["US factory output posts biggest gain in nearly a year","Bloomberg","https://www.bloomberg.com/news/articles/2026-02-18/us-industrial-production-increases-by-most-in-nearly-a-year"],
-              ["Manufacturing ISM expands at fastest pace since 2022","Bloomberg","https://www.bloomberg.com/news/articles/2026-02-02/us-manufacturing-activity-expands-by-the-most-since-2022"],
-              ["Philadelphia Fed manufacturing index rises to 16.3","Advisor Perspectives","https://www.advisorperspectives.com/dshort/updates/2026/02/19/philadelphia-fed-manufacturing-index-february-2026"],
-              ["2026 may be a turnaround year for manufacturing jobs","Marketplace","https://www.marketplace.org/story/2026/02/16/will-there-be-more-manufacturing-jobs-in-2026"],
-              ["Core durable goods orders surge amid headwinds","Financial Content","https://markets.financialcontent.com/stocks/article/marketminute-2026-2-18"],
-              ["Reshoring reshapes supply chain strategy for 2026","WSI","https://www.wsinc.com/retail-supply-chain-moves/"],
-              ["Can reshoring deliver sustainability benefits?","Mfg Dive","https://www.manufacturingdive.com/news/can-reshoring-deliver-manufacturing-sustainability-benefits/811430/"],
-              ["2026 outlook: AI and reshoring as key trends","Deloitte","https://www.deloitte.com/us/en/insights/industry/manufacturing-industrial-products/manufacturing-industry-outlook.html"],
-            ].map(([h,s,u],i) => (
+              ["US factory output posts biggest gain in nearly a year","Bloomberg"],
+              ["Manufacturing ISM expands at fastest pace since 2022","Bloomberg"],
+              ["Philadelphia Fed manufacturing index rises to 16.3","Advisor Perspectives"],
+              ["2026 may be a turnaround year for manufacturing jobs","Marketplace"],
+              ["Core durable goods orders surge amid headwinds","Financial Content"],
+              ["Reshoring reshapes supply chain strategy for 2026","WSI"],
+              ["Can reshoring deliver sustainability benefits?","Mfg Dive"],
+              ["2026 outlook: AI and reshoring as key trends","Deloitte"],
+            ].map(([h,s],i) => (
               <span key={`${rep}-${i}`} style={{padding:"0 40px",fontSize:12,color:C.gl,display:"inline-flex",alignItems:"center",gap:12}}>
                 <span style={{color:C.r,fontSize:7,opacity:.5}}>◆</span>
-                <a href={u} target="_blank" rel="noopener noreferrer" style={{color:C.gl,textDecoration:"none"}}>{h}</a>
+                <span>{h}</span>
                 <span style={{color:C.g,fontSize:10,opacity:.5}}>{s}</span>
               </span>
             ))).flat()}
@@ -234,14 +288,14 @@ export default function App() {
 
       {/* ABOUT */}
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
+        <div className="mob-grid-about" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
             <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
             <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound was founded on a conviction most firms get wrong: recruiting is not a transaction. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
             <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
           </div>
-          <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:32}}>
+          <div className="mob-network" style={{}}>
             <div style={{position:"relative",width:"100%",maxWidth:320,aspectRatio:"1"}}>
               <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
               <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
@@ -264,7 +318,7 @@ export default function App() {
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Our Methodology</div>
             <h2 style={{fontSize:"clamp(1.75rem,4vw,3rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em"}}>AI insights, delivered by humans,<br/>for an <span style={{color:C.r,fontStyle:"italic"}}>incredibly</span> personalized search.</h2>
           </div>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:2}}>
+          <div className="mob-grid-proc">
             {proc.map((p,i) => (
               <div key={i} style={{background:"rgba(226,60,65,.03)",padding:"clamp(1.5rem,2.5vw,2.5rem)",borderTop:`3px solid ${C.r}`,transition:"background .3s",cursor:"default"}}
                 onMouseEnter={e => e.currentTarget.style.background="rgba(226,60,65,.07)"} onMouseLeave={e => e.currentTarget.style.background="rgba(226,60,65,.03)"}>
@@ -283,7 +337,7 @@ export default function App() {
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Services</div>
           <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16,maxWidth:650,marginBottom:48}}>Five capabilities.<br/>One relentless standard.</h2>
-          <div style={{display:"flex",gap:2,marginBottom:2}}>
+          <div className="mob-tabs">
             {srvs.map((s,i) => (
               <button key={i} onClick={() => setActiveSrv(i)} style={{flex:activeSrv===i?3:1,padding:"20px 16px",background:activeSrv===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeSrv===i?`3px solid ${C.r}`:"3px solid transparent",color:activeSrv===i?C.w:C.g,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
                 <span style={{opacity:.2,fontSize:24,fontWeight:700,color:C.r,display:"block",marginBottom:4}}>{s.n}</span>
@@ -327,7 +381,7 @@ export default function App() {
               ["./logos/elementia.jpg","Elementia"],
             ].map(([src,name],i) => (
               <div key={`${rep}-${i}`} style={{flexShrink:0,width:200,height:100,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem 2rem",background:C.nm,borderRight:"1px solid rgba(226,60,65,.06)"}}>
-                <img src={src} alt={name} style={{height:40,width:"auto",maxWidth:150,objectFit:"contain",opacity:.7}} onMouseEnter={e => e.target.style.opacity="1"} onMouseLeave={e => e.target.style.opacity=".7"}/>
+                <img src={src} alt={name} style={{height:40,width:"auto",maxWidth:150,objectFit:"contain",opacity:.7}}/>
               </div>
             ))).flat()}
           </div>
@@ -339,7 +393,7 @@ export default function App() {
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Industries</div>
           <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:600,marginBottom:56}}>Nine sectors.<br/>Decades of depth.</h2>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:0}}>
+          <div className="mob-grid-ind">
             {inds.map((ind,i) => (
               <div key={i} onMouseEnter={() => setHovInd(i)} onMouseLeave={() => setHovInd(null)}
                 style={{padding:"clamp(1.5rem,2.5vw,2.5rem)",borderTop:"1px solid rgba(226,60,65,.08)",borderRight:i%3!==2?"1px solid rgba(226,60,65,.08)":"none",cursor:"default",transition:"all .3s",background:hovInd===i?"rgba(226,60,65,.04)":"transparent",position:"relative"}}>
@@ -367,7 +421,7 @@ export default function App() {
 
       {/* FOUNDER */}
       <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"center"}}>
+        <div className="mob-grid-founder" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Founder</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Bob Cwenar</h2>
@@ -381,7 +435,7 @@ export default function App() {
 
       {/* CONTACT */}
       <section id="contact" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:"clamp(3rem,5vw,5rem)",alignItems:"start"}}>
+        <div className="mob-grid-contact" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Contact</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Start a <span style={{color:C.r,fontStyle:"italic"}}>conversation</span>.</h2>
@@ -400,10 +454,10 @@ export default function App() {
             </div>
           </div>
           <div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
+            <div className="mob-grid-fr">
               {["First Name","Last Name"].map(l => <div key={l}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15}}/></div>)}
             </div>
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
+            <div className="mob-grid-fr">
               {["Email","Phone"].map(l => <div key={l}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15}}/></div>)}
             </div>
             {["Company","Role"].map(l => <div key={l} style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15}}/></div>)}
@@ -435,14 +489,14 @@ export default function App() {
           <div style={{height:1,background:"rgba(226,60,65,.1)",marginTop:32,marginBottom:24}} />
 
           {/* Bottom row: copyright left, skyline right */}
-          <div style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
+          <div className="mob-footrow">
             <div>
               <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2024 Bound Search Partners LLC. All rights reserved.</div>
               <div style={{fontSize:11,color:C.g,opacity:.6,marginBottom:4}}>Made with love in the City of Brotherly Love.</div>
               <div style={{fontSize:10,color:C.g,opacity:.4}}>Website designed and built by Bob Cwenar & Claude by Anthropic.</div>
             </div>
             {/* Philly Skyline SVG */}
-            <svg viewBox="0 0 400 160" fill="none" style={{width:220,height:88,flexShrink:0}}>
+            <svg className="mob-skyline" viewBox="0 0 400 160" fill="none" style={{width:220,height:88,flexShrink:0}}>
               {/* Buildings */}
               <rect x="20" y="80" width="18" height="80" fill="#2a2456" opacity=".25"/>
               <rect x="45" y="90" width="14" height="70" fill="#1f1a42" opacity=".2"/>
