@@ -144,7 +144,7 @@ export default function App() {
           .mnav{display:none!important}
           .mticker{display:none!important}
           #mstats-top{display:none!important}
-          #mstats-bottom{display:grid!important;grid-template-columns:repeat(2,1fr)!important}
+          #mstats-bottom{display:block!important}
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
           #mproc{grid-template-columns:repeat(2,1fr)!important}
@@ -166,7 +166,7 @@ export default function App() {
         }
         @media(max-width:480px){
           #mstats-top{display:none!important}
-          #mstats-bottom{display:grid!important}
+          #mstats-bottom{display:block!important}
           #mproc{grid-template-columns:1fr!important}
         }
       `}</style>
@@ -443,10 +443,10 @@ export default function App() {
       </section>
 
       {/* MOBILE STATS - after bio */}
-      <div id="mstats-bottom" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
-        <div style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(2,1fr)"}}>
+      <div id="mstats-bottom" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)",width:"100%"}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",width:"100%"}}>
           {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
-            <div key={i} style={{padding:"20px 16px",textAlign:"center",borderRight:i%2===0?"1px solid rgba(226,60,65,.12)":"none",borderBottom:i<2?"1px solid rgba(226,60,65,.12)":"none"}}>
+            <div key={i} style={{padding:"24px 16px",textAlign:"center",borderRight:i%2===0?"1px solid rgba(226,60,65,.12)":"none",borderBottom:i<2?"1px solid rgba(226,60,65,.12)":"none"}}>
               <div style={{fontSize:28,fontWeight:700,color:C.r,lineHeight:1,marginBottom:6}}>{n}</div>
               <div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
             </div>
@@ -495,6 +495,17 @@ export default function App() {
           <h2 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
           <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Every day a critical seat stays empty, momentum is lost. Bound exists to close that gap.</p>
           <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer"}}>Start a Search →</span>
+        </div>
+      </section>
+
+      {/* CANDIDATES */}
+      <section style={{padding:"clamp(4rem,8vw,6rem) 0",background:C.nm,borderTop:"1px solid rgba(226,60,65,.08)"}}>
+        <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",textAlign:"center"}}>
+          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>For Candidates</div>
+          <h2 style={{fontSize:"clamp(1.5rem,3.5vw,2.5rem)",fontWeight:700,lineHeight:1.15,marginBottom:16}}>Ready for your next chapter?</h2>
+          <p style={{fontSize:"clamp(.95rem,1.5vw,1.1rem)",color:C.gl,lineHeight:1.7,maxWidth:550,margin:"0 auto 32px"}}>We work with senior leaders in manufacturing, supply chain, and industrial sectors. If you're exploring your next opportunity, we'd like to hear from you.</p>
+          <a href="mailto:careers@boundsearch.com?subject=Resume%20Submission&body=Please%20attach%20your%20resume%20and%20include%20a%20brief%20summary%20of%20your%20background%20and%20what%20you're%20looking%20for." style={{display:"inline-flex",alignItems:"center",gap:10,padding:"14px 32px",border:"1px solid rgba(226,60,65,.4)",color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",textDecoration:"none",transition:"all .3s"}} onMouseEnter={e=>{e.target.style.background="rgba(226,60,65,.1)";e.target.style.borderColor=C.r}} onMouseLeave={e=>{e.target.style.background="transparent";e.target.style.borderColor="rgba(226,60,65,.4)"}}>Submit Your Resume →</a>
+          <div style={{marginTop:20,fontSize:12,color:C.g}}>Or email directly: <a href="mailto:careers@boundsearch.com" style={{color:C.r,textDecoration:"none",fontWeight:600}}>careers@boundsearch.com</a></div>
         </div>
       </section>
 
