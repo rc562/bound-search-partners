@@ -160,7 +160,7 @@ export default function App() {
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
-          #mfootbot{flex-direction:column!important;align-items:center!important;text-align:center!important}
+          #mfootbot{flex-direction:column-reverse!important;align-items:center!important;text-align:center!important}
           
           #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
