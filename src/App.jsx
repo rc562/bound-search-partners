@@ -499,13 +499,14 @@ export default function App() {
       </section>
 
       {/* CANDIDATES */}
-      <section style={{padding:"clamp(4rem,8vw,6rem) 0",background:C.nm,borderTop:"1px solid rgba(226,60,65,.08)"}}>
+      <section id="candidates" style={{padding:"clamp(4rem,8vw,6rem) 0",background:C.nm,borderTop:"1px solid rgba(226,60,65,.08)"}}>
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",textAlign:"center"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>For Candidates</div>
           <h2 style={{fontSize:"clamp(1.5rem,3.5vw,2.5rem)",fontWeight:700,lineHeight:1.15,marginBottom:16}}>Ready for your next chapter?</h2>
-          <p style={{fontSize:"clamp(.95rem,1.5vw,1.1rem)",color:C.gl,lineHeight:1.7,maxWidth:550,margin:"0 auto 32px"}}>We work with senior leaders in manufacturing, supply chain, and industrial sectors. If you're exploring your next opportunity, we'd like to hear from you.</p>
-          <a href="mailto:careers@boundsearch.com?subject=Resume%20Submission&body=Please%20attach%20your%20resume%20and%20include%20a%20brief%20summary%20of%20your%20background%20and%20what%20you're%20looking%20for." style={{display:"inline-flex",alignItems:"center",gap:10,padding:"14px 32px",border:"1px solid rgba(226,60,65,.4)",color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",textDecoration:"none",transition:"all .3s"}} onMouseEnter={e=>{e.target.style.background="rgba(226,60,65,.1)";e.target.style.borderColor=C.r}} onMouseLeave={e=>{e.target.style.background="transparent";e.target.style.borderColor="rgba(226,60,65,.4)"}}>Submit Your Resume →</a>
-          <div style={{marginTop:20,fontSize:12,color:C.g}}>Or email directly: <a href="mailto:careers@boundsearch.com" style={{color:C.r,textDecoration:"none",fontWeight:600}}>careers@boundsearch.com</a></div>
+          <p style={{fontSize:"clamp(.95rem,1.5vw,1.1rem)",color:C.gl,lineHeight:1.7,maxWidth:550,margin:"0 auto 32px"}}>We work with senior leaders in manufacturing, supply chain, and industrial sectors. If you're exploring your next opportunity, submit your resume below.</p>
+          <div style={{background:"#fff",borderRadius:4,overflow:"hidden",maxWidth:640,margin:"0 auto"}}>
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe_-TUy_U6UMYeOvjkFzArnIDYL9apYUFdrJN0VSwLYZDayug/viewform?embedded=true" width="100%" height="900" frameBorder="0" marginHeight="0" marginWidth="0" style={{border:"none",display:"block"}}>Loading…</iframe>
+          </div>
         </div>
       </section>
 
