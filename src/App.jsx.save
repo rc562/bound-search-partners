@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+sed -i '' 's/#mskyline{display:none!important}//' ~/Downloads/bound-site/src/App.jsximport { useState, useEffect } from "react";
 
 const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a",gl:"#c5c3ce"};
 
@@ -161,7 +161,7 @@ export default function App() {
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
           #mfootbot{flex-direction:column!important;align-items:center!important;text-align:center!important}
-          
+          #mskyline{display:none!important}
           #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
