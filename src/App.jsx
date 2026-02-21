@@ -152,16 +152,18 @@ export default function App() {
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
           #mproc{grid-template-columns:repeat(2,1fr)!important}
-          #mtabs{flex-direction:column!important}
-          #mtabs button{flex:none!important}
+          #mtabs{flex-direction:row!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+          #mtabs button{flex:none!important;padding:12px 16px!important;font-size:11px!important;white-space:nowrap!important}
+          #mtabs button span:first-child{display:none!important}
           #msdet{grid-template-columns:1fr!important}
+          #msdet>div:last-child{display:none!important}
           #mind{grid-template-columns:1fr!important}
           #mind>div{border-right:none!important}
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
-          #mfootbot{flex-direction:column-reverse!important;align-items:center!important;text-align:center!important}
-          
+          #mfootbot{flex-direction:column!important;align-items:center!important;text-align:center!important}
+          #mskyline{display:none!important}
           #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
@@ -324,7 +326,7 @@ export default function App() {
               </button>
             ))}
           </div>
-          <div style={{padding:"clamp(2rem,4vw,4rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`,display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center",minHeight:280}}>
+          <div id="msdet" style={{padding:"clamp(2rem,4vw,4rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`,display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center",minHeight:280}}>
             <div>
               <h3 style={{fontSize:"clamp(1.5rem,2.5vw,2.25rem)",fontWeight:700,marginBottom:16}}>{srvs[activeSrv].t}</h3>
               <p style={{fontSize:16,color:C.gl,lineHeight:1.8}}>{srvs[activeSrv].d}</p>
