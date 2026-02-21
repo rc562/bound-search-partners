@@ -14,6 +14,7 @@ export default function App() {
 
   useEffect(() => {
     setTimeout(() => setLoaded(true), 3500);
+    setTimeout(() => { document.body.style.overflow = 'auto'; }, 3500);
     const h = () => setScrolled(window.scrollY > 60);
     let showV1 = true;
     setInterval(() => {
@@ -31,23 +32,13 @@ export default function App() {
       const el = document.getElementById("bond");
       if (!el) return;
       const obs = new IntersectionObserver((entries) => {
-        entries.forEach(entry => { if(entry.isIntersecting) { setBondVis(true); obs.disconnect(); } });
-      },{threshold:0.15,rootMargin:"0px 0px -50px 0px"});
+        entries.forEach(entry => { setBondVis(entry.isIntersecting); });
+      },{threshold:0.2});
       obs.observe(el);
+      return () => obs.disconnect();
     }, 500);
     return () => clearTimeout(timer);
   }, [loaded]);
-
-  useEffect(() => {
-    if (!loaded || bondVis) return;
-    const checkBond = () => {
-      const el = document.getElementById("bond");
-      if (!el) return;
-      if (el.getBoundingClientRect().top < window.innerHeight * 0.85) { setBondVis(true); window.removeEventListener("scroll", checkBond); }
-    };
-    window.addEventListener("scroll", checkBond);
-    return () => window.removeEventListener("scroll", checkBond);
-  }, [loaded, bondVis]);
 
   const srvs = [
     {n:"01",t:"Retained Executive Search",s:"Retained Search",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Targeting leaders who aren't looking — and convincing them to listen.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain"},
@@ -164,6 +155,7 @@ export default function App() {
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
           .logo-scroll-wrap{display:none!important}
+
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
@@ -171,7 +163,7 @@ export default function App() {
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
-          #mstats{grid-template-columns:repeat(2,1fr)!important}
+          #mstats{grid-template-columns:1fr!important}
           #mproc{grid-template-columns:1fr!important}
         }
       `}</style>
@@ -410,14 +402,26 @@ export default function App() {
       </section>
 
       {/* BOND */}
-      <section id="bond" style={{padding:"clamp(5rem,10vw,8rem) 0",background:C.n,textAlign:"center"}}>
+      <section id="bond" style={{padding:"clamp(4rem,8vw,6rem) 0",background:C.n,textAlign:"center",overflow:"hidden"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{position:"relative",width:200,height:210,margin:"0 auto"}}>
-            <div style={{position:"absolute",left:6,top:6,width:45,height:198,background:C.w,borderRadius:3,opacity:.92,transform:bondVis?"translateX(0)":"translateX(-120px)",transition:"all 1.2s cubic-bezier(.23,1,.32,1)"}}/>
-            <div style={{position:"absolute",right:6,top:6,width:105,height:90,background:C.r,borderRadius:3,transform:bondVis?"translateX(0)":"translateX(120px)",transition:"all 1.2s cubic-bezier(.23,1,.32,1)"}}/>
-            <div style={{position:"absolute",right:6,bottom:6,width:105,height:90,background:C.r,opacity:.9,borderRadius:3,transform:bondVis?"translateX(0)":"translateX(120px)",transition:"all 1.2s cubic-bezier(.23,1,.32,1) .15s"}}/>
+
+          {/* B icon — living */}
+          <div style={{position:"relative",width:140,height:150,margin:"0 auto"}}>
+            <div style={{position:"absolute",left:6,top:6,width:34,height:138,background:C.w,borderRadius:3,opacity:.92,transform:bondVis?"translateX(0)":"translateX(-100px)",transition:"all 1s cubic-bezier(.23,1,.32,1) .1s"}}/>
+            <div style={{position:"absolute",right:6,top:6,width:78,height:62,background:C.r,borderRadius:3,transform:bondVis?"translateX(0)":"translateX(100px)",transition:"all 1s cubic-bezier(.23,1,.32,1) .1s"}}/>
+            <div style={{position:"absolute",right:6,bottom:6,width:78,height:62,background:C.r,opacity:.9,borderRadius:3,transform:bondVis?"translateX(0)":"translateX(100px)",transition:"all 1s cubic-bezier(.23,1,.32,1) .25s"}}/>
+            <div style={{position:"absolute",inset:-20,background:"radial-gradient(ellipse,rgba(226,60,65,.06),transparent 70%)",opacity:bondVis?1:0,transition:"opacity .8s ease .4s"}}/>
           </div>
-          <div style={{marginTop:32,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .8s"}}>The right company <span style={{color:C.r}}>+</span> the right leader <span style={{color:C.r}}>=</span> Bound.</div>
+
+          {/* Tagline */}
+          <div style={{marginTop:28,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .5s"}}>The right company <span style={{color:C.r}}>+</span> the right leader <span style={{color:C.r}}>=</span> Bound.</div>
+
+          {/* Values — single row of keywords */}
+          <div style={{marginTop:28,display:"flex",justifyContent:"center",flexWrap:"wrap",gap:"8px 24px",opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(10px)",transition:"all .6s ease .7s"}}>
+            {["Rigor","Transparency","Precision","Trust","Candor","Urgency"].map((v,i) => (
+              <span key={i} style={{fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:i%2===0?C.gl:C.r,opacity:.6}}>{v}</span>
+            ))}
+          </div>
         </div>
       </section>
 
