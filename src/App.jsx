@@ -157,6 +157,7 @@ export default function App() {
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
           .logo-scroll-wrap{display:none!important}
+          #vid1,#vid2{object-position:center 30%!important}
 
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
