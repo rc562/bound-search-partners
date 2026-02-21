@@ -157,7 +157,7 @@ export default function App() {
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
           .logo-scroll-wrap{display:none!important}
-          #vid1,#vid2{object-position:center top!important}
+          #vid1,#vid2{transform:scale(1.3)!important;transform-origin:center 20%!important}
 
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
@@ -166,7 +166,7 @@ export default function App() {
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
-          #vid1,#vid2{object-position:center top!important}
+          #vid1,#vid2{transform:scale(1.3)!important;transform-origin:center 20%!important}
           #mstats-top{display:none!important}
           #mstats-bottom{display:block!important}
           #mproc{grid-template-columns:1fr!important}
