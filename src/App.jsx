@@ -171,7 +171,7 @@ export default function App() {
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
-          #mstats{grid-template-columns:1fr!important}
+          #mstats{grid-template-columns:repeat(2,1fr)!important}
           #mproc{grid-template-columns:1fr!important}
         }
       `}</style>
