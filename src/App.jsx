@@ -498,17 +498,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* CANDIDATES */}
-      <section id="candidates" style={{padding:"clamp(4rem,8vw,6rem) 0",background:C.nm,borderTop:"1px solid rgba(226,60,65,.08)"}}>
-        <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",textAlign:"center"}}>
-          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>For Candidates</div>
-          <h2 style={{fontSize:"clamp(1.5rem,3.5vw,2.5rem)",fontWeight:700,lineHeight:1.15,marginBottom:16}}>Ready for your next chapter?</h2>
-          <p style={{fontSize:"clamp(.95rem,1.5vw,1.1rem)",color:C.gl,lineHeight:1.7,maxWidth:550,margin:"0 auto 32px"}}>We work with senior leaders in manufacturing, supply chain, and industrial sectors. If you're exploring your next opportunity, submit your resume below.</p>
-          <div style={{background:"#fff",borderRadius:4,overflow:"hidden",maxWidth:640,margin:"0 auto"}}>
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe_-TUy_U6UMYeOvjkFzArnIDYL9apYUFdrJN0VSwLYZDayug/viewform?embedded=true" width="100%" height="900" frameBorder="0" marginHeight="0" marginWidth="0" style={{border:"none",display:"block"}}>Loading…</iframe>
-          </div>
-        </div>
-      </section>
+
 
       {/* FOOTER with Philly skyline SVG */}
       <footer style={{background:C.nm,padding:"56px 0 24px",borderTop:"1px solid rgba(226,60,65,.08)"}}>
