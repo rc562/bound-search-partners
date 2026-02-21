@@ -157,8 +157,10 @@ export default function App() {
           #mtabs button span:first-child{display:none!important}
           #msdet{grid-template-columns:1fr!important}
           #msdet>div:last-child{display:none!important}
-          #mind{grid-template-columns:1fr!important}
-          #mind>div{border-right:none!important}
+          #mind{display:flex!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;gap:12px!important;padding-bottom:16px!important;scroll-snap-type:x mandatory!important}
+          #mind>div{flex:none!important;width:160px!important;scroll-snap-align:start!important;border-right:none!important;border:1px solid rgba(226,60,65,.1)!important;border-radius:8px!important;padding:20px 16px!important;text-align:center!important}
+          #mind>div h4{font-size:14px!important}
+          #mind>div>div:last-child{display:none!important}
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
@@ -167,7 +169,7 @@ export default function App() {
           #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
-          #mstats{grid-template-columns:repeat(2,1fr)!important}
+          #mstats{grid-template-columns:1fr!important}
           #mproc{grid-template-columns:1fr!important}
         }
       `}</style>
