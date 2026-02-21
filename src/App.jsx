@@ -10,6 +10,7 @@ export default function App() {
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
   const [mobileMenu,setMobileMenu] = useState(false);
+  const [cloudWord,setCloudWord] = useState(null);
 
   useEffect(() => {
     setTimeout(() => setLoaded(true), 3500);
@@ -142,6 +143,7 @@ export default function App() {
         @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+        #mcloud{display:none}
         .mnav{display:flex;align-items:center;gap:2.5rem}
         .mticker{display:flex}
         @media(max-width:768px){
@@ -157,10 +159,8 @@ export default function App() {
           #mtabs button span:first-child{display:none!important}
           #msdet{grid-template-columns:1fr!important}
           #msdet>div:last-child{display:none!important}
-          #mind{display:flex!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;gap:12px!important;padding-bottom:16px!important;scroll-snap-type:x mandatory!important}
-          #mind>div{flex:none!important;width:160px!important;scroll-snap-align:start!important;border-right:none!important;border:1px solid rgba(226,60,65,.1)!important;border-radius:8px!important;padding:20px 16px!important;text-align:center!important}
-          #mind>div h4{font-size:14px!important}
-          #mind>div>div:last-child{display:none!important}
+          #mind{display:none!important}
+          #mcloud{display:flex!important}
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
@@ -373,6 +373,25 @@ export default function App() {
                 <div style={{fontSize:13,color:C.gl,lineHeight:1.8,maxHeight:hovInd===i?200:0,opacity:hovInd===i?.7:0,overflow:"hidden",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>{ind.r}</div>
               </div>
             ))}
+          </div>
+          {/* Mobile word cloud */}
+          <div id="mcloud" style={{flexWrap:"wrap",justifyContent:"center",alignItems:"center",gap:"6px 14px",padding:"10px 0",position:"relative"}}>
+            {inds.map((ind,i) => {
+              const sizes = [32,22,28,20,18,24,16,19,26];
+              const isActive = cloudWord === i;
+              return (
+                <span key={i} onClick={() => setCloudWord(isActive ? null : i)}
+                  style={{fontSize:sizes[i],fontWeight:isActive?800:600,color:isActive?C.r:C.gl,opacity:isActive?1:(cloudWord!==null?.35:(.5+sizes[i]/60)),cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",transform:isActive?"scale(1.15)":"scale(1)",lineHeight:1.8,position:"relative"}}>
+                  {ind.n}
+                </span>
+              );
+            })}
+            {cloudWord !== null && (
+              <div style={{width:"100%",textAlign:"center",marginTop:12,padding:"16px 20px",background:"rgba(226,60,65,.06)",borderRadius:8,borderLeft:"3px solid "+C.r,transition:"all .3s"}}>
+                <div style={{fontSize:11,fontWeight:700,color:C.r,letterSpacing:2,textTransform:"uppercase",marginBottom:6}}>{inds[cloudWord].s}</div>
+                <div style={{fontSize:13,color:C.gl,lineHeight:1.7}}>{inds[cloudWord].r}</div>
+              </div>
+            )}
           </div>
         </div>
       </section>
