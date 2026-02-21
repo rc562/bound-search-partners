@@ -65,15 +65,15 @@ export default function App() {
   ];
 
   const inds = [
-    {n:"Manufacturing",s:"Discrete & Process",r:"VP Operations · Plant Manager · Director of Manufacturing · VP Quality · COO"},
-    {n:"Supply Chain & Logistics",s:"End-to-End",r:"VP Supply Chain · Director Procurement · Head of Logistics · CSCO"},
-    {n:"Building Products",s:"Construction & Materials",r:"Division President · VP Sales · Director Product Dev"},
-    {n:"Food & Beverage",s:"CPG & Production",r:"VP Manufacturing · Plant Director · Director Food Safety · COO"},
-    {n:"Chemicals & Packaging",s:"Specialty & Industrial",r:"VP Operations · Director Engineering · EHS Director · CTO"},
-    {n:"Private Equity",s:"Portfolio & Platform",r:"Portfolio CEO · Operating Partner · CFO PE-Backed · Board Director"},
-    {n:"Industrial Equipment",s:"Capital Goods",r:"VP Engineering · Director Product Mgmt · GM Aftermarket"},
-    {n:"Real Estate",s:"Development & Construction",r:"VP Development · Director Construction · Head of Acquisitions"},
-    {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer"},
+    {n:"Manufacturing",s:"Discrete & Process",r:"VP Operations · Plant Manager · Director of Manufacturing · VP Quality · COO",d:"From lean transformations to greenfield launches, we place the operators who keep the floor running."},
+    {n:"Supply Chain & Logistics",s:"End-to-End",r:"VP Supply Chain · Director Procurement · Head of Logistics · CSCO",d:"Tariff shifts, nearshoring, dual-sourcing — today's supply chain leaders need a broader playbook than ever."},
+    {n:"Building Products",s:"Construction & Materials",r:"Division President · VP Sales · Director Product Dev",d:"We know the intersection of construction cycles, channel strategy, and product innovation."},
+    {n:"Food & Beverage",s:"CPG & Production",r:"VP Manufacturing · Plant Director · Director Food Safety · COO",d:"Safety, compliance, and speed-to-shelf. We find leaders who balance all three."},
+    {n:"Chemicals & Packaging",s:"Specialty & Industrial",r:"VP Operations · Director Engineering · EHS Director · CTO",d:"Technical depth meets regulatory rigor. Our network runs deep in specialty chemicals and flexible packaging."},
+    {n:"Private Equity",s:"Portfolio & Platform",r:"Portfolio CEO · Operating Partner · CFO PE-Backed · Board Director",d:"We partner with PE firms to place operating leaders who drive EBITDA from day one."},
+    {n:"Industrial Equipment",s:"Capital Goods",r:"VP Engineering · Director Product Mgmt · GM Aftermarket",d:"Aftermarket, service, and OEM — we understand what drives margin in capital goods."},
+    {n:"Real Estate",s:"Development & Construction",r:"VP Development · Director Construction · Head of Acquisitions",d:"Ground-up development to asset management. We place leaders across the project lifecycle."},
+    {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer",d:"Finding technical leaders who can sell, manage, and deliver complex engineering programs."},
   ];
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
@@ -144,6 +144,7 @@ export default function App() {
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
         #mcloud{display:none}
+        #mlogos{display:none}
         .mnav{display:flex;align-items:center;gap:2.5rem}
         .mticker{display:flex}
         @media(max-width:768px){
@@ -161,12 +162,13 @@ export default function App() {
           #msdet>div:last-child{display:none!important}
           #mind{display:none!important}
           #mcloud{display:flex!important}
+          #mlogos{display:grid!important}
+          .logo-scroll-wrap{display:none!important}
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
-          #mfootbot{flex-direction:column!important;align-items:center!important;text-align:center!important}
-          #mskyline{display:none!important}
-          #mherobtns{flex-direction:column!important;align-items:flex-start!important}
+          #mfootbot{flex-direction:column-reverse!important;align-items:center!important;text-align:center!important}
+                    #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
           #mstats{grid-template-columns:1fr!important}
@@ -345,16 +347,24 @@ export default function App() {
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Trusted By</div>
           <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16}}>Partnered with industry leaders.</h2>
         </div>
-        <div style={{position:"relative",overflow:"hidden"}}>
+        <div className="logo-scroll-wrap" style={{position:"relative",overflow:"hidden"}}>
           <div style={{position:"absolute",top:0,bottom:0,left:0,width:80,background:"linear-gradient(90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
           <div style={{position:"absolute",top:0,bottom:0,right:0,width:80,background:"linear-gradient(-90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
-          <div style={{display:"flex",animation:"logoScroll 30s linear infinite",width:"max-content"}} onMouseEnter={e=>e.currentTarget.style.animationPlayState="paused"} onMouseLeave={e=>e.currentTarget.style.animationPlayState="running"}>
+          <div className="logo-scroll" style={{display:"flex",animation:"logoScroll 30s linear infinite",width:"max-content"}} onMouseEnter={e=>e.currentTarget.style.animationPlayState="paused"} onMouseLeave={e=>e.currentTarget.style.animationPlayState="running"}>
             {[...Array(2)].map((_,rep) => ["hunter_douglas.png","honickman.png","aak.jpg","mcc.png","post_brothers.png","makinex.jpg","k_hartwall.png","marand.png","cf.png","elementia.jpg"].map((f,i) => (
               <div key={`${rep}-${i}`} style={{flexShrink:0,width:200,height:100,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem 2rem",background:C.nm,borderRight:"1px solid rgba(226,60,65,.06)"}}>
                 <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:40,width:"auto",maxWidth:150,objectFit:"contain",opacity:.7}}/>
               </div>
             ))).flat()}
           </div>
+        </div>
+        {/* Mobile static logo grid */}
+        <div id="mlogos" style={{gridTemplateColumns:"repeat(3,1fr)",gap:1,padding:"0 clamp(1.5rem,4vw,4rem)",marginTop:24}}>
+          {["hunter_douglas.png","honickman.png","aak.jpg","mcc.png","post_brothers.png","makinex.jpg","k_hartwall.png","marand.png","cf.png"].map((f,i) => (
+            <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"center",padding:"16px 12px",background:"rgba(226,60,65,.02)",border:"1px solid rgba(226,60,65,.04)"}}>
+              <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:28,width:"auto",maxWidth:90,objectFit:"contain",opacity:.6}}/>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -370,28 +380,31 @@ export default function App() {
                 <div style={{position:"absolute",top:0,left:0,width:hovInd===i?"100%":"0%",height:2,background:C.r,transition:"width .4s cubic-bezier(.23,1,.32,1)"}}/>
                 <h4 style={{fontSize:"clamp(1.25rem,2vw,1.75rem)",fontWeight:700,marginBottom:6,color:hovInd===i?C.w:C.gl,transition:"color .3s"}}>{ind.n}</h4>
                 <div style={{fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:hovInd===i?16:0,transition:"margin .3s"}}>{ind.s}</div>
-                <div style={{fontSize:13,color:C.gl,lineHeight:1.8,maxHeight:hovInd===i?200:0,opacity:hovInd===i?.7:0,overflow:"hidden",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>{ind.r}</div>
+                <div style={{fontSize:13,color:C.gl,lineHeight:1.8,maxHeight:hovInd===i?200:0,opacity:hovInd===i?.7:0,overflow:"hidden",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>{ind.d}<div style={{marginTop:8,fontSize:11,fontWeight:700,color:C.r,letterSpacing:".1em",opacity:.6}}>{ind.r}</div></div>
               </div>
             ))}
           </div>
-          {/* Mobile word cloud */}
-          <div id="mcloud" style={{flexWrap:"wrap",justifyContent:"center",alignItems:"center",gap:"6px 14px",padding:"10px 0",position:"relative"}}>
+          {/* Mobile accordion */}
+          <div id="mcloud" style={{flexDirection:"column",gap:0}}>
             {inds.map((ind,i) => {
-              const sizes = [32,22,28,20,18,24,16,19,26];
-              const isActive = cloudWord === i;
+              const isOpen = cloudWord === i;
               return (
-                <span key={i} onClick={() => setCloudWord(isActive ? null : i)}
-                  style={{fontSize:sizes[i],fontWeight:isActive?800:600,color:isActive?C.r:C.gl,opacity:isActive?1:(cloudWord!==null?.35:(.5+sizes[i]/60)),cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",transform:isActive?"scale(1.15)":"scale(1)",lineHeight:1.8,position:"relative"}}>
-                  {ind.n}
-                </span>
+                <div key={i} onClick={() => setCloudWord(isOpen ? null : i)}
+                  style={{borderBottom:"1px solid rgba(226,60,65,.08)",cursor:"pointer",transition:"all .3s"}}>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 0"}}>
+                    <div style={{display:"flex",alignItems:"center",gap:12}}>
+                      <div style={{width:3,height:20,background:isOpen?C.r:"rgba(226,60,65,.2)",borderRadius:2,transition:"all .3s"}}/>
+                      <span style={{fontSize:16,fontWeight:isOpen?700:600,color:isOpen?C.w:C.gl,transition:"all .3s"}}>{ind.n}</span>
+                    </div>
+                    <span style={{fontSize:10,color:isOpen?C.r:C.g,transition:"all .3s",transform:isOpen?"rotate(180deg)":"rotate(0deg)"}}>▼</span>
+                  </div>
+                  <div style={{maxHeight:isOpen?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",paddingLeft:15}}>
+                    <div style={{fontSize:13,color:C.gl,lineHeight:1.7,marginBottom:8}}>{ind.d}</div>
+                    <div style={{fontSize:11,fontWeight:600,color:C.r,letterSpacing:1,opacity:.7,paddingBottom:14}}>{ind.r}</div>
+                  </div>
+                </div>
               );
             })}
-            {cloudWord !== null && (
-              <div style={{width:"100%",textAlign:"center",marginTop:12,padding:"16px 20px",background:"rgba(226,60,65,.06)",borderRadius:8,borderLeft:"3px solid "+C.r,transition:"all .3s"}}>
-                <div style={{fontSize:11,fontWeight:700,color:C.r,letterSpacing:2,textTransform:"uppercase",marginBottom:6}}>{inds[cloudWord].s}</div>
-                <div style={{fontSize:13,color:C.gl,lineHeight:1.7}}>{inds[cloudWord].r}</div>
-              </div>
-            )}
           </div>
         </div>
       </section>
