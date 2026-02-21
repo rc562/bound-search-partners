@@ -135,6 +135,7 @@ export default function App() {
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
         #mcloud{display:none}
+        #mstats-bottom{display:none}
         #mlogos{display:none}
         .mnav{display:flex;align-items:center;gap:2.5rem}
         .mticker{display:flex}
@@ -142,7 +143,8 @@ export default function App() {
           .mburger{display:flex!important}
           .mnav{display:none!important}
           .mticker{display:none!important}
-          #mstats{grid-template-columns:repeat(2,1fr)!important}
+          #mstats-top{display:none!important}
+          #mstats-bottom{display:grid!important;grid-template-columns:repeat(2,1fr)!important}
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
           #mproc{grid-template-columns:repeat(2,1fr)!important}
@@ -163,9 +165,8 @@ export default function App() {
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
-          #mstats{grid-template-columns:repeat(2,1fr)!important;gap:0!important}
-          #mstats>div{padding:16px 12px!important}
-          #mstats>div>div:first-child{font-size:28px!important}
+          #mstats-top{display:none!important}
+          #mstats-bottom{display:grid!important}
           #mproc{grid-template-columns:1fr!important}
         }
       `}</style>
@@ -228,7 +229,7 @@ export default function App() {
       </section>
 
       {/* STATS */}
-      <div style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
+      <div id="mstats-top" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
         <div id="mstats" style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)"}}>
           {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
             <div key={i} style={{padding:"40px 24px",textAlign:"center",borderRight:i<3?"1px solid rgba(226,60,65,.12)":"none"}}>
@@ -440,6 +441,18 @@ export default function App() {
           <div><img src="./headshot.jpg" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",borderRadius:2,display:"block"}}/></div>
         </div>
       </section>
+
+      {/* MOBILE STATS - after bio */}
+      <div id="mstats-bottom" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
+        <div style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(2,1fr)"}}>
+          {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
+            <div key={i} style={{padding:"20px 16px",textAlign:"center",borderRight:i%2===0?"1px solid rgba(226,60,65,.12)":"none",borderBottom:i<2?"1px solid rgba(226,60,65,.12)":"none"}}>
+              <div style={{fontSize:28,fontWeight:700,color:C.r,lineHeight:1,marginBottom:6}}>{n}</div>
+              <div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* CONTACT */}
       <section id="contact" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
