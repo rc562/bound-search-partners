@@ -172,7 +172,6 @@ export default function App() {
           #mproc{grid-template-columns:1fr!important}
         }
 
-        @keyframes procExpand{from{opacity:0;transform:scale(.92) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
       `}</style>
 
       {/* NAV */}
@@ -275,7 +274,7 @@ export default function App() {
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
           {/* DEFAULT — The Firm */}
-          {!procOpen && <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
+          <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center",opacity:procOpen?0:1,maxHeight:procOpen?0:"none",overflow:"hidden",transition:"all .7s cubic-bezier(.23,1,.32,1)"}}>
             <div>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
               <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
@@ -295,81 +294,96 @@ export default function App() {
                 <span>—</span><span>Explore Our Process</span><span>→</span>
               </button>
             </div>
-          </div>}
+          </div>
 
-          {/* PROCESS WEB — explodes into the section */}
-          {procOpen && <div style={{position:"relative",minHeight:560}}>
+          {/* PROCESS — smooth reveal */}
+          <div style={{opacity:procOpen?1:0,maxHeight:procOpen?2000:0,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+            
+            {/* Header */}
+            <div style={{textAlign:"center",marginBottom:48,transform:procOpen?"translateY(0)":"translateY(-30px)",transition:"transform .6s cubic-bezier(.23,1,.32,1) .2s"}}>
+              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Our Methodology</div>
+              <h2 style={{fontSize:"clamp(1.75rem,4vw,3rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em"}}>AI insights, delivered by humans,<br/>for an <span style={{color:C.r,fontStyle:"italic"}}>incredibly</span> personalized search.</h2>
+            </div>
 
-            {/* Background web structure — fills everything */}
-            <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice">
-              {/* Radiating lines from center */}
-              {Array.from({length:24},(_,i) => {
-                const a = (i/24)*Math.PI*2;
-                const x2 = 500+Math.cos(a)*480;
-                const y2 = 280+Math.sin(a)*300;
-                return <line key={`ray${i}`} x1="500" y1="280" x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".3" opacity={i%2?".03":".06"}/>;
-              })}
-              {/* Concentric rings */}
-              {[80,160,240,360].map((r,i) => (
-                <circle key={`ring${i}`} cx="500" cy="280" r={r} fill="none" stroke="#e23c41" strokeWidth=".5" opacity={[.06,.04,.03,.02][i]} strokeDasharray={i%2?"none":"8 8"}/>
-              ))}
-              {/* Scattered dots across the web */}
-              {Array.from({length:40},(_,i) => {
-                const a = (i/40)*Math.PI*2 + (i%3)*.3;
-                const d = 60+((i*37)%320);
-                const x = 500+Math.cos(a)*d;
-                const y = 280+Math.sin(a)*d;
-                return <circle key={`dot${i}`} cx={x} cy={y} r={i%4===0?"2":"1"} fill={i%3?"#e23c41":"#fff"} opacity={i%4===0?".12":".06"}>
-                  <animate attributeName="opacity" values={`${i%4===0?".08":".03"};${i%4===0?".18":".1"};${i%4===0?".08":".03"}`} dur={`${3+i%5}s`} begin={`${(i*.3)%4}s`} repeatCount="indefinite"/>
-                </circle>;
-              })}
-              {/* Center B logo */}
-              <circle cx="500" cy="280" r="44" fill="rgba(226,60,65,.08)"/>
-              <circle cx="500" cy="280" r="38" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".15">
-                <animate attributeName="r" values="38;48;38" dur="4s" repeatCount="indefinite"/>
-                <animate attributeName="opacity" values=".15;.04;.15" dur="4s" repeatCount="indefinite"/>
-              </circle>
-              <rect x="481" y="255" width="9" height="50" rx="2" fill="#fff" opacity=".9"/>
-              <rect x="496" y="255" width="22" height="22" rx="2" fill="#e23c41"/>
-              <rect x="496" y="281" width="22" height="22" rx="2" fill="#e23c41" opacity=".85"/>
-              {/* Lines connecting center to card corners */}
-              {[[200,140],[800,140],[800,420],[200,420]].map(([x,y],i) => (
-                <line key={`cl${i}`} x1="500" y1="280" x2={x} y2={y} stroke="#e23c41" strokeWidth=".8" opacity=".1"/>
-              ))}
-              {/* Cross connections between cards */}
-              {[[200,140,800,140],[800,140,800,420],[800,420,200,420],[200,420,200,140]].map(([x1,y1,x2,y2],i) => (
-                <line key={`frame${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".4" opacity=".06" strokeDasharray="6 6"/>
-              ))}
-            </svg>
-
-            {/* 4 process cards — 2x2 grid over the web */}
-            <div style={{position:"relative",zIndex:2,display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,padding:"0 2%"}}>
-              {proc.map((p,i) => (
-                <div key={i} style={{opacity:0,animation:`procExpand .5s cubic-bezier(.23,1,.32,1) ${.05+i*.1}s forwards`}}>
-                  <div style={{background:"rgba(24,19,56,.85)",backdropFilter:"blur(8px)",padding:"clamp(1.5rem,2.5vw,2.2rem)",borderLeft:`3px solid ${C.r}`,borderRadius:4,transition:"all .3s",height:"100%"}}
-                    onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.08)";e.currentTarget.style.borderLeftWidth="5px"}}
-                    onMouseLeave={e => {e.currentTarget.style.background="rgba(24,19,56,.85)";e.currentTarget.style.borderLeftWidth="3px"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
-                      <div style={{width:36,height:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.6))`,boxShadow:"0 0 20px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"#fff",flexShrink:0}}>{p.p}</div>
-                      <div>
-                        <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.6}}>{p.l}</div>
-                        <div style={{fontSize:"clamp(1rem,1.4vw,1.2rem)",fontWeight:700}}>{p.t}</div>
-                      </div>
+            {/* Top row — steps 1 & 2 */}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,marginBottom:24}}>
+              {proc.slice(0,2).map((p,i) => (
+                <div key={i} style={{background:"rgba(226,60,65,.03)",padding:"clamp(1.5rem,2.5vw,2.2rem)",borderTop:`3px solid ${C.r}`,borderRadius:4,transition:"all .4s cubic-bezier(.23,1,.32,1)",transform:procOpen?"translateY(0)":"translateY(40px)",transitionDelay:`${.3+i*.15}s`,cursor:"default"}}
+                  onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.07)";e.currentTarget.style.transform="translateY(-4px)"}}
+                  onMouseLeave={e => {e.currentTarget.style.background="rgba(226,60,65,.03)";e.currentTarget.style.transform="translateY(0)"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:12}}>
+                    <div style={{width:40,height:40,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.5))`,boxShadow:"0 0 24px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:800,color:"#fff",flexShrink:0}}>{p.p}</div>
+                    <div>
+                      <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.5}}>{p.l}</div>
+                      <div style={{fontSize:"clamp(1.1rem,1.5vw,1.3rem)",fontWeight:700}}>{p.t}</div>
                     </div>
-                    <p style={{fontSize:13,color:C.gl,lineHeight:1.7,margin:0}}>{p.d}</p>
                   </div>
+                  <p style={{fontSize:14,color:C.gl,lineHeight:1.7,margin:0}}>{p.d}</p>
                 </div>
               ))}
             </div>
 
-            {/* Close — bottom center */}
-            <div style={{position:"relative",zIndex:3,textAlign:"center",marginTop:32}}>
-              <button onClick={() => setProcOpen(false)} style={{display:"inline-flex",alignItems:"center",gap:10,padding:"12px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
+            {/* Center — B logo web strip */}
+            <div style={{position:"relative",height:120,marginBottom:24,overflow:"hidden"}}>
+              <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid slice">
+                {/* Radiating lines from B */}
+                {Array.from({length:16},(_,i) => {
+                  const a = (i/16)*Math.PI*2;
+                  return <line key={`r${i}`} x1="600" y1="60" x2={600+Math.cos(a)*600} y2={60+Math.sin(a)*60} stroke="#e23c41" strokeWidth=".4" opacity={i%2?".04":".08"}/>;
+                })}
+                {/* Concentric arcs */}
+                <circle cx="600" cy="60" r="40" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".06" strokeDasharray="4 4"/>
+                <circle cx="600" cy="60" r="80" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".04"/>
+                <circle cx="600" cy="60" r="160" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".03" strokeDasharray="8 8"/>
+                {/* Scattered pulse dots */}
+                {Array.from({length:30},(_,i) => {
+                  const x = 40 + (i * 39) % 1120;
+                  const y = 15 + (i * 17) % 90;
+                  return <circle key={`pd${i}`} cx={x} cy={y} r={i%5===0?"1.5":"1"} fill="#e23c41" opacity=".06">
+                    <animate attributeName="opacity" values=".03;.12;.03" dur={`${2+i%4}s`} begin={`${(i*.2)%3}s`} repeatCount="indefinite"/>
+                  </circle>;
+                })}
+                {/* Horizontal flow lines */}
+                <line x1="0" y1="60" x2="560" y2="60" stroke="#e23c41" strokeWidth=".5" opacity=".06"/>
+                <line x1="640" y1="60" x2="1200" y2="60" stroke="#e23c41" strokeWidth=".5" opacity=".06"/>
+                {/* B logo */}
+                <circle cx="600" cy="60" r="32" fill="rgba(226,60,65,.06)"/>
+                <rect x="583" y="37" width="8" height="46" rx="2" fill="#fff" opacity=".9"/>
+                <rect x="596" y="37" width="19" height="20" rx="2" fill="#e23c41"/>
+                <rect x="596" y="61" width="19" height="20" rx="2" fill="#e23c41" opacity=".85"/>
+                <circle cx="600" cy="60" r="28" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".12">
+                  <animate attributeName="r" values="28;36;28" dur="4s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values=".12;.03;.12" dur="4s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
+
+            {/* Bottom row — steps 3 & 4 */}
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24}}>
+              {proc.slice(2,4).map((p,i) => (
+                <div key={i+2} style={{background:"rgba(226,60,65,.03)",padding:"clamp(1.5rem,2.5vw,2.2rem)",borderTop:`3px solid ${C.r}`,borderRadius:4,transition:"all .4s cubic-bezier(.23,1,.32,1)",transform:procOpen?"translateY(0)":"translateY(40px)",transitionDelay:`${.5+i*.15}s`,cursor:"default"}}
+                  onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.07)";e.currentTarget.style.transform="translateY(-4px)"}}
+                  onMouseLeave={e => {e.currentTarget.style.background="rgba(226,60,65,.03)";e.currentTarget.style.transform="translateY(0)"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:12}}>
+                    <div style={{width:40,height:40,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.5))`,boxShadow:"0 0 24px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:800,color:"#fff",flexShrink:0}}>{p.p}</div>
+                    <div>
+                      <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.5}}>{p.l}</div>
+                      <div style={{fontSize:"clamp(1.1rem,1.5vw,1.3rem)",fontWeight:700}}>{p.t}</div>
+                    </div>
+                  </div>
+                  <p style={{fontSize:14,color:C.gl,lineHeight:1.7,margin:0}}>{p.d}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Close */}
+            <div style={{textAlign:"center",marginTop:40}}>
+              <button onClick={() => setProcOpen(false)} style={{display:"inline-flex",alignItems:"center",gap:10,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
                 onMouseEnter={e=>e.currentTarget.style.background=C.r} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
                 <span>←</span><span>Back to The Firm</span>
               </button>
             </div>
-          </div>}
+          </div>
 
         </div>
       </section>
