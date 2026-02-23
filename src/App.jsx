@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a",gl:"#c5c3ce"};
 
@@ -157,7 +157,7 @@ export default function App() {
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
           .logo-scroll-wrap{display:none!important}
-          #vid1,#vid2{transform:scale(1.3)!important;transform-origin:center 20%!important}
+          #vid1,#vid2{object-position:center 15%!important}
 
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
@@ -166,11 +166,13 @@ export default function App() {
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
         }
         @media(max-width:480px){
-          #vid1,#vid2{transform:scale(1.3)!important;transform-origin:center 20%!important}
+          #vid1,#vid2{object-position:center 10%!important}
           #mstats-top{display:none!important}
           #mstats-bottom{display:block!important}
           #mproc{grid-template-columns:1fr!important}
         }
+
+        @keyframes procExpand{from{opacity:0;transform:scale(.92) translateY(16px)}to{opacity:1;transform:scale(1) translateY(0)}}
       `}</style>
 
       {/* NAV */}
@@ -270,49 +272,112 @@ export default function App() {
 
       {/* ABOUT */}
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
-        <div id="mabout" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
-          <div>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
-            <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
-            <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound was founded on a conviction most firms get wrong: recruiting is not a transaction. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
-            <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
-          </div>
-          <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:32}}>
-            <div style={{position:"relative",width:"100%",maxWidth:320,aspectRatio:"1"}}>
-              <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
-              <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
-              {[{r:-55,w:150,c:1},{r:-15,w:130,c:0},{r:35,w:160,c:1},{r:150,w:140,c:0},{r:75,w:120,c:1},{r:195,w:150,c:0}].map((l,i) => <div key={i} style={{position:"absolute",top:"50%",left:"50%",height:1,width:l.w,transformOrigin:"0 0",transform:`rotate(${l.r}deg)`,background:`linear-gradient(90deg,${l.c?'rgba(226,60,65,.25)':'rgba(255,255,255,.12)'},transparent)`}}/>)}
-              {[{t:14,l:18,s:12,c:C.r,o:.6,d:6},{t:10,l:78,s:9,c:C.w,o:.3,d:8},{t:72,l:85,s:11,c:C.r,o:.5,d:7},{t:82,l:22,s:8,c:C.w,o:.25,d:9},{t:34,l:90,s:14,c:C.r,o:.4,d:5},{t:90,l:52,s:10,c:C.w,o:.2,d:7}].map((nd,i) => <div key={i} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${nd.d}s ease ${i*.5}s infinite`}}/>)}
-              <div style={{position:"absolute",top:"50%",left:"50%",width:24,height:24,borderRadius:"50%",background:C.r,transform:"translate(-50%,-50%)",boxShadow:"0 0 30px rgba(226,60,65,.5)",zIndex:3}}/>
-              <div style={{position:"absolute",top:"50%",left:"50%",width:24,height:24,borderRadius:"50%",border:"2px solid #e23c41",transform:"translate(-50%,-50%)",animation:"ep 2.5s ease infinite"}}/>
+        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+
+          {/* DEFAULT — The Firm */}
+          {!procOpen && <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
+            <div>
+              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
+              <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
+              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound was founded on a conviction most firms get wrong: recruiting is not a transaction. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
+              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
             </div>
-            <button onClick={() => setProcOpen(!procOpen)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 40px",background:procOpen?C.r:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:14,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s",maxWidth:340,width:"100%",justifyContent:"center"}}>
-              <span>{procOpen?"✕":"—"}</span><span>{procOpen?"Close":"Explore Our Process"}</span>{!procOpen && <span>↓</span>}
-            </button>
-          </div>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:32}}>
+              <div style={{position:"relative",width:"100%",maxWidth:320,aspectRatio:"1"}}>
+                <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
+                <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
+                {[{r:-55,w:150,c:1},{r:-15,w:130,c:0},{r:35,w:160,c:1},{r:150,w:140,c:0},{r:75,w:120,c:1},{r:195,w:150,c:0}].map((l,i) => <div key={i} style={{position:"absolute",top:"50%",left:"50%",height:1,width:l.w,transformOrigin:"0 0",transform:`rotate(${l.r}deg)`,background:`linear-gradient(90deg,${l.c?'rgba(226,60,65,.25)':'rgba(255,255,255,.12)'},transparent)`}}/>)}
+                {[{t:14,l:18,s:12,c:C.r,o:.6,d:6},{t:10,l:78,s:9,c:C.w,o:.3,d:8},{t:72,l:85,s:11,c:C.r,o:.5,d:7},{t:82,l:22,s:8,c:C.w,o:.25,d:9},{t:34,l:90,s:14,c:C.r,o:.4,d:5},{t:90,l:52,s:10,c:C.w,o:.2,d:7}].map((nd,i) => <div key={i} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${nd.d}s ease ${i*.5}s infinite`}}/>)}
+                <div style={{position:"absolute",top:"50%",left:"50%",width:24,height:24,borderRadius:"50%",background:C.r,transform:"translate(-50%,-50%)",boxShadow:"0 0 30px rgba(226,60,65,.5)",zIndex:3}}/>
+                <div style={{position:"absolute",top:"50%",left:"50%",width:24,height:24,borderRadius:"50%",border:"2px solid #e23c41",transform:"translate(-50%,-50%)",animation:"ep 2.5s ease infinite"}}/>
+              </div>
+              <button onClick={() => setProcOpen(true)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 40px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:14,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s",maxWidth:340,width:"100%",justifyContent:"center"}}>
+                <span>—</span><span>Explore Our Process</span><span>→</span>
+              </button>
+            </div>
+          </div>}
+
+          {/* PROCESS WEB — explodes into the section */}
+          {procOpen && <div style={{position:"relative",minHeight:560}}>
+
+            {/* Background web structure — fills everything */}
+            <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1000 560" preserveAspectRatio="xMidYMid slice">
+              {/* Radiating lines from center */}
+              {Array.from({length:24},(_,i) => {
+                const a = (i/24)*Math.PI*2;
+                const x2 = 500+Math.cos(a)*480;
+                const y2 = 280+Math.sin(a)*300;
+                return <line key={`ray${i}`} x1="500" y1="280" x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".3" opacity={i%2?".03":".06"}/>;
+              })}
+              {/* Concentric rings */}
+              {[80,160,240,360].map((r,i) => (
+                <circle key={`ring${i}`} cx="500" cy="280" r={r} fill="none" stroke="#e23c41" strokeWidth=".5" opacity={[.06,.04,.03,.02][i]} strokeDasharray={i%2?"none":"8 8"}/>
+              ))}
+              {/* Scattered dots across the web */}
+              {Array.from({length:40},(_,i) => {
+                const a = (i/40)*Math.PI*2 + (i%3)*.3;
+                const d = 60+((i*37)%320);
+                const x = 500+Math.cos(a)*d;
+                const y = 280+Math.sin(a)*d;
+                return <circle key={`dot${i}`} cx={x} cy={y} r={i%4===0?"2":"1"} fill={i%3?"#e23c41":"#fff"} opacity={i%4===0?".12":".06"}>
+                  <animate attributeName="opacity" values={`${i%4===0?".08":".03"};${i%4===0?".18":".1"};${i%4===0?".08":".03"}`} dur={`${3+i%5}s`} begin={`${(i*.3)%4}s`} repeatCount="indefinite"/>
+                </circle>;
+              })}
+              {/* Center B logo */}
+              <circle cx="500" cy="280" r="44" fill="rgba(226,60,65,.08)"/>
+              <circle cx="500" cy="280" r="38" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".15">
+                <animate attributeName="r" values="38;48;38" dur="4s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values=".15;.04;.15" dur="4s" repeatCount="indefinite"/>
+              </circle>
+              <rect x="481" y="255" width="9" height="50" rx="2" fill="#fff" opacity=".9"/>
+              <rect x="496" y="255" width="22" height="22" rx="2" fill="#e23c41"/>
+              <rect x="496" y="281" width="22" height="22" rx="2" fill="#e23c41" opacity=".85"/>
+              {/* Lines connecting center to node positions */}
+              {[[120,100],[880,100],[880,460],[120,460]].map(([x,y],i) => (
+                <line key={`cl${i}`} x1="500" y1="280" x2={x} y2={y} stroke="#e23c41" strokeWidth=".8" opacity=".08"/>
+              ))}
+            </svg>
+
+            {/* 4 process nodes — positioned in the web, no empty space */}
+            {[
+              {x:"3%",y:"0",align:"left",i:0},
+              {x:"60%",y:"0",align:"left",i:1},
+              {x:"60%",y:"52%",align:"left",i:2},
+              {x:"3%",y:"52%",align:"left",i:3},
+            ].map((pos,idx) => (
+              <div key={idx} style={{position:"relative",zIndex:2,display:"inline-block",width:"37%",verticalAlign:"top",padding:"clamp(1.2rem,2vw,2rem)",marginLeft:pos.x==="3%"?"3%":"0",marginRight:pos.x==="60%"?"0":"0",float:pos.x==="60%"?"right":"left",clear:pos.x==="3%"?"left":"right",opacity:0,animation:`procExpand .5s cubic-bezier(.23,1,.32,1) ${.05+idx*.1}s forwards`}}>
+                <div style={{background:"rgba(24,19,56,.85)",backdropFilter:"blur(8px)",padding:"clamp(1.2rem,2vw,2rem)",borderLeft:`3px solid ${C.r}`,borderRadius:4,transition:"all .3s"}}
+                  onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.08)";e.currentTarget.style.borderLeftWidth="5px"}}
+                  onMouseLeave={e => {e.currentTarget.style.background="rgba(24,19,56,.85)";e.currentTarget.style.borderLeftWidth="3px"}}>
+                  <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+                    <div style={{width:36,height:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.6))`,boxShadow:"0 0 20px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"#fff",flexShrink:0}}>{proc[idx].p}</div>
+                    <div>
+                      <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.6}}>{proc[idx].l}</div>
+                      <div style={{fontSize:"clamp(1rem,1.4vw,1.2rem)",fontWeight:700}}>{proc[idx].t}</div>
+                    </div>
+                  </div>
+                  <p style={{fontSize:13,color:C.gl,lineHeight:1.7,margin:0}}>{proc[idx].d}</p>
+                </div>
+              </div>
+            ))}
+
+            {/* Center tagline — sits over the B */}
+            <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center",zIndex:3,pointerEvents:"none",opacity:0,animation:"procExpand .5s ease .4s forwards"}}>
+              <div style={{fontSize:11,fontWeight:700,letterSpacing:3,textTransform:"uppercase",color:C.r,marginTop:80}}>Our Process</div>
+            </div>
+
+            {/* Close — bottom center */}
+            <div style={{position:"relative",zIndex:3,textAlign:"center",clear:"both",paddingTop:24}}>
+              <button onClick={() => setProcOpen(false)} style={{display:"inline-flex",alignItems:"center",gap:10,padding:"12px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
+                onMouseEnter={e=>e.currentTarget.style.background=C.r} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+                <span>←</span><span>Back to The Firm</span>
+              </button>
+            </div>
+          </div>}
+
         </div>
       </section>
 
-      {/* FULL-WIDTH PROCESS EXPANSION */}
-      <div style={{maxHeight:procOpen?900:0,overflow:"hidden",transition:"max-height .7s cubic-bezier(.23,1,.32,1)",background:C.n,borderTop:procOpen?"1px solid rgba(226,60,65,.15)":"none",borderBottom:procOpen?"1px solid rgba(226,60,65,.15)":"none"}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"clamp(3rem,6vw,5rem) clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{textAlign:"center",marginBottom:48}}>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Our Methodology</div>
-            <h2 style={{fontSize:"clamp(1.75rem,4vw,3rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em"}}>AI insights, delivered by humans,<br/>for an <span style={{color:C.r,fontStyle:"italic"}}>incredibly</span> personalized search.</h2>
-          </div>
-          <div id="mproc" style={{display:"grid",gridTemplateColumns:"repeat(4,1fr)",gap:2}}>
-            {proc.map((p,i) => (
-              <div key={i} style={{background:"rgba(226,60,65,.03)",padding:"clamp(1.5rem,2.5vw,2.5rem)",borderTop:`3px solid ${C.r}`,transition:"background .3s",cursor:"default"}}
-                onMouseEnter={e => e.currentTarget.style.background="rgba(226,60,65,.07)"} onMouseLeave={e => e.currentTarget.style.background="rgba(226,60,65,.03)"}>
-                <div style={{fontSize:"4rem",fontWeight:700,color:C.r,opacity:.08,lineHeight:1,marginBottom:16}}>{p.p}</div>
-                <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:.6,marginBottom:8}}>{p.l}</div>
-                <h4 style={{fontSize:"clamp(1rem,1.5vw,1.25rem)",fontWeight:700,marginBottom:12}}>{p.t}</h4>
-                <p style={{fontSize:14,color:C.gl,lineHeight:1.7}}>{p.d}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
 
       {/* SERVICES */}
       <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0"}}>
