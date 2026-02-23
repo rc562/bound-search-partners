@@ -113,7 +113,7 @@ export default function App() {
         <div style={{position:"absolute",right:10,top:8,width:86,height:70,background:C.r,borderRadius:3,opacity:0,animation:"sL .8s cubic-bezier(.23,1,.32,1) .5s forwards"}}/>
         <div style={{position:"absolute",right:10,bottom:8,width:86,height:70,background:C.r,borderRadius:3,opacity:0,animation:"sL .8s cubic-bezier(.23,1,.32,1) .7s forwards"}}/>
       </div>
-      <div style={{marginTop:32,fontSize:10,fontWeight:700,letterSpacing:".4em",textTransform:"uppercase",color:C.g,opacity:0,animation:"fi .5s ease 1.8s forwards"}}>Bound Search Partners</div>
+      <div style={{marginTop:24,fontSize:10,fontWeight:700,letterSpacing:".4em",textTransform:"uppercase",color:C.g,opacity:0,animation:"fi .5s ease 1.8s forwards"}}>Bound Search Partners</div>
       <div style={{width:100,height:2,background:"rgba(226,60,65,.15)",marginTop:24,overflow:"hidden",opacity:0,animation:"fi .3s ease 2s forwards"}}><div style={{width:"40%",height:"100%",background:C.r,animation:"loadB .8s ease 2.1s forwards"}}/></div>
     </div>
   );
@@ -300,47 +300,47 @@ export default function App() {
           {/* PROCESS — interactive constellation */}
           <div style={{opacity:procOpen?1:0,maxHeight:procOpen?2000:0,overflow:"visible",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
 
-            <div style={{position:"relative",width:"100%",height:460}}>
+            <div style={{position:"relative",width:"100%",height:360}}>
 
               {/* Full SVG web — the living background */}
-              <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1000 460">
+              <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1000 360">
                 {/* Orbiting rings around center */}
-                <circle cx="500" cy="230" r="60" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".06" strokeDasharray="4 6">
-                  <animateTransform attributeName="transform" type="rotate" from="0 500 230" to="360 500 230" dur="30s" repeatCount="indefinite"/>
+                <circle cx="500" cy="180" r="60" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".06" strokeDasharray="4 6">
+                  <animateTransform attributeName="transform" type="rotate" from="0 500 180" to="360 500 180" dur="30s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="500" cy="230" r="140" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".04" strokeDasharray="2 8">
-                  <animateTransform attributeName="transform" type="rotate" from="360 500 230" to="0 500 230" dur="45s" repeatCount="indefinite"/>
+                <circle cx="500" cy="180" r="100" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".04" strokeDasharray="2 8">
+                  <animateTransform attributeName="transform" type="rotate" from="360 500 180" to="0 500 180" dur="45s" repeatCount="indefinite"/>
                 </circle>
-                <circle cx="500" cy="230" r="200" fill="none" stroke="#e23c41" strokeWidth=".2" opacity=".03" strokeDasharray="6 12">
-                  <animateTransform attributeName="transform" type="rotate" from="0 500 230" to="360 500 230" dur="60s" repeatCount="indefinite"/>
+                <circle cx="500" cy="180" r="150" fill="none" stroke="#e23c41" strokeWidth=".2" opacity=".03" strokeDasharray="6 12">
+                  <animateTransform attributeName="transform" type="rotate" from="0 500 180" to="360 500 180" dur="60s" repeatCount="indefinite"/>
                 </circle>
 
                 {/* Connection lines — center to nodes */}
-                {[[200,80],[800,80],[720,380],[280,380]].map(([x,y],i) => (
-                  <line key={`cn${i}`} x1="500" y1="230" x2={x} y2={y} stroke="#e23c41" strokeWidth={hovNode===i?"1.2":".5"} opacity={hovNode===i?".25":".08"} style={{transition:"all .5s ease"}}/>
+                {[[220,60],[780,60],[720,300],[280,300]].map(([x,y],i) => (
+                  <line key={`cn${i}`} x1="500" y1="180" x2={x} y2={y} stroke="#e23c41" strokeWidth={hovNode===i?"1.2":".5"} opacity={hovNode===i?".25":".08"} style={{transition:"all .5s ease"}}/>
                 ))}
                 {/* Node-to-node connections */}
-                {[[200,80,800,80],[800,80,720,380],[720,380,280,380],[280,380,200,80],[200,80,720,380],[800,80,280,380]].map(([x1,y1,x2,y2],i) => (
+                {[[220,60,780,60],[780,60,720,300],[720,300,280,300],[280,300,220,60],[220,60,720,300],[780,60,280,300]].map(([x1,y1,x2,y2],i) => (
                   <line key={`nn${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".3" opacity={i<4?".05":".02"} strokeDasharray={i>=4?"4 8":"none"}/>
                 ))}
 
                 {/* Ambient floating particles */}
                 {Array.from({length:50},(_,i) => {
                   const angle = (i/50)*Math.PI*2;
-                  const dist = 25 + ((i*73)%200);
+                  const dist = 20 + ((i*73)%150);
                   const cx = 500+Math.cos(angle)*dist;
-                  const cy = 230+Math.sin(angle)*dist*.85;
+                  const cy = 180+Math.sin(angle)*dist*.85;
                   return <circle key={`p${i}`} cx={cx} cy={cy} r={i%7===0?"2":i%3===0?"1.2":".7"} fill={i%4?"#e23c41":"#fff"} opacity={i%7===0?".1":".04"}>
                     <animate attributeName="opacity" values={`${i%7===0?".06":".02"};${i%7===0?".15":".08"};${i%7===0?".06":".02"}`} dur={`${3+i%5}s`} begin={`${(i*.17)%4}s`} repeatCount="indefinite"/>
                   </circle>;
                 })}
 
                 {/* Center B logo */}
-                <circle cx="500" cy="230" r="36" fill="rgba(226,60,65,.06)"/>
-                <rect x="484" y="207" width="8" height="46" rx="2" fill="#fff" opacity=".9"/>
-                <rect x="497" y="207" width="19" height="20" rx="2" fill="#e23c41"/>
-                <rect x="497" y="231" width="19" height="20" rx="2" fill="#e23c41" opacity=".85"/>
-                <circle cx="500" cy="230" r="32" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".1">
+                <circle cx="500" cy="180" r="36" fill="rgba(226,60,65,.06)"/>
+                <rect x="484" y="157" width="8" height="46" rx="2" fill="#fff" opacity=".9"/>
+                <rect x="497" y="157" width="19" height="20" rx="2" fill="#e23c41"/>
+                <rect x="497" y="181" width="19" height="20" rx="2" fill="#e23c41" opacity=".85"/>
+                <circle cx="500" cy="180" r="32" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".1">
                   <animate attributeName="r" values="32;42;32" dur="4s" repeatCount="indefinite"/>
                   <animate attributeName="opacity" values=".1;.02;.1" dur="4s" repeatCount="indefinite"/>
                 </circle>
@@ -348,59 +348,59 @@ export default function App() {
 
               {/* Floating node: AI-Powered Intelligence — top left */}
               <div onMouseEnter={() => setHovNode(0)} onMouseLeave={() => setHovNode(null)}
-                style={{position:"absolute",left:"10%",top:"6%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===0?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".15s"}}>
+                style={{position:"absolute",left:"8%",top:"8%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===0?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".15s"}}>
                 <div style={{width:hovNode===0?56:44,height:hovNode===0?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===0?'50':'20'}px rgba(226,60,65,${hovNode===0?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
                 </div>
                 <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===0?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[0].t}</div>
-                <div style={{maxHeight:hovNode===0?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                <div style={{maxHeight:hovNode===0?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:200,margin:"0 auto"}}>
                   <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[0].d}</p>
                 </div>
               </div>
 
               {/* Floating node: Human Curation — top right */}
               <div onMouseEnter={() => setHovNode(1)} onMouseLeave={() => setHovNode(null)}
-                style={{position:"absolute",right:"10%",top:"6%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===1?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".25s"}}>
+                style={{position:"absolute",right:"8%",top:"8%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===1?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".25s"}}>
                 <div style={{width:hovNode===1?56:44,height:hovNode===1?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===1?'50':'20'}px rgba(226,60,65,${hovNode===1?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                 </div>
                 <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===1?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[1].t}</div>
-                <div style={{maxHeight:hovNode===1?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                <div style={{maxHeight:hovNode===1?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:200,margin:"0 auto"}}>
                   <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[1].d}</p>
                 </div>
               </div>
 
               {/* Floating node: Placement & Beyond — bottom right */}
               <div onMouseEnter={() => setHovNode(2)} onMouseLeave={() => setHovNode(null)}
-                style={{position:"absolute",right:"14%",bottom:"12%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===2?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".35s"}}>
+                style={{position:"absolute",right:"8%",bottom:"8%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===2?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".35s"}}>
                 <div style={{width:hovNode===2?56:44,height:hovNode===2?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===2?'50':'20'}px rgba(226,60,65,${hovNode===2?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 </div>
                 <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===2?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[2].t}</div>
-                <div style={{maxHeight:hovNode===2?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                <div style={{maxHeight:hovNode===2?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:200,margin:"0 auto"}}>
                   <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[2].d}</p>
                 </div>
               </div>
 
               {/* Floating node: Client Partnership — bottom left */}
               <div onMouseEnter={() => setHovNode(3)} onMouseLeave={() => setHovNode(null)}
-                style={{position:"absolute",left:"14%",bottom:"12%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===3?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".45s"}}>
+                style={{position:"absolute",left:"8%",bottom:"8%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===3?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".45s"}}>
                 <div style={{width:hovNode===3?56:44,height:hovNode===3?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===3?'50':'20'}px rgba(226,60,65,${hovNode===3?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 </div>
                 <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===3?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[3].t}</div>
-                <div style={{maxHeight:hovNode===3?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                <div style={{maxHeight:hovNode===3?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:200,margin:"0 auto"}}>
                   <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[3].d}</p>
                 </div>
               </div>
 
               {/* Extra connector dots along lines */}
-              {[[350,155],[650,155],[610,305],[390,305],[350,230],[650,230],[500,155],[500,330]].map(([cx,cy],i) => (
+              {[[350,120],[650,120],[610,250],[390,250],[350,180],[650,180],[500,120],[500,260],[430,140],[570,140],[430,220],[570,220]].map(([cx,cy],i) => (
                 <div key={`xd${i}`} style={{position:"absolute",left:`${cx/10}%`,top:`${cy/4.6}%`,width:i%3===0?5:3,height:i%3===0?5:3,borderRadius:"50%",background:i%2?C.r:"#fff",opacity:i%3===0?.12:.06,animation:`f${i%2+1} ${4+i%3}s ease ${i*.4}s infinite`}}/>
               ))}
 
               {/* Center label */}
-              <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center",pointerEvents:"none",marginTop:32,opacity:procOpen?.6:0,transition:"opacity .5s ease .5s"}}>
+              <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center",pointerEvents:"none",marginTop:24,opacity:procOpen?.6:0,transition:"opacity .5s ease .5s"}}>
                 <div style={{fontSize:10,fontWeight:700,letterSpacing:3,textTransform:"uppercase",color:C.r}}>Hover to explore</div>
               </div>
 
@@ -576,7 +576,7 @@ export default function App() {
                 <div><strong style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:3}}>{label}</strong>{href?<a href={href} style={{color:C.w,textDecoration:"none"}}>{val}</a>:<span>{val}</span>}</div>
               </div>
             ))}
-            <div style={{marginTop:32,padding:20,border:"1px solid rgba(226,60,65,.12)",background:"rgba(226,60,65,.02)"}}>
+            <div style={{marginTop:24,padding:20,border:"1px solid rgba(226,60,65,.12)",background:"rgba(226,60,65,.02)"}}>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:10}}>Typical Timeline</div>
               <p style={{fontSize:14,color:C.gl,lineHeight:1.8}}><strong style={{color:C.w}}>Within 24 hours</strong> — Direct response from the founder.<br/><strong style={{color:C.w}}>Within 48 hours</strong> — Discovery call.<br/><strong style={{color:C.w}}>Within one week</strong> — Terms finalized. Research begins.</p>
             </div>
@@ -616,7 +616,7 @@ export default function App() {
           </div>
 
           {/* Divider line */}
-          <div style={{height:1,background:"rgba(226,60,65,.1)",marginTop:32,marginBottom:24}} />
+          <div style={{height:1,background:"rgba(226,60,65,.1)",marginTop:24,marginBottom:24}} />
 
           {/* Bottom row: copyright left, skyline right */}
           <div id="mfootbot" style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
