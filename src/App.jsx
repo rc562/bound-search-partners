@@ -332,42 +332,38 @@ export default function App() {
               <rect x="481" y="255" width="9" height="50" rx="2" fill="#fff" opacity=".9"/>
               <rect x="496" y="255" width="22" height="22" rx="2" fill="#e23c41"/>
               <rect x="496" y="281" width="22" height="22" rx="2" fill="#e23c41" opacity=".85"/>
-              {/* Lines connecting center to node positions */}
-              {[[120,100],[880,100],[880,460],[120,460]].map(([x,y],i) => (
-                <line key={`cl${i}`} x1="500" y1="280" x2={x} y2={y} stroke="#e23c41" strokeWidth=".8" opacity=".08"/>
+              {/* Lines connecting center to card corners */}
+              {[[200,140],[800,140],[800,420],[200,420]].map(([x,y],i) => (
+                <line key={`cl${i}`} x1="500" y1="280" x2={x} y2={y} stroke="#e23c41" strokeWidth=".8" opacity=".1"/>
+              ))}
+              {/* Cross connections between cards */}
+              {[[200,140,800,140],[800,140,800,420],[800,420,200,420],[200,420,200,140]].map(([x1,y1,x2,y2],i) => (
+                <line key={`frame${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".4" opacity=".06" strokeDasharray="6 6"/>
               ))}
             </svg>
 
-            {/* 4 process nodes — positioned in the web, no empty space */}
-            {[
-              {x:"3%",y:"0",align:"left",i:0},
-              {x:"60%",y:"0",align:"left",i:1},
-              {x:"60%",y:"52%",align:"left",i:2},
-              {x:"3%",y:"52%",align:"left",i:3},
-            ].map((pos,idx) => (
-              <div key={idx} style={{position:"relative",zIndex:2,display:"inline-block",width:"37%",verticalAlign:"top",padding:"clamp(1.2rem,2vw,2rem)",marginLeft:pos.x==="3%"?"3%":"0",marginRight:pos.x==="60%"?"0":"0",float:pos.x==="60%"?"right":"left",clear:pos.x==="3%"?"left":"right",opacity:0,animation:`procExpand .5s cubic-bezier(.23,1,.32,1) ${.05+idx*.1}s forwards`}}>
-                <div style={{background:"rgba(24,19,56,.85)",backdropFilter:"blur(8px)",padding:"clamp(1.2rem,2vw,2rem)",borderLeft:`3px solid ${C.r}`,borderRadius:4,transition:"all .3s"}}
-                  onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.08)";e.currentTarget.style.borderLeftWidth="5px"}}
-                  onMouseLeave={e => {e.currentTarget.style.background="rgba(24,19,56,.85)";e.currentTarget.style.borderLeftWidth="3px"}}>
-                  <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
-                    <div style={{width:36,height:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.6))`,boxShadow:"0 0 20px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"#fff",flexShrink:0}}>{proc[idx].p}</div>
-                    <div>
-                      <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.6}}>{proc[idx].l}</div>
-                      <div style={{fontSize:"clamp(1rem,1.4vw,1.2rem)",fontWeight:700}}>{proc[idx].t}</div>
+            {/* 4 process cards — 2x2 grid over the web */}
+            <div style={{position:"relative",zIndex:2,display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,padding:"0 2%"}}>
+              {proc.map((p,i) => (
+                <div key={i} style={{opacity:0,animation:`procExpand .5s cubic-bezier(.23,1,.32,1) ${.05+i*.1}s forwards`}}>
+                  <div style={{background:"rgba(24,19,56,.85)",backdropFilter:"blur(8px)",padding:"clamp(1.5rem,2.5vw,2.2rem)",borderLeft:`3px solid ${C.r}`,borderRadius:4,transition:"all .3s",height:"100%"}}
+                    onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.08)";e.currentTarget.style.borderLeftWidth="5px"}}
+                    onMouseLeave={e => {e.currentTarget.style.background="rgba(24,19,56,.85)";e.currentTarget.style.borderLeftWidth="3px"}}>
+                    <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+                      <div style={{width:36,height:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.6))`,boxShadow:"0 0 20px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:14,fontWeight:800,color:"#fff",flexShrink:0}}>{p.p}</div>
+                      <div>
+                        <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.6}}>{p.l}</div>
+                        <div style={{fontSize:"clamp(1rem,1.4vw,1.2rem)",fontWeight:700}}>{p.t}</div>
+                      </div>
                     </div>
+                    <p style={{fontSize:13,color:C.gl,lineHeight:1.7,margin:0}}>{p.d}</p>
                   </div>
-                  <p style={{fontSize:13,color:C.gl,lineHeight:1.7,margin:0}}>{proc[idx].d}</p>
                 </div>
-              </div>
-            ))}
-
-            {/* Center tagline — sits over the B */}
-            <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center",zIndex:3,pointerEvents:"none",opacity:0,animation:"procExpand .5s ease .4s forwards"}}>
-              <div style={{fontSize:11,fontWeight:700,letterSpacing:3,textTransform:"uppercase",color:C.r,marginTop:80}}>Our Process</div>
+              ))}
             </div>
 
             {/* Close — bottom center */}
-            <div style={{position:"relative",zIndex:3,textAlign:"center",clear:"both",paddingTop:24}}>
+            <div style={{position:"relative",zIndex:3,textAlign:"center",marginTop:32}}>
               <button onClick={() => setProcOpen(false)} style={{display:"inline-flex",alignItems:"center",gap:10,padding:"12px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
                 onMouseEnter={e=>e.currentTarget.style.background=C.r} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
                 <span>←</span><span>Back to The Firm</span>
