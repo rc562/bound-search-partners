@@ -274,10 +274,10 @@ export default function App() {
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
-          <div id="mabout" style={{display:"grid",gridTemplateColumns:procOpen?"1fr":"1.2fr .8fr",gap:procOpen?0:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+          <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
             
             {/* Text — fades out when open */}
-            <div style={{opacity:procOpen?0:1,maxWidth:procOpen?0:"none",overflow:"hidden",transition:"all .7s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600}}>
+            <div style={{opacity:procOpen?0:1,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600,transform:procOpen?"translateX(-40px)":"translateX(0)"}}>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
               <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound was founded on a conviction most firms get wrong: recruiting is not a transaction. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
@@ -288,7 +288,7 @@ export default function App() {
             <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:procOpen?0:32,transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
               
               {/* Methodology header — only when open */}
-              <div style={{opacity:procOpen?1:0,maxHeight:procOpen?100:0,overflow:"hidden",transition:"all .5s ease .3s",textAlign:"center",marginBottom:procOpen?16:0}}>
+              <div style={{opacity:procOpen?1:0,maxHeight:procOpen?100:0,overflow:"hidden",transition:"all .6s ease .5s",textAlign:"center",marginBottom:procOpen?16:0}}>
                 <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:8}}>Our Methodology</div>
                 <div style={{fontSize:11,color:C.g,letterSpacing:2}}>HOVER EACH NODE TO EXPLORE</div>
               </div>
@@ -316,7 +316,7 @@ export default function App() {
                 {/* 4 interactive nodes — only when open, positioned on the web */}
                 {procOpen && [{t:8,l:20,i:0},{t:8,l:80,i:1},{t:78,l:80,i:2},{t:78,l:20,i:3}].map(n => (
                   <div key={n.i} onMouseEnter={() => setHovNode(n.i)} onMouseLeave={() => setHovNode(null)}
-                    style={{position:"absolute",top:`${n.t}%`,left:`${n.l}%`,transform:"translate(-50%,-50%)",zIndex:4,cursor:"default",textAlign:"center",animation:`nodeIn .5s cubic-bezier(.23,1,.32,1) ${.3+n.i*.1}s both`}}>
+                    style={{position:"absolute",top:`${n.t}%`,left:`${n.l}%`,transform:"translate(-50%,-50%)",zIndex:4,cursor:"default",textAlign:"center",animation:`nodeIn .6s cubic-bezier(.23,1,.32,1) ${.5+n.i*.12}s both`}}>
                     <div style={{width:hovNode===n.i?48:36,height:hovNode===n.i?48:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.3))`,boxShadow:`0 0 ${hovNode===n.i?'40':'16'}px rgba(226,60,65,${hovNode===n.i?.5:.2})`,margin:"0 auto",transition:"all .3s",display:"flex",alignItems:"center",justifyContent:"center"}}>
                       {[<svg key="ic0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
                         <svg key="ic1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
