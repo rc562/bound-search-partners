@@ -7,6 +7,7 @@ export default function App() {
   const [scrolled,setScrolled] = useState(false);
   const [activeSrv,setActiveSrv] = useState(0);
   const [procOpen,setProcOpen] = useState(false);
+  const [hovNode,setHovNode] = useState(null);
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
   const [mobileMenu,setMobileMenu] = useState(false);
@@ -296,88 +297,112 @@ export default function App() {
             </div>
           </div>
 
-          {/* PROCESS — smooth reveal */}
-          <div style={{opacity:procOpen?1:0,maxHeight:procOpen?2000:0,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
-            
-            {/* Header */}
-            <div style={{textAlign:"center",marginBottom:48,transform:procOpen?"translateY(0)":"translateY(-30px)",transition:"transform .6s cubic-bezier(.23,1,.32,1) .2s"}}>
-              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Our Methodology</div>
-              <h2 style={{fontSize:"clamp(1.75rem,4vw,3rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em"}}>AI insights, delivered by humans,<br/>for an <span style={{color:C.r,fontStyle:"italic"}}>incredibly</span> personalized search.</h2>
-            </div>
+          {/* PROCESS — interactive constellation */}
+          <div style={{opacity:procOpen?1:0,maxHeight:procOpen?2000:0,overflow:"visible",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
 
-            {/* Top row — steps 1 & 2 */}
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24,marginBottom:24}}>
-              {proc.slice(0,2).map((p,i) => (
-                <div key={i} style={{background:"rgba(226,60,65,.03)",padding:"clamp(1.5rem,2.5vw,2.2rem)",borderTop:`3px solid ${C.r}`,borderRadius:4,transition:"all .4s cubic-bezier(.23,1,.32,1)",transform:procOpen?"translateY(0)":"translateY(40px)",transitionDelay:`${.3+i*.15}s`,cursor:"default"}}
-                  onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.07)";e.currentTarget.style.transform="translateY(-4px)"}}
-                  onMouseLeave={e => {e.currentTarget.style.background="rgba(226,60,65,.03)";e.currentTarget.style.transform="translateY(0)"}}>
-                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:12}}>
-                    <div style={{width:40,height:40,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.5))`,boxShadow:"0 0 24px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:800,color:"#fff",flexShrink:0}}>{p.p}</div>
-                    <div>
-                      <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.5}}>{p.l}</div>
-                      <div style={{fontSize:"clamp(1.1rem,1.5vw,1.3rem)",fontWeight:700}}>{p.t}</div>
-                    </div>
-                  </div>
-                  <p style={{fontSize:14,color:C.gl,lineHeight:1.7,margin:0}}>{p.d}</p>
-                </div>
-              ))}
-            </div>
+            <div style={{position:"relative",width:"100%",height:620}}>
 
-            {/* Center — B logo web strip */}
-            <div style={{position:"relative",height:120,marginBottom:24,overflow:"hidden"}}>
-              <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid slice">
-                {/* Radiating lines from B */}
-                {Array.from({length:16},(_,i) => {
-                  const a = (i/16)*Math.PI*2;
-                  return <line key={`r${i}`} x1="600" y1="60" x2={600+Math.cos(a)*600} y2={60+Math.sin(a)*60} stroke="#e23c41" strokeWidth=".4" opacity={i%2?".04":".08"}/>;
-                })}
-                {/* Concentric arcs */}
-                <circle cx="600" cy="60" r="40" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".06" strokeDasharray="4 4"/>
-                <circle cx="600" cy="60" r="80" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".04"/>
-                <circle cx="600" cy="60" r="160" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".03" strokeDasharray="8 8"/>
-                {/* Scattered pulse dots */}
-                {Array.from({length:30},(_,i) => {
-                  const x = 40 + (i * 39) % 1120;
-                  const y = 15 + (i * 17) % 90;
-                  return <circle key={`pd${i}`} cx={x} cy={y} r={i%5===0?"1.5":"1"} fill="#e23c41" opacity=".06">
-                    <animate attributeName="opacity" values=".03;.12;.03" dur={`${2+i%4}s`} begin={`${(i*.2)%3}s`} repeatCount="indefinite"/>
+              {/* Full SVG web — the living background */}
+              <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1000 620">
+                {/* Orbiting rings around center */}
+                <circle cx="500" cy="310" r="60" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".06" strokeDasharray="4 6">
+                  <animateTransform attributeName="transform" type="rotate" from="0 500 310" to="360 500 310" dur="30s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="500" cy="310" r="140" fill="none" stroke="#e23c41" strokeWidth=".3" opacity=".04" strokeDasharray="2 8">
+                  <animateTransform attributeName="transform" type="rotate" from="360 500 310" to="0 500 310" dur="45s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="500" cy="310" r="240" fill="none" stroke="#e23c41" strokeWidth=".2" opacity=".03" strokeDasharray="6 12">
+                  <animateTransform attributeName="transform" type="rotate" from="0 500 310" to="360 500 310" dur="60s" repeatCount="indefinite"/>
+                </circle>
+
+                {/* Connection lines — center to nodes */}
+                {[[160,160],[840,160],[780,500],[220,500]].map(([x,y],i) => (
+                  <line key={`cn${i}`} x1="500" y1="310" x2={x} y2={y} stroke="#e23c41" strokeWidth={hovNode===i?"1.2":".5"} opacity={hovNode===i?".25":".08"} style={{transition:"all .5s ease"}}/>
+                ))}
+                {/* Node-to-node connections */}
+                {[[160,160,840,160],[840,160,780,500],[780,500,220,500],[220,500,160,160],[160,160,780,500],[840,160,220,500]].map(([x1,y1,x2,y2],i) => (
+                  <line key={`nn${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".3" opacity={i<4?".05":".02"} strokeDasharray={i>=4?"4 8":"none"}/>
+                ))}
+
+                {/* Ambient floating particles */}
+                {Array.from({length:50},(_,i) => {
+                  const angle = (i/50)*Math.PI*2;
+                  const dist = 30 + ((i*73)%260);
+                  const cx = 500+Math.cos(angle)*dist;
+                  const cy = 310+Math.sin(angle)*dist*.85;
+                  return <circle key={`p${i}`} cx={cx} cy={cy} r={i%7===0?"2":i%3===0?"1.2":".7"} fill={i%4?"#e23c41":"#fff"} opacity={i%7===0?".1":".04"}>
+                    <animate attributeName="opacity" values={`${i%7===0?".06":".02"};${i%7===0?".15":".08"};${i%7===0?".06":".02"}`} dur={`${3+i%5}s`} begin={`${(i*.17)%4}s`} repeatCount="indefinite"/>
                   </circle>;
                 })}
-                {/* Horizontal flow lines */}
-                <line x1="0" y1="60" x2="560" y2="60" stroke="#e23c41" strokeWidth=".5" opacity=".06"/>
-                <line x1="640" y1="60" x2="1200" y2="60" stroke="#e23c41" strokeWidth=".5" opacity=".06"/>
-                {/* B logo */}
-                <circle cx="600" cy="60" r="32" fill="rgba(226,60,65,.06)"/>
-                <rect x="583" y="37" width="8" height="46" rx="2" fill="#fff" opacity=".9"/>
-                <rect x="596" y="37" width="19" height="20" rx="2" fill="#e23c41"/>
-                <rect x="596" y="61" width="19" height="20" rx="2" fill="#e23c41" opacity=".85"/>
-                <circle cx="600" cy="60" r="28" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".12">
-                  <animate attributeName="r" values="28;36;28" dur="4s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" values=".12;.03;.12" dur="4s" repeatCount="indefinite"/>
+
+                {/* Center B logo */}
+                <circle cx="500" cy="310" r="36" fill="rgba(226,60,65,.06)"/>
+                <rect x="484" y="287" width="8" height="46" rx="2" fill="#fff" opacity=".9"/>
+                <rect x="497" y="287" width="19" height="20" rx="2" fill="#e23c41"/>
+                <rect x="497" y="311" width="19" height="20" rx="2" fill="#e23c41" opacity=".85"/>
+                <circle cx="500" cy="310" r="32" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".1">
+                  <animate attributeName="r" values="32;42;32" dur="4s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values=".1;.02;.1" dur="4s" repeatCount="indefinite"/>
                 </circle>
               </svg>
-            </div>
 
-            {/* Bottom row — steps 3 & 4 */}
-            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:24}}>
-              {proc.slice(2,4).map((p,i) => (
-                <div key={i+2} style={{background:"rgba(226,60,65,.03)",padding:"clamp(1.5rem,2.5vw,2.2rem)",borderTop:`3px solid ${C.r}`,borderRadius:4,transition:"all .4s cubic-bezier(.23,1,.32,1)",transform:procOpen?"translateY(0)":"translateY(40px)",transitionDelay:`${.5+i*.15}s`,cursor:"default"}}
-                  onMouseEnter={e => {e.currentTarget.style.background="rgba(226,60,65,.07)";e.currentTarget.style.transform="translateY(-4px)"}}
-                  onMouseLeave={e => {e.currentTarget.style.background="rgba(226,60,65,.03)";e.currentTarget.style.transform="translateY(0)"}}>
-                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:12}}>
-                    <div style={{width:40,height:40,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.5))`,boxShadow:"0 0 24px rgba(226,60,65,.3)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:15,fontWeight:800,color:"#fff",flexShrink:0}}>{p.p}</div>
-                    <div>
-                      <div style={{fontSize:9,fontWeight:700,letterSpacing:2,textTransform:"uppercase",color:C.r,opacity:.5}}>{p.l}</div>
-                      <div style={{fontSize:"clamp(1.1rem,1.5vw,1.3rem)",fontWeight:700}}>{p.t}</div>
-                    </div>
-                  </div>
-                  <p style={{fontSize:14,color:C.gl,lineHeight:1.7,margin:0}}>{p.d}</p>
+              {/* Floating node: AI-Powered Intelligence — top left */}
+              <div onMouseEnter={() => setHovNode(0)} onMouseLeave={() => setHovNode(null)}
+                style={{position:"absolute",left:"6%",top:"12%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===0?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".15s"}}>
+                <div style={{width:hovNode===0?56:44,height:hovNode===0?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===0?'50':'20'}px rgba(226,60,65,${hovNode===0?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
                 </div>
-              ))}
+                <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===0?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[0].t}</div>
+                <div style={{maxHeight:hovNode===0?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                  <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[0].d}</p>
+                </div>
+              </div>
+
+              {/* Floating node: Human Curation — top right */}
+              <div onMouseEnter={() => setHovNode(1)} onMouseLeave={() => setHovNode(null)}
+                style={{position:"absolute",right:"6%",top:"12%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===1?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".25s"}}>
+                <div style={{width:hovNode===1?56:44,height:hovNode===1?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===1?'50':'20'}px rgba(226,60,65,${hovNode===1?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===1?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[1].t}</div>
+                <div style={{maxHeight:hovNode===1?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                  <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[1].d}</p>
+                </div>
+              </div>
+
+              {/* Floating node: Placement & Beyond — bottom right */}
+              <div onMouseEnter={() => setHovNode(2)} onMouseLeave={() => setHovNode(null)}
+                style={{position:"absolute",right:"12%",bottom:"8%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===2?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".35s"}}>
+                <div style={{width:hovNode===2?56:44,height:hovNode===2?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===2?'50':'20'}px rgba(226,60,65,${hovNode===2?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===2?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[2].t}</div>
+                <div style={{maxHeight:hovNode===2?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                  <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[2].d}</p>
+                </div>
+              </div>
+
+              {/* Floating node: Client Partnership — bottom left */}
+              <div onMouseEnter={() => setHovNode(3)} onMouseLeave={() => setHovNode(null)}
+                style={{position:"absolute",left:"12%",bottom:"8%",textAlign:"center",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===3?"scale(1.08)":"scale(1)"):"scale(.5)",opacity:procOpen?1:0,transitionDelay:".45s"}}>
+                <div style={{width:hovNode===3?56:44,height:hovNode===3?56:44,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===3?'50':'20'}px rgba(226,60,65,${hovNode===3?.6:.25})`,margin:"0 auto",transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div style={{marginTop:10,fontSize:13,fontWeight:700,color:hovNode===3?C.w:C.gl,transition:"all .3s",whiteSpace:"nowrap"}}>{proc[3].t}</div>
+                <div style={{maxHeight:hovNode===3?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",maxWidth:240,margin:"0 auto"}}>
+                  <p style={{fontSize:12,color:C.gl,lineHeight:1.6,marginTop:8,textAlign:"center"}}>{proc[3].d}</p>
+                </div>
+              </div>
+
+              {/* Center label */}
+              <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",textAlign:"center",pointerEvents:"none",marginTop:40,opacity:procOpen?.6:0,transition:"opacity .5s ease .5s"}}>
+                <div style={{fontSize:10,fontWeight:700,letterSpacing:3,textTransform:"uppercase",color:C.r}}>Hover to explore</div>
+              </div>
+
             </div>
 
             {/* Close */}
-            <div style={{textAlign:"center",marginTop:40}}>
+            <div style={{textAlign:"center",marginTop:8}}>
               <button onClick={() => setProcOpen(false)} style={{display:"inline-flex",alignItems:"center",gap:10,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
                 onMouseEnter={e=>e.currentTarget.style.background=C.r} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
                 <span>←</span><span>Back to The Firm</span>
