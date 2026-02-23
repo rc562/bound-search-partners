@@ -274,7 +274,7 @@ export default function App() {
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
-          <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+          <div id="mabout" style={{display:"grid",gridTemplateColumns:procOpen?"0fr 1fr":"1.2fr .8fr",gap:procOpen?0:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
             
             {/* Text — fades out when open */}
             <div style={{opacity:procOpen?0:1,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600,transform:procOpen?"translateX(-40px)":"translateX(0)"}}>
@@ -294,7 +294,7 @@ export default function App() {
               </div>
 
               {/* The web itself — same visual, scales up */}
-              <div style={{position:"relative",width:procOpen?"100%":"100%",maxWidth:procOpen?580:320,aspectRatio:"1",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+              <div style={{position:"relative",width:procOpen?"100%":"100%",maxWidth:procOpen?640:320,aspectRatio:"1",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
                 {/* Orbiting rings */}
                 <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
                 <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
