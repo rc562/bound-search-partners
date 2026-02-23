@@ -274,121 +274,84 @@ export default function App() {
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
-          {/* DEFAULT — The Firm */}
-          <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center",opacity:procOpen?0:1,maxHeight:procOpen?0:"none",overflow:"hidden",transition:"all .7s cubic-bezier(.23,1,.32,1)"}}>
-            <div>
+          <div id="mabout" style={{display:"grid",gridTemplateColumns:procOpen?"1fr":"1.2fr .8fr",gap:procOpen?0:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+            
+            {/* Text — fades out when open */}
+            <div style={{opacity:procOpen?0:1,maxWidth:procOpen?0:"none",overflow:"hidden",transition:"all .7s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600}}>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
               <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound was founded on a conviction most firms get wrong: recruiting is not a transaction. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
             </div>
-            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:32}}>
-              <div style={{position:"relative",width:"100%",maxWidth:320,aspectRatio:"1"}}>
+
+            {/* The web — moves to center and grows when open */}
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:procOpen?0:32,transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+              
+              {/* Methodology header — only when open */}
+              <div style={{opacity:procOpen?1:0,maxHeight:procOpen?100:0,overflow:"hidden",transition:"all .5s ease .3s",textAlign:"center",marginBottom:procOpen?16:0}}>
+                <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:8}}>Our Methodology</div>
+                <div style={{fontSize:11,color:C.g,letterSpacing:2}}>HOVER EACH NODE TO EXPLORE</div>
+              </div>
+
+              {/* The web itself — same visual, scales up */}
+              <div style={{position:"relative",width:procOpen?"100%":"100%",maxWidth:procOpen?580:320,aspectRatio:"1",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+                {/* Orbiting rings */}
                 <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
                 <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
-                {[{r:-55,w:150,c:1},{r:-15,w:130,c:0},{r:35,w:160,c:1},{r:150,w:140,c:0},{r:75,w:120,c:1},{r:195,w:150,c:0}].map((l,i) => <div key={i} style={{position:"absolute",top:"50%",left:"50%",height:1,width:l.w,transformOrigin:"0 0",transform:`rotate(${l.r}deg)`,background:`linear-gradient(90deg,${l.c?'rgba(226,60,65,.25)':'rgba(255,255,255,.12)'},transparent)`}}/>)}
-                {[{t:14,l:18,s:12,c:C.r,o:.6,d:6},{t:10,l:78,s:9,c:C.w,o:.3,d:8},{t:72,l:85,s:11,c:C.r,o:.5,d:7},{t:82,l:22,s:8,c:C.w,o:.25,d:9},{t:34,l:90,s:14,c:C.r,o:.4,d:5},{t:90,l:52,s:10,c:C.w,o:.2,d:7}].map((nd,i) => <div key={i} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${nd.d}s ease ${i*.5}s infinite`}}/>)}
-                <div style={{position:"absolute",top:"50%",left:"50%",width:24,height:24,borderRadius:"50%",background:C.r,transform:"translate(-50%,-50%)",boxShadow:"0 0 30px rgba(226,60,65,.5)",zIndex:3}}/>
-                <div style={{position:"absolute",top:"50%",left:"50%",width:24,height:24,borderRadius:"50%",border:"2px solid #e23c41",transform:"translate(-50%,-50%)",animation:"ep 2.5s ease infinite"}}/>
-              </div>
-              <button onClick={() => setProcOpen(true)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 40px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:14,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s",maxWidth:340,width:"100%",justifyContent:"center"}}>
-                <span>—</span><span>Explore Our Process</span><span>→</span>
-              </button>
-            </div>
-          </div>
-
-          {/* PROCESS — interactive constellation */}
-          <div style={{opacity:procOpen?1:0,maxHeight:procOpen?2000:0,overflow:"visible",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
-
-            {/* Top row nodes */}
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:0,position:"relative",zIndex:2}}>
-              {[0,1].map(i => (
-                <div key={i} onMouseEnter={() => setHovNode(i)} onMouseLeave={() => setHovNode(null)}
-                  style={{flex:"0 0 38%",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===i?"translateY(-4px)":"translateY(0)"):"translateY(20px)",opacity:procOpen?1:0,transitionDelay:`${.15+i*.1}s`}}>
-                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:8}}>
-                    <div style={{width:hovNode===i?48:40,height:hovNode===i?48:40,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===i?'40':'16'}px rgba(226,60,65,${hovNode===i?.5:.2})`,transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                      {i===0?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
-                      :<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>}
-                    </div>
-                    <div style={{fontSize:"clamp(1rem,1.4vw,1.2rem)",fontWeight:700,color:hovNode===i?C.w:C.gl,transition:"color .3s"}}>{proc[i].t}</div>
-                  </div>
-                  <div style={{maxHeight:hovNode===i?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",paddingLeft:54}}>
-                    <p style={{fontSize:13,color:C.gl,lineHeight:1.6,margin:0}}>{proc[i].d}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Center B web — compact strip */}
-            <div style={{position:"relative",height:100,margin:"8px 0",overflow:"visible"}}>
-              <svg style={{position:"absolute",inset:0,width:"100%",height:"100%"}} viewBox="0 0 1200 100" preserveAspectRatio="xMidYMid slice">
+                {procOpen && <div style={{position:"absolute",inset:"-5%",border:"1px dashed rgba(226,60,65,.04)",borderRadius:"50%",animation:"sp 60s linear infinite"}}/>}
+                
                 {/* Radiating lines */}
-                {Array.from({length:20},(_,i) => {
-                  const a = (i/20)*Math.PI*2;
-                  return <line key={`r${i}`} x1="600" y1="50" x2={600+Math.cos(a)*600} y2={50+Math.sin(a)*50} stroke="#e23c41" strokeWidth=".3" opacity={i%2?".03":".06"}/>;
-                })}
-                {/* Orbiting ring */}
-                <circle cx="600" cy="50" r="35" fill="none" stroke="#e23c41" strokeWidth=".4" opacity=".06" strokeDasharray="3 5">
-                  <animateTransform attributeName="transform" type="rotate" from="0 600 50" to="360 600 50" dur="25s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="600" cy="50" r="70" fill="none" stroke="#e23c41" strokeWidth=".2" opacity=".04" strokeDasharray="2 8">
-                  <animateTransform attributeName="transform" type="rotate" from="360 600 50" to="0 600 50" dur="40s" repeatCount="indefinite"/>
-                </circle>
-                {/* Horizontal flow */}
-                <line x1="0" y1="50" x2="555" y2="50" stroke="#e23c41" strokeWidth=".4" opacity=".06"/>
-                <line x1="645" y1="50" x2="1200" y2="50" stroke="#e23c41" strokeWidth=".4" opacity=".06"/>
-                {/* Connecting lines to corners */}
-                {[[0,0],[1200,0],[1200,100],[0,100]].map(([x,y],i) => (
-                  <line key={`cl${i}`} x1="600" y1="50" x2={x} y2={y} stroke="#e23c41" strokeWidth=".3" opacity=".04"/>
-                ))}
-                {/* Pulse dots */}
-                {Array.from({length:24},(_,i) => {
-                  const x = 50 + (i*50);
-                  const y = 20 + (i*13)%60;
-                  return <circle key={`pd${i}`} cx={x} cy={y} r={i%5===0?"1.5":"1"} fill={i%3?"#e23c41":"#fff"} opacity=".05">
-                    <animate attributeName="opacity" values=".02;.1;.02" dur={`${2+i%4}s`} begin={`${(i*.2)%3}s`} repeatCount="indefinite"/>
-                  </circle>;
-                })}
-                {/* B logo */}
-                <circle cx="600" cy="50" r="28" fill="rgba(226,60,65,.06)"/>
-                <rect x="586" y="30" width="7" height="40" rx="1.5" fill="#fff" opacity=".9"/>
-                <rect x="597" y="30" width="16" height="17" rx="1.5" fill="#e23c41"/>
-                <rect x="597" y="51" width="16" height="17" rx="1.5" fill="#e23c41" opacity=".85"/>
-                <circle cx="600" cy="50" r="24" fill="none" stroke="#e23c41" strokeWidth=".5" opacity=".1">
-                  <animate attributeName="r" values="24;32;24" dur="4s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" values=".1;.02;.1" dur="4s" repeatCount="indefinite"/>
-                </circle>
-              </svg>
-            </div>
+                {[{r:-55,w:150,c:1},{r:-15,w:130,c:0},{r:35,w:160,c:1},{r:150,w:140,c:0},{r:75,w:120,c:1},{r:195,w:150,c:0}].map((l,i) => <div key={i} style={{position:"absolute",top:"50%",left:"50%",height:1,width:procOpen?l.w*1.6:l.w,transformOrigin:"0 0",transform:`rotate(${l.r}deg)`,background:`linear-gradient(90deg,${l.c?'rgba(226,60,65,.25)':'rgba(255,255,255,.12)'},transparent)`,transition:"width .8s ease"}}/>)}
+                
+                {/* Floating ambient dots */}
+                {[{t:14,l:18,s:12,c:C.r,o:.6,d:6},{t:10,l:78,s:9,c:C.w,o:.3,d:8},{t:72,l:85,s:11,c:C.r,o:.5,d:7},{t:82,l:22,s:8,c:C.w,o:.25,d:9},{t:34,l:90,s:14,c:C.r,o:.4,d:5},{t:90,l:52,s:10,c:C.w,o:.2,d:7}].map((nd,i) => <div key={i} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${nd.d}s ease ${i*.5}s infinite`}}/>)}
+                
+                {/* Extra dots when expanded */}
+                {procOpen && [{t:5,l:50,s:6,c:C.r,o:.3},{t:50,l:5,s:8,c:C.w,o:.15},{t:50,l:95,s:7,c:C.r,o:.25},{t:95,l:50,s:6,c:C.w,o:.15},{t:25,l:8,s:5,c:C.r,o:.2},{t:75,l:92,s:5,c:C.r,o:.2},{t:8,l:35,s:4,c:C.w,o:.12},{t:92,l:65,s:4,c:C.w,o:.12}].map((nd,i) => <div key={`x${i}`} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${5+i}s ease ${i*.3}s infinite`}}/>)}
+                
+                {/* Center B dot / pulse */}
+                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",background:C.r,transform:"translate(-50%,-50%)",boxShadow:`0 0 ${procOpen?'40':'30'}px rgba(226,60,65,.5)`,zIndex:3,transition:"all .5s ease"}}/>
+                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",border:"2px solid #e23c41",transform:"translate(-50%,-50%)",animation:"ep 2.5s ease infinite"}}/>
 
-            {/* Bottom row nodes */}
-            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",position:"relative",zIndex:2}}>
-              {[3,2].map((idx,i) => (
-                <div key={idx} onMouseEnter={() => setHovNode(idx)} onMouseLeave={() => setHovNode(null)}
-                  style={{flex:"0 0 38%",cursor:"default",transition:"all .5s cubic-bezier(.23,1,.32,1)",transform:procOpen?(hovNode===idx?"translateY(-4px)":"translateY(0)"):"translateY(20px)",opacity:procOpen?1:0,transitionDelay:`${.35+i*.1}s`}}>
-                  <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:8}}>
-                    <div style={{width:hovNode===idx?48:40,height:hovNode===idx?48:40,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.4))`,boxShadow:`0 0 ${hovNode===idx?'40':'16'}px rgba(226,60,65,${hovNode===idx?.5:.2})`,transition:"all .4s ease",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-                      {idx===3?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                      :<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>}
+                {/* 4 interactive nodes — only when open, positioned on the web */}
+                {procOpen && [{t:8,l:20,i:0},{t:8,l:80,i:1},{t:78,l:80,i:2},{t:78,l:20,i:3}].map(n => (
+                  <div key={n.i} onMouseEnter={() => setHovNode(n.i)} onMouseLeave={() => setHovNode(null)}
+                    style={{position:"absolute",top:`${n.t}%`,left:`${n.l}%`,transform:"translate(-50%,-50%)",zIndex:4,cursor:"default",textAlign:"center",animation:`nodeIn .5s cubic-bezier(.23,1,.32,1) ${.3+n.i*.1}s both`}}>
+                    <div style={{width:hovNode===n.i?48:36,height:hovNode===n.i?48:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.3))`,boxShadow:`0 0 ${hovNode===n.i?'40':'16'}px rgba(226,60,65,${hovNode===n.i?.5:.2})`,margin:"0 auto",transition:"all .3s",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      {[<svg key="ic0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
+                        <svg key="ic1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+                        <svg key="ic2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+                        <svg key="ic3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>][n.i]}
                     </div>
-                    <div style={{fontSize:"clamp(1rem,1.4vw,1.2rem)",fontWeight:700,color:hovNode===idx?C.w:C.gl,transition:"color .3s"}}>{proc[idx].t}</div>
+                    <div style={{marginTop:6,fontSize:11,fontWeight:700,color:hovNode===n.i?C.w:C.gl,transition:"color .3s",whiteSpace:"nowrap"}}>{proc[n.i].t}</div>
+                    {/* Description tooltip */}
+                    <div style={{maxHeight:hovNode===n.i?100:0,overflow:"hidden",transition:"max-height .3s cubic-bezier(.23,1,.32,1)",maxWidth:180}}>
+                      <p style={{fontSize:11,color:C.gl,lineHeight:1.5,marginTop:4}}>{proc[n.i].d}</p>
+                    </div>
                   </div>
-                  <div style={{maxHeight:hovNode===idx?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",paddingLeft:54}}>
-                    <p style={{fontSize:13,color:C.gl,lineHeight:1.6,margin:0}}>{proc[idx].d}</p>
-                  </div>
-                </div>
-              ))}
+                ))}
+
+                {/* Connection lines to nodes when open */}
+                {procOpen && <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1}} viewBox="0 0 100 100">
+                  {[[50,50,20,8],[50,50,80,8],[50,50,80,78],[50,50,20,78]].map(([x1,y1,x2,y2],i) => (
+                    <line key={`nl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth={hovNode===i?".8":".3"} opacity={hovNode===i?".3":".1"} style={{transition:"all .3s"}}/>
+                  ))}
+                  {/* Node to node */}
+                  {[[20,8,80,8],[80,8,80,78],[80,78,20,78],[20,78,20,8]].map(([x1,y1,x2,y2],i) => (
+                    <line key={`nnl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".2" opacity=".06" strokeDasharray="2 3"/>
+                  ))}
+                </svg>}
+              </div>
+
+              {/* Button */}
+              <div style={{marginTop:procOpen?20:0,transition:"margin .5s ease"}}>
+                <button onClick={() => setProcOpen(!procOpen)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 40px",background:procOpen?C.r:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:14,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s",maxWidth:340,width:"100%",justifyContent:"center"}}>
+                  <span>{procOpen?"←":"—"}</span><span>{procOpen?"Back to The Firm":"Explore Our Process"}</span>{!procOpen && <span>→</span>}
+                </button>
+              </div>
             </div>
 
-            {/* Close */}
-            <div style={{textAlign:"center",marginTop:32}}>
-              <button onClick={() => setProcOpen(false)} style={{display:"inline-flex",alignItems:"center",gap:10,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
-                onMouseEnter={e=>e.currentTarget.style.background=C.r} onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
-                <span>←</span><span>Back to The Firm</span>
-              </button>
-            </div>
           </div>
-
         </div>
       </section>
 
