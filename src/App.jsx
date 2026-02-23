@@ -323,10 +323,10 @@ export default function App() {
                         <svg key="ic2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
                         <svg key="ic3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>][n.i]}
                     </div>
-                    <div style={{marginTop:8,fontSize:13,fontWeight:700,color:hovNode===n.i?C.w:C.gl,transition:"color .3s",whiteSpace:"nowrap"}}>{proc[n.i].t}</div>
+                    <div style={{marginTop:10,fontSize:15,fontWeight:700,color:hovNode===n.i?C.w:C.gl,transition:"color .3s",whiteSpace:"nowrap"}}>{proc[n.i].t}</div>
                     {/* Description tooltip */}
-                    <div style={{maxHeight:hovNode===n.i?300:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",width:240}}>
-                      <p style={{fontSize:13,color:C.gl,lineHeight:1.7,marginTop:6}}>{proc[n.i].d}</p>
+                    <div style={{maxHeight:hovNode===n.i?400:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",width:280}}>
+                      <p style={{fontSize:15,color:C.gl,lineHeight:1.8,marginTop:8}}>{proc[n.i].d}</p>
                     </div>
                   </div>
                 ))}
