@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a",gl:"#c5c3ce"};
 
 export default function App() {
-  const [loaded,setLoaded] = useState(false);
   const [scrolled,setScrolled] = useState(false);
   const [activeSrv,setActiveSrv] = useState(0);
   const [procOpen,setProcOpen] = useState(false);
@@ -14,8 +13,6 @@ export default function App() {
   const [cloudWord,setCloudWord] = useState(null);
 
   useEffect(() => {
-    setTimeout(() => setLoaded(true), 3500);
-    setTimeout(() => { document.body.style.overflow = 'auto'; }, 3500);
     const h = () => setScrolled(window.scrollY > 60);
     let showV1 = true;
     setInterval(() => {
@@ -28,7 +25,6 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!loaded) return;
     const timer = setTimeout(() => {
       const el = document.getElementById("bond");
       if (!el) return;
@@ -39,7 +35,7 @@ export default function App() {
       return () => obs.disconnect();
     }, 500);
     return () => clearTimeout(timer);
-  }, [loaded]);
+  }, []);
 
   const srvs = [
     {n:"01",t:"Retained Executive Search",s:"Retained Search",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Targeting leaders who aren't looking — and convincing them to listen.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain"},
@@ -106,20 +102,8 @@ export default function App() {
     </svg>
   );
 
-  if (!loaded) return (
-    <div style={{position:"fixed",inset:0,background:C.n,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",zIndex:9999}}>
-      <div style={{position:"relative",width:160,height:170}}>
-        <div style={{position:"absolute",left:10,top:8,width:36,height:154,background:C.w,borderRadius:3,opacity:0,animation:"sR .8s cubic-bezier(.23,1,.32,1) .3s forwards"}}/>
-        <div style={{position:"absolute",right:10,top:8,width:86,height:70,background:C.r,borderRadius:3,opacity:0,animation:"sL .8s cubic-bezier(.23,1,.32,1) .5s forwards"}}/>
-        <div style={{position:"absolute",right:10,bottom:8,width:86,height:70,background:C.r,borderRadius:3,opacity:0,animation:"sL .8s cubic-bezier(.23,1,.32,1) .7s forwards"}}/>
-      </div>
-      <div style={{marginTop:24,fontSize:10,fontWeight:700,letterSpacing:".4em",textTransform:"uppercase",color:C.g,opacity:0,animation:"fi .5s ease 1.8s forwards"}}>Bound Search Partners</div>
-      <div style={{width:100,height:2,background:"rgba(226,60,65,.15)",marginTop:24,overflow:"hidden",opacity:0,animation:"fi .3s ease 2s forwards"}}><div style={{width:"40%",height:"100%",background:C.r,animation:"loadB .8s ease 2.1s forwards"}}/></div>
-    </div>
-  );
-
   return (
-    <div style={{background:C.n,color:C.w,fontFamily:"'Aptos','Segoe UI',sans-serif",overflowX:"hidden",animation:"siteIn .8s ease forwards",opacity:0}}>
+    <div style={{background:C.n,color:C.w,fontFamily:"'Aptos','Segoe UI',sans-serif",overflowX:"hidden",opacity:1}}>
       <style>{`
         @keyframes siteIn{to{opacity:1}}@keyframes sR{to{opacity:.92;transform:translateX(0)}}@keyframes sL{to{opacity:1;transform:translateX(0)}}
         @keyframes fi{to{opacity:1}}@keyframes fu{to{opacity:1;transform:translateY(0)}}@keyframes loadB{to{width:100%}}
@@ -280,8 +264,8 @@ export default function App() {
             <div style={{opacity:procOpen?0:1,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600,transform:procOpen?"translateX(-40px)":"translateX(0)"}}>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
               <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
-              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound was founded on a conviction most firms get wrong: recruiting is not a transaction. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
-              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
+              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound Search Partners was founded on one principle: executive search should be personal. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
+              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound Search Partners works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
             </div>
 
             {/* The web — moves to center and grows when open */}
@@ -461,7 +445,7 @@ export default function App() {
           </div>
 
           {/* Tagline */}
-          <div style={{marginTop:28,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .5s"}}>The right company <span style={{color:C.r}}>+</span> the right leader <span style={{color:C.r}}>=</span> Bound.</div>
+          <div style={{marginTop:28,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .5s"}}>The right company <span style={{color:C.r}}>+</span> the right leader <span style={{color:C.r}}>=</span> Bound Search Partners.</div>
 
           {/* Values — single row of keywords */}
           <div style={{marginTop:28,display:"flex",justifyContent:"center",flexWrap:"wrap",gap:"8px 24px",opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(10px)",transition:"all .6s ease .7s"}}>
@@ -504,7 +488,7 @@ export default function App() {
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Contact</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Start a <span style={{color:C.r,fontStyle:"italic"}}>conversation</span>.</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:32}}>Every engagement begins with a candid discussion about the role and whether Bound is the right fit.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:32}}>Every engagement begins with a candid discussion about the role and whether Bound Search Partners is the right fit.</p>
             {[["Phone","(267) 265-1792","tel:+12672651792"],["Email","bob@boundsearch.com","mailto:bob@boundsearch.com"],["Headquarters","Philadelphia, PA — Serving clients nationwide",null]].map(([label,val,href],i) => (
               <div key={i} style={{display:"flex",alignItems:"center",gap:16,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,.05)"}}>
                 <div style={{width:42,height:42,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(226,60,65,.06)",color:C.r,flexShrink:0}}>
@@ -537,7 +521,7 @@ export default function App() {
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Ready to begin?</div>
           <h2 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
-          <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Every day a critical seat stays empty, momentum is lost. Bound exists to close that gap.</p>
+          <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Every day a critical seat stays empty, momentum is lost. Bound Search Partners exists to close that gap.</p>
           <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer"}}>Start a Search →</span>
         </div>
       </section>
