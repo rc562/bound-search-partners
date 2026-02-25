@@ -14,6 +14,10 @@ export default function App() {
   const [formSent,setFormSent] = useState(false);
   const [statsVis,setStatsVis] = useState(false);
   const [formSending,setFormSending] = useState(false);
+  const [chatOpen,setChatOpen] = useState(false);
+  const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
+  const [chatInput,setChatInput] = useState("");
+  const [chatLoading,setChatLoading] = useState(false);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
@@ -49,6 +53,53 @@ export default function App() {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
+
+  const sendChat = async () => {
+    if (!chatInput.trim() || chatLoading) return;
+    const userMsg = chatInput.trim();
+    setChatInput("");
+    const newMsgs = [...chatMsgs, {role:"user",content:userMsg}];
+    setChatMsgs(newMsgs);
+    setChatLoading(true);
+    try {
+      const res = await fetch("https://api.anthropic.com/v1/messages", {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          model:"claude-sonnet-4-20250514",
+          max_tokens:1000,
+          system:`You are the AI assistant for Bound Search Partners, a boutique retained executive search firm based in Philadelphia, founded by Bob Cwenar. You specialize in manufacturing, industrial, and supply chain leadership placements (VP to C-Suite).
+
+Key facts about the firm:
+- Retained search model only (not contingent)
+- Personally led by founder Bob Cwenar — over a decade of experience
+- Serves manufacturing, supply chain, building products, food & beverage, chemicals, packaging, private equity portfolio companies, industrial equipment, real estate development, and engineering services
+- Services: Retained Executive Search, Operational Leadership, Leadership Assessment, Market Intelligence, Confidential Searches
+- 200+ executive placements, 92% year-one retention rate, 50+ client organizations
+- Uses AI tools for market mapping combined with personal human vetting of every candidate
+- Phone: (267) 265-1792 | Email: bob@boundsearch.com | Website: boundsearch.com
+- Based in Philadelphia, serving manufacturers nationwide
+
+Your role:
+- Answer questions about Bound Search Partners services, process, and approach
+- Help visitors think through their hiring needs — what kind of leader they need, what to look for, timeline expectations
+- Be warm, direct, and knowledgeable — match Bob's tone: confident but not arrogant
+- If someone seems ready to engage, encourage them to fill out the contact form or call Bob directly
+- Keep responses concise (2-4 sentences usually) — this is a chat widget, not an essay
+- Never make up specific client names, case studies, or placement details
+- If asked about pricing, say retained search fees are discussed during the initial consultation and are tailored to each engagement`,
+          messages: newMsgs.map(m => ({role:m.role,content:m.content}))
+        })
+      });
+      const data = await res.json();
+      const reply = data.content?.map(c => c.text || "").join("") || "I apologize — something went wrong. Please try again or reach Bob directly at bob@boundsearch.com.";
+      setChatMsgs(prev => [...prev, {role:"assistant",content:reply}]);
+    } catch(e) {
+      setChatMsgs(prev => [...prev, {role:"assistant",content:"I'm having trouble connecting right now. You can reach Bob directly at (267) 265-1792 or bob@boundsearch.com."}]);
+    }
+    setChatLoading(false);
+    setTimeout(() => {const el=document.getElementById("chatScroll");if(el)el.scrollTop=el.scrollHeight},100);
+  };
 
   const srvs = [
     {n:"01",t:"Retained Executive Search",s:"Retained Search",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Targeting leaders who aren't looking — and convincing them to listen.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain"},
@@ -140,6 +191,7 @@ export default function App() {
         .mnav{display:flex;align-items:center;gap:2.5rem}
         .mticker{display:flex}
         @media(max-width:768px){
+          #bspChat{width:calc(100vw - 32px)!important;right:16px!important;bottom:80px!important;max-height:70vh!important}
           .mburger{display:flex!important}
           .mnav{display:none!important}
           .mticker{display:none!important}
@@ -682,6 +734,53 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* AI CHAT WIDGET */}
+      {/* Chat bubble */}
+      <div onClick={() => setChatOpen(!chatOpen)} style={{position:"fixed",bottom:24,right:24,width:56,height:56,borderRadius:"50%",background:chatOpen?"#c8333a":C.r,boxShadow:"0 4px 20px rgba(226,60,65,.4)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",zIndex:10001,transition:"all .3s"}}
+        onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.08)";e.currentTarget.style.boxShadow="0 6px 28px rgba(226,60,65,.5)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="0 4px 20px rgba(226,60,65,.4)"}}>
+        {chatOpen
+          ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>}
+      </div>
+      {/* Notification dot */}
+      {!chatOpen && chatMsgs.length===1 && <div style={{position:"fixed",bottom:68,right:24,width:12,height:12,borderRadius:"50%",background:"#fff",border:"2px solid "+C.r,zIndex:10002,animation:"beacon 2s ease infinite",pointerEvents:"none"}}/>}
+
+      {/* Chat panel */}
+      <div style={{position:"fixed",bottom:92,right:24,width:380,maxHeight:520,borderRadius:12,overflow:"hidden",background:C.n,border:"1px solid rgba(226,60,65,.15)",boxShadow:"0 12px 48px rgba(0,0,0,.5)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(16px) scale(.95)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .3s cubic-bezier(.23,1,.32,1)"}}>
+        {/* Header */}
+        <div style={{padding:"16px 20px",background:C.nm,borderBottom:"1px solid rgba(226,60,65,.1)",display:"flex",alignItems:"center",gap:12}}>
+          <div style={{width:32,height:32,borderRadius:"50%",background:"rgba(226,60,65,.1)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+            <svg width="14" height="15" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
+          </div>
+          <div>
+            <div style={{fontSize:14,fontWeight:700}}>Bound Search Partners</div>
+            <div style={{fontSize:10,color:C.g,letterSpacing:1}}>AI Assistant</div>
+          </div>
+        </div>
+
+        {/* Messages */}
+        <div id="chatScroll" style={{flex:1,overflowY:"auto",padding:"16px 20px",display:"flex",flexDirection:"column",gap:12,maxHeight:360}}>
+          {chatMsgs.map((m,i) => (
+            <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
+              <div style={{maxWidth:"85%",padding:"10px 14px",borderRadius:m.role==="user"?"12px 12px 2px 12px":"12px 12px 12px 2px",background:m.role==="user"?C.r:"rgba(226,60,65,.06)",fontSize:13,lineHeight:1.6,color:m.role==="user"?"#fff":C.gl}}>
+                {m.content}
+              </div>
+            </div>
+          ))}
+          {chatLoading && <div style={{display:"flex",gap:4,padding:"8px 0"}}>
+            {[0,1,2].map(i => <div key={i} style={{width:6,height:6,borderRadius:"50%",background:C.r,opacity:.4,animation:`f1 1s ease ${i*.15}s infinite`}}/>)}
+          </div>}
+        </div>
+
+        {/* Input */}
+        <div style={{padding:"12px 16px",borderTop:"1px solid rgba(226,60,65,.08)",display:"flex",gap:8}}>
+          <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Ask about our services..." style={{flex:1,padding:"10px 14px",background:C.nm,border:"1px solid rgba(226,60,65,.08)",borderRadius:8,color:C.w,fontFamily:"inherit",fontSize:13,outline:"none",transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.3)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.08)"}/>
+          <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} style={{padding:"10px 14px",background:chatInput.trim()?C.r:"rgba(226,60,65,.2)",border:"none",borderRadius:8,cursor:chatInput.trim()?"pointer":"default",transition:"all .2s"}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
