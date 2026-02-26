@@ -379,7 +379,7 @@ export default function App() {
                 <div key={i} style={{display:"flex",gap:20,marginBottom:i<proc.length-1?0:0}} onMouseEnter={() => setHovProc(i)} onMouseLeave={() => setHovProc(null)}>
                   {/* Vertical line + number */}
                   <div style={{display:"flex",flexDirection:"column",alignItems:"center",flexShrink:0}}>
-                    <div style={{width:hovProc===i?40:36,height:hovProc===i?40:36,borderRadius:"50%",border:`1.5px solid ${hovProc===i||i===0?C.r:'rgba(226,60,65,.2)'}`,background:hovProc===i?"rgba(226,60,65,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:hovProc===i||i===0?C.r:C.g,flexShrink:0,transition:"all .3s cubic-bezier(.23,1,.32,1)",boxShadow:hovProc===i?"0 0 20px rgba(226,60,65,.15)":"none"}}>{step.p}</div>
+                    <div style={{width:hovProc===i?40:36,height:hovProc===i?40:36,borderRadius:"50%",border:`1.5px solid ${hovProc===i?C.r:'rgba(226,60,65,.2)'}`,background:hovProc===i?"rgba(226,60,65,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:hovProc===i?C.r:C.g,flexShrink:0,transition:"all .3s cubic-bezier(.23,1,.32,1)",boxShadow:hovProc===i?"0 0 20px rgba(226,60,65,.15)":"none"}}>{step.p}</div>
                     {i<proc.length-1 && <div style={{width:1,flex:1,background:`linear-gradient(180deg,rgba(226,60,65,${hovProc===i?.35:.2}),rgba(226,60,65,.05))`,minHeight:24,transition:"all .3s"}}/>}
                   </div>
                   {/* Content */}
