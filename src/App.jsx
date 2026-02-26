@@ -435,7 +435,7 @@ export default function App() {
           <div style={{position:"absolute",top:0,bottom:0,left:0,width:80,background:"linear-gradient(90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
           <div style={{position:"absolute",top:0,bottom:0,right:0,width:80,background:"linear-gradient(-90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
           <div className="logo-scroll" style={{display:"flex",animation:"logoScroll 30s linear infinite",width:"max-content"}} onMouseEnter={e=>e.currentTarget.style.animationPlayState="paused"} onMouseLeave={e=>e.currentTarget.style.animationPlayState="running"}>
-            {[...Array(2)].map((_,rep) => ["hunter_douglas.png","honickman.png","aak.jpg","mcc.png","post_brothers.png","makinex.jpg","k_hartwall.png","marand.png","cf.png","elementia.jpg"].map((f,i) => (
+            {[...Array(2)].map((_,rep) => ["hunter_douglas.png","honickman.png","aak.png","mcc.png","post_brothers.png","makinex.png","k_hartwall.png","marand.png","cf.png","journeyman.png","elementia.png","journeyman.png"].map((f,i) => (
               <div key={`${rep}-${i}`} style={{flexShrink:0,width:200,height:100,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem 2rem",background:C.nm,borderRight:"1px solid rgba(226,60,65,.06)"}}>
                 <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:40,width:"auto",maxWidth:150,objectFit:"contain",opacity:.7}}/>
               </div>
@@ -444,7 +444,7 @@ export default function App() {
         </div>
         {/* Mobile static logo grid */}
         <div id="mlogos" style={{gridTemplateColumns:"repeat(3,1fr)",gap:1,padding:"0 clamp(1.5rem,4vw,4rem)",marginTop:24}}>
-          {["hunter_douglas.png","honickman.png","aak.jpg","mcc.png","post_brothers.png","makinex.jpg","k_hartwall.png","marand.png","cf.png"].map((f,i) => (
+          {["hunter_douglas.png","honickman.png","aak.png","mcc.png","post_brothers.png","makinex.png","k_hartwall.png","marand.png","cf.png","journeyman.png"].map((f,i) => (
             <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"center",padding:"16px 12px",background:"rgba(226,60,65,.02)",border:"1px solid rgba(226,60,65,.04)"}}>
               <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:28,width:"auto",maxWidth:90,objectFit:"contain",opacity:.6}}/>
             </div>
