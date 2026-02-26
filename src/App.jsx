@@ -5,6 +5,8 @@ const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a
 export default function App() {
   const [scrolled,setScrolled] = useState(false);
   const [activeSrv,setActiveSrv] = useState(0);
+  const [procOpen,setProcOpen] = useState(false);
+  const [hovNode,setHovNode] = useState(null);
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
   const [mobileMenu,setMobileMenu] = useState(false);
@@ -16,9 +18,6 @@ export default function App() {
   const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
   const [chatInput,setChatInput] = useState("");
   const [chatLoading,setChatLoading] = useState(false);
-  const [activeCase,setActiveCase] = useState(0);
-  const [retainedOpen,setRetainedOpen] = useState(null);
-  const [hovProc,setHovProc] = useState(null);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
@@ -107,61 +106,6 @@ export default function App() {
     {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer",d:"Finding technical leaders who can sell, manage, and deliver complex engineering programs."},
   ];
 
-  const cases = [
-    {
-      id:"01",
-      ind:"Ingredients Manufacturing",
-      rev:"$500M+ Revenue",
-      role:"VP Operations",
-      focus:"Quality · Capital Projects · Automation",
-      days:"120",
-      status:"1.5+ years and thriving",
-      challenge:"A global ingredients manufacturer needed a VP Operations to lead quality transformation and oversee a major capital equipment and automation program. The market was tight — qualified candidates with both the technical depth and the leadership maturity to manage enterprise-scale capex were scarce.",
-      outcome:"Placed within 120 days in a difficult market. The hire has exceeded capital project timelines, navigated real-time budget constraints driven by macroeconomic volatility, identified alternate suppliers across multiple business lines, and resolved a series of global supply chain disruptions through hands-on operational attention. Still in role after 1.5 years."
-    },
-    {
-      id:"02",
-      ind:"Chemical Manufacturing",
-      rev:"$1B+ Revenue",
-      role:"EHS Leader",
-      focus:"Safety Transformation · Cultural Change",
-      days:"Confidential",
-      status:"In role and delivering results",
-      challenge:"A large-scale chemical manufacturer with a historically reactive safety culture needed an EHS leader capable of building proactive safety systems from the ground up. The role required relocating a candidate across the country to a specialized facility where stakeholder buy-in was critical.",
-      outcome:"Successfully relocated a candidate cross-country into a high-impact role. The hire has earned organizational buy-in, implemented new proactive safety procedures, and is delivering measurable improvements. Continuous improvement initiatives are now being adopted across the enterprise."
-    },
-    {
-      id:"03",
-      ind:"Industrial Manufacturing",
-      rev:"Mid-Market · Global",
-      role:"U.S. Manufacturing Leader, Americas",
-      focus:"Succession Planning · Multi-Site Operations",
-      days:"Planned transition",
-      status:"~2 years in role, fully transitioned",
-      challenge:"A mid-sized industrial manufacturer serving automotive, construction equipment, and general industrial markets needed to plan succession for their Americas manufacturing leader approaching retirement. The 12–18 month transition demanded a candidate with engineering depth, strategic vision, and the ability to manage a complex multi-site network.",
-      outcome:"Identified an operations leader with a strong engineering pedigree and the strategic range to lead across a complex manufacturing network. The predecessor has since retired, and the hire has fully stepped into the role — now nearly two years in and performing at the level the organization envisioned."
-    },
-    {
-      id:"04",
-      ind:"Specialty Chemicals",
-      rev:"$1B+ Revenue · Global",
-      role:"Head of Product Stewardship, North America",
-      focus:"Technical Leadership · Generational Transition",
-      days:"Confidential",
-      status:"In role and scaling",
-      challenge:"A global specialty chemical company producing highly engineered, client-specific products needed to transition technical leadership to a new generation. The role — Head of Product Stewardship for North America — required a rare combination: deep formulation knowledge, client-facing credibility, and cultural fit with a particular engineering leadership style.",
-      outcome:"Found the needle in the haystack. The hire brought the technical specificity the organization required, earned trust with the existing engineering leadership, and has successfully scaled into an enterprise-level product stewardship role covering all of North America."
-    }
-  ];
-
-  const retainedFAQ = [
-    {q:"What is retained executive search?",a:"Retained search means we work exclusively on your behalf, on a dedicated basis, for a fixed fee agreed upfront. Unlike contingency firms — who only get paid if they place someone and often work multiple searches simultaneously — a retained firm invests fully in understanding your business, culture, and the competitive landscape before a single candidate is contacted."},
-    {q:"Why does retained search cost more?",a:"Because you're paying for depth, not speed. A retained firm conducts proprietary research, maps the full market of qualified candidates (not just those in a database), personally vets every individual, and manages the entire process through offer and onboarding. You're buying a strategic partner, not a resume service."},
-    {q:"When should a company use retained vs. contingency?",a:"Retained search is the right model when the hire is critical — VP and above, roles requiring confidentiality, positions where the wrong hire has a six- or seven-figure cost of failure, or situations where the best candidates are not actively looking. If you can fill the role from a job board, you probably don't need us."},
-    {q:"How long does a retained search take?",a:"Most searches are completed within 60–120 days, depending on complexity. Some factors that extend timelines: highly specialized technical requirements, geographic constraints, confidential replacements, or niche industries where the candidate universe is small."},
-    {q:"What happens if the hire doesn't work out?",a:"Every Bound Search Partners engagement includes a guarantee period. If a placed candidate leaves or is terminated within the guarantee window, we re-open the search at no additional professional fee. We stand behind our placements because our retention rates — 92% at year one — reflect the rigor of our process."},
-  ];
-
   const go = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
 
   // Philly skyline SVG component for footer
@@ -233,6 +177,7 @@ export default function App() {
           #mstats-bottom{display:block!important}
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
+          #mproc{grid-template-columns:repeat(2,1fr)!important}
           #mtabs{flex-direction:row!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
           #mtabs button{flex:none!important;padding:12px 16px!important;font-size:11px!important;white-space:nowrap!important}
           #mtabs button span:first-child{display:none!important}
@@ -249,13 +194,12 @@ export default function App() {
           #mfr1,#mfr2{grid-template-columns:1fr!important}
           #mfootbot{flex-direction:column-reverse!important;align-items:center!important;text-align:center!important}
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
-          #mcasedetail{grid-template-columns:1fr!important}
-          #mretained{grid-template-columns:1fr!important}
         }
         @media(max-width:480px){
           #vid1,#vid2{object-fit:cover!important;object-position:center 15%!important;height:160%!important;top:-15%!important}
           #mstats-top{display:none!important}
           #mstats-bottom{display:block!important}
+          #mproc{grid-template-columns:1fr!important}
         }
 
       `}</style>
@@ -272,7 +216,7 @@ export default function App() {
               <div style={{width:24,height:2,background:mobileMenu?C.r:C.w,transform:mobileMenu?"rotate(-45deg) translateY(-7px)":"none",transition:"all .3s"}}/>
             </div>
             <div className="mnav" style={{display:"flex",alignItems:"center",gap:"2.5rem"}}>
-            {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact",""]].map(([id,label]) => (
+            {[["home","Home"],["about","About"],["services","Services"],["contact",""]].map(([id,label]) => (
               <span key={id} onClick={() => go(id)} className={id!=="contact"?"navlink":""} style={{fontSize:12,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",...(id==="contact"?{padding:"8px 24px",background:C.r,color:C.w,transition:"all .3s"}:{color:C.gl})}} onMouseEnter={id==="contact"?e=>{e.target.style.background="#c8333a";e.target.style.transform="translateY(-1px)"}:undefined} onMouseLeave={id==="contact"?e=>{e.target.style.background=C.r;e.target.style.transform="translateY(0)"}:undefined}>{id==="contact"?"Start a Search":label}</span>
             ))}
           </div>
@@ -280,7 +224,7 @@ export default function App() {
       </nav>
 
       {mobileMenu && <div style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",background:"rgba(14,11,36,.98)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:32}} onClick={() => setMobileMenu(false)}>
-        {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact","Start a Search"]].map(([id,label]) => (
+        {[["home","Home"],["about","About"],["services","Services"],["contact","Start a Search"]].map(([id,label]) => (
           <span key={id} onClick={() => {go(id);setMobileMenu(false)}} style={{fontSize:id==="contact"?16:24,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",color:id==="contact"?C.w:C.gl,...(id==="contact"?{padding:"14px 40px",background:C.r}:{})}}>{label}</span>
         ))}
       </div>}
@@ -320,7 +264,7 @@ export default function App() {
       {/* STATS */}
       <div id="mstats-top" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
         <div id="mstats" style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)"}}>
-          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
+          {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
             <div key={i} style={{padding:"40px 24px",textAlign:"center",borderRight:i<3?"1px solid rgba(226,60,65,.12)":"none",opacity:statsVis?1:0,transform:statsVis?"translateY(0)":"translateY(16px)",transition:`all .5s cubic-bezier(.23,1,.32,1) ${i*.1}s`}}>
               <div style={{fontSize:"clamp(2rem,3.5vw,3rem)",fontWeight:700,color:C.r,lineHeight:1,marginBottom:8}}>{n}</div>
               <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
@@ -362,36 +306,81 @@ export default function App() {
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
-          <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
+          <div id="mabout" style={{display:"grid",gridTemplateColumns:procOpen?"0fr 1fr":"1.2fr .8fr",gap:procOpen?0:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
             
-            {/* Text */}
-            <div>
+            {/* Text — fades out when open */}
+            <div style={{opacity:procOpen?0:1,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600,transform:procOpen?"translateX(-40px)":"translateX(0)"}}>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
               <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound Search Partners was founded on one principle: executive search should be personal. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound Search Partners works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
             </div>
 
-            {/* Process — clean vertical flow */}
-            <div>
-              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:32}}>Our Process</div>
-              {proc.map((step,i) => (
-                <div key={i} style={{display:"flex",gap:20,marginBottom:i<proc.length-1?0:0}} onMouseEnter={() => setHovProc(i)} onMouseLeave={() => setHovProc(null)}>
-                  {/* Vertical line + number */}
-                  <div style={{display:"flex",flexDirection:"column",alignItems:"center",flexShrink:0}}>
-                    <div style={{width:hovProc===i?40:36,height:hovProc===i?40:36,borderRadius:"50%",border:`1.5px solid ${hovProc===i?C.r:'rgba(226,60,65,.2)'}`,background:hovProc===i?"rgba(226,60,65,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:hovProc===i?C.r:C.g,flexShrink:0,transition:"all .3s cubic-bezier(.23,1,.32,1)",boxShadow:hovProc===i?"0 0 20px rgba(226,60,65,.15)":"none"}}>{step.p}</div>
-                    {i<proc.length-1 && <div style={{width:1,flex:1,background:`linear-gradient(180deg,rgba(226,60,65,${hovProc===i?.35:.2}),rgba(226,60,65,.05))`,minHeight:24,transition:"all .3s"}}/>}
-                  </div>
-                  {/* Content */}
-                  <div style={{paddingBottom:i<proc.length-1?32:0,transition:"all .3s"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-                      <h4 style={{fontSize:16,fontWeight:700,color:hovProc===i?C.w:C.gl,transition:"color .3s"}}>{step.t}</h4>
-                      <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:hovProc===i?.8:.5,transition:"opacity .3s"}}>{step.l}</span>
+            {/* The web — moves to center and grows when open */}
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:procOpen?0:32,transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+              
+              {/* Methodology header — only when open */}
+              <div style={{opacity:procOpen?1:0,maxHeight:procOpen?100:0,overflow:"hidden",transition:"all .6s ease .5s",textAlign:"center",marginBottom:procOpen?16:0}}>
+                <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:8}}>Our Methodology</div>
+                <div style={{fontSize:11,color:C.g,letterSpacing:2}}>HOVER EACH NODE TO EXPLORE</div>
+              </div>
+
+              {/* The web itself — same visual, scales up */}
+              <div style={{position:"relative",width:procOpen?"100%":"100%",maxWidth:procOpen?640:320,aspectRatio:"1",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+                {/* Orbiting rings */}
+                <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
+                <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
+                {procOpen && <div style={{position:"absolute",inset:"-5%",border:"1px dashed rgba(226,60,65,.04)",borderRadius:"50%",animation:"sp 60s linear infinite"}}/>}
+                
+                {/* Radiating lines */}
+                {[{r:-55,w:150,c:1},{r:-15,w:130,c:0},{r:35,w:160,c:1},{r:150,w:140,c:0},{r:75,w:120,c:1},{r:195,w:150,c:0}].map((l,i) => <div key={i} style={{position:"absolute",top:"50%",left:"50%",height:1,width:procOpen?l.w*1.6:l.w,transformOrigin:"0 0",transform:`rotate(${l.r}deg)`,background:`linear-gradient(90deg,${l.c?'rgba(226,60,65,.25)':'rgba(255,255,255,.12)'},transparent)`,transition:"width .8s ease"}}/>)}
+                
+                {/* Floating ambient dots */}
+                {[{t:14,l:18,s:12,c:C.r,o:.6,d:6},{t:10,l:78,s:9,c:C.w,o:.3,d:8},{t:72,l:85,s:11,c:C.r,o:.5,d:7},{t:82,l:22,s:8,c:C.w,o:.25,d:9},{t:34,l:90,s:14,c:C.r,o:.4,d:5},{t:90,l:52,s:10,c:C.w,o:.2,d:7}].map((nd,i) => <div key={i} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${nd.d}s ease ${i*.5}s infinite`}}/>)}
+                
+                {/* Extra dots when expanded */}
+                {procOpen && [{t:5,l:50,s:6,c:C.r,o:.3},{t:50,l:5,s:8,c:C.w,o:.15},{t:50,l:95,s:7,c:C.r,o:.25},{t:95,l:50,s:6,c:C.w,o:.15},{t:25,l:8,s:5,c:C.r,o:.2},{t:75,l:92,s:5,c:C.r,o:.2},{t:8,l:35,s:4,c:C.w,o:.12},{t:92,l:65,s:4,c:C.w,o:.12}].map((nd,i) => <div key={`x${i}`} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${5+i}s ease ${i*.3}s infinite`}}/>)}
+                
+                {/* Center B dot / pulse */}
+                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",background:C.r,transform:"translate(-50%,-50%)",boxShadow:`0 0 ${procOpen?'40':'30'}px rgba(226,60,65,.5)`,zIndex:3,transition:"all .5s ease"}}/>
+                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",border:"2px solid #e23c41",transform:"translate(-50%,-50%)",animation:"ep 2.5s ease infinite"}}/>
+
+                {/* 4 interactive nodes — only when open, positioned on the web */}
+                {procOpen && [{t:8,l:20,i:0},{t:8,l:80,i:1},{t:78,l:80,i:2},{t:78,l:20,i:3}].map(n => (
+                  <div key={n.i} onMouseEnter={() => setHovNode(n.i)} onMouseLeave={() => setHovNode(null)}
+                    style={{position:"absolute",top:`${n.t}%`,left:`${n.l}%`,transform:"translate(-50%,-50%)",zIndex:4,cursor:"default",textAlign:"center",animation:`nodeIn .6s cubic-bezier(.23,1,.32,1) ${.5+n.i*.12}s both`}}>
+                    <div style={{width:hovNode===n.i?48:36,height:hovNode===n.i?48:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.3))`,boxShadow:`0 0 ${hovNode===n.i?'40':'16'}px rgba(226,60,65,${hovNode===n.i?.5:.2})`,margin:"0 auto",transition:"all .3s",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      {[<svg key="ic0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
+                        <svg key="ic1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+                        <svg key="ic2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+                        <svg key="ic3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>][n.i]}
                     </div>
-                    <p style={{fontSize:14,color:C.gl,lineHeight:1.7,opacity:hovProc===i?1:.7,transition:"opacity .3s"}}>{step.d}</p>
+                    <div style={{marginTop:10,fontSize:15,fontWeight:700,color:hovNode===n.i?C.w:C.gl,transition:"color .3s",whiteSpace:"nowrap"}}>{proc[n.i].t}</div>
+                    {/* Description tooltip */}
+                    <div style={{maxHeight:hovNode===n.i?400:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",width:280}}>
+                      <p style={{fontSize:15,color:C.gl,lineHeight:1.8,marginTop:8}}>{proc[n.i].d}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+
+                {/* Connection lines to nodes when open */}
+                {procOpen && <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1}} viewBox="0 0 100 100">
+                  {[[50,50,20,8],[50,50,80,8],[50,50,80,78],[50,50,20,78]].map(([x1,y1,x2,y2],i) => (
+                    <line key={`nl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth={hovNode===i?".8":".3"} opacity={hovNode===i?".3":".1"} style={{transition:"all .3s"}}/>
+                  ))}
+                  {/* Node to node */}
+                  {[[20,8,80,8],[80,8,80,78],[80,78,20,78],[20,78,20,8]].map(([x1,y1,x2,y2],i) => (
+                    <line key={`nnl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".2" opacity=".06" strokeDasharray="2 3"/>
+                  ))}
+                </svg>}
+              </div>
+
+              {/* Button */}
+              <div style={{marginTop:procOpen?20:0,transition:"margin .5s ease"}}>
+                <button onClick={() => setProcOpen(!procOpen)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 40px",background:procOpen?C.r:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:14,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s",maxWidth:340,width:"100%",justifyContent:"center"}}>
+                  <span>{procOpen?"←":"—"}</span><span>{procOpen?"Back to The Firm":"Explore Our Process"}</span>{!procOpen && <span>→</span>}
+                </button>
+              </div>
             </div>
 
           </div>
@@ -463,72 +452,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
-
-      {/* CASE STUDIES */}
-      <section id="results" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Placement Outcomes</div>
-          <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:56}}>Real searches.<br/>Measurable results.</h2>
-          
-          {/* Case selector tabs */}
-          <div style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
-            {cases.map((c,i) => (
-              <button key={i} onClick={() => setActiveCase(i)} style={{flex:activeCase===i?"2.5 1 0%":"1 1 0%",padding:"16px 20px",background:activeCase===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeCase===i?`3px solid ${C.r}`:"3px solid transparent",color:activeCase===i?C.w:C.g,fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
-                <span style={{opacity:.2,fontSize:20,fontWeight:700,color:C.r,display:"block",marginBottom:2}}>{c.id}</span>
-                <span style={{whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",display:"block"}}>{activeCase===i?c.role:c.ind}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Active case detail */}
-          <div style={{padding:"clamp(2rem,4vw,3.5rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`}}>
-            <div style={{display:"grid",gridTemplateColumns:"1fr",gap:32}}>
-              {/* Header row */}
-              <div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:"8px 24px",marginBottom:20}}>
-                  <span style={{fontSize:11,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",color:C.r,padding:"4px 12px",background:"rgba(226,60,65,.08)"}}>{cases[activeCase].ind}</span>
-                  <span style={{fontSize:11,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",color:C.gl,padding:"4px 12px",background:"rgba(255,255,255,.03)"}}>{cases[activeCase].rev}</span>
-                </div>
-                <h3 style={{fontSize:"clamp(1.5rem,2.5vw,2.25rem)",fontWeight:700,marginBottom:8}}>{cases[activeCase].role}</h3>
-                <div style={{fontSize:13,color:C.g,letterSpacing:".05em"}}>{cases[activeCase].focus}</div>
-              </div>
-
-              {/* Metrics row */}
-              <div style={{display:"flex",gap:48,flexWrap:"wrap",padding:"20px 0",borderTop:"1px solid rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.08)"}}>
-                <div>
-                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Time to Fill</div>
-                  <div style={{fontSize:24,fontWeight:700,color:C.r}}>{cases[activeCase].days}{cases[activeCase].days!=="Confidential"&&cases[activeCase].days!=="Planned transition"?" days":""}</div>
-                </div>
-                <div>
-                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Current Status</div>
-                  <div style={{fontSize:16,fontWeight:700,color:C.w,display:"flex",alignItems:"center",gap:8}}>
-                    <span style={{width:8,height:8,borderRadius:"50%",background:"#22c55e",flexShrink:0}}/>
-                    {cases[activeCase].status}
-                  </div>
-                </div>
-              </div>
-
-              {/* Challenge + Outcome */}
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:48}} id="mcasedetail">
-                <div>
-                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12,opacity:.7}}>The Challenge</div>
-                  <p style={{fontSize:15,color:C.gl,lineHeight:1.8}}>{cases[activeCase].challenge}</p>
-                </div>
-                <div>
-                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12,opacity:.7}}>The Outcome</div>
-                  <p style={{fontSize:15,color:C.gl,lineHeight:1.8}}>{cases[activeCase].outcome}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Disclaimer */}
-          <div style={{marginTop:16,fontSize:11,color:C.g,opacity:.5,fontStyle:"italic"}}>Client identities protected. All outcomes are real and verified.</div>
-        </div>
-      </section>
-
       {/* INDUSTRIES */}
       <section id="industries" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm,position:"relative"}}>
         <div style={{position:"absolute",inset:0,opacity:.03,backgroundImage:"radial-gradient(circle at 1px 1px, rgba(226,60,65,.4) 1px, transparent 0)",backgroundSize:"40px 40px",pointerEvents:"none"}}/>
@@ -574,61 +497,6 @@ export default function App() {
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
 
-      {/* WHY RETAINED */}
-      <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          {/* Header — full width */}
-          <div style={{maxWidth:700,marginBottom:"clamp(3rem,6vw,4rem)"}}>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Why Retained Search</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>You're hiring a <span style={{color:C.r,fontStyle:"italic"}}>partner</span>, not a vendor.</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl}}>Most manufacturers have used contingency recruiters — firms that get paid only if they place someone. It works for some roles. But for the leaders who will shape your business, the model breaks down. Retained search invests in understanding your business before a single candidate is contacted. The result: better candidates, fewer false starts, and leaders who stay.</p>
-          </div>
-
-          {/* Two columns — comparison + FAQ */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1.4fr",gap:"clamp(3rem,6vw,5rem)",alignItems:"start"}} id="mretained">
-            {/* Left — Comparison */}
-            <div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0}}>
-                <div style={{padding:24,background:"rgba(255,255,255,.02)",borderLeft:"3px solid rgba(255,255,255,.08)"}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Contingency</div>
-                  {["Race to fill","Resume volume","Paid on placement","Shared attention","Transactional"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.g,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{color:C.g,fontSize:10}}>—</span>{t}
-                    </div>
-                  ))}
-                </div>
-                <div style={{padding:24,background:"rgba(226,60,65,.04)",borderLeft:`3px solid ${C.r}`}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Retained</div>
-                  {["Research-driven","Curated shortlist","Invested from day one","Exclusive dedication","Strategic partnership"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.gl,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{color:C.r,fontSize:10}}>◆</span>{t}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            {/* Right — FAQ accordion */}
-            <div>
-              <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Common Questions</div>
-              {retainedFAQ.map((faq,i) => (
-                <div key={i} style={{borderBottom:"1px solid rgba(226,60,65,.08)"}}>
-                  <div onClick={() => setRetainedOpen(retainedOpen===i?null:i)} style={{padding:"18px 0",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16}}>
-                    <span style={{fontSize:15,fontWeight:700,color:retainedOpen===i?C.w:C.gl,transition:"color .3s"}}>{faq.q}</span>
-                    <span style={{fontSize:18,color:retainedOpen===i?C.r:C.g,transition:"all .3s",transform:retainedOpen===i?"rotate(45deg)":"rotate(0deg)",flexShrink:0}}>+</span>
-                  </div>
-                  <div style={{maxHeight:retainedOpen===i?500:0,overflow:"hidden",transition:"max-height .5s cubic-bezier(.23,1,.32,1)"}}>
-                    <p style={{fontSize:14,color:C.gl,lineHeight:1.8,paddingBottom:20}}>{faq.a}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
-
       {/* BOND */}
       <section id="bond" style={{padding:"clamp(5rem,10vw,8rem) 0",background:C.n,textAlign:"center",overflow:"hidden",position:"relative"}}>
         <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:500,height:500,background:"radial-gradient(circle,rgba(226,60,65,.04),transparent 70%)",pointerEvents:"none"}}/>
@@ -660,10 +528,9 @@ export default function App() {
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Founder</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Bob Cwenar</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar has spent over a decade inside retained executive search — not as a recruiter, but as a builder. A graduate of Drexel University, he joined Armstrong Franklin as one of four employees and helped grow the firm into a recognized name in manufacturing recruitment.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>When Armstrong Franklin merged with GattiHR and was subsequently acquired by Kingsley Gate Partners — a global search firm — Bob led national-scale engagements for clients ranging from founder-led startups to enterprises exceeding $10 billion in revenue. He's seen how search works at every level of scale.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>He founded Bound Search Partners because the best search work happens when one senior professional owns the relationship end-to-end — from intake to onboarding. No handoffs. No junior associates running your search. Every conversation, every assessment, every recommendation comes directly from the person whose name is on the engagement.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl}}>200+ placements. 92% retained at year one. That's the track record behind every search Bound takes on.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar brings over a decade of retained executive search experience to every engagement. A graduate of Drexel University, he began his career with Armstrong Franklin, growing the practice from a four-person startup into a recognized name in the industry.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Through a merger with GattiHR and subsequent acquisition by Kingsley Gate Partners, Bob led national searches for clients ranging from agile startups to enterprises exceeding $10 billion in revenue.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl}}>Today, Bob leads Bound Search Partners with a clear mandate: deliver an executive search experience defined by rigor, precision, and trust.</p>
           </div>
           <div><img src="./headshot.jpg" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",borderRadius:2,display:"block"}}/></div>
         </div>
@@ -672,7 +539,7 @@ export default function App() {
       {/* MOBILE STATS - after bio */}
       <div id="mstats-bottom" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)",width:"100%"}}>
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",width:"100%"}}>
-          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
+          {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
             <div key={i} style={{padding:"24px 16px",textAlign:"center",borderRight:i%2===0?"1px solid rgba(226,60,65,.12)":"none",borderBottom:i<2?"1px solid rgba(226,60,65,.12)":"none"}}>
               <div style={{fontSize:28,fontWeight:700,color:C.r,lineHeight:1,marginBottom:6}}>{n}</div>
               <div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
@@ -748,7 +615,7 @@ export default function App() {
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <svg width="220" height="36" viewBox="0 0 340 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Aptos,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Aptos,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
-            <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
+            <div style={{display:"flex",gap:32}}>{["Home","About","Services","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
           </div>
 
           {/* Divider line */}
@@ -757,7 +624,7 @@ export default function App() {
           {/* Bottom row: copyright left, skyline right */}
           <div id="mfootbot" style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <div>
-              <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2025 Bound Search Partners LLC. All rights reserved.</div>
+              <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2024 Bound Search Partners LLC. All rights reserved.</div>
               <div style={{fontSize:11,color:C.g,opacity:.6,marginBottom:4}}>Made with love in the City of Brotherly Love.</div>
               <div style={{fontSize:10,color:C.g,opacity:.4}}>Website designed and built by Bob Cwenar & Claude by Anthropic.</div>
             </div>

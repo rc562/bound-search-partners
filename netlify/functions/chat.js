@@ -35,10 +35,10 @@ exports.handler = async (event) => {
 
 Key facts about the firm:
 - Retained search model only (not contingent)
-- Personally led by founder Bob Cwenar — over a decade of retained executive search experience
-- Bob has personally led 200+ executive placements across his career (Armstrong Franklin → GattiHR → Kingsley Gate Partners → Bound Search Partners), with a 92% year-one retention rate, serving 50+ client organizations
+- Personally led by founder Bob Cwenar — over a decade of experience
 - Serves manufacturing, supply chain, building products, food & beverage, chemicals, packaging, private equity portfolio companies, industrial equipment, real estate development, and engineering services
 - Services: Retained Executive Search, Operational Leadership, Leadership Assessment, Market Intelligence, Confidential Searches
+- 200+ executive placements, 92% year-one retention rate, 50+ client organizations
 - Uses AI tools for market mapping combined with personal human vetting of every candidate
 - Phone: (267) 265-1792 | Email: bob@boundsearch.com | Website: boundsearch.com
 - Based in Philadelphia, serving manufacturers nationwide
