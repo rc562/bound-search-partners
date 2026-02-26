@@ -219,6 +219,8 @@ export default function App() {
         @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+        .srv-tabs::-webkit-scrollbar{display:none}
+        @media(min-width:769px){.srv-tabs{justify-content:center!important}}
         #mcloud{display:none}
         #mstats-bottom{display:none}
         #mlogos{display:none}
@@ -404,10 +406,10 @@ export default function App() {
           </div>
 
           {/* Navigation pills */}
-          <div style={{display:"flex",justifyContent:"center",gap:0,marginBottom:"clamp(3rem,6vw,5rem)",borderBottom:"1px solid rgba(226,60,65,.12)"}}>
+          <div style={{display:"flex",justifyContent:"flex-start",gap:0,marginBottom:"clamp(3rem,6vw,5rem)",borderBottom:"1px solid rgba(226,60,65,.12)",overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none",msOverflowStyle:"none"}} className="srv-tabs">
             {srvs.map((s,i)=>(
               <button key={i} onClick={()=>setActiveSrv(i)}
-                style={{padding:"14px 24px",background:"none",border:"none",borderBottom:activeSrv===i?`2px solid ${C.r}`:"2px solid transparent",color:activeSrv===i?C.w:C.g,fontSize:13,fontWeight:activeSrv===i?700:500,letterSpacing:".02em",cursor:"pointer",transition:"all .3s",marginBottom:-1}}
+                style={{padding:"14px 20px",background:"none",border:"none",borderBottom:activeSrv===i?`2px solid ${C.r}`:"2px solid transparent",color:activeSrv===i?C.w:C.g,fontSize:13,fontWeight:activeSrv===i?700:500,letterSpacing:".02em",cursor:"pointer",transition:"all .3s",marginBottom:-1,whiteSpace:"nowrap",flexShrink:0}}
                 onMouseEnter={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.gl}}
                 onMouseLeave={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.g}}
               >{s.t.split(" ").length>2?s.t.split(" ").slice(0,2).join(" "):s.t}</button>
