@@ -396,80 +396,76 @@ export default function App() {
 
       {/* SERVICES */}
       <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0",overflow:"hidden"}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          {/* Section header */}
-          <div style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)"}}>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Services</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16,marginBottom:16}}>Search. Advisory. Intelligence.</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,maxWidth:600,margin:"0 auto"}}>Every engagement is scoped to what the hire demands — not a one-size-fits-all package.</p>
+        <div style={{maxWidth:900,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+          {/* Section label */}
+          <div style={{textAlign:"center",marginBottom:"clamp(2.5rem,5vw,4rem)"}}>
+            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
+            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em"}}>Search. Advisory. Intelligence.</h2>
           </div>
 
           {/* Navigation pills */}
-          <div style={{display:"flex",justifyContent:"center",gap:6,marginBottom:"clamp(2.5rem,5vw,4rem)",flexWrap:"wrap"}}>
+          <div style={{display:"flex",justifyContent:"center",gap:0,marginBottom:"clamp(3rem,6vw,5rem)",borderBottom:"1px solid rgba(226,60,65,.12)"}}>
             {srvs.map((s,i)=>(
               <button key={i} onClick={()=>setActiveSrv(i)}
-                style={{padding:"10px 20px",background:activeSrv===i?C.r:"rgba(226,60,65,.08)",border:"none",color:activeSrv===i?C.w:C.gl,fontSize:13,fontWeight:600,letterSpacing:".03em",cursor:"pointer",transition:"all .35s cubic-bezier(.23,1,.32,1)",borderRadius:0,opacity:activeSrv===i?1:.7}}
-                onMouseEnter={e=>{if(activeSrv!==i){e.currentTarget.style.background="rgba(226,60,65,.15)";e.currentTarget.style.opacity="1"}}}
-                onMouseLeave={e=>{if(activeSrv!==i){e.currentTarget.style.background="rgba(226,60,65,.08)";e.currentTarget.style.opacity=".7"}}}
-              >{s.t.split(" ").slice(0,2).join(" ")}</button>
+                style={{padding:"14px 24px",background:"none",border:"none",borderBottom:activeSrv===i?`2px solid ${C.r}`:"2px solid transparent",color:activeSrv===i?C.w:C.g,fontSize:13,fontWeight:activeSrv===i?700:500,letterSpacing:".02em",cursor:"pointer",transition:"all .3s",marginBottom:-1}}
+                onMouseEnter={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.gl}}
+                onMouseLeave={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.g}}
+              >{s.t.split(" ").length>2?s.t.split(" ").slice(0,2).join(" "):s.t}</button>
             ))}
           </div>
 
-          {/* Active service display */}
-          <div style={{position:"relative",minHeight:280}}>
+          {/* Active service — single centered column */}
+          <div style={{position:"relative",minHeight:260}}>
             {srvs.map((s,i)=>(
               <div key={i} style={{
                 position:i===activeSrv?"relative":"absolute",
                 top:0,left:0,right:0,
                 opacity:activeSrv===i?1:0,
-                transform:activeSrv===i?"translateY(0)":"translateY(24px)",
-                transition:"all .5s cubic-bezier(.23,1,.32,1)",
+                transform:activeSrv===i?"none":"translateY(16px)",
+                transition:"opacity .4s ease, transform .4s ease",
                 pointerEvents:activeSrv===i?"auto":"none",
-                display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,5rem)",alignItems:"center"
+                textAlign:"center"
               }}>
-                {/* Left — big title + number */}
-                <div>
-                  <div style={{fontSize:"clamp(4rem,10vw,7rem)",fontWeight:700,color:"rgba(226,60,65,.08)",lineHeight:1,letterSpacing:"-.04em",marginBottom:"-0.15em",fontFamily:"Arial,sans-serif"}}>{String(i+1).padStart(2,"0")}</div>
-                  <h3 style={{fontSize:"clamp(1.8rem,3.5vw,2.5rem)",fontWeight:700,color:C.w,lineHeight:1.15,letterSpacing:"-.02em",marginBottom:20}}>{s.t}</h3>
-                  <div style={{width:48,height:3,background:C.r,marginBottom:24}}/>
-                  <p style={{fontSize:"clamp(.95rem,1.2vw,1.1rem)",lineHeight:1.85,color:C.gl,maxWidth:480}}>{s.d}</p>
-                </div>
-                {/* Right — role tags + CTA */}
-                <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start",gap:32}}>
-                  <div style={{display:"flex",flexWrap:"wrap",gap:10}}>
-                    {s.r.split(" · ").map((role,ri)=>(
-                      <span key={ri} style={{padding:"10px 20px",border:"1px solid rgba(226,60,65,.2)",color:C.gl,fontSize:13,fontWeight:500,letterSpacing:".02em",transition:"all .3s"}}
-                        onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.08)"}}
-                        onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.gl;e.currentTarget.style.background="transparent"}}
-                      >{role}</span>
-                    ))}
-                  </div>
-                  <span onClick={()=>go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
-                    onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}}
-                    onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}
-                  >Start a Conversation →</span>
+                <h3 style={{fontSize:"clamp(1.6rem,3vw,2.2rem)",fontWeight:700,color:C.w,lineHeight:1.2,letterSpacing:"-.015em",marginBottom:12}}>{s.t}</h3>
+                <div style={{width:40,height:3,background:C.r,margin:"0 auto 28px"}}/>
+                <p style={{fontSize:"clamp(1rem,1.3vw,1.1rem)",lineHeight:1.9,color:C.gl,maxWidth:640,margin:"0 auto 36px"}}>{s.d}</p>
+                <div style={{display:"flex",flexWrap:"wrap",justifyContent:"center",gap:10}}>
+                  {s.r.split(" · ").map((role,ri)=>(
+                    <span key={ri} style={{padding:"8px 18px",border:"1px solid rgba(226,60,65,.18)",color:C.g,fontSize:12,fontWeight:500,letterSpacing:".03em",transition:"all .3s"}}
+                      onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
+                      onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.18)";e.currentTarget.style.color=C.g}}
+                    >{role}</span>
+                  ))}
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Prev/Next arrows */}
-          <div style={{display:"flex",justifyContent:"center",gap:16,marginTop:"clamp(2rem,4vw,3rem)"}}>
-            <button onClick={()=>setActiveSrv(p=>(p-1+srvs.length)%srvs.length)}
-              style={{width:48,height:48,border:`1px solid rgba(226,60,65,.25)`,background:"transparent",color:C.gl,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.1)"}}
-              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.25)";e.currentTarget.style.color=C.gl;e.currentTarget.style.background="transparent"}}
+          {/* Bottom nav: arrows + dots */}
+          <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:20,marginTop:"clamp(2.5rem,5vw,4rem)"}}>
+            <button onClick={()=>setActiveSrv(p=>(p-1+srvs.length)%srvs.length)} aria-label="Previous service"
+              style={{width:40,height:40,border:"1px solid rgba(226,60,65,.2)",background:"none",color:C.g,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
+              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
+              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.g}}
             >{"\u2190"}</button>
             <div style={{display:"flex",alignItems:"center",gap:8}}>
               {srvs.map((_,i)=>(
-                <div key={i} onClick={()=>setActiveSrv(i)} style={{width:activeSrv===i?24:8,height:8,background:activeSrv===i?C.r:"rgba(226,60,65,.2)",transition:"all .35s cubic-bezier(.23,1,.32,1)",cursor:"pointer"}}/>
+                <div key={i} onClick={()=>setActiveSrv(i)} style={{width:activeSrv===i?24:8,height:6,background:activeSrv===i?C.r:"rgba(226,60,65,.15)",transition:"all .35s cubic-bezier(.23,1,.32,1)",cursor:"pointer"}}/>
               ))}
             </div>
-            <button onClick={()=>setActiveSrv(p=>(p+1)%srvs.length)}
-              style={{width:48,height:48,border:`1px solid rgba(226,60,65,.25)`,background:"transparent",color:C.gl,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.1)"}}
-              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.25)";e.currentTarget.style.color=C.gl;e.currentTarget.style.background="transparent"}}
+            <button onClick={()=>setActiveSrv(p=>(p+1)%srvs.length)} aria-label="Next service"
+              style={{width:40,height:40,border:"1px solid rgba(226,60,65,.2)",background:"none",color:C.g,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
+              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
+              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.g}}
             >{"\u2192"}</button>
+          </div>
+
+          {/* Single CTA below everything */}
+          <div style={{textAlign:"center",marginTop:"clamp(2.5rem,5vw,4rem)"}}>
+            <span onClick={()=>go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
+              onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}}
+              onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}
+            >Discuss Your Search →</span>
           </div>
         </div>
       </section>
