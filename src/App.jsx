@@ -22,16 +22,24 @@ export default function App() {
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
+    const vids = ["vid1","vid2","vid3"];
     let current = 0;
-    const swap = () => {
-      const all = [document.getElementById("vid1"),document.getElementById("vid2"),document.getElementById("vid3")];
-      if (!all[0] || !all[1] || !all[2]) return;
+    const playNext = () => {
+      const cur = document.getElementById(vids[current]);
+      if (cur) { cur.style.opacity = "0"; }
       current = (current + 1) % 3;
-      all.forEach((v,i) => { v.style.opacity = i === current ? "1" : "0"; });
+      const next = document.getElementById(vids[current]);
+      if (next) { next.currentTime = 0; next.style.opacity = "1"; next.play(); }
     };
-    const id = setInterval(swap, 10000);
+    // Attach ended listener to each video
+    setTimeout(() => {
+      vids.forEach(id => {
+        const v = document.getElementById(id);
+        if (v) v.addEventListener("ended", playNext);
+      });
+    }, 100);
     window.addEventListener("scroll",h);
-    return () => { clearInterval(id); window.removeEventListener("scroll",h); };
+    return () => window.removeEventListener("scroll",h);
   }, []);
 
   useEffect(() => {
@@ -284,22 +292,12 @@ export default function App() {
         ))}
       </div>}
 
-      {/* HERO — Video placeholder (both videos will alternate on deploy) */}
+      {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
-        {/* VIDEO PLACEHOLDER — on deploy, this becomes:
-            <video id="vid1" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%">
-              <source src="video1.mp4" type="video/mp4">
-            </video>
-            <video id="vid2" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:0">
-              <source src="video2.mp4" type="video/mp4">
-            </video>
-            JS crossfades opacity between them every 10s
-        */}
         <div style={{position:"absolute",inset:0,zIndex:0}}>
-          <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:1,transition:"opacity 2.5s ease"}}><source src="./video1.mp4" type="video/mp4"/></video>
-          <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
-          <video id="vid3" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2.5s ease"}}><source src="./video3.mp4" type="video/mp4"/></video>
-
+          <video id="vid1" autoPlay muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",transition:"opacity .5s ease"}}><source src="./video1.mp4" type="video/mp4"/></video>
+          <video id="vid2" muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity .5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
+          <video id="vid3" muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity .5s ease"}}><source src="./video3.mp4" type="video/mp4"/></video>
         </div>
         {/* Dark overlay */}
         <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,rgba(14,11,36,.4) 0%,rgba(14,11,36,.15) 30%,rgba(14,11,36,.7) 75%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.8) 0%,transparent 55%)`}} />
