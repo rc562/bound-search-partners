@@ -577,27 +577,30 @@ export default function App() {
       {/* WHY RETAINED */}
       <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"start"}} id="mretained">
-            {/* Left — sticky explanation */}
+          {/* Header — full width */}
+          <div style={{maxWidth:700,marginBottom:"clamp(3rem,6vw,4rem)"}}>
+            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Why Retained Search</div>
+            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>You're hiring a <span style={{color:C.r,fontStyle:"italic"}}>partner</span>, not a vendor.</h2>
+            <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl}}>Most manufacturers have used contingency recruiters — firms that get paid only if they place someone. It works for some roles. But for the leaders who will shape your business, the model breaks down. Retained search invests in understanding your business before a single candidate is contacted. The result: better candidates, fewer false starts, and leaders who stay.</p>
+          </div>
+
+          {/* Two columns — comparison + FAQ */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1.4fr",gap:"clamp(3rem,6vw,5rem)",alignItems:"start"}} id="mretained">
+            {/* Left — Comparison */}
             <div>
-              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Why Retained Search</div>
-              <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>You're hiring a <span style={{color:C.r,fontStyle:"italic"}}>partner</span>, not a vendor.</h2>
-              <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:24}}>Most manufacturers have used contingency recruiters — firms that get paid only if they place someone. It works for some roles. But for the leaders who will shape your business, the model breaks down.</p>
-              <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:24}}>Retained search invests in understanding your business before a single candidate is contacted. The result: better candidates, fewer false starts, and leaders who stay.</p>
-              {/* Comparison */}
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0,marginTop:32}}>
-                <div style={{padding:20,background:"rgba(255,255,255,.02)",borderLeft:"3px solid rgba(255,255,255,.08)"}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:12}}>Contingency</div>
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0}}>
+                <div style={{padding:24,background:"rgba(255,255,255,.02)",borderLeft:"3px solid rgba(255,255,255,.08)"}}>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Contingency</div>
                   {["Race to fill","Resume volume","Paid on placement","Shared attention","Transactional"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.g,padding:"6px 0",display:"flex",alignItems:"center",gap:8}}>
+                    <div key={i} style={{fontSize:13,color:C.g,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
                       <span style={{color:C.g,fontSize:10}}>—</span>{t}
                     </div>
                   ))}
                 </div>
-                <div style={{padding:20,background:"rgba(226,60,65,.04)",borderLeft:`3px solid ${C.r}`}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Retained</div>
+                <div style={{padding:24,background:"rgba(226,60,65,.04)",borderLeft:`3px solid ${C.r}`}}>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Retained</div>
                   {["Research-driven","Curated shortlist","Invested from day one","Exclusive dedication","Strategic partnership"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.gl,padding:"6px 0",display:"flex",alignItems:"center",gap:8}}>
+                    <div key={i} style={{fontSize:13,color:C.gl,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
                       <span style={{color:C.r,fontSize:10}}>◆</span>{t}
                     </div>
                   ))}
@@ -606,15 +609,15 @@ export default function App() {
             </div>
             {/* Right — FAQ accordion */}
             <div>
-              <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:24}}>Common Questions</div>
+              <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Common Questions</div>
               {retainedFAQ.map((faq,i) => (
                 <div key={i} style={{borderBottom:"1px solid rgba(226,60,65,.08)"}}>
-                  <div onClick={() => setRetainedOpen(retainedOpen===i?null:i)} style={{padding:"20px 0",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16}}>
-                    <span style={{fontSize:16,fontWeight:700,color:retainedOpen===i?C.w:C.gl,transition:"color .3s"}}>{faq.q}</span>
+                  <div onClick={() => setRetainedOpen(retainedOpen===i?null:i)} style={{padding:"18px 0",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16}}>
+                    <span style={{fontSize:15,fontWeight:700,color:retainedOpen===i?C.w:C.gl,transition:"color .3s"}}>{faq.q}</span>
                     <span style={{fontSize:18,color:retainedOpen===i?C.r:C.g,transition:"all .3s",transform:retainedOpen===i?"rotate(45deg)":"rotate(0deg)",flexShrink:0}}>+</span>
                   </div>
                   <div style={{maxHeight:retainedOpen===i?500:0,overflow:"hidden",transition:"max-height .5s cubic-bezier(.23,1,.32,1)"}}>
-                    <p style={{fontSize:15,color:C.gl,lineHeight:1.8,paddingBottom:20}}>{faq.a}</p>
+                    <p style={{fontSize:14,color:C.gl,lineHeight:1.8,paddingBottom:20}}>{faq.a}</p>
                   </div>
                 </div>
               ))}
