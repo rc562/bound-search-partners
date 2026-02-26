@@ -18,6 +18,8 @@ export default function App() {
   const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
   const [chatInput,setChatInput] = useState("");
   const [chatLoading,setChatLoading] = useState(false);
+  const [activeCase,setActiveCase] = useState(0);
+  const [retainedOpen,setRetainedOpen] = useState(null);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
@@ -104,6 +106,61 @@ export default function App() {
     {n:"Industrial Equipment",s:"Capital Goods",r:"VP Engineering · Director Product Mgmt · GM Aftermarket",d:"Aftermarket, service, and OEM — we understand what drives margin in capital goods."},
     {n:"Real Estate",s:"Development & Construction",r:"VP Development · Director Construction · Head of Acquisitions",d:"Ground-up development to asset management. We place leaders across the project lifecycle."},
     {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer",d:"Finding technical leaders who can sell, manage, and deliver complex engineering programs."},
+  ];
+
+  const cases = [
+    {
+      id:"01",
+      ind:"Ingredients Manufacturing",
+      rev:"$500M+ Revenue",
+      role:"VP Operations",
+      focus:"Quality · Capital Projects · Automation",
+      days:"120",
+      status:"1.5+ years and thriving",
+      challenge:"A global ingredients manufacturer needed a VP Operations to lead quality transformation and oversee a major capital equipment and automation program. The market was tight — qualified candidates with both the technical depth and the leadership maturity to manage enterprise-scale capex were scarce.",
+      outcome:"Placed within 120 days in a difficult market. The hire has exceeded capital project timelines, navigated real-time budget constraints driven by macroeconomic volatility, identified alternate suppliers across multiple business lines, and resolved a series of global supply chain disruptions through hands-on operational attention. Still in role after 1.5 years."
+    },
+    {
+      id:"02",
+      ind:"Chemical Manufacturing",
+      rev:"$1B+ Revenue",
+      role:"EHS Leader",
+      focus:"Safety Transformation · Cultural Change",
+      days:"Confidential",
+      status:"In role and delivering results",
+      challenge:"A large-scale chemical manufacturer with a historically reactive safety culture needed an EHS leader capable of building proactive safety systems from the ground up. The role required relocating a candidate across the country to a specialized facility where stakeholder buy-in was critical.",
+      outcome:"Successfully relocated a candidate cross-country into a high-impact role. The hire has earned organizational buy-in, implemented new proactive safety procedures, and is delivering measurable improvements. Continuous improvement initiatives are now being adopted across the enterprise."
+    },
+    {
+      id:"03",
+      ind:"Industrial Manufacturing",
+      rev:"Mid-Market · Global",
+      role:"U.S. Manufacturing Leader, Americas",
+      focus:"Succession Planning · Multi-Site Operations",
+      days:"Planned transition",
+      status:"~2 years in role, fully transitioned",
+      challenge:"A mid-sized industrial manufacturer serving automotive, construction equipment, and general industrial markets needed to plan succession for their Americas manufacturing leader approaching retirement. The 12–18 month transition demanded a candidate with engineering depth, strategic vision, and the ability to manage a complex multi-site network.",
+      outcome:"Identified an operations leader with a strong engineering pedigree and the strategic range to lead across a complex manufacturing network. The predecessor has since retired, and the hire has fully stepped into the role — now nearly two years in and performing at the level the organization envisioned."
+    },
+    {
+      id:"04",
+      ind:"Specialty Chemicals",
+      rev:"$1B+ Revenue · Global",
+      role:"Head of Product Stewardship, North America",
+      focus:"Technical Leadership · Generational Transition",
+      days:"Confidential",
+      status:"In role and scaling",
+      challenge:"A global specialty chemical company producing highly engineered, client-specific products needed to transition technical leadership to a new generation. The role — Head of Product Stewardship for North America — required a rare combination: deep formulation knowledge, client-facing credibility, and cultural fit with a particular engineering leadership style.",
+      outcome:"Found the needle in the haystack. The hire brought the technical specificity the organization required, earned trust with the existing engineering leadership, and has successfully scaled into an enterprise-level product stewardship role covering all of North America."
+    }
+  ];
+
+  const retainedFAQ = [
+    {q:"What is retained executive search?",a:"Retained search means we work exclusively on your behalf, on a dedicated basis, for a fixed fee agreed upfront. Unlike contingency firms — who only get paid if they place someone and often work multiple searches simultaneously — a retained firm invests fully in understanding your business, culture, and the competitive landscape before a single candidate is contacted."},
+    {q:"Why does retained search cost more?",a:"Because you're paying for depth, not speed. A retained firm conducts proprietary research, maps the full market of qualified candidates (not just those in a database), personally vets every individual, and manages the entire process through offer and onboarding. You're buying a strategic partner, not a resume service."},
+    {q:"When should a company use retained vs. contingency?",a:"Retained search is the right model when the hire is critical — VP and above, roles requiring confidentiality, positions where the wrong hire has a six- or seven-figure cost of failure, or situations where the best candidates are not actively looking. If you can fill the role from a job board, you probably don't need us."},
+    {q:"How long does a retained search take?",a:"Most searches are completed within 60–120 days, depending on complexity. Some factors that extend timelines: highly specialized technical requirements, geographic constraints, confidential replacements, or niche industries where the candidate universe is small."},
+    {q:"What happens if the hire doesn't work out?",a:"Every Bound Search Partners engagement includes a guarantee period. If a placed candidate leaves or is terminated within the guarantee window, we re-open the search at no additional professional fee. We stand behind our placements because our retention rates — 92% at year one — reflect the rigor of our process."},
   ];
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
@@ -194,6 +251,8 @@ export default function App() {
           #mfr1,#mfr2{grid-template-columns:1fr!important}
           #mfootbot{flex-direction:column-reverse!important;align-items:center!important;text-align:center!important}
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
+          #mcasedetail{grid-template-columns:1fr!important}
+          #mretained{grid-template-columns:1fr!important}
         }
         @media(max-width:480px){
           #vid1,#vid2{object-fit:cover!important;object-position:center 15%!important;height:160%!important;top:-15%!important}
@@ -216,7 +275,7 @@ export default function App() {
               <div style={{width:24,height:2,background:mobileMenu?C.r:C.w,transform:mobileMenu?"rotate(-45deg) translateY(-7px)":"none",transition:"all .3s"}}/>
             </div>
             <div className="mnav" style={{display:"flex",alignItems:"center",gap:"2.5rem"}}>
-            {[["home","Home"],["about","About"],["services","Services"],["contact",""]].map(([id,label]) => (
+            {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact",""]].map(([id,label]) => (
               <span key={id} onClick={() => go(id)} className={id!=="contact"?"navlink":""} style={{fontSize:12,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",...(id==="contact"?{padding:"8px 24px",background:C.r,color:C.w,transition:"all .3s"}:{color:C.gl})}} onMouseEnter={id==="contact"?e=>{e.target.style.background="#c8333a";e.target.style.transform="translateY(-1px)"}:undefined} onMouseLeave={id==="contact"?e=>{e.target.style.background=C.r;e.target.style.transform="translateY(0)"}:undefined}>{id==="contact"?"Start a Search":label}</span>
             ))}
           </div>
@@ -224,7 +283,7 @@ export default function App() {
       </nav>
 
       {mobileMenu && <div style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",background:"rgba(14,11,36,.98)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:32}} onClick={() => setMobileMenu(false)}>
-        {[["home","Home"],["about","About"],["services","Services"],["contact","Start a Search"]].map(([id,label]) => (
+        {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact","Start a Search"]].map(([id,label]) => (
           <span key={id} onClick={() => {go(id);setMobileMenu(false)}} style={{fontSize:id==="contact"?16:24,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",color:id==="contact"?C.w:C.gl,...(id==="contact"?{padding:"14px 40px",background:C.r}:{})}}>{label}</span>
         ))}
       </div>}
@@ -264,7 +323,7 @@ export default function App() {
       {/* STATS */}
       <div id="mstats-top" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
         <div id="mstats" style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)"}}>
-          {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
+          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
             <div key={i} style={{padding:"40px 24px",textAlign:"center",borderRight:i<3?"1px solid rgba(226,60,65,.12)":"none",opacity:statsVis?1:0,transform:statsVis?"translateY(0)":"translateY(16px)",transition:`all .5s cubic-bezier(.23,1,.32,1) ${i*.1}s`}}>
               <div style={{fontSize:"clamp(2rem,3.5vw,3rem)",fontWeight:700,color:C.r,lineHeight:1,marginBottom:8}}>{n}</div>
               <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
@@ -452,6 +511,72 @@ export default function App() {
         </div>
       </section>
 
+      {/* Gradient transition */}
+      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
+
+      {/* CASE STUDIES */}
+      <section id="results" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
+        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Placement Outcomes</div>
+          <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:56}}>Real searches.<br/>Measurable results.</h2>
+          
+          {/* Case selector tabs */}
+          <div style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
+            {cases.map((c,i) => (
+              <button key={i} onClick={() => setActiveCase(i)} style={{flex:activeCase===i?"2.5 1 0%":"1 1 0%",padding:"16px 20px",background:activeCase===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeCase===i?`3px solid ${C.r}`:"3px solid transparent",color:activeCase===i?C.w:C.g,fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
+                <span style={{opacity:.2,fontSize:20,fontWeight:700,color:C.r,display:"block",marginBottom:2}}>{c.id}</span>
+                <span style={{whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",display:"block"}}>{activeCase===i?c.role:c.ind}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Active case detail */}
+          <div style={{padding:"clamp(2rem,4vw,3.5rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`}}>
+            <div style={{display:"grid",gridTemplateColumns:"1fr",gap:32}}>
+              {/* Header row */}
+              <div>
+                <div style={{display:"flex",flexWrap:"wrap",gap:"8px 24px",marginBottom:20}}>
+                  <span style={{fontSize:11,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",color:C.r,padding:"4px 12px",background:"rgba(226,60,65,.08)"}}>{cases[activeCase].ind}</span>
+                  <span style={{fontSize:11,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",color:C.gl,padding:"4px 12px",background:"rgba(255,255,255,.03)"}}>{cases[activeCase].rev}</span>
+                </div>
+                <h3 style={{fontSize:"clamp(1.5rem,2.5vw,2.25rem)",fontWeight:700,marginBottom:8}}>{cases[activeCase].role}</h3>
+                <div style={{fontSize:13,color:C.g,letterSpacing:".05em"}}>{cases[activeCase].focus}</div>
+              </div>
+
+              {/* Metrics row */}
+              <div style={{display:"flex",gap:48,flexWrap:"wrap",padding:"20px 0",borderTop:"1px solid rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.08)"}}>
+                <div>
+                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Time to Fill</div>
+                  <div style={{fontSize:24,fontWeight:700,color:C.r}}>{cases[activeCase].days}{cases[activeCase].days!=="Confidential"&&cases[activeCase].days!=="Planned transition"?" days":""}</div>
+                </div>
+                <div>
+                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Current Status</div>
+                  <div style={{fontSize:16,fontWeight:700,color:C.w,display:"flex",alignItems:"center",gap:8}}>
+                    <span style={{width:8,height:8,borderRadius:"50%",background:"#22c55e",flexShrink:0}}/>
+                    {cases[activeCase].status}
+                  </div>
+                </div>
+              </div>
+
+              {/* Challenge + Outcome */}
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:48}} id="mcasedetail">
+                <div>
+                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12,opacity:.7}}>The Challenge</div>
+                  <p style={{fontSize:15,color:C.gl,lineHeight:1.8}}>{cases[activeCase].challenge}</p>
+                </div>
+                <div>
+                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12,opacity:.7}}>The Outcome</div>
+                  <p style={{fontSize:15,color:C.gl,lineHeight:1.8}}>{cases[activeCase].outcome}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Disclaimer */}
+          <div style={{marginTop:16,fontSize:11,color:C.g,opacity:.5,fontStyle:"italic"}}>Client identities protected. All outcomes are real and verified.</div>
+        </div>
+      </section>
+
       {/* INDUSTRIES */}
       <section id="industries" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm,position:"relative"}}>
         <div style={{position:"absolute",inset:0,opacity:.03,backgroundImage:"radial-gradient(circle at 1px 1px, rgba(226,60,65,.4) 1px, transparent 0)",backgroundSize:"40px 40px",pointerEvents:"none"}}/>
@@ -497,6 +622,58 @@ export default function App() {
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
 
+      {/* WHY RETAINED */}
+      <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
+        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"start"}} id="mretained">
+            {/* Left — sticky explanation */}
+            <div>
+              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Why Retained Search</div>
+              <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>You're hiring a <span style={{color:C.r,fontStyle:"italic"}}>partner</span>, not a vendor.</h2>
+              <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:24}}>Most manufacturers have used contingency recruiters — firms that get paid only if they place someone. It works for some roles. But for the leaders who will shape your business, the model breaks down.</p>
+              <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:24}}>Retained search invests in understanding your business before a single candidate is contacted. The result: better candidates, fewer false starts, and leaders who stay.</p>
+              {/* Comparison */}
+              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0,marginTop:32}}>
+                <div style={{padding:20,background:"rgba(255,255,255,.02)",borderLeft:"3px solid rgba(255,255,255,.08)"}}>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:12}}>Contingency</div>
+                  {["Race to fill","Resume volume","Paid on placement","Shared attention","Transactional"].map((t,i) => (
+                    <div key={i} style={{fontSize:13,color:C.g,padding:"6px 0",display:"flex",alignItems:"center",gap:8}}>
+                      <span style={{color:C.g,fontSize:10}}>—</span>{t}
+                    </div>
+                  ))}
+                </div>
+                <div style={{padding:20,background:"rgba(226,60,65,.04)",borderLeft:`3px solid ${C.r}`}}>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Retained</div>
+                  {["Research-driven","Curated shortlist","Invested from day one","Exclusive dedication","Strategic partnership"].map((t,i) => (
+                    <div key={i} style={{fontSize:13,color:C.gl,padding:"6px 0",display:"flex",alignItems:"center",gap:8}}>
+                      <span style={{color:C.r,fontSize:10}}>◆</span>{t}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Right — FAQ accordion */}
+            <div>
+              <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:24}}>Common Questions</div>
+              {retainedFAQ.map((faq,i) => (
+                <div key={i} style={{borderBottom:"1px solid rgba(226,60,65,.08)"}}>
+                  <div onClick={() => setRetainedOpen(retainedOpen===i?null:i)} style={{padding:"20px 0",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16}}>
+                    <span style={{fontSize:16,fontWeight:700,color:retainedOpen===i?C.w:C.gl,transition:"color .3s"}}>{faq.q}</span>
+                    <span style={{fontSize:18,color:retainedOpen===i?C.r:C.g,transition:"all .3s",transform:retainedOpen===i?"rotate(45deg)":"rotate(0deg)",flexShrink:0}}>+</span>
+                  </div>
+                  <div style={{maxHeight:retainedOpen===i?500:0,overflow:"hidden",transition:"max-height .5s cubic-bezier(.23,1,.32,1)"}}>
+                    <p style={{fontSize:15,color:C.gl,lineHeight:1.8,paddingBottom:20}}>{faq.a}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Gradient transition */}
+      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
+
       {/* BOND */}
       <section id="bond" style={{padding:"clamp(5rem,10vw,8rem) 0",background:C.n,textAlign:"center",overflow:"hidden",position:"relative"}}>
         <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:500,height:500,background:"radial-gradient(circle,rgba(226,60,65,.04),transparent 70%)",pointerEvents:"none"}}/>
@@ -528,9 +705,10 @@ export default function App() {
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Founder</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Bob Cwenar</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar brings over a decade of retained executive search experience to every engagement. A graduate of Drexel University, he began his career with Armstrong Franklin, growing the practice from a four-person startup into a recognized name in the industry.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Through a merger with GattiHR and subsequent acquisition by Kingsley Gate Partners, Bob led national searches for clients ranging from agile startups to enterprises exceeding $10 billion in revenue.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl}}>Today, Bob leads Bound Search Partners with a clear mandate: deliver an executive search experience defined by rigor, precision, and trust.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar has spent over a decade inside retained executive search — not as a recruiter, but as a builder. A graduate of Drexel University, he joined Armstrong Franklin as one of four employees and helped grow the firm into a recognized name in manufacturing recruitment.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>When Armstrong Franklin merged with GattiHR and was subsequently acquired by Kingsley Gate Partners — a global search firm — Bob led national-scale engagements for clients ranging from founder-led startups to enterprises exceeding $10 billion in revenue. He's seen how search works at every level of scale.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>He founded Bound Search Partners because the best search work happens when one senior professional owns the relationship end-to-end — from intake to onboarding. No handoffs. No junior associates running your search. Every conversation, every assessment, every recommendation comes directly from the person whose name is on the engagement.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl}}>200+ placements. 92% retained at year one. That's the track record behind every search Bound takes on.</p>
           </div>
           <div><img src="./headshot.jpg" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",borderRadius:2,display:"block"}}/></div>
         </div>
@@ -539,7 +717,7 @@ export default function App() {
       {/* MOBILE STATS - after bio */}
       <div id="mstats-bottom" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)",width:"100%"}}>
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",width:"100%"}}>
-          {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
+          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
             <div key={i} style={{padding:"24px 16px",textAlign:"center",borderRight:i%2===0?"1px solid rgba(226,60,65,.12)":"none",borderBottom:i<2?"1px solid rgba(226,60,65,.12)":"none"}}>
               <div style={{fontSize:28,fontWeight:700,color:C.r,lineHeight:1,marginBottom:6}}>{n}</div>
               <div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
@@ -615,7 +793,7 @@ export default function App() {
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <svg width="220" height="36" viewBox="0 0 340 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Aptos,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Aptos,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
-            <div style={{display:"flex",gap:32}}>{["Home","About","Services","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
+            <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
           </div>
 
           {/* Divider line */}
@@ -624,7 +802,7 @@ export default function App() {
           {/* Bottom row: copyright left, skyline right */}
           <div id="mfootbot" style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <div>
-              <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2024 Bound Search Partners LLC. All rights reserved.</div>
+              <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2025 Bound Search Partners LLC. All rights reserved.</div>
               <div style={{fontSize:11,color:C.g,opacity:.6,marginBottom:4}}>Made with love in the City of Brotherly Love.</div>
               <div style={{fontSize:10,color:C.g,opacity:.4}}>Website designed and built by Bob Cwenar & Claude by Anthropic.</div>
             </div>
