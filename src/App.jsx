@@ -18,6 +18,7 @@ export default function App() {
   const [chatLoading,setChatLoading] = useState(false);
   const [activeCase,setActiveCase] = useState(0);
   const [retainedOpen,setRetainedOpen] = useState(null);
+  const [hovProc,setHovProc] = useState(null);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
@@ -375,19 +376,19 @@ export default function App() {
             <div>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:32}}>Our Process</div>
               {proc.map((step,i) => (
-                <div key={i} style={{display:"flex",gap:20,marginBottom:i<proc.length-1?0:0}}>
+                <div key={i} style={{display:"flex",gap:20,marginBottom:i<proc.length-1?0:0}} onMouseEnter={() => setHovProc(i)} onMouseLeave={() => setHovProc(null)}>
                   {/* Vertical line + number */}
                   <div style={{display:"flex",flexDirection:"column",alignItems:"center",flexShrink:0}}>
-                    <div style={{width:36,height:36,borderRadius:"50%",border:`1.5px solid ${i===0?C.r:'rgba(226,60,65,.2)'}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:i===0?C.r:C.g,flexShrink:0}}>{step.p}</div>
-                    {i<proc.length-1 && <div style={{width:1,flex:1,background:"linear-gradient(180deg,rgba(226,60,65,.2),rgba(226,60,65,.05))",minHeight:24}}/>}
+                    <div style={{width:hovProc===i?40:36,height:hovProc===i?40:36,borderRadius:"50%",border:`1.5px solid ${hovProc===i||i===0?C.r:'rgba(226,60,65,.2)'}`,background:hovProc===i?"rgba(226,60,65,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:hovProc===i||i===0?C.r:C.g,flexShrink:0,transition:"all .3s cubic-bezier(.23,1,.32,1)",boxShadow:hovProc===i?"0 0 20px rgba(226,60,65,.15)":"none"}}>{step.p}</div>
+                    {i<proc.length-1 && <div style={{width:1,flex:1,background:`linear-gradient(180deg,rgba(226,60,65,${hovProc===i?.35:.2}),rgba(226,60,65,.05))`,minHeight:24,transition:"all .3s"}}/>}
                   </div>
                   {/* Content */}
-                  <div style={{paddingBottom:i<proc.length-1?32:0}}>
+                  <div style={{paddingBottom:i<proc.length-1?32:0,transition:"all .3s"}}>
                     <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-                      <h4 style={{fontSize:16,fontWeight:700,color:C.w}}>{step.t}</h4>
-                      <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:.5}}>{step.l}</span>
+                      <h4 style={{fontSize:16,fontWeight:700,color:hovProc===i?C.w:C.gl,transition:"color .3s"}}>{step.t}</h4>
+                      <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:hovProc===i?.8:.5,transition:"opacity .3s"}}>{step.l}</span>
                     </div>
-                    <p style={{fontSize:14,color:C.gl,lineHeight:1.7,opacity:.8}}>{step.d}</p>
+                    <p style={{fontSize:14,color:C.gl,lineHeight:1.7,opacity:hovProc===i?1:.7,transition:"opacity .3s"}}>{step.d}</p>
                   </div>
                 </div>
               ))}
