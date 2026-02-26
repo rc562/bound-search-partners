@@ -34,8 +34,6 @@ export default function App() {
       prev.style.opacity = "0";
       setTimeout(() => { prev.pause(); }, 2000);
     };
-    // Start with vid2 and vid3 paused
-    setTimeout(() => { ["vid2","vid3"].forEach(id => { const v = document.getElementById(id); if (v) v.pause(); }); }, 100);
     const id = setInterval(swap, 12000);
     window.addEventListener("scroll",h);
     return () => { clearInterval(id); window.removeEventListener("scroll",h); };
@@ -304,8 +302,8 @@ export default function App() {
         */}
         <div style={{position:"absolute",inset:0,zIndex:0}}>
           <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",transition:"opacity 2s ease"}}><source src="./video1.mp4" type="video/mp4"/></video>
-          <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
-          <video id="vid3" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video3.mp4" type="video/mp4"/></video>
+          <video id="vid2" muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
+          <video id="vid3" muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video3.mp4" type="video/mp4"/></video>
 
         </div>
         {/* Dark overlay */}
