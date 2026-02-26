@@ -5,8 +5,6 @@ const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a
 export default function App() {
   const [scrolled,setScrolled] = useState(false);
   const [activeSrv,setActiveSrv] = useState(0);
-  const [procOpen,setProcOpen] = useState(false);
-  const [hovNode,setHovNode] = useState(null);
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
   const [mobileMenu,setMobileMenu] = useState(false);
@@ -234,7 +232,6 @@ export default function App() {
           #mstats-bottom{display:block!important}
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
-          #mproc{grid-template-columns:repeat(2,1fr)!important}
           #mtabs{flex-direction:row!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
           #mtabs button{flex:none!important;padding:12px 16px!important;font-size:11px!important;white-space:nowrap!important}
           #mtabs button span:first-child{display:none!important}
@@ -258,7 +255,6 @@ export default function App() {
           #vid1,#vid2{object-fit:cover!important;object-position:center 15%!important;height:160%!important;top:-15%!important}
           #mstats-top{display:none!important}
           #mstats-bottom{display:block!important}
-          #mproc{grid-template-columns:1fr!important}
         }
 
       `}</style>
@@ -365,81 +361,36 @@ export default function App() {
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
-          <div id="mabout" style={{display:"grid",gridTemplateColumns:procOpen?"0fr 1fr":"1.2fr .8fr",gap:procOpen?0:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+          <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
             
-            {/* Text — fades out when open */}
-            <div style={{opacity:procOpen?0:1,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600,transform:procOpen?"translateX(-40px)":"translateX(0)"}}>
+            {/* Text */}
+            <div>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
               <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound Search Partners was founded on one principle: executive search should be personal. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound Search Partners works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
             </div>
 
-            {/* The web — moves to center and grows when open */}
-            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:procOpen?0:32,transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
-              
-              {/* Methodology header — only when open */}
-              <div style={{opacity:procOpen?1:0,maxHeight:procOpen?100:0,overflow:"hidden",transition:"all .6s ease .5s",textAlign:"center",marginBottom:procOpen?16:0}}>
-                <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:8}}>Our Methodology</div>
-                <div style={{fontSize:11,color:C.g,letterSpacing:2}}>HOVER EACH NODE TO EXPLORE</div>
-              </div>
-
-              {/* The web itself — same visual, scales up */}
-              <div style={{position:"relative",width:procOpen?"100%":"100%",maxWidth:procOpen?640:320,aspectRatio:"1",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
-                {/* Orbiting rings */}
-                <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
-                <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
-                {procOpen && <div style={{position:"absolute",inset:"-5%",border:"1px dashed rgba(226,60,65,.04)",borderRadius:"50%",animation:"sp 60s linear infinite"}}/>}
-                
-                {/* Radiating lines */}
-                {[{r:-55,w:150,c:1},{r:-15,w:130,c:0},{r:35,w:160,c:1},{r:150,w:140,c:0},{r:75,w:120,c:1},{r:195,w:150,c:0}].map((l,i) => <div key={i} style={{position:"absolute",top:"50%",left:"50%",height:1,width:procOpen?l.w*1.6:l.w,transformOrigin:"0 0",transform:`rotate(${l.r}deg)`,background:`linear-gradient(90deg,${l.c?'rgba(226,60,65,.25)':'rgba(255,255,255,.12)'},transparent)`,transition:"width .8s ease"}}/>)}
-                
-                {/* Floating ambient dots */}
-                {[{t:14,l:18,s:12,c:C.r,o:.6,d:6},{t:10,l:78,s:9,c:C.w,o:.3,d:8},{t:72,l:85,s:11,c:C.r,o:.5,d:7},{t:82,l:22,s:8,c:C.w,o:.25,d:9},{t:34,l:90,s:14,c:C.r,o:.4,d:5},{t:90,l:52,s:10,c:C.w,o:.2,d:7}].map((nd,i) => <div key={i} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${nd.d}s ease ${i*.5}s infinite`}}/>)}
-                
-                {/* Extra dots when expanded */}
-                {procOpen && [{t:5,l:50,s:6,c:C.r,o:.3},{t:50,l:5,s:8,c:C.w,o:.15},{t:50,l:95,s:7,c:C.r,o:.25},{t:95,l:50,s:6,c:C.w,o:.15},{t:25,l:8,s:5,c:C.r,o:.2},{t:75,l:92,s:5,c:C.r,o:.2},{t:8,l:35,s:4,c:C.w,o:.12},{t:92,l:65,s:4,c:C.w,o:.12}].map((nd,i) => <div key={`x${i}`} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${5+i}s ease ${i*.3}s infinite`}}/>)}
-                
-                {/* Center B dot / pulse */}
-                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",background:C.r,transform:"translate(-50%,-50%)",boxShadow:`0 0 ${procOpen?'40':'30'}px rgba(226,60,65,.5)`,zIndex:3,transition:"all .5s ease"}}/>
-                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",border:"2px solid #e23c41",transform:"translate(-50%,-50%)",animation:"ep 2.5s ease infinite"}}/>
-
-                {/* 4 interactive nodes — only when open, positioned on the web */}
-                {procOpen && [{t:8,l:20,i:0},{t:8,l:80,i:1},{t:78,l:80,i:2},{t:78,l:20,i:3}].map(n => (
-                  <div key={n.i} onMouseEnter={() => setHovNode(n.i)} onMouseLeave={() => setHovNode(null)}
-                    style={{position:"absolute",top:`${n.t}%`,left:`${n.l}%`,transform:"translate(-50%,-50%)",zIndex:4,cursor:"default",textAlign:"center",animation:`nodeIn .6s cubic-bezier(.23,1,.32,1) ${.5+n.i*.12}s both`}}>
-                    <div style={{width:hovNode===n.i?48:36,height:hovNode===n.i?48:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.3))`,boxShadow:`0 0 ${hovNode===n.i?'40':'16'}px rgba(226,60,65,${hovNode===n.i?.5:.2})`,margin:"0 auto",transition:"all .3s",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                      {[<svg key="ic0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
-                        <svg key="ic1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
-                        <svg key="ic2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
-                        <svg key="ic3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>][n.i]}
-                    </div>
-                    <div style={{marginTop:10,fontSize:15,fontWeight:700,color:hovNode===n.i?C.w:C.gl,transition:"color .3s",whiteSpace:"nowrap"}}>{proc[n.i].t}</div>
-                    {/* Description tooltip */}
-                    <div style={{maxHeight:hovNode===n.i?400:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",width:280}}>
-                      <p style={{fontSize:15,color:C.gl,lineHeight:1.8,marginTop:8}}>{proc[n.i].d}</p>
-                    </div>
+            {/* Process — clean vertical flow */}
+            <div>
+              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:32}}>Our Process</div>
+              {proc.map((step,i) => (
+                <div key={i} style={{display:"flex",gap:20,marginBottom:i<proc.length-1?0:0}}>
+                  {/* Vertical line + number */}
+                  <div style={{display:"flex",flexDirection:"column",alignItems:"center",flexShrink:0}}>
+                    <div style={{width:36,height:36,borderRadius:"50%",border:`1.5px solid ${i===0?C.r:'rgba(226,60,65,.2)'}`,display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:i===0?C.r:C.g,flexShrink:0}}>{step.p}</div>
+                    {i<proc.length-1 && <div style={{width:1,flex:1,background:"linear-gradient(180deg,rgba(226,60,65,.2),rgba(226,60,65,.05))",minHeight:24}}/>}
                   </div>
-                ))}
-
-                {/* Connection lines to nodes when open */}
-                {procOpen && <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1}} viewBox="0 0 100 100">
-                  {[[50,50,20,8],[50,50,80,8],[50,50,80,78],[50,50,20,78]].map(([x1,y1,x2,y2],i) => (
-                    <line key={`nl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth={hovNode===i?".8":".3"} opacity={hovNode===i?".3":".1"} style={{transition:"all .3s"}}/>
-                  ))}
-                  {/* Node to node */}
-                  {[[20,8,80,8],[80,8,80,78],[80,78,20,78],[20,78,20,8]].map(([x1,y1,x2,y2],i) => (
-                    <line key={`nnl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".2" opacity=".06" strokeDasharray="2 3"/>
-                  ))}
-                </svg>}
-              </div>
-
-              {/* Button */}
-              <div style={{marginTop:procOpen?20:0,transition:"margin .5s ease"}}>
-                <button onClick={() => setProcOpen(!procOpen)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 40px",background:procOpen?C.r:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:14,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s",maxWidth:340,width:"100%",justifyContent:"center"}}>
-                  <span>{procOpen?"←":"—"}</span><span>{procOpen?"Back to The Firm":"Explore Our Process"}</span>{!procOpen && <span>→</span>}
-                </button>
-              </div>
+                  {/* Content */}
+                  <div style={{paddingBottom:i<proc.length-1?32:0}}>
+                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+                      <h4 style={{fontSize:16,fontWeight:700,color:C.w}}>{step.t}</h4>
+                      <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:.5}}>{step.l}</span>
+                    </div>
+                    <p style={{fontSize:14,color:C.gl,lineHeight:1.7,opacity:.8}}>{step.d}</p>
+                  </div>
+                </div>
+              ))}
             </div>
 
           </div>
