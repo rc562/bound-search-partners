@@ -17,6 +17,7 @@ export default function App() {
   const [chatLoading,setChatLoading] = useState(false);
   const [activeCase,setActiveCase] = useState(0);
   const [retainedOpen,setRetainedOpen] = useState(null);
+  const [activeSrv,setActiveSrv] = useState(0);
   const [hovProc,setHovProc] = useState(null);
 
   useEffect(() => {
@@ -232,8 +233,6 @@ export default function App() {
           #mstats-bottom{display:block!important}
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
-          #msrvlayout{grid-template-columns:1fr!important}
-          #msrvlayout>div:first-child{position:static!important}
           #mind{display:none!important}
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
@@ -396,67 +395,81 @@ export default function App() {
 
 
       {/* SERVICES */}
-      <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0"}}>
+      <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0",overflow:"hidden"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"start"}} id="msrvlayout">
-            {/* Left — header + CTA */}
-            <div style={{position:"sticky",top:120}}>
-              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Services</div>
-              <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16,marginBottom:24}}>Search.<br/>Advisory.<br/>Intelligence.</h2>
-              <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:32}}>Every engagement is scoped to what the hire demands — not a one-size-fits-all package.</p>
-              <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}>Discuss Your Search →</span>
-              {/* Hiring Difficulty Trend Chart */}
-              {(()=>{
-                const pts=[42,44,41,47,52,49,55,58,54,61,65,68];
-                const labels=["Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb"];
-                const W=280,H=140,px=32,py=20,gw=W-px*2,gh=H-py*2;
-                const mn=Math.min(...pts)-5,mx=Math.max(...pts)+5;
-                const coords=pts.map((v,i)=>[px+i*(gw/(pts.length-1)),py+gh-(((v-mn)/(mx-mn))*gh)]);
-                const line=coords.map((c,i)=>((i===0?"M":"L")+c[0]+","+c[1])).join(" ");
-                const area=line+` L${coords[coords.length-1][0]},${py+gh} L${coords[0][0]},${py+gh} Z`;
-                return(
-                <div style={{marginTop:"clamp(2.5rem,5vw,4rem)",padding:"20px 0"}}>
-                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:4}}>Market Intelligence</div>
-                  <div style={{fontSize:15,fontWeight:600,color:C.gl,marginBottom:16}}>Manufacturing Hiring Difficulty Index</div>
-                  <svg viewBox={`0 0 ${W} ${H}`} style={{width:"100%",maxWidth:320}} role="img" aria-label="Hiring difficulty trend line showing upward trend">
-                    {[0,.25,.5,.75,1].map((f,i)=>{
-                      const y=py+gh*f;
-                      return <line key={i} x1={px} y1={y} x2={W-px} y2={y} stroke="rgba(138,135,154,.15)" strokeWidth=".5"/>
-                    })}
-                    <defs>
-                      <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#e23c41" stopOpacity=".18"/>
-                        <stop offset="100%" stopColor="#e23c41" stopOpacity=".01"/>
-                      </linearGradient>
-                    </defs>
-                    <path d={area} fill="url(#areaGrad)"/>
-                    <path d={line} fill="none" stroke="#e23c41" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    {coords.map((c,i)=>(
-                      <circle key={i} cx={c[0]} cy={c[1]} r={i===pts.length-1?3.5:0} fill="#e23c41"/>
-                    ))}
-                    {[0,3,6,9,11].map(idx=>(
-                      <text key={idx} x={coords[idx][0]} y={H-2} textAnchor="middle" fill="#8a879a" fontSize="8" fontFamily="Arial">{labels[idx]}</text>
-                    ))}
-                    <text x={W-px} y={coords[coords.length-1][1]-8} textAnchor="end" fill="#e23c41" fontSize="10" fontWeight="700" fontFamily="Arial">{pts[pts.length-1]}</text>
-                    <text x={px} y={coords[0][1]-8} textAnchor="start" fill="#8a879a" fontSize="9" fontFamily="Arial">{pts[0]}</text>
-                  </svg>
-                  <div style={{fontSize:10,color:C.g,marginTop:8,opacity:.5}}>BLS JOLTS + industry composite  |  Rolling 12 months</div>
-                  <div style={{marginTop:16,fontSize:13,color:C.gl,lineHeight:1.6,opacity:.7}}>Open manufacturing leadership roles are up <span style={{color:C.r,fontWeight:700}}>62%</span> year-over-year. The talent gap is accelerating.</div>
+          {/* Section header */}
+          <div style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)"}}>
+            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Services</div>
+            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16,marginBottom:16}}>Search. Advisory. Intelligence.</h2>
+            <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,maxWidth:600,margin:"0 auto"}}>Every engagement is scoped to what the hire demands — not a one-size-fits-all package.</p>
+          </div>
+
+          {/* Navigation pills */}
+          <div style={{display:"flex",justifyContent:"center",gap:6,marginBottom:"clamp(2.5rem,5vw,4rem)",flexWrap:"wrap"}}>
+            {srvs.map((s,i)=>(
+              <button key={i} onClick={()=>setActiveSrv(i)}
+                style={{padding:"10px 20px",background:activeSrv===i?C.r:"rgba(226,60,65,.08)",border:"none",color:activeSrv===i?C.w:C.gl,fontSize:13,fontWeight:600,letterSpacing:".03em",cursor:"pointer",transition:"all .35s cubic-bezier(.23,1,.32,1)",borderRadius:0,opacity:activeSrv===i?1:.7}}
+                onMouseEnter={e=>{if(activeSrv!==i){e.currentTarget.style.background="rgba(226,60,65,.15)";e.currentTarget.style.opacity="1"}}}
+                onMouseLeave={e=>{if(activeSrv!==i){e.currentTarget.style.background="rgba(226,60,65,.08)";e.currentTarget.style.opacity=".7"}}}
+              >{s.t.split(" ").slice(0,2).join(" ")}</button>
+            ))}
+          </div>
+
+          {/* Active service display */}
+          <div style={{position:"relative",minHeight:280}}>
+            {srvs.map((s,i)=>(
+              <div key={i} style={{
+                position:i===activeSrv?"relative":"absolute",
+                top:0,left:0,right:0,
+                opacity:activeSrv===i?1:0,
+                transform:activeSrv===i?"translateY(0)":"translateY(24px)",
+                transition:"all .5s cubic-bezier(.23,1,.32,1)",
+                pointerEvents:activeSrv===i?"auto":"none",
+                display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,5rem)",alignItems:"center"
+              }}>
+                {/* Left — big title + number */}
+                <div>
+                  <div style={{fontSize:"clamp(4rem,10vw,7rem)",fontWeight:700,color:"rgba(226,60,65,.08)",lineHeight:1,letterSpacing:"-.04em",marginBottom:"-0.15em",fontFamily:"Arial,sans-serif"}}>{String(i+1).padStart(2,"0")}</div>
+                  <h3 style={{fontSize:"clamp(1.8rem,3.5vw,2.5rem)",fontWeight:700,color:C.w,lineHeight:1.15,letterSpacing:"-.02em",marginBottom:20}}>{s.t}</h3>
+                  <div style={{width:48,height:3,background:C.r,marginBottom:24}}/>
+                  <p style={{fontSize:"clamp(.95rem,1.2vw,1.1rem)",lineHeight:1.85,color:C.gl,maxWidth:480}}>{s.d}</p>
                 </div>
-                );
-              })()}
-            </div>
-            {/* Right — service cards */}
-            <div style={{display:"flex",flexDirection:"column",gap:2}}>
-              {srvs.map((s,i) => (
-                <div key={i} onMouseEnter={e=>{e.currentTarget.style.background="rgba(226,60,65,.05)";e.currentTarget.style.borderLeftColor="#e23c41";e.currentTarget.querySelector('.stitle').style.color="#fff"}} onMouseLeave={e=>{e.currentTarget.style.background="rgba(226,60,65,.02)";e.currentTarget.style.borderLeftColor="transparent";e.currentTarget.querySelector('.stitle').style.color="#c5c3ce"}}
-                  style={{padding:"clamp(1.5rem,2.5vw,2rem) clamp(1.5rem,2.5vw,2.5rem)",background:"rgba(226,60,65,.02)",borderLeft:"3px solid transparent",transition:"all .3s cubic-bezier(.23,1,.32,1)",cursor:"default"}}>
-                  <h3 className="stitle" style={{fontSize:"clamp(1.1rem,1.8vw,1.35rem)",fontWeight:700,color:C.gl,marginBottom:8,transition:"color .3s"}}>{s.t}</h3>
-                  <p style={{fontSize:14,color:C.gl,lineHeight:1.7,opacity:.75,marginBottom:12}}>{s.d}</p>
-                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,opacity:.45}}>{s.r}</div>
+                {/* Right — role tags + CTA */}
+                <div style={{display:"flex",flexDirection:"column",alignItems:"flex-start",gap:32}}>
+                  <div style={{display:"flex",flexWrap:"wrap",gap:10}}>
+                    {s.r.split(" · ").map((role,ri)=>(
+                      <span key={ri} style={{padding:"10px 20px",border:"1px solid rgba(226,60,65,.2)",color:C.gl,fontSize:13,fontWeight:500,letterSpacing:".02em",transition:"all .3s"}}
+                        onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.08)"}}
+                        onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.gl;e.currentTarget.style.background="transparent"}}
+                      >{role}</span>
+                    ))}
+                  </div>
+                  <span onClick={()=>go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
+                    onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}}
+                    onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}
+                  >Start a Conversation →</span>
                 </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Prev/Next arrows */}
+          <div style={{display:"flex",justifyContent:"center",gap:16,marginTop:"clamp(2rem,4vw,3rem)"}}>
+            <button onClick={()=>setActiveSrv(p=>(p-1+srvs.length)%srvs.length)}
+              style={{width:48,height:48,border:`1px solid rgba(226,60,65,.25)`,background:"transparent",color:C.gl,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
+              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.1)"}}
+              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.25)";e.currentTarget.style.color=C.gl;e.currentTarget.style.background="transparent"}}
+            >{"\u2190"}</button>
+            <div style={{display:"flex",alignItems:"center",gap:8}}>
+              {srvs.map((_,i)=>(
+                <div key={i} onClick={()=>setActiveSrv(i)} style={{width:activeSrv===i?24:8,height:8,background:activeSrv===i?C.r:"rgba(226,60,65,.2)",transition:"all .35s cubic-bezier(.23,1,.32,1)",cursor:"pointer"}}/>
               ))}
             </div>
+            <button onClick={()=>setActiveSrv(p=>(p+1)%srvs.length)}
+              style={{width:48,height:48,border:`1px solid rgba(226,60,65,.25)`,background:"transparent",color:C.gl,fontSize:20,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
+              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.1)"}}
+              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.25)";e.currentTarget.style.color=C.gl;e.currentTarget.style.background="transparent"}}
+            >{"\u2192"}</button>
           </div>
         </div>
       </section>
