@@ -2,40 +2,1271 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Bound Search Partners | Retained Executive Search for U.S. Manufacturing & Industrial</title>
-<meta name="description" content="Bound Search Partners is a boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Founded in Philadelphia, serving manufacturers nationwide.">
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:title" content="Bound Search Partners | Retained Executive Search">
-<meta property="og:description" content="Boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Philadelphia-based, serving U.S. manufacturers nationwide.">
-<meta property="og:image" content="https://boundsearch.com/og-image.png">
-<meta property="og:url" content="https://boundsearch.com">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://boundsearch.com/og-image.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journeyman — Find Your Trade</title>
+<meta name="description" content="The first platform that maps your entire path into the skilled trades. Discover apprenticeships, trade schools, and career pathways.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#0e0b24;font-family:'Aptos','Segoe UI',sans-serif}
-  @keyframes sR{to{opacity:.92;transform:translateX(0)}}
-  @keyframes sL{to{opacity:1;transform:translateX(0)}}
-  @keyframes fi{to{opacity:1}}
-  @keyframes loadB{to{width:100%}}
+:root{
+  --midnight:#0B0F15;--deep:#111820;--charcoal:#161D27;--steel:#1E2733;
+  --iron:#2A3545;--gunmetal:#3A4A5C;--silver:#7E8FA3;--fog:#A8B5C4;
+  --light:#C9D4E0;--white:#EDF1F5;--pure:#FFF;
+  --amber:#D4870F;--amber-bright:#F0A020;--amber-pale:#FBBE4B;
+  --amber-glow:rgba(212,135,15,.12);--amber-glow2:rgba(212,135,15,.06);
+  --success:#34D399;--red:#EF4444;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--midnight);color:var(--fog);-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.6}
+body::after{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999}
+::selection{background:var(--amber);color:var(--midnight)}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 2.5rem;height:64px;display:flex;justify-content:space-between;align-items:center;background:rgba(11,15,21,.7);backdrop-filter:blur(24px) saturate(1.5);border-bottom:1px solid rgba(42,53,69,.4);transition:all .4s}
+.nav.scrolled{background:rgba(11,15,21,.92)}
+.nav-logo{font-family:'Instrument Serif',serif;font-size:1.4rem;color:var(--white);text-decoration:none;letter-spacing:-.02em}
+.nav-logo span{color:var(--amber)}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-link{font-size:.8rem;font-weight:500;color:var(--silver);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s}
+.nav-link:hover{color:var(--white)}
+.nav-cta{background:var(--amber);color:var(--midnight);font-weight:700;font-size:.78rem;padding:.55rem 1.4rem;border:none;border-radius:6px;cursor:pointer;text-transform:uppercase;letter-spacing:.08em;transition:all .25s;text-decoration:none}
+.nav-cta:hover{background:var(--amber-bright);transform:translateY(-1px);box-shadow:0 4px 20px rgba(212,135,15,.3)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:7rem 2rem 4rem;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 20% 40%,rgba(212,135,15,.06) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 30%,rgba(30,80,160,.04) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 50% 100%,rgba(212,135,15,.03) 0%,transparent 50%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(42,53,69,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(42,53,69,.15) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 50% at 50% 40%,black 10%,transparent 70%);pointer-events:none;animation:gridDrift 20s linear infinite}
+@keyframes gridDrift{0%{transform:translate(0,0)}100%{transform:translate(80px,80px)}}
+.particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:3px;height:3px;background:var(--amber);border-radius:50%;opacity:0;animation:pFloat 8s ease-in-out infinite}
+@keyframes pFloat{0%{opacity:0;transform:translateY(100vh) scale(0)}20%{opacity:.6}80%{opacity:.3}100%{opacity:0;transform:translateY(-20vh) scale(1)}}
+.hero-content{position:relative;z-index:1;max-width:800px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,var(--amber-glow),rgba(212,135,15,.05));border:1px solid rgba(212,135,15,.2);border-radius:100px;padding:.45rem 1.3rem;font-size:.75rem;font-weight:600;color:var(--amber-bright);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2.5rem;opacity:0;animation:fadeUp .7s ease .2s forwards}
+.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:blink 2.5s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Instrument Serif',serif;font-size:clamp(3.2rem,7.5vw,6.5rem);line-height:.92;color:var(--white);letter-spacing:-.035em;margin-bottom:1.75rem;opacity:0;animation:fadeUp .8s ease .35s forwards}
+.hero h1 .line{display:block}
+.hero h1 em{font-style:italic;color:var(--amber)}
+.hero-tagline{font-size:clamp(1.05rem,1.8vw,1.25rem);color:var(--silver);max-width:540px;margin:0 auto 2.5rem;line-height:1.65;opacity:0;animation:fadeUp .7s ease .55s forwards}
+.hero-form-wrap{opacity:0;animation:fadeUp .7s ease .7s forwards;width:100%;max-width:520px;margin:0 auto}
+.hero-form{display:flex;gap:0;background:var(--charcoal);border:1px solid var(--iron);border-radius:12px;padding:5px;transition:border-color .3s,box-shadow .3s}
+.hero-form:focus-within{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-glow),0 8px 32px rgba(0,0,0,.3)}
+.hero-form input{flex:1;padding:.85rem 1.1rem;border:none;border-radius:8px;background:transparent;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none}
+.hero-form input::placeholder{color:var(--gunmetal)}
+.hero-form button{padding:.85rem 1.8rem;background:var(--amber);color:var(--midnight);font-family:'DM Sans',sans-serif;font-weight:700;font-size:.85rem;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .25s}
+.hero-form button:hover{background:var(--amber-bright);box-shadow:0 4px 20px rgba(212,135,15,.35)}
+.hero-meta{display:flex;justify-content:center;gap:2rem;margin-top:1.25rem;opacity:0;animation:fadeUp .7s ease .85s forwards}
+.hero-meta span{font-size:.78rem;color:var(--gunmetal);display:flex;align-items:center;gap:.4rem}
+.hero-meta svg{width:14px;height:14px;stroke:var(--gunmetal)}
+.form-success{display:none;flex-direction:column;align-items:center;gap:.75rem;padding:1rem 0}
+.form-success .check{width:52px;height:52px;border-radius:50%;background:rgba(52,211,153,.1);border:2px solid var(--success);display:flex;align-items:center;justify-content:center;animation:popIn .4s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes popIn{0%{transform:scale(0)}100%{transform:scale(1)}}
+.form-success .check svg{width:24px;height:24px;stroke:var(--success);stroke-width:2.5}
+.form-success h3{font-size:1.15rem;color:var(--white);font-weight:600}
+.form-success p{font-size:.85rem;color:var(--silver)}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeUp .7s ease 1.2s forwards}
+.scroll-hint span{font-size:.65rem;color:var(--gunmetal);text-transform:uppercase;letter-spacing:.15em}
+.scroll-mouse{width:20px;height:32px;border:2px solid var(--iron);border-radius:10px;position:relative}
+.scroll-mouse::after{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:6px;background:var(--amber);border-radius:2px;animation:scrollB 2s ease-in-out infinite}
+@keyframes scrollB{0%,100%{transform:translateX(-50%) translateY(0);opacity:1}50%{transform:translateX(-50%) translateY(8px);opacity:.3}}
+
+/* UTILITY */
+.section{padding:7rem 2rem;max-width:1140px;margin:0 auto}
+.section-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.18em;color:var(--amber);margin-bottom:1.25rem}
+.section-title{font-family:'Instrument Serif',serif;font-size:clamp(2rem,4vw,3.25rem);color:var(--white);letter-spacing:-.025em;line-height:1.08;margin-bottom:1.5rem}
+.section-desc{font-size:1.05rem;color:var(--silver);max-width:620px;line-height:1.7}
+.section-desc strong{color:var(--white);font-weight:600}
+.r{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s cubic-bezier(.22,1,.36,1)}
+.r.v{opacity:1;transform:none}
+.r-d1{transition-delay:.1s}.r-d2{transition-delay:.2s}.r-d3{transition-delay:.3s}
+.divider{max-width:1140px;margin:0 auto;padding:0 2rem}
+.divider hr{border:none;height:1px;background:linear-gradient(90deg,transparent,var(--iron),transparent)}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:translateY(0)}}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);max-width:1000px;margin:0 auto;padding:0 2rem;border-top:1px solid var(--iron);border-bottom:1px solid var(--iron)}
+.stat{text-align:center;padding:2.5rem 1rem;border-right:1px solid rgba(42,53,69,.5)}
+.stat:last-child{border-right:none}
+.stat-val{font-family:'Instrument Serif',serif;font-size:clamp(1.75rem,3.5vw,2.5rem);color:var(--amber);line-height:1;margin-bottom:.4rem}
+.stat-label{font-size:.78rem;color:var(--silver);line-height:1.4}
+
+/* PROBLEM */
+.comparison{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:3rem;max-width:700px;margin-left:auto;margin-right:auto}
+.comp-card{padding:2rem;border-radius:12px;border:1px solid var(--iron);position:relative;overflow:hidden;text-align:left}
+.comp-card.college{background:linear-gradient(135deg,rgba(52,211,153,.04),transparent)}
+.comp-card.college::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--success),#2dd4bf)}
+.comp-card.trades{background:linear-gradient(135deg,rgba(220,60,60,.04),transparent)}
+.comp-card.trades::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#ef4444,#dc2626)}
+.comp-card h4{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:1rem}
+.comp-card.college h4{color:var(--success)}
+.comp-card.trades h4{color:#ef4444}
+.comp-item{display:flex;align-items:center;gap:.6rem;padding:.5rem 0;font-size:.88rem;color:var(--fog)}
+.comp-item svg{width:16px;height:16px;flex-shrink:0}
+.comp-card.college .comp-item svg{stroke:var(--success)}
+.comp-card.trades .comp-item svg{stroke:#ef4444}
+
+/* ============ QUIZ ============ */
+.quiz-section{position:relative;overflow:hidden}
+.quiz-section::before{content:'';position:absolute;left:-10%;top:20%;width:600px;height:600px;background:radial-gradient(circle,var(--amber-glow2) 0%,transparent 70%);pointer-events:none}
+.quiz-container{margin-top:2.5rem;max-width:700px;position:relative;margin-left:auto;margin-right:auto;text-align:left}
+.quiz-progress{display:flex;gap:.5rem;margin-bottom:2rem}
+.quiz-pip{height:4px;flex:1;border-radius:2px;background:var(--iron);transition:background .4s}
+.quiz-pip.done{background:var(--amber)}
+.quiz-pip.active{background:var(--amber-bright);box-shadow:0 0 8px rgba(212,135,15,.3)}
+
+.quiz-step{display:none;animation:cardIn .4s ease both}
+.quiz-step.active{display:block}
+@keyframes cardIn{0%{opacity:0;transform:translateY(16px)}100%{opacity:1;transform:none}}
+.quiz-question{font-family:'Instrument Serif',serif;font-size:1.6rem;color:var(--white);margin-bottom:.5rem;line-height:1.25}
+.quiz-hint{font-size:.88rem;color:var(--silver);margin-bottom:1.75rem}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.quiz-opt{
+  padding:1.25rem;border-radius:12px;
+  background:var(--charcoal);border:2px solid var(--iron);
+  cursor:pointer;transition:all .25s;text-align:left;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;color:var(--fog);
+  display:flex;align-items:flex-start;gap:.75rem;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  user-select:none;
+}
+.quiz-opt:hover{border-color:var(--gunmetal);background:var(--steel);color:var(--light)}
+.quiz-opt.selected{border-color:var(--amber);background:rgba(212,135,15,.06);color:var(--white)}
+.quiz-opt-icon{font-size:1.3rem;line-height:1;flex-shrink:0;margin-top:2px}
+.quiz-opt-text{display:flex;flex-direction:column;gap:.2rem}
+.quiz-opt-title{font-weight:600;color:inherit}
+.quiz-opt-sub{font-size:.78rem;color:var(--silver)}
+
+/* Quiz result */
+.quiz-result{display:none;text-align:center;padding:2rem 0}
+.quiz-result.active{display:block;animation:cardIn .5s ease both}
+.result-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--amber-glow);border:1px solid rgba(212,135,15,.3);border-radius:100px;padding:.4rem 1.2rem;font-size:.7rem;font-weight:700;color:var(--amber-bright);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.5rem}
+.result-trade{font-family:'Instrument Serif',serif;font-size:clamp(2rem,4vw,3rem);color:var(--white);margin-bottom:.5rem}
+.result-desc{font-size:1rem;color:var(--silver);max-width:500px;margin:0 auto 2rem;line-height:1.6}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:500px;margin:0 auto 2rem}
+.result-stat{padding:1rem;border-radius:10px;background:var(--charcoal);border:1px solid var(--iron)}
+.result-stat-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:var(--gunmetal);margin-bottom:.3rem}
+.result-stat-val{font-family:'Instrument Serif',serif;font-size:1.25rem;color:var(--amber)}
+.result-cta-wrap{max-width:480px;margin:0 auto}
+.result-cta-text{font-size:.9rem;color:var(--fog);margin-bottom:1rem}
+.result-form{display:flex;gap:0;background:var(--charcoal);border:1px solid var(--iron);border-radius:12px;padding:5px;transition:border-color .3s,box-shadow .3s}
+.result-form:focus-within{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-glow)}
+.result-form input{flex:1;padding:.85rem 1.1rem;border:none;border-radius:8px;background:transparent;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none}
+.result-form input::placeholder{color:var(--gunmetal)}
+.result-form button{padding:.85rem 1.8rem;background:var(--amber);color:var(--midnight);font-family:'DM Sans',sans-serif;font-weight:700;font-size:.85rem;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .25s}
+.result-form button:hover{background:var(--amber-bright)}
+.quiz-restart{margin-top:1.25rem;font-size:.8rem;color:var(--silver);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:'DM Sans',sans-serif}
+.quiz-restart:hover{color:var(--white)}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3rem;background:var(--iron);border:1px solid var(--iron);border-radius:16px;overflow:hidden}
+.feature{background:var(--charcoal);padding:2.25rem;transition:background .3s;position:relative;text-align:left}
+.feature:hover{background:var(--steel)}
+.feature-num{font-family:'Instrument Serif',serif;font-size:2rem;color:var(--iron);margin-bottom:1rem;line-height:1;transition:color .3s}
+.feature:hover .feature-num{color:var(--amber)}
+.feature h3{font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.6rem}
+.feature p{font-size:.88rem;color:var(--silver);line-height:1.6}
+
+/* SALARY TABLE */
+.salary-table{margin-top:3rem;border:1px solid var(--iron);border-radius:16px;overflow:hidden;text-align:left}
+.salary-row{display:grid;grid-template-columns:2fr 1.2fr 1.2fr 1.2fr;border-bottom:1px solid rgba(42,53,69,.5);transition:background .2s}
+.salary-row:last-child{border-bottom:none}
+.salary-row:hover:not(.salary-header){background:rgba(212,135,15,.03)}
+.salary-header{background:var(--steel)}
+.salary-cell{padding:1rem 1.5rem;font-size:.88rem;display:flex;align-items:center}
+.salary-header .salary-cell{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gunmetal)}
+.salary-cell.tn{color:var(--white);font-weight:600}
+.salary-cell.money{font-weight:600;color:var(--amber-bright)}
+.vs-degree{margin-top:1.25rem;padding:1rem 1.5rem;background:var(--amber-glow);border:1px solid rgba(212,135,15,.15);border-radius:10px;display:flex;align-items:center;gap:1rem;font-size:.88rem;color:var(--fog);text-align:left}
+.vs-degree strong{color:var(--amber-bright)}
+.vs-degree .tag{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);background:rgba(212,135,15,.12);padding:.3rem .7rem;border-radius:4px;white-space:nowrap}
+
+/* PERSONAS */
+.personas{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.persona{padding:2.25rem;border-radius:14px;background:var(--charcoal);border:1px solid var(--iron);transition:all .3s;position:relative;overflow:hidden;text-align:left}
+.persona:hover{border-color:rgba(212,135,15,.2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.persona::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--amber);opacity:0;transition:opacity .3s}
+.persona:hover::after{opacity:1}
+.persona-icon{font-size:2rem;margin-bottom:1.25rem;width:52px;height:52px;border-radius:12px;background:var(--steel);display:flex;align-items:center;justify-content:center}
+.persona h3{font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.25rem}
+.persona .age{font-size:.78rem;color:var(--amber);font-weight:600;margin-bottom:.75rem}
+.persona p{font-size:.88rem;color:var(--silver);line-height:1.6}
+
+/* QUOTE */
+.quote-section{padding:6rem 2rem;text-align:center;position:relative}
+.quote-section::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent,var(--amber-glow2),transparent);pointer-events:none}
+.quote{font-family:'Instrument Serif',serif;font-size:clamp(1.4rem,2.5vw,2rem);color:var(--white);line-height:1.45;max-width:700px;margin:0 auto;font-style:italic;position:relative;z-index:1}
+.quote::before{content:'\201C';font-size:6rem;position:absolute;top:-2rem;left:-1rem;color:var(--amber);opacity:.2;line-height:1;font-style:normal}
+.quote-attr{margin-top:1.5rem;font-size:.85rem;color:var(--silver);font-style:normal;position:relative;z-index:1}
+
+/* FINAL CTA */
+.cta-section{padding:8rem 2rem;text-align:center;position:relative}
+.cta-section::before{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,var(--amber-glow2) 0%,transparent 70%);pointer-events:none}
+.cta-section .section-title{max-width:550px;margin:0 auto .75rem}
+.cta-section .section-desc{max-width:480px;margin:0 auto 2.5rem;text-align:center}
+.cta-form-wrap{max-width:520px;margin:0 auto;position:relative;z-index:1}
+.cta-form{display:flex;gap:0;background:var(--charcoal);border:1px solid var(--iron);border-radius:12px;padding:5px;transition:border-color .3s,box-shadow .3s}
+.cta-form:focus-within{border-color:var(--amber);box-shadow:0 0 0 3px var(--amber-glow)}
+.cta-form input{flex:1;padding:.85rem 1.1rem;border:none;border-radius:8px;background:transparent;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.95rem;outline:none}
+.cta-form input::placeholder{color:var(--gunmetal)}
+.cta-form button{padding:.85rem 1.8rem;background:var(--amber);color:var(--midnight);font-family:'DM Sans',sans-serif;font-weight:700;font-size:.85rem;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all .25s}
+.cta-form button:hover{background:var(--amber-bright);box-shadow:0 4px 20px rgba(212,135,15,.35)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--iron);max-width:1140px;margin:0 auto;padding:1.75rem 2rem 1.5rem}
+.footer-row{display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Instrument Serif',serif;font-size:1.15rem;color:var(--white)}
+.footer-logo span{color:var(--amber)}
+.footer-center{font-size:.72rem;color:var(--gunmetal);letter-spacing:.01em}
+.footer-flag svg{display:block;opacity:.35;transition:opacity .3s}
+.footer-flag:hover svg{opacity:.6}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .features-grid{grid-template-columns:1fr 1fr}
+  .personas{grid-template-columns:1fr}
+  .salary-row{grid-template-columns:1.5fr 1fr 1fr 1fr}
+  .quiz-options{grid-template-columns:1fr}
+  .result-stats{grid-template-columns:repeat(3,1fr)}
+  .comparison{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  /* Nav — app-like sticky header */
+  .nav{padding:0 1rem;height:56px}
+  .nav-links .nav-link{display:none}
+  .nav-logo{font-size:1.2rem}
+  .nav-cta{padding:.55rem 1.2rem;font-size:.75rem;border-radius:8px}
+
+  /* Hero — full-screen mobile feel */
+  .hero{padding:5.5rem 1.25rem 3rem;min-height:calc(100vh - 0px);min-height:100dvh}
+  .hero h1{font-size:clamp(2.8rem,12vw,4rem);margin-bottom:1.25rem}
+  .hero-tagline{font-size:.95rem;margin-bottom:2rem}
+  .hero-eyebrow{font-size:.68rem;padding:.4rem 1rem;margin-bottom:2rem}
+
+  /* Forms — stacked on mobile, big touch targets */
+  .hero-form,.result-form,.cta-form{flex-direction:column;gap:.5rem;padding:6px}
+  .hero-form input,.result-form input,.cta-form input{padding:1rem;font-size:1rem;border-radius:10px}
+  .hero-form button,.result-form button,.cta-form button{width:100%;padding:1rem;font-size:.95rem;border-radius:10px;min-height:48px}
+  .hero-meta{flex-direction:column;gap:.4rem;align-items:center;margin-top:1rem}
+  .hero-meta span{font-size:.72rem}
+  .scroll-hint{display:none}
+
+  /* Stats — 2x2 grid on mobile */
+  .stats{grid-template-columns:1fr 1fr;gap:0}
+  .stat{padding:1.75rem .75rem;border-right:none;border-bottom:1px solid rgba(42,53,69,.5)}
+  .stat:nth-child(odd){border-right:1px solid rgba(42,53,69,.5)}
+  .stat:nth-child(n+3){border-bottom:none}
+  .stat-val{font-size:1.5rem}
+  .stat-label{font-size:.7rem}
+
+  /* Sections — tighter mobile padding */
+  .section{padding:3.5rem 1.25rem}
+  .section-title{font-size:clamp(1.6rem,6vw,2.2rem);margin-bottom:1rem}
+  .section-desc{font-size:.92rem}
+
+  /* Comparison cards */
+  .comp-card{padding:1.5rem}
+  .comp-item{font-size:.82rem;padding:.4rem 0}
+
+  /* Quiz — BIG tap targets for mobile */
+  .quiz-question{font-size:1.3rem}
+  .quiz-hint{font-size:.82rem;margin-bottom:1.25rem}
+  .quiz-opt{padding:1.1rem 1rem;border-width:1.5px;min-height:56px;border-radius:14px}
+  .quiz-opt:active{transform:scale(.98);background:var(--steel)}
+  .quiz-opt-icon{font-size:1.25rem}
+  .quiz-opt-title{font-size:.9rem}
+  .quiz-opt-sub{font-size:.73rem}
+  .quiz-progress{gap:.35rem;margin-bottom:1.5rem}
+  .quiz-pip{height:5px;border-radius:3px}
+
+  /* Quiz result */
+  .result-trade{font-size:clamp(1.6rem,7vw,2.2rem)}
+  .result-desc{font-size:.88rem}
+  .result-stats{grid-template-columns:repeat(3,1fr);gap:.5rem}
+  .result-stat{padding:.75rem .5rem;border-radius:12px}
+  .result-stat-label{font-size:.6rem}
+  .result-stat-val{font-size:1rem}
+
+  /* Features — single column on mobile */
+  .features-grid{grid-template-columns:1fr;gap:0;border-radius:12px}
+  .feature{padding:1.75rem 1.5rem}
+  .feature-num{font-size:1.5rem;margin-bottom:.6rem}
+  .feature h3{font-size:.95rem}
+  .feature p{font-size:.82rem}
+
+  /* Salary table — card layout on mobile */
+  .salary-header{display:none}
+  .salary-row{grid-template-columns:1fr}
+  .salary-cell{padding:.5rem 1.25rem}
+  .salary-cell.tn{padding-top:.9rem;font-size:.95rem}
+  .salary-cell.money{font-size:.85rem;padding:.35rem 1.25rem}
+  .salary-cell.money::before{content:attr(data-label);font-size:.6rem;color:var(--gunmetal);text-transform:uppercase;letter-spacing:.08em;margin-right:auto;font-weight:700}
+  .salary-row:not(.salary-header){padding-bottom:.5rem}
+  .vs-degree{flex-direction:column;gap:.75rem;font-size:.82rem;padding:1rem}
+
+  /* Personas */
+  .personas{gap:1rem}
+  .persona{padding:1.75rem}
+  .persona-icon{width:44px;height:44px;font-size:1.5rem;margin-bottom:1rem}
+  .persona h3{font-size:.95rem}
+  .persona p{font-size:.82rem}
+
+  /* Quote */
+  .quote{font-size:1.15rem;padding:0 .5rem}
+  .quote::before{font-size:4rem;top:-1.25rem;left:-.5rem}
+  .quote-section{padding:4rem 1.25rem}
+
+  /* CTA */
+  .cta-section{padding:5rem 1.25rem}
+  .cta-section .section-title{font-size:clamp(1.5rem,6vw,2rem)}
+  .cta-section .section-desc{font-size:.88rem;margin-bottom:2rem}
+
+  /* Footer */
+  footer{padding:1.5rem 1.25rem 1.25rem}
+  .footer-row{flex-direction:column;gap:.5rem;text-align:center}
+  .footer-logo{font-size:1rem}
+  .footer-center{font-size:.68rem}
+  .footer-flag{margin-top:.25rem}
+  .divider{padding:0 1.25rem}
+}
+
+/* ============ JOB BOARD ============ */
+.jobs-section{position:relative;overflow:hidden}
+.jobs-section::before{content:'';position:absolute;right:-10%;top:10%;width:700px;height:700px;background:radial-gradient(circle,rgba(212,135,15,.05) 0%,transparent 70%);pointer-events:none}
+.jobs-header{display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;margin-bottom:2.5rem;text-align:left}
+.jobs-header-left{max-width:600px}
+.jobs-badge{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,rgba(212,135,15,.12),rgba(212,135,15,.04));border:1px solid rgba(212,135,15,.25);border-radius:100px;padding:.35rem 1rem;font-size:.65rem;font-weight:700;color:var(--amber-bright);letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.25rem}
+.jobs-badge-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:blink 2s ease-in-out infinite}
+.jobs-header-right{flex-shrink:0}
+.jobs-employer-cta{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.2rem;border:1px solid var(--iron);border-radius:8px;color:var(--silver);font-size:.8rem;font-weight:500;text-decoration:none;transition:all .25s;background:var(--charcoal);white-space:nowrap;cursor:pointer}
+.jobs-employer-cta:hover{border-color:var(--amber);color:var(--amber-bright);background:rgba(212,135,15,.06)}
+.jobs-employer-cta svg{width:16px;height:16px;stroke:currentColor}
+
+/* Filters bar */
+.jobs-filters{display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.jf-pill{padding:.5rem 1rem;border-radius:8px;background:var(--charcoal);border:1px solid var(--iron);color:var(--silver);font-size:.78rem;font-weight:500;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:.4rem;font-family:'DM Sans',sans-serif;user-select:none}
+.jf-pill:hover{border-color:var(--gunmetal);color:var(--light)}
+.jf-pill.active{border-color:var(--amber);color:var(--amber-bright);background:rgba(212,135,15,.08)}
+.jf-pill svg{width:14px;height:14px;stroke:currentColor}
+.jf-search{flex:1;min-width:200px;padding:.5rem 1rem .5rem 2.2rem;border-radius:8px;background:var(--charcoal);border:1px solid var(--iron);color:var(--white);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;transition:border-color .25s;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='2' stroke='%237E8FA3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:.65rem center;background-size:15px}
+.jf-search::placeholder{color:var(--gunmetal)}
+.jf-search:focus{border-color:var(--amber)}
+
+/* Results count */
+.jobs-results-count{font-size:.75rem;color:var(--gunmetal);margin-bottom:1rem;display:flex;align-items:center;gap:.5rem}
+.jobs-results-count span{color:var(--silver);font-weight:600}
+
+/* Job cards — LIST VIEW */
+.jobs-list{display:flex;flex-direction:column;gap:.75rem;position:relative}
+.job-card{display:grid;grid-template-columns:auto 1fr auto;gap:1.25rem;align-items:center;padding:1.25rem 1.5rem;border-radius:14px;background:var(--charcoal);border:1px solid var(--iron);transition:all .3s;position:relative;cursor:pointer;text-align:left}
+.job-card:hover{border-color:rgba(212,135,15,.25);background:var(--steel);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.job-card:active{transform:translateY(0)}
+.job-card.featured{border-color:rgba(212,135,15,.3);background:linear-gradient(135deg,rgba(212,135,15,.06),var(--charcoal))}
+.job-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--amber),var(--amber-bright));border-radius:14px 14px 0 0}
+.job-card.hidden{display:none}
+
+.job-logo{width:48px;height:48px;border-radius:10px;background:var(--steel);border:1px solid var(--iron);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:var(--silver);flex-shrink:0;font-family:'Instrument Serif',serif}
+.job-card.featured .job-logo{border-color:rgba(212,135,15,.25);background:rgba(212,135,15,.08);color:var(--amber)}
+
+.job-body{min-width:0}
+.job-top{display:flex;align-items:center;gap:.6rem;margin-bottom:.25rem;flex-wrap:wrap}
+.job-title{font-size:.95rem;font-weight:700;color:var(--white)}
+.job-featured-tag{font-size:.55rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);background:rgba(212,135,15,.12);padding:.2rem .5rem;border-radius:4px}
+.job-company{font-size:.82rem;color:var(--silver);margin-bottom:.45rem}
+.job-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.job-tag{font-size:.68rem;font-weight:500;padding:.2rem .55rem;border-radius:4px;background:var(--steel);color:var(--fog);border:1px solid rgba(42,53,69,.6)}
+.job-tag.trade{background:rgba(212,135,15,.08);color:var(--amber-bright);border-color:rgba(212,135,15,.15)}
+.job-tag.green{background:rgba(52,211,153,.08);color:#34d399;border-color:rgba(52,211,153,.15)}
+
+.job-right{display:flex;flex-direction:column;align-items:flex-end;gap:.35rem;flex-shrink:0}
+.job-pay{font-family:'Instrument Serif',serif;font-size:1.15rem;color:var(--amber-bright);white-space:nowrap}
+.job-location{font-size:.72rem;color:var(--gunmetal);display:flex;align-items:center;gap:.3rem}
+.job-location svg{width:12px;height:12px;stroke:currentColor}
+.job-time{font-size:.65rem;color:var(--gunmetal)}
+
+/* ====== JOB DETAIL VIEW ====== */
+.job-detail{display:none;animation:cardIn .4s ease both}
+.job-detail.active{display:block}
+
+.jd-back{display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;font-weight:500;color:var(--silver);cursor:pointer;padding:.4rem 0;margin-bottom:1.5rem;transition:color .2s;background:none;border:none;font-family:'DM Sans',sans-serif}
+.jd-back:hover{color:var(--amber-bright)}
+.jd-back svg{width:16px;height:16px;stroke:currentColor}
+
+.jd-header{display:flex;gap:1.5rem;align-items:flex-start;margin-bottom:2rem}
+.jd-logo{width:64px;height:64px;border-radius:14px;background:var(--steel);border:1px solid var(--iron);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;color:var(--silver);flex-shrink:0;font-family:'Instrument Serif',serif}
+.jd-header.featured .jd-logo{border-color:rgba(212,135,15,.25);background:rgba(212,135,15,.08);color:var(--amber)}
+.jd-header-info{flex:1}
+.jd-title-row{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:.3rem}
+.jd-title{font-family:'Instrument Serif',serif;font-size:clamp(1.5rem,3vw,2rem);color:var(--white);line-height:1.15}
+.jd-company{font-size:.95rem;color:var(--silver);margin-bottom:.75rem}
+.jd-meta{display:flex;gap:1.5rem;flex-wrap:wrap}
+.jd-meta-item{display:flex;align-items:center;gap:.35rem;font-size:.82rem;color:var(--fog)}
+.jd-meta-item svg{width:16px;height:16px;stroke:var(--gunmetal)}
+.jd-meta-item.pay{color:var(--amber-bright);font-weight:600;font-family:'Instrument Serif',serif;font-size:1.05rem}
+
+.jd-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem}
+.jd-tags .job-tag{font-size:.75rem;padding:.3rem .7rem}
+
+.jd-grid{display:grid;grid-template-columns:1fr 320px;gap:2rem;text-align:left}
+.jd-main{min-width:0}
+.jd-sidebar{position:sticky;top:80px;align-self:start}
+
+.jd-section{margin-bottom:2rem}
+.jd-section-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);margin-bottom:.75rem}
+.jd-section p{font-size:.9rem;color:var(--fog);line-height:1.7}
+.jd-section ul{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.jd-section li{font-size:.88rem;color:var(--fog);line-height:1.55;padding-left:1.25rem;position:relative}
+.jd-section li::before{content:'';position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--iron)}
+
+/* Sidebar card */
+.jd-apply-card{padding:1.75rem;border-radius:14px;background:var(--charcoal);border:1px solid var(--iron);margin-bottom:1.25rem}
+.jd-apply-btn{width:100%;padding:.85rem;background:var(--amber);color:var(--midnight);font-family:'DM Sans',sans-serif;font-weight:700;font-size:.9rem;border:none;border-radius:10px;cursor:pointer;transition:all .25s;margin-bottom:1rem}
+.jd-apply-btn:hover{background:var(--amber-bright);box-shadow:0 4px 20px rgba(212,135,15,.35);transform:translateY(-1px)}
+.jd-apply-sub{font-size:.75rem;color:var(--gunmetal);text-align:center}
+
+.jd-info-card{padding:1.5rem;border-radius:14px;background:var(--charcoal);border:1px solid var(--iron)}
+.jd-info-row{display:flex;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid rgba(42,53,69,.4)}
+.jd-info-row:last-child{border-bottom:none}
+.jd-info-label{font-size:.78rem;color:var(--gunmetal)}
+.jd-info-val{font-size:.82rem;color:var(--white);font-weight:500;text-align:right}
+
+/* Employer value props */
+.employer-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem}
+.emp-card{padding:1.25rem 1.5rem;border-radius:10px;background:var(--charcoal);border:1px solid var(--iron);text-align:left;transition:all .3s}
+.emp-card:hover{border-color:rgba(212,135,15,.2)}
+.emp-icon{font-size:1.4rem;margin-bottom:.6rem}
+.emp-card h4{font-size:.85rem;font-weight:700;color:var(--white);margin-bottom:.3rem}
+.emp-card p{font-size:.78rem;color:var(--silver);line-height:1.55}
+
+/* No results */
+.jobs-empty{text-align:center;padding:3rem 1rem;display:none}
+.jobs-empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.5}
+.jobs-empty h4{font-size:1rem;color:var(--white);margin-bottom:.4rem}
+.jobs-empty p{font-size:.85rem;color:var(--silver)}
+
+/* CTA bar */
+.jobs-cta-bar{text-align:center;padding-top:2rem}
+.jobs-coming{display:inline-flex;align-items:center;gap:.75rem;padding:.85rem 2rem;border-radius:12px;background:var(--charcoal);border:1px solid var(--iron);font-size:.88rem;color:var(--white);font-weight:600}
+.jobs-coming .amber{color:var(--amber-bright)}
+.jobs-count{margin-top:.75rem;font-size:.78rem;color:var(--gunmetal)}
+
+@media(max-width:900px){
+  .jobs-header{flex-direction:column;align-items:flex-start}
+  .job-card{grid-template-columns:auto 1fr;gap:1rem}
+  .job-right{grid-column:1/-1;flex-direction:row;align-items:center;gap:1rem;justify-content:flex-start;padding-top:.5rem;border-top:1px solid rgba(42,53,69,.4)}
+  .employer-row{grid-template-columns:1fr}
+  .jd-grid{grid-template-columns:1fr}
+  .jd-sidebar{position:static}
+  .jd-header{flex-direction:column;gap:1rem}
+}
+@media(max-width:640px){
+  .jobs-filters{gap:.35rem}
+  .jf-pill{padding:.45rem .75rem;font-size:.72rem;border-radius:6px}
+  .jf-search{min-width:100%;order:-1}
+  .job-card{grid-template-columns:1fr;gap:.75rem;padding:1.1rem 1.25rem}
+  .job-logo{display:none}
+  .job-right{flex-direction:row;align-items:center;gap:.75rem;border-top:1px solid rgba(42,53,69,.4);padding-top:.6rem}
+  .job-pay{font-size:1rem}
+  .employer-row{gap:.75rem}
+  .emp-card{padding:1rem 1.25rem}
+  .jd-logo{width:52px;height:52px;font-size:1.3rem}
+  .jd-meta{gap:.75rem}
+  .jd-apply-card{padding:1.25rem}
+}
 </style>
 </head>
 <body>
-<div id="root"></div>
-<!-- Hidden form for Netlify form detection -->
-<form name="contact" netlify netlify-honeypot="bot-field" hidden>
-  <input name="first-name"/>
-  <input name="last-name"/>
-  <input name="email"/>
-  <input name="phone"/>
-  <input name="company"/>
-  <input name="role"/>
-  <textarea name="message"></textarea>
-</form>
-<script type="module" src="/src/main.jsx"></script>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">Journeyman<span>.</span></a>
+  <div class="nav-links">
+    <a href="#quiz" class="nav-link">Find Your Trade</a>
+    <a href="#jobs" class="nav-link">Jobs</a>
+    <a href="#salaries" class="nav-link">Salaries</a>
+    <a href="#signup" class="nav-cta">Join Waitlist</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow"><div class="eyebrow-dot"></div>Launching Spring 2026</div>
+    <h1><span class="line">Find Your</span><span class="line"><em>Trade.</em></span></h1>
+    <p class="hero-tagline">The first platform that maps your entire path into the skilled trades — from discovery to apprenticeship to career. Think Common App, but for people who build things.</p>
+    <div class="hero-form-wrap" id="heroFormWrap">
+      <div class="hero-form" id="heroForm">
+        <input type="email" id="heroEmail" placeholder="Enter your email to join the waitlist" required>
+        <button onclick="signup('hero')">Join Waitlist</button>
+      </div>
+      <div class="hero-meta">
+        <span><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Free forever for job seekers</span>
+        <span><svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>No spam, ever</span>
+      </div>
+    </div>
+    <div class="form-success" id="heroSuccess">
+      <div class="check"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+      <h3>You're on the list.</h3>
+      <p>We'll reach out when Journeyman launches.</p>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-mouse"></div></div>
+</section>
+
+<!-- STATS — UPDATED with compelling real data -->
+<div class="stats r">
+  <div class="stat">
+    <div class="stat-val">439K</div>
+    <div class="stat-label">New workers needed<br>in construction alone — this year</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">5 : 2</div>
+    <div class="stat-label">Boomers retiring for every<br>young worker entering trades</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">70%</div>
+    <div class="stat-label">Of employers can't find<br>qualified skilled workers</div>
+  </div>
+  <div class="stat">
+    <div class="stat-val">$0 debt</div>
+    <div class="stat-label">Most apprenticeships pay<br>you while you learn</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section r" style="text-align:center">
+  <div class="section-label">The Problem</div>
+  <h2 class="section-title">College has an entire ecosystem.<br>The trades have nothing.</h2>
+  <p class="section-desc" style="margin-left:auto;margin-right:auto">If you want a four-year degree, there are dozens of platforms guiding your every step. Want to become an electrician, welder, or CNC machinist? <strong>You're completely on your own.</strong></p>
+  <div class="comparison r r-d2">
+    <div class="comp-card college">
+      <h4>College-bound students get:</h4>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Common App</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Naviance &amp; CollegeBoard</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Campus tours &amp; rankings</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Scholarship databases</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg> Trained guidance counselors</div>
+    </div>
+    <div class="comp-card trades">
+      <h4>Trades-bound people get:</h4>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Scattered Google results</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Outdated school websites</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Word of mouth</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> "Just figure it out"</div>
+      <div class="comp-item"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg> Nothing. Literally nothing.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- ============ FIND YOUR TRADE QUIZ ============ -->
+<section class="section quiz-section r" id="quiz" style="text-align:center">
+  <div class="section-label">Interactive</div>
+  <h2 class="section-title">Not sure where to start?<br>Find your trade in 60 seconds.</h2>
+  <p class="section-desc" style="margin-left:auto;margin-right:auto">Answer 5 quick questions about what you enjoy, how you work, and what matters to you. We'll point you toward the trades that fit.</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quizProgress">
+      <div class="quiz-pip active" data-step="0"></div>
+      <div class="quiz-pip" data-step="1"></div>
+      <div class="quiz-pip" data-step="2"></div>
+      <div class="quiz-pip" data-step="3"></div>
+      <div class="quiz-pip" data-step="4"></div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="quiz-step active" data-step="0">
+      <div class="quiz-question">What kind of work excites you most?</div>
+      <div class="quiz-hint">Pick the one that feels most natural.</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" data-tags="electrical,cnc" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">⚡</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Solving puzzles &amp; systems</div><div class="quiz-opt-sub">Figuring out how things connect and making them work</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="welding,plumbing" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🔥</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Building with my hands</div><div class="quiz-opt-sub">Physical work where I can see what I've created</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="hvac,maintenance" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🔧</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Fixing things that break</div><div class="quiz-opt-sub">Diagnosing problems and getting things running again</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="cnc,electrical" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">💻</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Technology &amp; precision</div><div class="quiz-opt-sub">Working with machines, computers, and exact measurements</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="quiz-step" data-step="1">
+      <div class="quiz-question">What's your ideal work environment?</div>
+      <div class="quiz-hint">Where do you see yourself day-to-day?</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" data-tags="electrical,plumbing,hvac" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🏠</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Different job sites every day</div><div class="quiz-opt-sub">Homes, commercial buildings, new construction</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="cnc,maintenance" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🏭</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Factory or shop floor</div><div class="quiz-opt-sub">One facility, consistent environment, steady routine</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="welding,maintenance" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🏗️</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Industrial or heavy construction</div><div class="quiz-opt-sub">Large-scale projects, infrastructure, heavy equipment</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="electrical,hvac" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🌎</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Wherever the work takes me</div><div class="quiz-opt-sub">Travel, variety, maybe work across different states</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="quiz-step" data-step="2">
+      <div class="quiz-question">How important is earning potential to you?</div>
+      <div class="quiz-hint">Be honest — there's no wrong answer.</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" data-tags="electrical,plumbing" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🎯</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Top priority</div><div class="quiz-opt-sub">I want the highest ceiling possible, even if it takes longer</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="hvac,maintenance" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">⚖️</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Good balance</div><div class="quiz-opt-sub">Solid pay matters but so does work-life balance</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="welding,cnc" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🚀</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Fast start matters most</div><div class="quiz-opt-sub">I want to be earning good money as quickly as possible</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="plumbing,electrical" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🏢</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">I want to own a business someday</div><div class="quiz-opt-sub">Building toward running my own operation</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="quiz-step" data-step="3">
+      <div class="quiz-question">How do you feel about physical work?</div>
+      <div class="quiz-hint">This affects which trades fit your lifestyle.</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" data-tags="welding,plumbing" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">💪</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Bring it on</div><div class="quiz-opt-sub">I want to be moving, lifting, working hard all day</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="electrical,hvac" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🤝</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Active but not extreme</div><div class="quiz-opt-sub">On my feet and using my hands, but not backbreaking</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="cnc,maintenance" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🧠</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">More brain than brawn</div><div class="quiz-opt-sub">I prefer thinking and problem-solving over heavy labor</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="cnc,electrical" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🎛️</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">Mix of mental and physical</div><div class="quiz-opt-sub">Some hands-on, some technical — best of both worlds</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="quiz-step" data-step="4">
+      <div class="quiz-question">How soon do you want to start working?</div>
+      <div class="quiz-hint">This determines the best training path.</div>
+      <div class="quiz-options">
+        <div class="quiz-opt" data-tags="welding,hvac" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">⏱️</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">As fast as possible</div><div class="quiz-opt-sub">Get me trained and earning in under a year</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="cnc,maintenance" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">📅</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">1–2 years is fine</div><div class="quiz-opt-sub">Willing to invest time for stronger foundation</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="electrical,plumbing" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🏆</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">I'll invest 4–5 years for the best outcome</div><div class="quiz-opt-sub">Full apprenticeship, deep skills, highest earning potential</div></div>
+        </div>
+        <div class="quiz-opt" data-tags="hvac,maintenance,welding" onclick="selectOpt(this)">
+          <div class="quiz-opt-icon">🔄</div>
+          <div class="quiz-opt-text"><div class="quiz-opt-title">I want to earn while I learn</div><div class="quiz-opt-sub">Paid training or apprenticeship is a must</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="quiz-result" id="quizResult">
+      <div class="result-badge">✨ Your Top Match</div>
+      <div class="result-trade" id="resultTrade">Electrician</div>
+      <div class="result-desc" id="resultDesc">Loading your personalized result...</div>
+      <div class="result-stats">
+        <div class="result-stat"><div class="result-stat-label">Mid-Career Salary</div><div class="result-stat-val" id="resultSalary">$62K</div></div>
+        <div class="result-stat"><div class="result-stat-label">Training Time</div><div class="result-stat-val" id="resultTime">4–5 yrs</div></div>
+        <div class="result-stat"><div class="result-stat-label">Demand</div><div class="result-stat-val" id="resultDemand">Very High</div></div>
+      </div>
+      <div class="result-cta-wrap">
+        <div class="result-cta-text">Join the waitlist and we'll send you a personalized pathway when Journeyman launches.</div>
+        <div class="result-form" id="resultFormWrap">
+          <input type="email" id="resultEmail" placeholder="Enter your email" required>
+          <button onclick="signup('result')">Get My Pathway</button>
+        </div>
+        <div class="form-success" id="resultSuccess">
+          <div class="check"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+          <h3>You're in!</h3>
+          <p>We'll send your personalized pathway at launch.</p>
+        </div>
+      </div>
+      <button class="quiz-restart" onclick="restartQuiz()">Retake the quiz</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- FEATURES -->
+<section class="section r" style="text-align:center">
+  <div class="section-label">What Journeyman Does</div>
+  <h2 class="section-title">Everything the trades have<br>been missing. In one place.</h2>
+  <div class="features-grid">
+    <div class="feature"><div class="feature-num">01</div><h3>Trade Explorer</h3><p>Browse every skilled trade with real salary data, certifications, physical demands, and career progression — not job descriptions, actual careers.</p></div>
+    <div class="feature"><div class="feature-num">02</div><h3>Program Finder</h3><p>Search thousands of apprenticeships, trade schools, and union programs by location. Filter for programs that pay you while you learn.</p></div>
+    <div class="feature"><div class="feature-num">03</div><h3>Pathway Maps</h3><p>Visual roadmaps showing exactly how to go from "interested" to "employed" — with timelines, milestones, and salary at every stage.</p></div>
+    <div class="feature"><div class="feature-num">04</div><h3>Real Reviews</h3><p>Hear from people who actually completed programs. Honest, structured reviews so you know what you're signing up for before you commit.</p></div>
+    <div class="feature"><div class="feature-num">05</div><h3>Compare Programs</h3><p>Side-by-side program comparison on the metrics that matter — cost, duration, job placement rate, and what graduates actually earn.</p></div>
+    <div class="feature"><div class="feature-num">06</div><h3>Counselor Hub</h3><p>Dedicated tools for guidance counselors and parents. Shareable resources and batch search by district. Finally, something to hand to students.</p></div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- ============ INTERACTIVE JOB BOARD ============ -->
+<section class="section jobs-section r" id="jobs">
+  <div class="jobs-header">
+    <div class="jobs-header-left">
+      <div class="jobs-badge"><div class="jobs-badge-dot"></div>Preview</div>
+      <div class="section-label">The Only Job Board Built for the Trades</div>
+      <h2 class="section-title" style="text-align:left">Discover your trade.<br>Then get hired.</h2>
+      <p class="section-desc">No more wading through millions of irrelevant listings. Journeyman's job board is <strong>exclusively for the skilled trades</strong> — connected directly to your quiz results, pathway maps, and training programs.</p>
+    </div>
+    <div class="jobs-header-right">
+      <a href="#signup" class="jobs-employer-cta">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+        Post a Job — Free
+      </a>
+    </div>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div id="jobListView">
+    <!-- Filter pills -->
+    <div class="jobs-filters">
+      <input class="jf-search" id="jobSearch" type="text" placeholder="Search trades jobs near Philadelphia, PA..." oninput="filterJobs()">
+      <div class="jf-pill active" data-filter="all" onclick="setFilter(this)">All Trades</div>
+      <div class="jf-pill" data-filter="electrical" onclick="setFilter(this)">Electrical</div>
+      <div class="jf-pill" data-filter="hvac" onclick="setFilter(this)">HVAC</div>
+      <div class="jf-pill" data-filter="plumbing" onclick="setFilter(this)">Plumbing</div>
+      <div class="jf-pill" data-filter="welding" onclick="setFilter(this)">Welding</div>
+      <div class="jf-pill" data-filter="cnc" onclick="setFilter(this)">CNC</div>
+    </div>
+
+    <div class="jobs-results-count" id="jobsCount"><span>8</span> jobs near Philadelphia, PA</div>
+    <div style="font-size:.65rem;color:var(--gunmetal);margin-bottom:1rem;margin-top:-.5rem;font-style:italic">Sample listings for demonstration purposes only</div>
+
+    <!-- Job listings -->
+    <div class="jobs-list" id="jobsList"></div>
+
+    <!-- No results -->
+    <div class="jobs-empty" id="jobsEmpty">
+      <div class="jobs-empty-icon">🔍</div>
+      <h4>No jobs match your search</h4>
+      <p>Try a different trade or search term.</p>
+    </div>
+  </div>
+
+  <!-- DETAIL VIEW -->
+  <div class="job-detail" id="jobDetailView">
+    <button class="jd-back" onclick="showJobList()">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/></svg>
+      Back to all jobs
+    </button>
+
+    <div class="jd-header" id="jdHeader">
+      <div class="jd-logo" id="jdLogo">P</div>
+      <div class="jd-header-info">
+        <div class="jd-title-row">
+          <div class="jd-title" id="jdTitle">Journeyman Electrician</div>
+          <div class="job-featured-tag" id="jdFeaturedTag" style="display:none">Featured</div>
+        </div>
+        <div class="jd-company" id="jdCompany">Patterson Electric Co.</div>
+        <div class="jd-meta">
+          <div class="jd-meta-item pay" id="jdPay">$72K–$92K</div>
+          <div class="jd-meta-item" id="jdLocation"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg> <span>Philadelphia, PA</span></div>
+          <div class="jd-meta-item" id="jdType"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0"/></svg> <span>Full-Time</span></div>
+          <div class="jd-meta-item" id="jdPosted"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/></svg> <span>Posted 2 hours ago</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="jd-tags" id="jdTags"></div>
+
+    <div class="jd-grid">
+      <div class="jd-main">
+        <div class="jd-section">
+          <div class="jd-section-title">About This Role</div>
+          <p id="jdAbout"></p>
+        </div>
+        <div class="jd-section">
+          <div class="jd-section-title">What You'll Do</div>
+          <ul id="jdDuties"></ul>
+        </div>
+        <div class="jd-section">
+          <div class="jd-section-title">What We're Looking For</div>
+          <ul id="jdRequirements"></ul>
+        </div>
+        <div class="jd-section">
+          <div class="jd-section-title">Benefits & Perks</div>
+          <ul id="jdBenefits"></ul>
+        </div>
+      </div>
+      <div class="jd-sidebar">
+        <div class="jd-apply-card">
+          <button class="jd-apply-btn" onclick="alert('This is a preview! The job board launches with the full platform.')">Apply Now</button>
+          <div class="jd-apply-sub">Free to apply · No account required</div>
+        </div>
+        <div class="jd-info-card" id="jdInfoCard"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA + Employer value props -->
+  <div class="jobs-cta-bar" id="jobsCta">
+    <div class="jobs-coming">The job board launches with the platform. <span class="amber">Join the waitlist for early access.</span></div>
+    <div class="jobs-count">Employers: Post your first listing free — forever. No catch.</div>
+  </div>
+
+  <div class="employer-row r" id="employerRow">
+    <div class="emp-card">
+      <div class="emp-icon">🎯</div>
+      <h4>Qualified Candidates Only</h4>
+      <p>Applicants come through our quiz and pathway maps — they've already researched the trade and self-selected in. No random résumé spam.</p>
+    </div>
+    <div class="emp-card">
+      <div class="emp-icon">⚡</div>
+      <h4>Post in 60 Seconds</h4>
+      <p>Self-serve job posting. Pick a trade, set the location and pay, add a description, and you're live. No sales calls, no contracts.</p>
+    </div>
+    <div class="emp-card">
+      <div class="emp-icon">📊</div>
+      <h4>See What's Working</h4>
+      <p>Track views, clicks, and applications per listing. Featured employers get priority placement in quiz results and pathway pages.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+<section class="section r" id="salaries" style="text-align:center">
+  <div class="section-label">The Numbers Don't Lie</div>
+  <h2 class="section-title">Trades careers pay.<br>And they start paying faster.</h2>
+  <p class="section-desc" style="margin-left:auto;margin-right:auto">No $80K in student debt. No four years of lost income. Many trades start earning from day one through paid apprenticeships.</p>
+  <div class="salary-table">
+    <div class="salary-row salary-header"><div class="salary-cell">Trade</div><div class="salary-cell">Entry Salary</div><div class="salary-cell">Mid-Career</div><div class="salary-cell">Senior / Owner</div></div>
+    <div class="salary-row"><div class="salary-cell tn">Electrician</div><div class="salary-cell money" data-label="Entry: ">$37,000</div><div class="salary-cell money" data-label="Mid: ">$62,000</div><div class="salary-cell money" data-label="Senior: ">$110,000+</div></div>
+    <div class="salary-row"><div class="salary-cell tn">Plumber</div><div class="salary-cell money" data-label="Entry: ">$34,000</div><div class="salary-cell money" data-label="Mid: ">$60,000</div><div class="salary-cell money" data-label="Senior: ">$120,000+</div></div>
+    <div class="salary-row"><div class="salary-cell tn">HVAC Technician</div><div class="salary-cell money" data-label="Entry: ">$32,000</div><div class="salary-cell money" data-label="Mid: ">$55,000</div><div class="salary-cell money" data-label="Senior: ">$110,000+</div></div>
+    <div class="salary-row"><div class="salary-cell tn">Welder (Specialized)</div><div class="salary-cell money" data-label="Entry: ">$35,000</div><div class="salary-cell money" data-label="Mid: ">$78,000</div><div class="salary-cell money" data-label="Senior: ">$120,000+</div></div>
+    <div class="salary-row"><div class="salary-cell tn">CNC Machinist</div><div class="salary-cell money" data-label="Entry: ">$38,000</div><div class="salary-cell money" data-label="Mid: ">$58,000</div><div class="salary-cell money" data-label="Senior: ">$95,000+</div></div>
+    <div class="salary-row"><div class="salary-cell tn">Industrial Maintenance</div><div class="salary-cell money" data-label="Entry: ">$36,000</div><div class="salary-cell money" data-label="Mid: ">$56,000</div><div class="salary-cell money" data-label="Senior: ">$95,000+</div></div>
+  </div>
+  <div class="vs-degree r r-d2">
+    <div class="tag">Compare</div>
+    <div>Average 4-year degree holder at age 26: <strong>$52,000 salary with $33,000 in debt.</strong> Average journeyman electrician at age 26: <strong>$62,000 salary with $0 debt</strong> — and 4+ years of work experience.</div>
+  </div>
+</section>
+
+<div class="divider"><hr></div>
+
+<!-- PERSONAS -->
+<section class="section r" style="text-align:center">
+  <div class="section-label">Who It's For</div>
+  <h2 class="section-title">Whether you're 17 or 37,<br>your path starts here.</h2>
+  <div class="personas">
+    <div class="persona r r-d1"><div class="persona-icon">🔧</div><h3>The Explorer</h3><div class="age">Ages 16–19</div><p>You know college isn't for you — or at least not yet. You want a career where you build real things, earn well, and don't start life buried in debt.</p></div>
+    <div class="persona r r-d2"><div class="persona-icon">🔄</div><h3>The Pivoter</h3><div class="age">Ages 25–45</div><p>You're ready for a change. Maybe stuck in a dead-end role, carrying loans for a degree you don't use, or just want work that actually matters.</p></div>
+    <div class="persona r r-d3"><div class="persona-icon">🧭</div><h3>The Guide</h3><div class="age">Parents &amp; Counselors</div><p>Your kid or student wants to work with their hands. You want to help but have no idea where to point them. Now you do.</p></div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="divider"><hr></div>
+<section class="quote-section r">
+  <blockquote class="quote">A journeyman is someone who has completed their apprenticeship and earned the right to practice their craft independently. That's not a fallback plan — that's a destination.</blockquote>
+  <div class="quote-attr">— The meaning behind the name</div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="divider"><hr></div>
+<section class="cta-section r" id="signup">
+  <div class="section-label" style="justify-content:center">Get Early Access</div>
+  <h2 class="section-title">The trades are waiting.<br>So is your future.</h2>
+  <p class="section-desc">Join the waitlist. Be first to access Journeyman when we launch.</p>
+  <div class="cta-form-wrap" id="ctaFormWrap">
+    <div class="cta-form" id="ctaForm">
+      <input type="email" id="ctaEmail" placeholder="Enter your email" required>
+      <button onclick="signup('cta')">Join Waitlist</button>
+    </div>
+  </div>
+  <div class="form-success" id="ctaSuccess">
+    <div class="check"><svg fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg></div>
+    <h3>You're on the list.</h3>
+    <p>We'll reach out when Journeyman launches.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-row">
+    <div class="footer-logo">Journeyman<span>.</span></div>
+    <div class="footer-center">A Bound Search Partners venture · © 2026 Journeyman</div>
+    <div class="footer-flag">
+      <svg width="18" height="12" viewBox="0 0 18 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="18" height="12" rx=".75" fill="#BF0A30"/>
+        <rect y="1.714" width="18" height="1.714" fill="#FFF"/>
+        <rect y="3.429" width="18" height="1.714" fill="#BF0A30"/>
+        <rect y="5.143" width="18" height="1.714" fill="#FFF"/>
+        <rect y="6.857" width="18" height="1.714" fill="#BF0A30"/>
+        <rect y="8.571" width="18" height="1.714" fill="#FFF"/>
+        <rect y="10.286" width="18" height="1.714" fill="#BF0A30"/>
+        <rect width="7.2" height="6.857" fill="#002868"/>
+        <g fill="#FFF">
+          <circle cx="1" cy=".9" r=".35"/><circle cx="2.3" cy=".9" r=".35"/><circle cx="3.6" cy=".9" r=".35"/><circle cx="4.9" cy=".9" r=".35"/><circle cx="6.2" cy=".9" r=".35"/>
+          <circle cx="1.65" cy="1.8" r=".35"/><circle cx="2.95" cy="1.8" r=".35"/><circle cx="4.25" cy="1.8" r=".35"/><circle cx="5.55" cy="1.8" r=".35"/>
+          <circle cx="1" cy="2.7" r=".35"/><circle cx="2.3" cy="2.7" r=".35"/><circle cx="3.6" cy="2.7" r=".35"/><circle cx="4.9" cy="2.7" r=".35"/><circle cx="6.2" cy="2.7" r=".35"/>
+          <circle cx="1.65" cy="3.6" r=".35"/><circle cx="2.95" cy="3.6" r=".35"/><circle cx="4.25" cy="3.6" r=".35"/><circle cx="5.55" cy="3.6" r=".35"/>
+          <circle cx="1" cy="4.5" r=".35"/><circle cx="2.3" cy="4.5" r=".35"/><circle cx="3.6" cy="4.5" r=".35"/><circle cx="4.9" cy="4.5" r=".35"/><circle cx="6.2" cy="4.5" r=".35"/>
+          <circle cx="1.65" cy="5.4" r=".35"/><circle cx="2.95" cy="5.4" r=".35"/><circle cx="4.25" cy="5.4" r=".35"/><circle cx="5.55" cy="5.4" r=".35"/>
+          <circle cx="1" cy="6.3" r=".35"/><circle cx="2.3" cy="6.3" r=".35"/><circle cx="3.6" cy="6.3" r=".35"/><circle cx="4.9" cy="6.3" r=".35"/><circle cx="6.2" cy="6.3" r=".35"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)});
+
+// Scroll reveal
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v')})},{threshold:.12});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+
+// Particles
+const pc=document.getElementById('particles');
+for(let i=0;i<20;i++){const p=document.createElement('div');p.className='particle';p.style.left=Math.random()*100+'%';p.style.animationDelay=Math.random()*8+'s';p.style.animationDuration=(6+Math.random()*6)+'s';p.style.width=p.style.height=(2+Math.random()*3)+'px';pc.appendChild(p)}
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+
+// ====== QUIZ ENGINE ======
+const tradeData={
+  electrical:{name:'Electrician',desc:'You matched with one of the most in-demand and highest-paying skilled trades. Electricians install, maintain, and repair electrical systems — and the path from apprentice to master is one of the clearest in the trades. Strong union options, excellent job security, and real potential to start your own business.',salary:'$62K',time:'4–5 yrs',demand:'Very High'},
+  welding:{name:'Welder',desc:'You matched with a trade that\'s all about creating with your hands — and the demand is massive. Welders join metals across manufacturing, construction, and infrastructure. Specialized certifications in underwater or aerospace welding can push earnings past $120K. One of the fastest trades to enter.',salary:'$52–78K',time:'7 mo–2 yrs',demand:'High'},
+  cnc:{name:'CNC Machinist',desc:'You matched with the intersection of technology and craftsmanship. CNC machinists program and operate precision machines for aerospace, medical, and automotive industries. It\'s one of the most future-proof trades — you\'re working with advanced tech every day, and the demand is intense.',salary:'$58K',time:'1–2 yrs',demand:'Very High'},
+  hvac:{name:'HVAC Technician',desc:'You matched with one of the most recession-proof trades there is. Every building needs climate control, and the push toward energy efficiency is creating even more demand. HVAC techs install and repair heating and cooling systems — it\'s steady, well-paid, and growing fast.',salary:'$55K',time:'6 mo–2 yrs',demand:'Very High'},
+  plumbing:{name:'Plumber',desc:'You matched with one of the oldest and most stable trades in existence. Plumbers install and repair water, drainage, and gas systems — and AI isn\'t coming for this job. Strong union representation, clear advancement from apprentice to master, and one of the best trades for building your own business.',salary:'$60K',time:'4–5 yrs',demand:'High'},
+  maintenance:{name:'Industrial Maintenance Technician',desc:'You matched with the backbone of every factory floor. Industrial maintenance techs keep manufacturing plants running — troubleshooting mechanical, electrical, hydraulic, and pneumatic systems. It\'s varied, intellectually stimulating, and in massive demand as reshoring accelerates.',salary:'$56K',time:'1–3 yrs',demand:'Very High'}
+};
+
+let quizStep=0;
+let scores={electrical:0,welding:0,cnc:0,hvac:0,plumbing:0,maintenance:0};
+
+function selectOpt(el){
+  // Deselect siblings
+  el.parentElement.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  
+  // Score
+  const tags=el.dataset.tags.split(',');
+  tags.forEach(t=>{if(scores[t]!==undefined)scores[t]++});
+  
+  // Advance after brief delay
+  setTimeout(()=>{
+    quizStep++;
+    if(quizStep<5){
+      showStep(quizStep);
+    }else{
+      showResult();
+    }
+  },400);
+}
+
+function showStep(step){
+  document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.quiz-pip').forEach((p,i)=>{
+    p.classList.remove('active','done');
+    if(i<step)p.classList.add('done');
+    if(i===step)p.classList.add('active');
+  });
+  const next=document.querySelector(`.quiz-step[data-step="${step}"]`);
+  if(next){next.classList.add('active')}
+}
+
+function showResult(){
+  // Hide steps, show result
+  document.querySelectorAll('.quiz-step').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.quiz-pip').forEach(p=>{p.classList.remove('active');p.classList.add('done')});
+  
+  // Find winner
+  let max=0,winner='electrical';
+  for(const[k,v]of Object.entries(scores)){if(v>max){max=v;winner=k}}
+  
+  const data=tradeData[winner];
+  document.getElementById('resultTrade').textContent=data.name;
+  document.getElementById('resultDesc').textContent=data.desc;
+  document.getElementById('resultSalary').textContent=data.salary;
+  document.getElementById('resultTime').textContent=data.time;
+  document.getElementById('resultDemand').textContent=data.demand;
+  
+  document.getElementById('quizResult').classList.add('active');
+}
+
+function restartQuiz(){
+  quizStep=0;
+  scores={electrical:0,welding:0,cnc:0,hvac:0,plumbing:0,maintenance:0};
+  document.getElementById('quizResult').classList.remove('active');
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('selected'));
+  showStep(0);
+}
+
+// Signup handler
+function signup(loc){
+  const ids={hero:'heroEmail',cta:'ctaEmail',result:'resultEmail'};
+  const input=document.getElementById(ids[loc]);
+  if(!input.value||!input.value.includes('@')){input.focus();return}
+  
+  if(loc==='hero'){
+    document.getElementById('heroFormWrap').style.display='none';
+    document.querySelector('.hero-meta').style.display='none';
+    document.getElementById('heroSuccess').style.display='flex';
+  }else if(loc==='cta'){
+    document.getElementById('ctaFormWrap').style.display='none';
+    document.getElementById('ctaSuccess').style.display='flex';
+  }else if(loc==='result'){
+    document.getElementById('resultFormWrap').style.display='none';
+    document.getElementById('resultSuccess').style.display='flex';
+  }
+  console.log('Waitlist signup:',input.value,'source:',loc);
+}
+
+// Enter key support
+['heroEmail','ctaEmail','resultEmail'].forEach(id=>{
+  document.getElementById(id).addEventListener('keypress',e=>{
+    if(e.key==='Enter'){
+      if(id==='heroEmail')signup('hero');
+      else if(id==='ctaEmail')signup('cta');
+      else signup('result');
+    }
+  });
+});
+// ====== INTERACTIVE JOB BOARD ======
+const jobData = [
+  {
+    id: 'patterson', logo: 'P', featured: true, trade: 'electrical',
+    title: 'Journeyman Electrician', company: 'Patterson Electric Co.', companyFull: 'Patterson Electric Co. — Commercial & Residential',
+    pay: '$72K–$92K', location: 'Philadelphia, PA', time: 'Posted 2 hours ago', type: 'Full-Time',
+    tags: [{text:'Electrical',cls:'trade'},{text:'Will Train',cls:'green'},{text:'Full-Time'},{text:'Benefits'}],
+    about: 'Patterson Electric is a family-owned electrical contractor serving the greater Philadelphia area since 1987. We\'re looking for a licensed Journeyman Electrician to join our growing commercial and residential team. You\'ll work on a mix of new construction, renovations, and service calls across the tri-county area. We value craftsmanship, reliability, and taking care of our people — our average employee tenure is 9 years.',
+    duties: ['Install, maintain, and repair electrical systems in commercial and residential settings','Read and interpret blueprints, schematics, and technical documents','Troubleshoot electrical issues and determine the best repair solutions','Mentor apprentices and help develop the next generation of electricians','Ensure all work meets NEC and local code requirements','Coordinate with general contractors, inspectors, and other trades on job sites'],
+    requirements: ['Valid Journeyman Electrician license (Commonwealth of Pennsylvania)','Minimum 4 years of hands-on electrical experience','Strong knowledge of NEC codes and local electrical regulations','Valid driver\'s license and reliable transportation','Ability to work independently and lead a small crew','OSHA 10 preferred but not required — we\'ll pay for certification'],
+    benefits: ['Health, dental, and vision insurance (company pays 80%)','Company vehicle and fuel card for service calls','Tool allowance: $500/year','Paid apprentice mentorship bonus','401(k) with 4% employer match','Paid holidays + 2 weeks PTO starting year one'],
+    info: {posted:'Feb 24, 2026',type:'Full-Time',experience:'4+ years',license:'Journeyman',schedule:'Mon–Fri, 7AM–3:30PM',start:'Immediate'}
+  },
+  {
+    id: 'kelly', logo: 'K', featured: false, trade: 'hvac',
+    title: 'HVAC Install Technician', company: 'Kelly Mechanical Services', companyFull: 'Kelly Mechanical Services',
+    pay: '$48K–$65K', location: 'King of Prussia, PA', time: 'Posted 5 hours ago', type: 'Full-Time',
+    tags: [{text:'HVAC',cls:'trade'},{text:'Apprentice-Friendly',cls:'green'},{text:'Full-Time'}],
+    about: 'Kelly Mechanical is expanding our residential HVAC installation team. We\'re looking for technicians with at least some HVAC experience who want to grow into senior install roles. We handle everything from mini-splits to full commercial rooftop units across Montgomery and Chester counties. If you\'ve got mechanical aptitude and a good attitude, we\'ll invest in your development.',
+    duties: ['Install residential and light commercial HVAC systems (split systems, heat pumps, ductwork)','Perform system startups, testing, and commissioning','Run refrigerant lines, electrical connections, and condensate drains','Read and follow installation manuals and engineering specifications','Maintain a clean and safe job site','Complete work orders and documentation accurately'],
+    requirements: ['1+ years of HVAC installation or related mechanical experience','EPA 608 Universal certification (or willingness to obtain within 90 days)','Basic electrical knowledge and comfort with hand/power tools','Ability to lift 50+ lbs and work in attics, crawlspaces, and rooftops','Valid driver\'s license','Strong work ethic and willingness to learn'],
+    benefits: ['Health insurance after 60 days','EPA certification paid by company','Tool kit provided for new hires','Overtime available (time and a half)','Performance bonuses quarterly','Clear path to Senior Installer within 18 months'],
+    info: {posted:'Feb 24, 2026',type:'Full-Time',experience:'1+ years',license:'EPA 608 (or obtain)',schedule:'Mon–Fri, 7:30AM–4PM',start:'Within 2 weeks'}
+  },
+  {
+    id: 'steelton', logo: 'S', featured: false, trade: 'welding',
+    title: 'Pipe Welder — Structural Steel', company: 'Steelton Fabricators, Inc.', companyFull: 'Steelton Fabricators, Inc.',
+    pay: '$68K–$88K', location: 'Chester, PA', time: 'Posted 1 day ago', type: 'Full-Time',
+    tags: [{text:'Welding',cls:'trade'},{text:'AWS Certified'},{text:'Full-Time'},{text:'Overtime Available'}],
+    about: 'Steelton Fabricators is a structural steel and pipe fabrication shop serving industrial clients throughout the Delaware Valley. We\'re hiring experienced pipe welders for a long-term infrastructure project with at least 18 months of guaranteed work. You\'ll weld carbon steel and stainless pipe in a shop environment with occasional field work. Overtime is consistently available for those who want it.',
+    duties: ['Perform SMAW, GMAW, and FCAW welding on carbon and stainless steel pipe','Weld in all positions (1G through 6G) per AWS D1.1 standards','Read and interpret welding symbols, blueprints, and isometric drawings','Fit and tack pipe assemblies prior to final welding','Perform visual inspection and assist with NDE preparation','Maintain welding equipment and keep work area organized'],
+    requirements: ['AWS D1.1 Structural Welding certification required','Minimum 3 years of pipe welding experience in a shop or field environment','Proficiency in SMAW (stick) and FCAW (flux-core) processes','Ability to pass a 6G pipe weld test on-site','Own basic hand tools (company provides welding equipment)','Steel-toe boots and willingness to work overtime as needed'],
+    benefits: ['Top-of-market pay with regular overtime (time and a half)','Health and dental insurance','Company-provided welding helmets, leathers, and PPE','Annual certification renewal paid by company','$1,000 referral bonus for qualified welders','Stable, long-term project with 18+ months guaranteed'],
+    info: {posted:'Feb 23, 2026',type:'Full-Time',experience:'3+ years',license:'AWS D1.1',schedule:'Mon–Fri + optional Sat',start:'Immediate'}
+  },
+  {
+    id: 'mcbride', logo: 'M', featured: true, trade: 'plumbing',
+    title: 'Plumbing Apprentice — Paid Training', company: 'McBride Plumbing & Mechanical', companyFull: 'McBride Plumbing & Mechanical',
+    pay: '$38K–$45K', location: 'Bucks County, PA', time: 'Posted 3 days ago', type: 'Full-Time',
+    tags: [{text:'Plumbing',cls:'trade'},{text:'No Experience Required',cls:'green'},{text:'Paid Training'}],
+    about: 'McBride Plumbing has been serving Bucks County for over 25 years. We\'re looking for motivated individuals who want to start a career in plumbing — no prior experience necessary. You\'ll work alongside our master plumbers on residential and commercial jobs while earning a competitive wage from day one. We\'ll sponsor your apprenticeship registration and cover all training costs.',
+    duties: ['Assist journeyman and master plumbers on residential and commercial job sites','Learn to install, repair, and maintain water supply, drainage, and gas systems','Carry materials, prepare job sites, and maintain tools and equipment','Attend apprenticeship classes (company-sponsored, on company time)','Gradually take on more complex tasks as skills develop','Maintain accurate time logs for apprenticeship hour requirements'],
+    requirements: ['High school diploma or GED','Valid driver\'s license and reliable transportation','Ability to lift 50+ lbs and work in various physical positions','Strong mechanical aptitude and willingness to learn','Reliable, punctual, and professional attitude','Must be at least 18 years old'],
+    benefits: ['Earn while you learn — full wage from day one','All apprenticeship tuition and materials paid by company','Health insurance after 90 days','Company vehicle provided after Year 1','Clear 4-year path from Apprentice to Journeyman to Master','Tools provided during apprenticeship'],
+    info: {posted:'Feb 21, 2026',type:'Full-Time Apprenticeship',experience:'None required',license:'None (we sponsor)',schedule:'Mon–Fri, 7AM–3:30PM',start:'March 2026'}
+  },
+  {
+    id: 'ridley', logo: 'R', featured: false, trade: 'cnc',
+    title: 'CNC Machinist — 2nd Shift', company: 'Ridley Manufacturing Group', companyFull: 'Ridley Manufacturing Group',
+    pay: '$55K–$68K', location: 'Norristown, PA', time: 'Posted 3 days ago', type: 'Full-Time',
+    tags: [{text:'CNC',cls:'trade'},{text:'Full-Time'},{text:'Benefits'},{text:'Shift Differential'}],
+    about: 'Ridley Manufacturing is a precision machining shop producing parts for aerospace, defense, and medical device clients. We\'re adding a CNC Machinist to our second shift team. You\'ll set up and operate 3-axis and 4-axis CNC mills and lathes, working with tight-tolerance parts in aluminum, steel, titanium, and exotic alloys. We run Haas and Mazak machines with Fanuc and Mazatrol controls.',
+    duties: ['Set up, program, and operate CNC milling machines and lathes','Read and interpret GD&T blueprints and engineering drawings','Perform first-article inspections using CMM, micrometers, and calipers','Edit and optimize G-code programs for efficiency and quality','Maintain machine tooling and perform preventive maintenance','Document production runs and quality inspection results'],
+    requirements: ['2+ years of CNC machining experience (mill or lathe)','Ability to read GD&T blueprints and use precision measuring instruments','Experience with Fanuc or Mazatrol controls preferred','Knowledge of speeds, feeds, and cutting tool selection','High school diploma or GED; technical certificate a plus','Attention to detail and commitment to quality'],
+    benefits: ['10% shift differential for 2nd shift','Health, dental, and vision insurance','401(k) with employer match','Air-conditioned, clean shop environment','Tuition reimbursement for CNC programming courses','Annual performance reviews with raise potential'],
+    info: {posted:'Feb 21, 2026',type:'Full-Time (2nd Shift)',experience:'2+ years',license:'None required',schedule:'Mon–Fri, 3PM–11:30PM',start:'Within 2 weeks'}
+  },
+  {
+    id: 'tristate', logo: 'T', featured: false, trade: 'electrical',
+    title: 'Electrical Apprentice — Union (IBEW)', company: 'Tri-State Electrical Contractors', companyFull: 'Tri-State Electrical Contractors — IBEW Local 98',
+    pay: '$34K–$42K', location: 'Philadelphia, PA', time: 'Posted 4 days ago', type: 'Full-Time',
+    tags: [{text:'Electrical',cls:'trade'},{text:'Apprenticeship',cls:'green'},{text:'Union'},{text:'Paid Training'}],
+    about: 'Tri-State Electrical is an IBEW Local 98 signatory contractor looking for motivated apprentice candidates. This is a 5-year registered apprenticeship through the JATC — you\'ll earn a paycheck from day one while attending classes and working on major commercial and industrial projects throughout the Philadelphia region. Union benefits begin immediately.',
+    duties: ['Work alongside journeyman electricians on commercial and industrial projects','Install conduit, wiring, panels, and fixtures per NEC code','Learn to read blueprints and electrical schematics','Attend JATC apprenticeship classes (160 hours/year)','Maintain tools, materials, and a safe work environment','Progress through increasing responsibility each year of apprenticeship'],
+    requirements: ['High school diploma or GED with transcript','Must pass IBEW aptitude test (algebra and reading comprehension)','Valid driver\'s license','Physically able to climb ladders, lift 50 lbs, and work at heights','Must be at least 18 years old','Must commit to 5-year apprenticeship program'],
+    benefits: ['Full IBEW union benefits from day one (medical, dental, vision)','Pension and annuity contributions','All training tuition paid by JATC','Wage increases every 6 months throughout apprenticeship','Journeyman license upon completion','Access to IBEW job calls nationwide after completion'],
+    info: {posted:'Feb 20, 2026',type:'Apprenticeship (5 years)',experience:'None required',license:'None (earned through program)',schedule:'Mon–Fri, varies by project',start:'April 2026 cohort'}
+  },
+  {
+    id: 'comfort', logo: 'C', featured: false, trade: 'hvac',
+    title: 'HVAC Service Technician — Residential', company: 'Comfort Zone Heating & Air', companyFull: 'Comfort Zone Heating & Air',
+    pay: '$58K–$75K', location: 'Conshohocken, PA', time: 'Posted 5 days ago', type: 'Full-Time',
+    tags: [{text:'HVAC',cls:'trade'},{text:'Full-Time'},{text:'Company Vehicle'},{text:'Benefits'}],
+    about: 'Comfort Zone is a residential HVAC service company with a reputation for doing things right. We\'re looking for an experienced service technician who can diagnose and repair heating and cooling systems independently. Our techs run their own service van, manage their own schedule, and take pride in solving problems for homeowners. If you\'re tired of new construction and want a service role with autonomy, this is it.',
+    duties: ['Diagnose and repair residential HVAC systems (furnaces, ACs, heat pumps, boilers)','Perform seasonal maintenance and system tune-ups','Communicate clearly with homeowners about issues and repair options','Manage daily schedule and route using company dispatch software','Maintain parts inventory in service van','Provide accurate estimates for repairs and replacements'],
+    requirements: ['3+ years of residential HVAC service experience','EPA 608 Universal certification','Strong diagnostic skills across gas, electric, and heat pump systems','Excellent customer service and communication skills','Valid driver\'s license with clean driving record','NATE certification preferred but not required'],
+    benefits: ['Company service van (take home daily)','Gas card and phone provided','Health, dental, and vision insurance','Spiff bonuses on maintenance agreements and replacements','No on-call required (optional for extra pay)','Paid continuing education and NATE certification'],
+    info: {posted:'Feb 19, 2026',type:'Full-Time',experience:'3+ years',license:'EPA 608 Universal',schedule:'Mon–Fri, 8AM–5PM',start:'Immediate'}
+  },
+  {
+    id: 'delval', logo: 'D', featured: true, trade: 'welding',
+    title: 'TIG Welder — Aerospace Components', company: 'DelVal Precision Welding', companyFull: 'DelVal Precision Welding — AS9100 Certified',
+    pay: '$75K–$105K', location: 'Media, PA', time: 'Posted 6 days ago', type: 'Full-Time',
+    tags: [{text:'Welding',cls:'trade'},{text:'Aerospace'},{text:'Full-Time'},{text:'Top Pay'}],
+    about: 'DelVal Precision is an AS9100-certified welding shop specializing in aerospace and defense components. We\'re hiring a skilled TIG welder for precision work on titanium, Inconel, and stainless steel assemblies. This is detail-oriented, high-value work in a clean, climate-controlled shop. Our welders produce flight-critical components for major defense primes — if you take pride in perfect beads and tight tolerances, this is your shop.',
+    duties: ['Perform precision GTAW (TIG) welding on aerospace-grade materials','Weld titanium, Inconel, stainless steel, and aluminum assemblies','Work to AWS D17.1 aerospace welding standards','Interpret complex engineering drawings and welding procedure specifications','Perform visual and dimensional inspection of completed welds','Maintain detailed weld logs and quality documentation per AS9100'],
+    requirements: ['5+ years of TIG welding experience, preferably in aerospace or medical','AWS D17.1 certification or ability to pass qualification test','Experience welding titanium and/or Inconel strongly preferred','Ability to read and interpret complex engineering drawings','Extreme attention to detail and quality-first mindset','Must pass background check (defense work)'],
+    benefits: ['Top-of-market compensation for qualified welders','100% employer-paid health insurance','Climate-controlled, clean shop environment','All certifications and renewals paid','$2,500 annual professional development budget','Profit sharing after 1 year'],
+    info: {posted:'Feb 18, 2026',type:'Full-Time',experience:'5+ years',license:'AWS D17.1 (or qualify)',schedule:'Mon–Fri, 6:30AM–3PM',start:'Within 30 days'}
+  }
+];
+
+let activeFilter = 'all';
+const locationPin = '<svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"/></svg>';
+
+function renderJobCards() {
+  const search = document.getElementById('jobSearch').value.toLowerCase();
+  const list = document.getElementById('jobsList');
+  let count = 0;
+  
+  // Sort: featured first
+  const sorted = [...jobData].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  
+  list.innerHTML = sorted.map(job => {
+    const matchFilter = activeFilter === 'all' || job.trade === activeFilter;
+    const matchSearch = !search || 
+      job.title.toLowerCase().includes(search) || 
+      job.company.toLowerCase().includes(search) || 
+      job.trade.toLowerCase().includes(search) ||
+      job.location.toLowerCase().includes(search) ||
+      job.tags.some(t => t.text.toLowerCase().includes(search));
+    
+    const visible = matchFilter && matchSearch;
+    if (visible) count++;
+    
+    const tags = job.tags.map(t => `<span class="job-tag${t.cls ? ' ' + t.cls : ''}">${t.text}</span>`).join('');
+    
+    return `<div class="job-card${job.featured ? ' featured' : ''}${visible ? '' : ' hidden'}" onclick="showJobDetail('${job.id}')">
+      <div class="job-logo">${job.logo}</div>
+      <div class="job-body">
+        <div class="job-top">
+          <div class="job-title">${job.title}</div>
+          ${job.featured ? '<div class="job-featured-tag">Featured</div>' : ''}
+        </div>
+        <div class="job-company">${job.companyFull}</div>
+        <div class="job-tags">${tags}</div>
+      </div>
+      <div class="job-right">
+        <div class="job-pay">${job.pay}</div>
+        <div class="job-location">${locationPin} ${job.location}</div>
+        <div class="job-time">${job.time}</div>
+      </div>
+    </div>`;
+  }).join('');
+  
+  document.getElementById('jobsCount').innerHTML = `<span>${count}</span> job${count !== 1 ? 's' : ''} near Philadelphia, PA`;
+  document.getElementById('jobsEmpty').style.display = count === 0 ? 'block' : 'none';
+}
+
+function setFilter(el) {
+  document.querySelectorAll('.jf-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  activeFilter = el.dataset.filter;
+  renderJobCards();
+}
+
+function filterJobs() { renderJobCards(); }
+
+function showJobDetail(id) {
+  const job = jobData.find(j => j.id === id);
+  if (!job) return;
+  
+  document.getElementById('jdLogo').textContent = job.logo;
+  document.getElementById('jdTitle').textContent = job.title;
+  document.getElementById('jdCompany').textContent = job.companyFull;
+  document.getElementById('jdPay').textContent = job.pay;
+  document.getElementById('jdLocation').querySelector('span').textContent = job.location;
+  document.getElementById('jdType').querySelector('span').textContent = job.type;
+  document.getElementById('jdPosted').querySelector('span').textContent = job.time;
+  
+  const header = document.getElementById('jdHeader');
+  header.classList.toggle('featured', job.featured);
+  document.getElementById('jdFeaturedTag').style.display = job.featured ? 'inline-block' : 'none';
+  
+  document.getElementById('jdTags').innerHTML = job.tags.map(t => 
+    `<span class="job-tag${t.cls ? ' ' + t.cls : ''}">${t.text}</span>`
+  ).join('');
+  
+  document.getElementById('jdAbout').textContent = job.about;
+  document.getElementById('jdDuties').innerHTML = job.duties.map(d => `<li>${d}</li>`).join('');
+  document.getElementById('jdRequirements').innerHTML = job.requirements.map(r => `<li>${r}</li>`).join('');
+  document.getElementById('jdBenefits').innerHTML = job.benefits.map(b => `<li>${b}</li>`).join('');
+  
+  const info = job.info;
+  document.getElementById('jdInfoCard').innerHTML = Object.entries(info).map(([k,v]) => 
+    `<div class="jd-info-row"><div class="jd-info-label">${k.charAt(0).toUpperCase()+k.slice(1)}</div><div class="jd-info-val">${v}</div></div>`
+  ).join('');
+  
+  document.getElementById('jobListView').style.display = 'none';
+  document.getElementById('jobsCta').style.display = 'none';
+  document.getElementById('employerRow').style.display = 'none';
+  document.getElementById('jobDetailView').classList.add('active');
+  
+  // Scroll to top of jobs section
+  document.getElementById('jobs').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function showJobList() {
+  document.getElementById('jobDetailView').classList.remove('active');
+  document.getElementById('jobListView').style.display = 'block';
+  document.getElementById('jobsCta').style.display = 'block';
+  document.getElementById('employerRow').style.display = 'grid';
+}
+
+// Initial render
+renderJobCards();
+</script>
 </body>
 </html>
