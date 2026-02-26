@@ -23,18 +23,13 @@ export default function App() {
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
     let current = 0;
-    const vids = ["vid1","vid2","vid3"];
     const swap = () => {
-      const prev = document.getElementById(vids[current]);
+      const all = [document.getElementById("vid1"),document.getElementById("vid2"),document.getElementById("vid3")];
+      if (!all[0] || !all[1] || !all[2]) return;
       current = (current + 1) % 3;
-      const next = document.getElementById(vids[current]);
-      if (!prev || !next) return;
-      next.currentTime = 0; next.play();
-      next.style.opacity = "1";
-      prev.style.opacity = "0";
-      setTimeout(() => { prev.pause(); }, 2000);
+      all.forEach((v,i) => { v.style.opacity = i === current ? "1" : "0"; });
     };
-    const id = setInterval(swap, 12000);
+    const id = setInterval(swap, 10000);
     window.addEventListener("scroll",h);
     return () => { clearInterval(id); window.removeEventListener("scroll",h); };
   }, []);
@@ -301,9 +296,9 @@ export default function App() {
             JS crossfades opacity between them every 10s
         */}
         <div style={{position:"absolute",inset:0,zIndex:0}}>
-          <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",transition:"opacity 2s ease"}}><source src="./video1.mp4" type="video/mp4"/></video>
-          <video id="vid2" muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
-          <video id="vid3" muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video3.mp4" type="video/mp4"/></video>
+          <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:1,transition:"opacity 2.5s ease"}}><source src="./video1.mp4" type="video/mp4"/></video>
+          <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
+          <video id="vid3" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2.5s ease"}}><source src="./video3.mp4" type="video/mp4"/></video>
 
         </div>
         {/* Dark overlay */}
