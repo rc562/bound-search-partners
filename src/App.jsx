@@ -405,15 +405,46 @@ export default function App() {
               <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16,marginBottom:24}}>Search.<br/>Advisory.<br/>Intelligence.</h2>
               <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:32}}>Every engagement is scoped to what the hire demands — not a one-size-fits-all package.</p>
               <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}>Discuss Your Search →</span>
-              {/* Visual stats to fill vertical space */}
-              <div style={{marginTop:"clamp(2.5rem,5vw,4rem)",display:"flex",flexDirection:"column",gap:"clamp(1.5rem,3vw,2.5rem)"}}>
-                {[["200+","Executive placements led"],["92%","Year-one retention rate"],["50+","Client organizations served"]].map(([num,label],i)=>(
-                  <div key={i} style={{borderLeft:`3px solid ${i===0?C.r:"rgba(226,60,65,.25)"}`,paddingLeft:20,transition:"border-color .3s"}} onMouseEnter={e=>e.currentTarget.style.borderLeftColor=C.r} onMouseLeave={e=>{if(i!==0)e.currentTarget.style.borderLeftColor="rgba(226,60,65,.25)"}}>
-                    <div style={{fontSize:"clamp(2rem,4vw,2.75rem)",fontWeight:700,color:C.r,lineHeight:1,letterSpacing:"-.02em"}}>{num}</div>
-                    <div style={{fontSize:13,fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",color:C.gl,marginTop:6,opacity:.6}}>{label}</div>
-                  </div>
-                ))}
-              </div>
+              {/* Hiring Difficulty Trend Chart */}
+              {(()=>{
+                const pts=[42,44,41,47,52,49,55,58,54,61,65,68];
+                const labels=["Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb"];
+                const W=280,H=140,px=32,py=20,gw=W-px*2,gh=H-py*2;
+                const mn=Math.min(...pts)-5,mx=Math.max(...pts)+5;
+                const coords=pts.map((v,i)=>[px+i*(gw/(pts.length-1)),py+gh-(((v-mn)/(mx-mn))*gh)]);
+                const line=coords.map((c,i)=>((i===0?"M":"L")+c[0]+","+c[1])).join(" ");
+                const area=line+` L${coords[coords.length-1][0]},${py+gh} L${coords[0][0]},${py+gh} Z`;
+                return(
+                <div style={{marginTop:"clamp(2.5rem,5vw,4rem)",padding:"20px 0"}}>
+                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:4}}>Market Intelligence</div>
+                  <div style={{fontSize:15,fontWeight:600,color:C.gl,marginBottom:16}}>Manufacturing Hiring Difficulty Index</div>
+                  <svg viewBox={`0 0 ${W} ${H}`} style={{width:"100%",maxWidth:320}} role="img" aria-label="Hiring difficulty trend line showing upward trend">
+                    {[0,.25,.5,.75,1].map((f,i)=>{
+                      const y=py+gh*f;
+                      return <line key={i} x1={px} y1={y} x2={W-px} y2={y} stroke="rgba(138,135,154,.15)" strokeWidth=".5"/>
+                    })}
+                    <defs>
+                      <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#e23c41" stopOpacity=".18"/>
+                        <stop offset="100%" stopColor="#e23c41" stopOpacity=".01"/>
+                      </linearGradient>
+                    </defs>
+                    <path d={area} fill="url(#areaGrad)"/>
+                    <path d={line} fill="none" stroke="#e23c41" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    {coords.map((c,i)=>(
+                      <circle key={i} cx={c[0]} cy={c[1]} r={i===pts.length-1?3.5:0} fill="#e23c41"/>
+                    ))}
+                    {[0,3,6,9,11].map(idx=>(
+                      <text key={idx} x={coords[idx][0]} y={H-2} textAnchor="middle" fill="#8a879a" fontSize="8" fontFamily="Arial">{labels[idx]}</text>
+                    ))}
+                    <text x={W-px} y={coords[coords.length-1][1]-8} textAnchor="end" fill="#e23c41" fontSize="10" fontWeight="700" fontFamily="Arial">{pts[pts.length-1]}</text>
+                    <text x={px} y={coords[0][1]-8} textAnchor="start" fill="#8a879a" fontSize="9" fontFamily="Arial">{pts[0]}</text>
+                  </svg>
+                  <div style={{fontSize:10,color:C.g,marginTop:8,opacity:.5}}>BLS JOLTS + industry composite  |  Rolling 12 months</div>
+                  <div style={{marginTop:16,fontSize:13,color:C.gl,lineHeight:1.6,opacity:.7}}>Open manufacturing leadership roles are up <span style={{color:C.r,fontWeight:700}}>62%</span> year-over-year. The talent gap is accelerating.</div>
+                </div>
+                );
+              })()}
             </div>
             {/* Right — service cards */}
             <div style={{display:"flex",flexDirection:"column",gap:2}}>
