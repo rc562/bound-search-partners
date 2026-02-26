@@ -3,48 +3,32 @@ import React, { useState, useEffect } from "react";
 const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a",gl:"#c5c3ce"};
 
 export default function App() {
+  const [loaded,setLoaded] = useState(false);
   const [scrolled,setScrolled] = useState(false);
+  const [activeSrv,setActiveSrv] = useState(0);
+  const [procOpen,setProcOpen] = useState(false);
+  const [hovNode,setHovNode] = useState(null);
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
   const [mobileMenu,setMobileMenu] = useState(false);
   const [cloudWord,setCloudWord] = useState(null);
-  const [formSent,setFormSent] = useState(false);
-  const [statsVis,setStatsVis] = useState(false);
-  const [formSending,setFormSending] = useState(false);
-  const [chatOpen,setChatOpen] = useState(false);
-  const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
-  const [chatInput,setChatInput] = useState("");
-  const [chatLoading,setChatLoading] = useState(false);
-  const [activeCase,setActiveCase] = useState(0);
-  const [retainedOpen,setRetainedOpen] = useState(null);
-  const [activeSrv,setActiveSrv] = useState(0);
-  const [hovProc,setHovProc] = useState(null);
 
   useEffect(() => {
+    setTimeout(() => setLoaded(true), 3500);
+    setTimeout(() => { document.body.style.overflow = 'auto'; }, 3500);
     const h = () => setScrolled(window.scrollY > 60);
-    const order = [0,1,2];
-    const applyZ = () => {
-      order.forEach((vidIdx, stackPos) => {
-        const v = document.getElementById("vid"+(vidIdx+1));
-        if (v) v.style.zIndex = 3 - stackPos;
-      });
-    };
-    const onEnd = () => {
-      order.push(order.shift());
-      applyZ();
-    };
-    setTimeout(() => {
-      applyZ();
-      [1,2,3].forEach(n => {
-        const v = document.getElementById("vid"+n);
-        if (v) { v.play(); v.addEventListener("ended", () => { v.currentTime = 0; v.play(); onEnd(); }); }
-      });
-    }, 100);
+    let showV1 = true;
+    setInterval(() => {
+      const v1 = document.getElementById("vid1");
+      const v2 = document.getElementById("vid2");
+      if (v1 && v2) { showV1 = !showV1; v1.style.opacity = showV1 ? "1" : "0"; v1.style.transition = "opacity 1.5s ease"; v2.style.opacity = showV1 ? "0" : "1"; }
+    }, 10000);
     window.addEventListener("scroll",h);
     return () => window.removeEventListener("scroll",h);
   }, []);
 
   useEffect(() => {
+    if (!loaded) return;
     const timer = setTimeout(() => {
       const el = document.getElementById("bond");
       if (!el) return;
@@ -55,49 +39,14 @@ export default function App() {
       return () => obs.disconnect();
     }, 500);
     return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const el = document.getElementById("mstats-top");
-    if (!el) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if(entry.isIntersecting) setStatsVis(true); });
-    },{threshold:0.3});
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  const sendChat = async () => {
-    if (!chatInput.trim() || chatLoading) return;
-    const userMsg = chatInput.trim();
-    setChatInput("");
-    const newMsgs = [...chatMsgs, {role:"user",content:userMsg}];
-    setChatMsgs(newMsgs);
-    setChatLoading(true);
-    try {
-      const res = await fetch("/.netlify/functions/chat", {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          messages: newMsgs.map(m => ({role:m.role,content:m.content}))
-        })
-      });
-      const data = await res.json();
-      const reply = data.content?.map(c => c.text || "").join("") || "I apologize — something went wrong. Please try again or reach Bob directly at bob@boundsearch.com.";
-      setChatMsgs(prev => [...prev, {role:"assistant",content:reply}]);
-    } catch(e) {
-      setChatMsgs(prev => [...prev, {role:"assistant",content:"I'm having trouble connecting right now. You can reach Bob directly at (267) 265-1792 or bob@boundsearch.com."}]);
-    }
-    setChatLoading(false);
-    setTimeout(() => {const el=document.getElementById("chatScroll");if(el)el.scrollTop=el.scrollHeight},100);
-  };
+  }, [loaded]);
 
   const srvs = [
-    {t:"Retained Executive Search",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Targeting leaders who aren't looking — and convincing them to listen.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain"},
-    {t:"Operational Leadership",d:"Plant managers, engineering directors, quality leaders — the operational backbone that determines whether strategy becomes execution.",r:"Plant Manager · Director Engineering · Quality Director"},
-    {t:"Organizational & Leadership Advisory",d:"Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance. Leadership bench assessments, succession gap analysis, organizational structure reviews, and compensation benchmarking — delivered as focused 2–4 week engagements with clear deliverables, not open-ended retainers.",r:"Leadership Audit · Succession Planning · Org Design · Comp Benchmarking"},
-    {t:"Market Intelligence",d:"Compensation analysis, competitive talent mapping, and availability studies. A clear-eyed view of the landscape before a search begins.",r:"Comp Benchmarking · Talent Mapping · Availability"},
-    {t:"Confidential Searches",d:"Replacing a sitting executive. Entering a new market. Building leadership around an acquisition. When discretion is not optional.",r:"CEO Replacement · M&A Integration · Board Advisory"},
+    {n:"01",t:"Retained Executive Search",s:"Retained Search",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Targeting leaders who aren't looking — and convincing them to listen.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain"},
+    {n:"02",t:"Operational Leadership",s:"Operations",d:"Plant managers, engineering directors, quality leaders — the operational backbone that determines whether strategy becomes execution.",r:"Plant Manager · Director Engineering · Quality Director"},
+    {n:"03",t:"Leadership Assessment",s:"Assessment",d:"Objective evaluation of internal talent against external benchmarks. Data-driven assessments, not confirmation of assumptions already held.",r:"Succession Planning · Org Design · Talent Audit"},
+    {n:"04",t:"Market Intelligence",s:"Market Intel",d:"Compensation analysis, competitive talent mapping, and availability studies. A clear-eyed view of the landscape before a search begins.",r:"Comp Benchmarking · Talent Mapping · Availability"},
+    {n:"05",t:"Confidential Searches",s:"Confidential",d:"Replacing a sitting executive. Entering a new market. Building leadership around an acquisition. When discretion is not optional.",r:"CEO Replacement · M&A Integration · Board Advisory"},
   ];
 
   const proc = [
@@ -117,61 +66,6 @@ export default function App() {
     {n:"Industrial Equipment",s:"Capital Goods",r:"VP Engineering · Director Product Mgmt · GM Aftermarket",d:"Aftermarket, service, and OEM — we understand what drives margin in capital goods."},
     {n:"Real Estate",s:"Development & Construction",r:"VP Development · Director Construction · Head of Acquisitions",d:"Ground-up development to asset management. We place leaders across the project lifecycle."},
     {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer",d:"Finding technical leaders who can sell, manage, and deliver complex engineering programs."},
-  ];
-
-  const cases = [
-    {
-      id:"01",
-      ind:"Ingredients Manufacturing",
-      rev:"$500M+ Revenue",
-      role:"VP Operations",
-      focus:"Quality · Capital Projects · Automation",
-      days:"120",
-      status:"1.5+ years and thriving",
-      challenge:"A global ingredients manufacturer needed a VP Operations to lead quality transformation and oversee a major capital equipment and automation program. The market was tight — qualified candidates with both the technical depth and the leadership maturity to manage enterprise-scale capex were scarce.",
-      outcome:"Placed within 120 days in a difficult market. The hire has exceeded capital project timelines, navigated real-time budget constraints driven by macroeconomic volatility, identified alternate suppliers across multiple business lines, and resolved a series of global supply chain disruptions through hands-on operational attention. Still in role after 1.5 years."
-    },
-    {
-      id:"02",
-      ind:"Chemical Manufacturing",
-      rev:"$1B+ Revenue",
-      role:"EHS Leader",
-      focus:"Safety Transformation · Cultural Change",
-      days:"Confidential",
-      status:"In role and delivering results",
-      challenge:"A large-scale chemical manufacturer with a historically reactive safety culture needed an EHS leader capable of building proactive safety systems from the ground up. The role required relocating a candidate across the country to a specialized facility where stakeholder buy-in was critical.",
-      outcome:"Successfully relocated a candidate cross-country into a high-impact role. The hire has earned organizational buy-in, implemented new proactive safety procedures, and is delivering measurable improvements. Continuous improvement initiatives are now being adopted across the enterprise."
-    },
-    {
-      id:"03",
-      ind:"Industrial Manufacturing",
-      rev:"Mid-Market · Global",
-      role:"U.S. Manufacturing Leader, Americas",
-      focus:"Succession Planning · Multi-Site Operations",
-      days:"Planned transition",
-      status:"~2 years in role, fully transitioned",
-      challenge:"A mid-sized industrial manufacturer serving automotive, construction equipment, and general industrial markets needed to plan succession for their Americas manufacturing leader approaching retirement. The 12–18 month transition demanded a candidate with engineering depth, strategic vision, and the ability to manage a complex multi-site network.",
-      outcome:"Identified an operations leader with a strong engineering pedigree and the strategic range to lead across a complex manufacturing network. The predecessor has since retired, and the hire has fully stepped into the role — now nearly two years in and performing at the level the organization envisioned."
-    },
-    {
-      id:"04",
-      ind:"Specialty Chemicals",
-      rev:"$1B+ Revenue · Global",
-      role:"Head of Product Stewardship, North America",
-      focus:"Technical Leadership · Generational Transition",
-      days:"Confidential",
-      status:"In role and scaling",
-      challenge:"A global specialty chemical company producing highly engineered, client-specific products needed to transition technical leadership to a new generation. The role — Head of Product Stewardship for North America — required a rare combination: deep formulation knowledge, client-facing credibility, and cultural fit with a particular engineering leadership style.",
-      outcome:"Found the needle in the haystack. The hire brought the technical specificity the organization required, earned trust with the existing engineering leadership, and has successfully scaled into an enterprise-level product stewardship role covering all of North America."
-    }
-  ];
-
-  const retainedFAQ = [
-    {q:"What is retained executive search?",a:"Retained search means we work exclusively on your behalf, on a dedicated basis, for a fixed fee agreed upfront. Unlike contingency firms — who only get paid if they place someone and often work multiple searches simultaneously — a retained firm invests fully in understanding your business, culture, and the competitive landscape before a single candidate is contacted."},
-    {q:"Why does retained search cost more?",a:"Because you're paying for depth, not speed. A retained firm conducts proprietary research, maps the full market of qualified candidates (not just those in a database), personally vets every individual, and manages the entire process through offer and onboarding. You're buying a strategic partner, not a resume service."},
-    {q:"When should a company use retained vs. contingency?",a:"Retained search is the right model when the hire is critical — VP and above, roles requiring confidentiality, positions where the wrong hire has a six- or seven-figure cost of failure, or situations where the best candidates are not actively looking. If you can fill the role from a job board, you probably don't need us."},
-    {q:"How long does a retained search take?",a:"Most searches are completed within 60–120 days, depending on complexity. Some factors that extend timelines: highly specialized technical requirements, geographic constraints, confidential replacements, or niche industries where the candidate universe is small."},
-    {q:"What happens if the hire doesn't work out?",a:"Every Bound Search Partners engagement includes a guarantee period. If a placed candidate leaves or is terminated within the guarantee window, we re-open the search at no additional professional fee. We stand behind our placements because our retention rates — 92% at year one — reflect the rigor of our process."},
   ];
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
@@ -212,8 +106,20 @@ export default function App() {
     </svg>
   );
 
+  if (!loaded) return (
+    <div style={{position:"fixed",inset:0,background:C.n,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",zIndex:9999}}>
+      <div style={{position:"relative",width:160,height:170}}>
+        <div style={{position:"absolute",left:10,top:8,width:36,height:154,background:C.w,borderRadius:3,opacity:0,animation:"sR .8s cubic-bezier(.23,1,.32,1) .3s forwards"}}/>
+        <div style={{position:"absolute",right:10,top:8,width:86,height:70,background:C.r,borderRadius:3,opacity:0,animation:"sL .8s cubic-bezier(.23,1,.32,1) .5s forwards"}}/>
+        <div style={{position:"absolute",right:10,bottom:8,width:86,height:70,background:C.r,borderRadius:3,opacity:0,animation:"sL .8s cubic-bezier(.23,1,.32,1) .7s forwards"}}/>
+      </div>
+      <div style={{marginTop:24,fontSize:10,fontWeight:700,letterSpacing:".4em",textTransform:"uppercase",color:C.g,opacity:0,animation:"fi .5s ease 1.8s forwards"}}>Bound Search Partners</div>
+      <div style={{width:100,height:2,background:"rgba(226,60,65,.15)",marginTop:24,overflow:"hidden",opacity:0,animation:"fi .3s ease 2s forwards"}}><div style={{width:"40%",height:"100%",background:C.r,animation:"loadB .8s ease 2.1s forwards"}}/></div>
+    </div>
+  );
+
   return (
-    <div style={{background:C.n,color:C.w,fontFamily:"'Aptos','Segoe UI',sans-serif",overflowX:"hidden",opacity:1}}>
+    <div style={{background:C.n,color:C.w,fontFamily:"'Aptos','Segoe UI',sans-serif",overflowX:"hidden",animation:"siteIn .8s ease forwards",opacity:0}}>
       <style>{`
         @keyframes siteIn{to{opacity:1}}@keyframes sR{to{opacity:.92;transform:translateX(0)}}@keyframes sL{to{opacity:1;transform:translateX(0)}}
         @keyframes fi{to{opacity:1}}@keyframes fu{to{opacity:1;transform:translateY(0)}}@keyframes loadB{to{width:100%}}
@@ -221,25 +127,20 @@ export default function App() {
         @keyframes f2{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
         @keyframes sp{to{transform:rotate(360deg)}}
         @keyframes ep{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(2.5);opacity:0}}
-        @keyframes statPop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
         @keyframes heroShimmer{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
         @keyframes heroPulse{0%,100%{opacity:.03}50%{opacity:.08}}
         *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-        .navlink{position:relative;transition:color .3s}.navlink:hover{color:#fff!important}.navlink::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#e23c41;transition:width .3s ease}.navlink:hover::after{width:100%}
         ::selection{background:#e23c4144;color:#fff}input:focus,textarea:focus{border-color:#e23c41!important;outline:none}
         @keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
-        .srv-tabs::-webkit-scrollbar{display:none}
-        @media(min-width:769px){.srv-tabs{justify-content:center!important}}
         #mcloud{display:none}
         #mstats-bottom{display:none}
         #mlogos{display:none}
         .mnav{display:flex;align-items:center;gap:2.5rem}
         .mticker{display:flex}
         @media(max-width:768px){
-          #bspChat{width:calc(100vw - 32px)!important;right:16px!important;bottom:80px!important;max-height:70vh!important}
           .mburger{display:flex!important}
           .mnav{display:none!important}
           .mticker{display:none!important}
@@ -247,24 +148,29 @@ export default function App() {
           #mstats-bottom{display:block!important}
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
+          #mproc{grid-template-columns:repeat(2,1fr)!important}
+          #mtabs{flex-direction:row!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+          #mtabs button{flex:none!important;padding:12px 16px!important;font-size:11px!important;white-space:nowrap!important}
+          #mtabs button span:first-child{display:none!important}
+          #msdet{grid-template-columns:1fr!important}
+          #msdet>div:last-child{display:none!important}
           #mind{display:none!important}
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
           .logo-scroll-wrap{display:none!important}
-          #vid1,#vid2,#vid3{object-fit:cover!important;object-position:center 20%!important;height:140%!important;top:-10%!important}
+          #vid1,#vid2{object-position:center 15%!important}
 
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
           #mfr1,#mfr2{grid-template-columns:1fr!important}
           #mfootbot{flex-direction:column-reverse!important;align-items:center!important;text-align:center!important}
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
-          #mcasedetail{grid-template-columns:1fr!important}
-          #mretained{grid-template-columns:1fr!important}
         }
         @media(max-width:480px){
-          #vid1,#vid2,#vid3{object-fit:cover!important;object-position:center 15%!important;height:160%!important;top:-15%!important}
+          #vid1,#vid2{object-position:center 10%!important}
           #mstats-top{display:none!important}
           #mstats-bottom{display:block!important}
+          #mproc{grid-template-columns:1fr!important}
         }
 
       `}</style>
@@ -281,25 +187,34 @@ export default function App() {
               <div style={{width:24,height:2,background:mobileMenu?C.r:C.w,transform:mobileMenu?"rotate(-45deg) translateY(-7px)":"none",transition:"all .3s"}}/>
             </div>
             <div className="mnav" style={{display:"flex",alignItems:"center",gap:"2.5rem"}}>
-            {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact",""]].map(([id,label]) => (
-              <span key={id} onClick={() => go(id)} className={id!=="contact"?"navlink":""} style={{fontSize:12,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",...(id==="contact"?{padding:"8px 24px",background:C.r,color:C.w,transition:"all .3s"}:{color:C.gl})}} onMouseEnter={id==="contact"?e=>{e.target.style.background="#c8333a";e.target.style.transform="translateY(-1px)"}:undefined} onMouseLeave={id==="contact"?e=>{e.target.style.background=C.r;e.target.style.transform="translateY(0)"}:undefined}>{id==="contact"?"Start a Search":label}</span>
+            {[["home","Home"],["about","About"],["services","Services"],["contact",""]].map(([id,label]) => (
+              <span key={id} onClick={() => go(id)} style={{fontSize:12,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",...(id==="contact"?{padding:"8px 24px",background:C.r,color:C.w}:{color:C.gl})}}>{id==="contact"?"Start a Search":label}</span>
             ))}
           </div>
         </div>
       </nav>
 
       {mobileMenu && <div style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",background:"rgba(14,11,36,.98)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:32}} onClick={() => setMobileMenu(false)}>
-        {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact","Start a Search"]].map(([id,label]) => (
+        {[["home","Home"],["about","About"],["services","Services"],["contact","Start a Search"]].map(([id,label]) => (
           <span key={id} onClick={() => {go(id);setMobileMenu(false)}} style={{fontSize:id==="contact"?16:24,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",color:id==="contact"?C.w:C.gl,...(id==="contact"?{padding:"14px 40px",background:C.r}:{})}}>{label}</span>
         ))}
       </div>}
 
-      {/* HERO */}
+      {/* HERO — Video placeholder (both videos will alternate on deploy) */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
+        {/* VIDEO PLACEHOLDER — on deploy, this becomes:
+            <video id="vid1" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%">
+              <source src="video1.mp4" type="video/mp4">
+            </video>
+            <video id="vid2" autoPlay muted loop playsInline style="position:absolute;inset:0;object-fit:cover;width:100%;height:100%;opacity:0">
+              <source src="video2.mp4" type="video/mp4">
+            </video>
+            JS crossfades opacity between them every 10s
+        */}
         <div style={{position:"absolute",inset:0,zIndex:0}}>
-          <video id="vid1" autoPlay muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:3}}><source src="./video1.mp4" type="video/mp4"/></video>
-          <video id="vid2" autoPlay muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:2}}><source src="./video2.mp4" type="video/mp4"/></video>
-          <video id="vid3" autoPlay muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:1}}><source src="./video3.mp4" type="video/mp4"/></video>
+          <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%"}}><source src="./video1.mp4" type="video/mp4"/></video>
+          <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.5s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
+
         </div>
         {/* Dark overlay */}
         <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,rgba(14,11,36,.4) 0%,rgba(14,11,36,.15) 30%,rgba(14,11,36,.7) 75%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.8) 0%,transparent 55%)`}} />
@@ -310,8 +225,8 @@ export default function App() {
             <h1 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The leaders who<br/><span style={{color:C.r,fontStyle:"italic"}}>move</span> industries<br/>start here.</h1>
             <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40}}>Bound Search Partners is a boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
             <div id="mherobtns" style={{display:"flex",gap:24,flexWrap:"wrap"}}>
-              <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
-              <span onClick={() => go("services")} style={{display:"inline-flex",padding:"16px 0",color:C.gl,fontSize:13,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",borderBottom:"1px solid rgba(255,255,255,.12)",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.target.style.color=C.w;e.target.style.borderBottomColor=C.r}} onMouseLeave={e=>{e.target.style.color=C.gl;e.target.style.borderBottomColor="rgba(255,255,255,.12)"}}>Explore Services</span>
+              <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer"}}>Start a Conversation →</span>
+              <span onClick={() => go("services")} style={{display:"inline-flex",padding:"16px 0",color:C.gl,fontSize:13,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",borderBottom:"1px solid rgba(255,255,255,.12)",cursor:"pointer"}}>Explore Services</span>
             </div>
           </div>
         </div>
@@ -320,8 +235,8 @@ export default function App() {
       {/* STATS */}
       <div id="mstats-top" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
         <div id="mstats" style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)"}}>
-          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
-            <div key={i} style={{padding:"40px 24px",textAlign:"center",borderRight:i<3?"1px solid rgba(226,60,65,.12)":"none",opacity:statsVis?1:0,transform:statsVis?"translateY(0)":"translateY(16px)",transition:`all .5s cubic-bezier(.23,1,.32,1) ${i*.1}s`}}>
+          {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
+            <div key={i} style={{padding:"40px 24px",textAlign:"center",borderRight:i<3?"1px solid rgba(226,60,65,.12)":"none"}}>
               <div style={{fontSize:"clamp(2rem,3.5vw,3rem)",fontWeight:700,color:C.r,lineHeight:1,marginBottom:8}}>{n}</div>
               <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
             </div>
@@ -355,43 +270,85 @@ export default function App() {
         </div>
       </div>
 
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.15),transparent)"}}/>
-
       {/* ABOUT */}
       <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
-          <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
+          <div id="mabout" style={{display:"grid",gridTemplateColumns:procOpen?"0fr 1fr":"1.2fr .8fr",gap:procOpen?0:"clamp(3rem,8vw,8rem)",alignItems:"center",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
             
-            {/* Text */}
-            <div>
+            {/* Text — fades out when open */}
+            <div style={{opacity:procOpen?0:1,overflow:"hidden",transition:"all .8s cubic-bezier(.23,1,.32,1)",maxHeight:procOpen?0:600,transform:procOpen?"translateX(-40px)":"translateX(0)"}}>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
               <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
-              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound Search Partners was founded on one principle: executive search should be personal. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
-              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound Search Partners works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
+              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound was founded on a conviction most firms get wrong: recruiting is not a transaction. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
+              <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
             </div>
 
-            {/* Process — clean vertical flow */}
-            <div>
-              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:32}}>Our Process</div>
-              {proc.map((step,i) => (
-                <div key={i} style={{display:"flex",gap:20,marginBottom:i<proc.length-1?0:0}} onMouseEnter={() => setHovProc(i)} onMouseLeave={() => setHovProc(null)}>
-                  {/* Vertical line + number */}
-                  <div style={{display:"flex",flexDirection:"column",alignItems:"center",flexShrink:0}}>
-                    <div style={{width:hovProc===i?40:36,height:hovProc===i?40:36,borderRadius:"50%",border:`1.5px solid ${hovProc===i?C.r:'rgba(226,60,65,.2)'}`,background:hovProc===i?"rgba(226,60,65,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:hovProc===i?C.r:C.g,flexShrink:0,transition:"all .3s cubic-bezier(.23,1,.32,1)",boxShadow:hovProc===i?"0 0 20px rgba(226,60,65,.15)":"none"}}>{step.p}</div>
-                    {i<proc.length-1 && <div style={{width:1,flex:1,background:`linear-gradient(180deg,rgba(226,60,65,${hovProc===i?.35:.2}),rgba(226,60,65,.05))`,minHeight:24,transition:"all .3s"}}/>}
-                  </div>
-                  {/* Content */}
-                  <div style={{paddingBottom:i<proc.length-1?32:0,transition:"all .3s"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-                      <h4 style={{fontSize:16,fontWeight:700,color:hovProc===i?C.w:C.gl,transition:"color .3s"}}>{step.t}</h4>
-                      <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,opacity:hovProc===i?.8:.5,transition:"opacity .3s"}}>{step.l}</span>
+            {/* The web — moves to center and grows when open */}
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:procOpen?0:32,transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+              
+              {/* Methodology header — only when open */}
+              <div style={{opacity:procOpen?1:0,maxHeight:procOpen?100:0,overflow:"hidden",transition:"all .6s ease .5s",textAlign:"center",marginBottom:procOpen?16:0}}>
+                <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:8}}>Our Methodology</div>
+                <div style={{fontSize:11,color:C.g,letterSpacing:2}}>HOVER EACH NODE TO EXPLORE</div>
+              </div>
+
+              {/* The web itself — same visual, scales up */}
+              <div style={{position:"relative",width:procOpen?"100%":"100%",maxWidth:procOpen?640:320,aspectRatio:"1",transition:"all .8s cubic-bezier(.23,1,.32,1)"}}>
+                {/* Orbiting rings */}
+                <div style={{position:"absolute",inset:"15%",border:"1px dashed rgba(226,60,65,.1)",borderRadius:"50%",animation:"sp 30s linear infinite"}}/>
+                <div style={{position:"absolute",inset:0,border:"1px dashed rgba(226,60,65,.06)",borderRadius:"50%",animation:"sp 45s linear infinite reverse"}}/>
+                {procOpen && <div style={{position:"absolute",inset:"-5%",border:"1px dashed rgba(226,60,65,.04)",borderRadius:"50%",animation:"sp 60s linear infinite"}}/>}
+                
+                {/* Radiating lines */}
+                {[{r:-55,w:150,c:1},{r:-15,w:130,c:0},{r:35,w:160,c:1},{r:150,w:140,c:0},{r:75,w:120,c:1},{r:195,w:150,c:0}].map((l,i) => <div key={i} style={{position:"absolute",top:"50%",left:"50%",height:1,width:procOpen?l.w*1.6:l.w,transformOrigin:"0 0",transform:`rotate(${l.r}deg)`,background:`linear-gradient(90deg,${l.c?'rgba(226,60,65,.25)':'rgba(255,255,255,.12)'},transparent)`,transition:"width .8s ease"}}/>)}
+                
+                {/* Floating ambient dots */}
+                {[{t:14,l:18,s:12,c:C.r,o:.6,d:6},{t:10,l:78,s:9,c:C.w,o:.3,d:8},{t:72,l:85,s:11,c:C.r,o:.5,d:7},{t:82,l:22,s:8,c:C.w,o:.25,d:9},{t:34,l:90,s:14,c:C.r,o:.4,d:5},{t:90,l:52,s:10,c:C.w,o:.2,d:7}].map((nd,i) => <div key={i} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${nd.d}s ease ${i*.5}s infinite`}}/>)}
+                
+                {/* Extra dots when expanded */}
+                {procOpen && [{t:5,l:50,s:6,c:C.r,o:.3},{t:50,l:5,s:8,c:C.w,o:.15},{t:50,l:95,s:7,c:C.r,o:.25},{t:95,l:50,s:6,c:C.w,o:.15},{t:25,l:8,s:5,c:C.r,o:.2},{t:75,l:92,s:5,c:C.r,o:.2},{t:8,l:35,s:4,c:C.w,o:.12},{t:92,l:65,s:4,c:C.w,o:.12}].map((nd,i) => <div key={`x${i}`} style={{position:"absolute",top:`${nd.t}%`,left:`${nd.l}%`,width:nd.s,height:nd.s,borderRadius:"50%",background:nd.c,opacity:nd.o,transform:"translate(-50%,-50%)",animation:`f${i%2+1} ${5+i}s ease ${i*.3}s infinite`}}/>)}
+                
+                {/* Center B dot / pulse */}
+                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",background:C.r,transform:"translate(-50%,-50%)",boxShadow:`0 0 ${procOpen?'40':'30'}px rgba(226,60,65,.5)`,zIndex:3,transition:"all .5s ease"}}/>
+                <div style={{position:"absolute",top:"50%",left:"50%",width:procOpen?32:24,height:procOpen?32:24,borderRadius:"50%",border:"2px solid #e23c41",transform:"translate(-50%,-50%)",animation:"ep 2.5s ease infinite"}}/>
+
+                {/* 4 interactive nodes — only when open, positioned on the web */}
+                {procOpen && [{t:8,l:20,i:0},{t:8,l:80,i:1},{t:78,l:80,i:2},{t:78,l:20,i:3}].map(n => (
+                  <div key={n.i} onMouseEnter={() => setHovNode(n.i)} onMouseLeave={() => setHovNode(null)}
+                    style={{position:"absolute",top:`${n.t}%`,left:`${n.l}%`,transform:"translate(-50%,-50%)",zIndex:4,cursor:"default",textAlign:"center",animation:`nodeIn .6s cubic-bezier(.23,1,.32,1) ${.5+n.i*.12}s both`}}>
+                    <div style={{width:hovNode===n.i?48:36,height:hovNode===n.i?48:36,borderRadius:"50%",background:`radial-gradient(circle,${C.r},rgba(226,60,65,.3))`,boxShadow:`0 0 ${hovNode===n.i?'40':'16'}px rgba(226,60,65,${hovNode===n.i?.5:.2})`,margin:"0 auto",transition:"all .3s",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                      {[<svg key="ic0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
+                        <svg key="ic1" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+                        <svg key="ic2" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>,
+                        <svg key="ic3" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>][n.i]}
                     </div>
-                    <p style={{fontSize:14,color:C.gl,lineHeight:1.7,opacity:hovProc===i?1:.7,transition:"opacity .3s"}}>{step.d}</p>
+                    <div style={{marginTop:6,fontSize:11,fontWeight:700,color:hovNode===n.i?C.w:C.gl,transition:"color .3s",whiteSpace:"nowrap"}}>{proc[n.i].t}</div>
+                    {/* Description tooltip */}
+                    <div style={{maxHeight:hovNode===n.i?100:0,overflow:"hidden",transition:"max-height .3s cubic-bezier(.23,1,.32,1)",maxWidth:180}}>
+                      <p style={{fontSize:11,color:C.gl,lineHeight:1.5,marginTop:4}}>{proc[n.i].d}</p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+
+                {/* Connection lines to nodes when open */}
+                {procOpen && <svg style={{position:"absolute",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:1}} viewBox="0 0 100 100">
+                  {[[50,50,20,8],[50,50,80,8],[50,50,80,78],[50,50,20,78]].map(([x1,y1,x2,y2],i) => (
+                    <line key={`nl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth={hovNode===i?".8":".3"} opacity={hovNode===i?".3":".1"} style={{transition:"all .3s"}}/>
+                  ))}
+                  {/* Node to node */}
+                  {[[20,8,80,8],[80,8,80,78],[80,78,20,78],[20,78,20,8]].map(([x1,y1,x2,y2],i) => (
+                    <line key={`nnl${i}`} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#e23c41" strokeWidth=".2" opacity=".06" strokeDasharray="2 3"/>
+                  ))}
+                </svg>}
+              </div>
+
+              {/* Button */}
+              <div style={{marginTop:procOpen?20:0,transition:"margin .5s ease"}}>
+                <button onClick={() => setProcOpen(!procOpen)} style={{display:"flex",alignItems:"center",gap:12,padding:"14px 40px",background:procOpen?C.r:"transparent",border:`2px solid ${C.r}`,color:C.w,fontFamily:"inherit",fontSize:14,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s",maxWidth:340,width:"100%",justifyContent:"center"}}>
+                  <span>{procOpen?"←":"—"}</span><span>{procOpen?"Back to The Firm":"Explore Our Process"}</span>{!procOpen && <span>→</span>}
+                </button>
+              </div>
             </div>
 
           </div>
@@ -400,83 +357,28 @@ export default function App() {
 
 
       {/* SERVICES */}
-      <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0",overflow:"hidden"}}>
-        <div style={{maxWidth:900,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          {/* Section label */}
-          <div style={{textAlign:"center",marginBottom:"clamp(2.5rem,5vw,4rem)"}}>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em"}}>Search. Advisory. Intelligence.</h2>
-          </div>
-
-          {/* Navigation pills */}
-          <div style={{display:"flex",justifyContent:"flex-start",gap:0,marginBottom:"clamp(3rem,6vw,5rem)",borderBottom:"1px solid rgba(226,60,65,.12)",overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none",msOverflowStyle:"none"}} className="srv-tabs">
-            {srvs.map((s,i)=>(
-              <button key={i} onClick={()=>setActiveSrv(i)}
-                style={{padding:"14px 20px",background:"none",border:"none",borderBottom:activeSrv===i?`2px solid ${C.r}`:"2px solid transparent",color:activeSrv===i?C.w:C.g,fontSize:13,fontWeight:activeSrv===i?700:500,letterSpacing:".02em",cursor:"pointer",transition:"all .3s",marginBottom:-1,whiteSpace:"nowrap",flexShrink:0}}
-                onMouseEnter={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.gl}}
-                onMouseLeave={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.g}}
-              >{s.t.split(" ").length>2?s.t.split(" ").slice(0,2).join(" "):s.t}</button>
+      <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0"}}>
+        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Services</div>
+          <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16,maxWidth:650,marginBottom:48}}>Five capabilities.<br/>One relentless standard.</h2>
+          <div id="mtabs" style={{display:"flex",gap:2,marginBottom:2}}>
+            {srvs.map((s,i) => (
+              <button key={i} onClick={() => setActiveSrv(i)} style={{flex:activeSrv===i?3:1,padding:"20px 16px",background:activeSrv===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeSrv===i?`3px solid ${C.r}`:"3px solid transparent",color:activeSrv===i?C.w:C.g,fontFamily:"inherit",fontSize:13,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
+                <span style={{opacity:.2,fontSize:24,fontWeight:700,color:C.r,display:"block",marginBottom:4}}>{s.n}</span>
+                <span style={{whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",display:"block"}}>{activeSrv===i?s.t:s.s}</span>
+              </button>
             ))}
           </div>
-
-          {/* Active service — single centered column */}
-          <div style={{position:"relative",minHeight:260}}>
-            {srvs.map((s,i)=>(
-              <div key={i} style={{
-                position:i===activeSrv?"relative":"absolute",
-                top:0,left:0,right:0,
-                opacity:activeSrv===i?1:0,
-                transform:activeSrv===i?"none":"translateY(16px)",
-                transition:"opacity .4s ease, transform .4s ease",
-                pointerEvents:activeSrv===i?"auto":"none",
-                textAlign:"center"
-              }}>
-                <h3 style={{fontSize:"clamp(1.6rem,3vw,2.2rem)",fontWeight:700,color:C.w,lineHeight:1.2,letterSpacing:"-.015em",marginBottom:12}}>{s.t}</h3>
-                <div style={{width:40,height:3,background:C.r,margin:"0 auto 28px"}}/>
-                <p style={{fontSize:"clamp(1rem,1.3vw,1.1rem)",lineHeight:1.9,color:C.gl,maxWidth:640,margin:"0 auto 36px"}}>{s.d}</p>
-                <div style={{display:"flex",flexWrap:"wrap",justifyContent:"center",gap:10}}>
-                  {s.r.split(" · ").map((role,ri)=>(
-                    <span key={ri} style={{padding:"8px 18px",border:"1px solid rgba(226,60,65,.18)",color:C.g,fontSize:12,fontWeight:500,letterSpacing:".03em",transition:"all .3s"}}
-                      onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
-                      onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.18)";e.currentTarget.style.color=C.g}}
-                    >{role}</span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Bottom nav: arrows + dots */}
-          <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:20,marginTop:"clamp(2.5rem,5vw,4rem)"}}>
-            <button onClick={()=>setActiveSrv(p=>(p-1+srvs.length)%srvs.length)} aria-label="Previous service"
-              style={{width:40,height:40,border:"1px solid rgba(226,60,65,.2)",background:"none",color:C.g,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
-              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.g}}
-            >{"\u2190"}</button>
-            <div style={{display:"flex",alignItems:"center",gap:8}}>
-              {srvs.map((_,i)=>(
-                <div key={i} onClick={()=>setActiveSrv(i)} style={{width:activeSrv===i?24:8,height:6,background:activeSrv===i?C.r:"rgba(226,60,65,.15)",transition:"all .35s cubic-bezier(.23,1,.32,1)",cursor:"pointer"}}/>
-              ))}
+          <div id="msdet" style={{padding:"clamp(2rem,4vw,4rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`,display:"grid",gridTemplateColumns:"1fr 1fr",gap:48,alignItems:"center",minHeight:280}}>
+            <div>
+              <h3 style={{fontSize:"clamp(1.5rem,2.5vw,2.25rem)",fontWeight:700,marginBottom:16}}>{srvs[activeSrv].t}</h3>
+              <p style={{fontSize:16,color:C.gl,lineHeight:1.8}}>{srvs[activeSrv].d}</p>
+              <div style={{marginTop:24,fontSize:11,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",color:C.r,opacity:.6}}>{srvs[activeSrv].r}</div>
             </div>
-            <button onClick={()=>setActiveSrv(p=>(p+1)%srvs.length)} aria-label="Next service"
-              style={{width:40,height:40,border:"1px solid rgba(226,60,65,.2)",background:"none",color:C.g,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
-              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.g}}
-            >{"\u2192"}</button>
-          </div>
-
-          {/* Single CTA below everything */}
-          <div style={{textAlign:"center",marginTop:"clamp(2.5rem,5vw,4rem)"}}>
-            <span onClick={()=>go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}}
-              onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}
-            >Discuss Your Search →</span>
+            <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}><span style={{fontSize:"clamp(10rem,18vw,14rem)",fontWeight:700,color:C.r,opacity:.04,lineHeight:1}}>{srvs[activeSrv].n}</span></div>
           </div>
         </div>
       </section>
-
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.12),transparent)"}}/>
 
       {/* LOGO CAROUSEL */}
       <section style={{background:C.nm,padding:"clamp(3rem,6vw,5rem) 0"}}>
@@ -488,7 +390,7 @@ export default function App() {
           <div style={{position:"absolute",top:0,bottom:0,left:0,width:80,background:"linear-gradient(90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
           <div style={{position:"absolute",top:0,bottom:0,right:0,width:80,background:"linear-gradient(-90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
           <div className="logo-scroll" style={{display:"flex",animation:"logoScroll 30s linear infinite",width:"max-content"}} onMouseEnter={e=>e.currentTarget.style.animationPlayState="paused"} onMouseLeave={e=>e.currentTarget.style.animationPlayState="running"}>
-            {[...Array(2)].map((_,rep) => ["hunter_douglas.png","honickman.png","aak.png","mcc.png","post_brothers.png","makinex.png","k_hartwall.png","marand.png","cf.png","journeyman.png","elementia.png","dwyeromega.png"].map((f,i) => (
+            {[...Array(2)].map((_,rep) => ["hunter_douglas.png","honickman.png","aak.jpg","mcc.png","post_brothers.png","makinex.jpg","k_hartwall.png","marand.png","cf.png","elementia.jpg"].map((f,i) => (
               <div key={`${rep}-${i}`} style={{flexShrink:0,width:200,height:100,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem 2rem",background:C.nm,borderRight:"1px solid rgba(226,60,65,.06)"}}>
                 <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:40,width:"auto",maxWidth:150,objectFit:"contain",opacity:.7}}/>
               </div>
@@ -497,7 +399,7 @@ export default function App() {
         </div>
         {/* Mobile static logo grid */}
         <div id="mlogos" style={{gridTemplateColumns:"repeat(3,1fr)",gap:1,padding:"0 clamp(1.5rem,4vw,4rem)",marginTop:24}}>
-          {["hunter_douglas.png","honickman.png","aak.png","mcc.png","post_brothers.png","makinex.png","k_hartwall.png","marand.png","cf.png","journeyman.png","dwyeromega.png"].map((f,i) => (
+          {["hunter_douglas.png","honickman.png","aak.jpg","mcc.png","post_brothers.png","makinex.jpg","k_hartwall.png","marand.png","cf.png"].map((f,i) => (
             <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"center",padding:"16px 12px",background:"rgba(226,60,65,.02)",border:"1px solid rgba(226,60,65,.04)"}}>
               <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:28,width:"auto",maxWidth:90,objectFit:"contain",opacity:.6}}/>
             </div>
@@ -505,75 +407,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
-
-      {/* CASE STUDIES */}
-      <section id="results" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Placement Outcomes</div>
-          <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:56}}>Real searches.<br/>Measurable results.</h2>
-          
-          {/* Case selector tabs */}
-          <div style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
-            {cases.map((c,i) => (
-              <button key={i} onClick={() => setActiveCase(i)} style={{flex:activeCase===i?"2.5 1 0%":"1 1 0%",padding:"16px 20px",background:activeCase===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeCase===i?`3px solid ${C.r}`:"3px solid transparent",color:activeCase===i?C.w:C.g,fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
-                <span style={{opacity:.2,fontSize:20,fontWeight:700,color:C.r,display:"block",marginBottom:2}}>{c.id}</span>
-                <span style={{whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",display:"block"}}>{activeCase===i?c.role:c.ind}</span>
-              </button>
-            ))}
-          </div>
-
-          {/* Active case detail */}
-          <div style={{padding:"clamp(2rem,4vw,3.5rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`}}>
-            <div style={{display:"grid",gridTemplateColumns:"1fr",gap:32}}>
-              {/* Header row */}
-              <div>
-                <div style={{display:"flex",flexWrap:"wrap",gap:"8px 24px",marginBottom:20}}>
-                  <span style={{fontSize:11,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",color:C.r,padding:"4px 12px",background:"rgba(226,60,65,.08)"}}>{cases[activeCase].ind}</span>
-                  <span style={{fontSize:11,fontWeight:700,letterSpacing:".12em",textTransform:"uppercase",color:C.gl,padding:"4px 12px",background:"rgba(255,255,255,.03)"}}>{cases[activeCase].rev}</span>
-                </div>
-                <h3 style={{fontSize:"clamp(1.5rem,2.5vw,2.25rem)",fontWeight:700,marginBottom:8}}>{cases[activeCase].role}</h3>
-                <div style={{fontSize:13,color:C.g,letterSpacing:".05em"}}>{cases[activeCase].focus}</div>
-              </div>
-
-              {/* Metrics row */}
-              <div style={{display:"flex",gap:48,flexWrap:"wrap",padding:"20px 0",borderTop:"1px solid rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.08)"}}>
-                <div>
-                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Time to Fill</div>
-                  <div style={{fontSize:24,fontWeight:700,color:C.r}}>{cases[activeCase].days}{cases[activeCase].days!=="Confidential"&&cases[activeCase].days!=="Planned transition"?" days":""}</div>
-                </div>
-                <div>
-                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Current Status</div>
-                  <div style={{fontSize:16,fontWeight:700,color:C.w,display:"flex",alignItems:"center",gap:8}}>
-                    <span style={{width:8,height:8,borderRadius:"50%",background:"#22c55e",flexShrink:0}}/>
-                    {cases[activeCase].status}
-                  </div>
-                </div>
-              </div>
-
-              {/* Challenge + Outcome */}
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:48}} id="mcasedetail">
-                <div>
-                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12,opacity:.7}}>The Challenge</div>
-                  <p style={{fontSize:15,color:C.gl,lineHeight:1.8}}>{cases[activeCase].challenge}</p>
-                </div>
-                <div>
-                  <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:12,opacity:.7}}>The Outcome</div>
-                  <p style={{fontSize:15,color:C.gl,lineHeight:1.8}}>{cases[activeCase].outcome}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Disclaimer */}
-          <div style={{marginTop:16,fontSize:11,color:C.g,opacity:.5,fontStyle:"italic"}}>Client identities protected. All outcomes are real and verified.</div>
-        </div>
-      </section>
-
       {/* INDUSTRIES */}
-      <section id="industries" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm,position:"relative"}}>
-        <div style={{position:"absolute",inset:0,opacity:.03,backgroundImage:"radial-gradient(circle at 1px 1px, rgba(226,60,65,.4) 1px, transparent 0)",backgroundSize:"40px 40px",pointerEvents:"none"}}/>
+      <section id="industries" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Industries</div>
           <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:600,marginBottom:56}}>Nine sectors.<br/>Deep expertise.</h2>
@@ -613,67 +448,8 @@ export default function App() {
         </div>
       </section>
 
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
-
-      {/* WHY RETAINED */}
-      <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          {/* Header — full width */}
-          <div style={{maxWidth:700,marginBottom:"clamp(3rem,6vw,4rem)"}}>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Why Retained Search</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>You're hiring a <span style={{color:C.r,fontStyle:"italic"}}>partner</span>, not a vendor.</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl}}>Most manufacturers have used contingency recruiters — firms that get paid only if they place someone. It works for some roles. But for the leaders who will shape your business, the model breaks down. Retained search invests in understanding your business before a single candidate is contacted. The result: better candidates, fewer false starts, and leaders who stay.</p>
-          </div>
-
-          {/* Two columns — comparison + FAQ */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1.4fr",gap:"clamp(3rem,6vw,5rem)",alignItems:"start"}} id="mretained">
-            {/* Left — Comparison */}
-            <div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0}}>
-                <div style={{padding:24,background:"rgba(255,255,255,.02)",borderLeft:"3px solid rgba(255,255,255,.08)"}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Contingency</div>
-                  {["Race to fill","Resume volume","Paid on placement","Shared attention","Transactional"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.g,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{color:C.g,fontSize:10}}>—</span>{t}
-                    </div>
-                  ))}
-                </div>
-                <div style={{padding:24,background:"rgba(226,60,65,.04)",borderLeft:`3px solid ${C.r}`}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Retained</div>
-                  {["Research-driven","Curated shortlist","Invested from day one","Exclusive dedication","Strategic partnership"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.gl,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{color:C.r,fontSize:10}}>◆</span>{t}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            {/* Right — FAQ accordion */}
-            <div>
-              <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Common Questions</div>
-              {retainedFAQ.map((faq,i) => (
-                <div key={i} style={{borderBottom:"1px solid rgba(226,60,65,.08)"}}>
-                  <div onClick={() => setRetainedOpen(retainedOpen===i?null:i)} style={{padding:"18px 0",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16}}>
-                    <span style={{fontSize:15,fontWeight:700,color:retainedOpen===i?C.w:C.gl,transition:"color .3s"}}>{faq.q}</span>
-                    <span style={{fontSize:18,color:retainedOpen===i?C.r:C.g,transition:"all .3s",transform:retainedOpen===i?"rotate(45deg)":"rotate(0deg)",flexShrink:0}}>+</span>
-                  </div>
-                  <div style={{maxHeight:retainedOpen===i?500:0,overflow:"hidden",transition:"max-height .5s cubic-bezier(.23,1,.32,1)"}}>
-                    <p style={{fontSize:14,color:C.gl,lineHeight:1.8,paddingBottom:20}}>{faq.a}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
-
       {/* BOND */}
-      <section id="bond" style={{padding:"clamp(5rem,10vw,8rem) 0",background:C.n,textAlign:"center",overflow:"hidden",position:"relative"}}>
-        <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:500,height:500,background:"radial-gradient(circle,rgba(226,60,65,.04),transparent 70%)",pointerEvents:"none"}}/>
+      <section id="bond" style={{padding:"clamp(4rem,8vw,6rem) 0",background:C.n,textAlign:"center",overflow:"hidden"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
           {/* B icon — living */}
@@ -685,7 +461,7 @@ export default function App() {
           </div>
 
           {/* Tagline */}
-          <div style={{marginTop:28,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .5s"}}>The right company <span style={{color:C.r}}>+</span> the right leader <span style={{color:C.r}}>=</span> Bound Search Partners.</div>
+          <div style={{marginTop:28,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .5s"}}>The right company <span style={{color:C.r}}>+</span> the right leader <span style={{color:C.r}}>=</span> Bound.</div>
 
           {/* Values — single row of keywords */}
           <div style={{marginTop:28,display:"flex",justifyContent:"center",flexWrap:"wrap",gap:"8px 24px",opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(10px)",transition:"all .6s ease .7s"}}>
@@ -702,10 +478,9 @@ export default function App() {
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Founder</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Bob Cwenar</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar has spent over a decade inside retained executive search — not as a recruiter, but as a builder. A graduate of Drexel University, he joined Armstrong Franklin as one of four employees and helped grow the firm into a recognized name in manufacturing recruitment.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>When Armstrong Franklin merged with GattiHR and was subsequently acquired by Kingsley Gate Partners — a global search firm — Bob led national-scale engagements for clients ranging from founder-led startups to enterprises exceeding $10 billion in revenue. He's seen how search works at every level of scale.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>He founded Bound Search Partners because the best search work happens when one senior professional owns the relationship end-to-end — from intake to onboarding. No handoffs. No junior associates running your search. Every conversation, every assessment, every recommendation comes directly from the person whose name is on the engagement.</p>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl}}>200+ placements. 92% retained at year one. That's the track record behind every search Bound takes on.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar brings over a decade of retained executive search experience to every engagement. A graduate of Drexel University, he began his career with Armstrong Franklin, growing the practice from a four-person startup into a recognized name in the industry.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Through a merger with GattiHR and subsequent acquisition by Kingsley Gate Partners, Bob led national searches for clients ranging from agile startups to enterprises exceeding $10 billion in revenue.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl}}>Today, Bob leads Bound Search Partners with a clear mandate: deliver an executive search experience defined by rigor, precision, and trust.</p>
           </div>
           <div><img src="./headshot.jpg" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",borderRadius:2,display:"block"}}/></div>
         </div>
@@ -714,7 +489,7 @@ export default function App() {
       {/* MOBILE STATS - after bio */}
       <div id="mstats-bottom" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)",width:"100%"}}>
         <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",width:"100%"}}>
-          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
+          {[["200+","Executive Placements"],["92%","Year-One Retention"],["10+","Years Retained Search"],["50+","Client Organizations"]].map(([n,l],i) => (
             <div key={i} style={{padding:"24px 16px",textAlign:"center",borderRight:i%2===0?"1px solid rgba(226,60,65,.12)":"none",borderBottom:i<2?"1px solid rgba(226,60,65,.12)":"none"}}>
               <div style={{fontSize:28,fontWeight:700,color:C.r,lineHeight:1,marginBottom:6}}>{n}</div>
               <div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
@@ -729,7 +504,7 @@ export default function App() {
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Contact</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Start a <span style={{color:C.r,fontStyle:"italic"}}>conversation</span>.</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:32}}>Every engagement begins with a candid discussion about the role and whether Bound Search Partners is the right fit.</p>
+            <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:32}}>Every engagement begins with a candid discussion about the role and whether Bound is the right fit.</p>
             {[["Phone","(267) 265-1792","tel:+12672651792"],["Email","bob@boundsearch.com","mailto:bob@boundsearch.com"],["Headquarters","Philadelphia, PA — Serving clients nationwide",null]].map(([label,val,href],i) => (
               <div key={i} style={{display:"flex",alignItems:"center",gap:16,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,.05)"}}>
                 <div style={{width:42,height:42,display:"flex",alignItems:"center",justifyContent:"center",background:"rgba(226,60,65,.06)",color:C.r,flexShrink:0}}>
@@ -744,42 +519,26 @@ export default function App() {
             </div>
           </div>
           <div>
-            {formSent ? (
-              <div style={{textAlign:"center",padding:"80px 24px"}}>
-                <div style={{width:64,height:64,borderRadius:"50%",background:"rgba(226,60,65,.1)",display:"flex",alignItems:"center",justifyContent:"center",margin:"0 auto 24px"}}>
-                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e23c41" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                </div>
-                <h3 style={{fontSize:24,fontWeight:700,marginBottom:12}}>Inquiry Received</h3>
-                <p style={{fontSize:15,color:C.gl,lineHeight:1.7}}>Thank you for reaching out. Bob will respond personally within 24 hours.</p>
-              </div>
-            ) : (
-              <form name="contact" method="POST" data-netlify="true" onSubmit={async(e)=>{e.preventDefault();setFormSending(true);try{const fd=new FormData(e.target);fd.append("form-name","contact");await fetch("/",{method:"POST",body:fd});setFormSent(true)}catch{alert("Something went wrong. Please email bob@boundsearch.com directly.")}setFormSending(false)}}>
-                <input type="hidden" name="form-name" value="contact"/>
-                <div id="mfr1" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
-                  {[["first-name","First Name"],["last-name","Last Name"]].map(([n,l]) => <div key={n}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} required style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>)}
-                </div>
-                <div id="mfr2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
-                  {[["email","Email","email"],["phone","Phone","tel"]].map(([n,l,t]) => <div key={n}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} type={t} required={n==="email"} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>)}
-                </div>
-                {[["company","Company"],["role","Role"]].map(([n,l]) => <div key={n} style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>)}
-                <div style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Additional Context</label><textarea name="message" rows={4} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,resize:"vertical",transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>
-                <button type="submit" disabled={formSending} style={{width:"100%",padding:"16px 36px",background:formSending?"rgba(226,60,65,.5)":C.r,color:C.w,border:"none",fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:formSending?"wait":"pointer",fontFamily:"inherit",transition:"all .3s"}} onMouseEnter={e=>{if(!formSending)e.target.style.background="#c8333a"}} onMouseLeave={e=>{if(!formSending)e.target.style.background=C.r}}>{formSending?"Sending...":"Submit Inquiry →"}</button>
-              </form>
-            )}
+            <div id="mfr1" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
+              {["First Name","Last Name"].map(l => <div key={l}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15}}/></div>)}
+            </div>
+            <div id="mfr2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
+              {["Email","Phone"].map(l => <div key={l}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15}}/></div>)}
+            </div>
+            {["Company","Role"].map(l => <div key={l} style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15}}/></div>)}
+            <div style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Additional Context</label><textarea rows={4} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,resize:"vertical"}}/></div>
+            <button style={{width:"100%",padding:"16px 36px",background:C.r,color:C.w,border:"none",fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",fontFamily:"inherit"}}>Submit Inquiry →</button>
           </div>
         </div>
       </section>
-
-      {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.12),transparent)"}}/>
 
       {/* CTA */}
       <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n,textAlign:"center"}}>
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Ready to begin?</div>
           <h2 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
-          <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Every day a critical seat stays empty, momentum is lost. Bound Search Partners exists to close that gap.</p>
-          <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Search →</span>
+          <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Every day a critical seat stays empty, momentum is lost. Bound exists to close that gap.</p>
+          <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer"}}>Start a Search →</span>
         </div>
       </section>
 
@@ -790,7 +549,7 @@ export default function App() {
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <svg width="220" height="36" viewBox="0 0 340 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Aptos,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Aptos,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
-            <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
+            <div style={{display:"flex",gap:32}}>{["Home","About","Services","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer"}}>{l}</span>)}</div>
           </div>
 
           {/* Divider line */}
@@ -799,7 +558,7 @@ export default function App() {
           {/* Bottom row: copyright left, skyline right */}
           <div id="mfootbot" style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <div>
-              <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2025 Bound Search Partners LLC. All rights reserved.</div>
+              <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2024 Bound Search Partners LLC. All rights reserved.</div>
               <div style={{fontSize:11,color:C.g,opacity:.6,marginBottom:4}}>Made with love in the City of Brotherly Love.</div>
               <div style={{fontSize:10,color:C.g,opacity:.4}}>Website designed and built by Bob Cwenar & Claude by Anthropic.</div>
             </div>
@@ -887,53 +646,6 @@ export default function App() {
           </div>
         </div>
       </footer>
-
-      {/* AI CHAT WIDGET */}
-      {/* Chat bubble */}
-      <div onClick={() => setChatOpen(!chatOpen)} style={{position:"fixed",bottom:24,right:24,width:56,height:56,borderRadius:"50%",background:chatOpen?"#c8333a":C.r,boxShadow:"0 4px 20px rgba(226,60,65,.4)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",zIndex:10001,transition:"all .3s"}}
-        onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.08)";e.currentTarget.style.boxShadow="0 6px 28px rgba(226,60,65,.5)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="0 4px 20px rgba(226,60,65,.4)"}}>
-        {chatOpen
-          ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>}
-      </div>
-      {/* Notification dot */}
-      {!chatOpen && chatMsgs.length===1 && <div style={{position:"fixed",bottom:68,right:24,width:12,height:12,borderRadius:"50%",background:"#fff",border:"2px solid "+C.r,zIndex:10002,animation:"beacon 2s ease infinite",pointerEvents:"none"}}/>}
-
-      {/* Chat panel */}
-      <div style={{position:"fixed",bottom:92,right:24,width:380,maxHeight:520,borderRadius:12,overflow:"hidden",background:C.n,border:"1px solid rgba(226,60,65,.15)",boxShadow:"0 12px 48px rgba(0,0,0,.5)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(16px) scale(.95)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .3s cubic-bezier(.23,1,.32,1)"}}>
-        {/* Header */}
-        <div style={{padding:"16px 20px",background:C.nm,borderBottom:"1px solid rgba(226,60,65,.1)",display:"flex",alignItems:"center",gap:12}}>
-          <div style={{width:32,height:32,borderRadius:"50%",background:"rgba(226,60,65,.1)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-            <svg width="14" height="15" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
-          </div>
-          <div>
-            <div style={{fontSize:14,fontWeight:700}}>Bound Search Partners</div>
-            <div style={{fontSize:10,color:C.g,letterSpacing:1}}>AI Assistant</div>
-          </div>
-        </div>
-
-        {/* Messages */}
-        <div id="chatScroll" style={{flex:1,overflowY:"auto",padding:"16px 20px",display:"flex",flexDirection:"column",gap:12,maxHeight:360}}>
-          {chatMsgs.map((m,i) => (
-            <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
-              <div style={{maxWidth:"85%",padding:"10px 14px",borderRadius:m.role==="user"?"12px 12px 2px 12px":"12px 12px 12px 2px",background:m.role==="user"?C.r:"rgba(226,60,65,.06)",fontSize:13,lineHeight:1.6,color:m.role==="user"?"#fff":C.gl}}>
-                {m.content}
-              </div>
-            </div>
-          ))}
-          {chatLoading && <div style={{display:"flex",gap:4,padding:"8px 0"}}>
-            {[0,1,2].map(i => <div key={i} style={{width:6,height:6,borderRadius:"50%",background:C.r,opacity:.4,animation:`f1 1s ease ${i*.15}s infinite`}}/>)}
-          </div>}
-        </div>
-
-        {/* Input */}
-        <div style={{padding:"12px 16px",borderTop:"1px solid rgba(226,60,65,.08)",display:"flex",gap:8}}>
-          <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Ask about our services..." style={{flex:1,padding:"10px 14px",background:C.nm,border:"1px solid rgba(226,60,65,.08)",borderRadius:8,color:C.w,fontFamily:"inherit",fontSize:13,outline:"none",transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.3)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.08)"}/>
-          <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} style={{padding:"10px 14px",background:chatInput.trim()?C.r:"rgba(226,60,65,.2)",border:"none",borderRadius:8,cursor:chatInput.trim()?"pointer":"default",transition:"all .2s"}}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
