@@ -403,8 +403,17 @@ export default function App() {
             <div style={{position:"sticky",top:120}}>
               <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Services</div>
               <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16,marginBottom:24}}>Search.<br/>Advisory.<br/>Intelligence.</h2>
-              <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:32}}>Every engagement is scoped to what the hire demands — not a one-size-fits-all package. These are the five ways we work.</p>
+              <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl,marginBottom:32}}>Every engagement is scoped to what the hire demands — not a one-size-fits-all package.</p>
               <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 32px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}} onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}>Discuss Your Search →</span>
+              {/* Visual stats to fill vertical space */}
+              <div style={{marginTop:"clamp(2.5rem,5vw,4rem)",display:"flex",flexDirection:"column",gap:"clamp(1.5rem,3vw,2.5rem)"}}>
+                {[["200+","Executive placements led"],["92%","Year-one retention rate"],["50+","Client organizations served"]].map(([num,label],i)=>(
+                  <div key={i} style={{borderLeft:`3px solid ${i===0?C.r:"rgba(226,60,65,.25)"}`,paddingLeft:20,transition:"border-color .3s"}} onMouseEnter={e=>e.currentTarget.style.borderLeftColor=C.r} onMouseLeave={e=>{if(i!==0)e.currentTarget.style.borderLeftColor="rgba(226,60,65,.25)"}}>
+                    <div style={{fontSize:"clamp(2rem,4vw,2.75rem)",fontWeight:700,color:C.r,lineHeight:1,letterSpacing:"-.02em"}}>{num}</div>
+                    <div style={{fontSize:13,fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",color:C.gl,marginTop:6,opacity:.6}}>{label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
             {/* Right — service cards */}
             <div style={{display:"flex",flexDirection:"column",gap:2}}>
