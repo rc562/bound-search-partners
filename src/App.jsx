@@ -22,24 +22,20 @@ export default function App() {
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
-    let showV1 = true;
+    let current = 0;
+    const vids = ["vid1","vid2","vid3"];
     const swap = () => {
-      const v1 = document.getElementById("vid1");
-      const v2 = document.getElementById("vid2");
-      if (!v1 || !v2) return;
-      showV1 = !showV1;
-      if (showV1) {
-        v1.currentTime = 0; v1.play();
-        v1.style.opacity = "1"; v2.style.opacity = "0";
-        setTimeout(() => { v2.pause(); }, 2000);
-      } else {
-        v2.currentTime = 0; v2.play();
-        v2.style.opacity = "1"; v1.style.opacity = "0";
-        setTimeout(() => { v1.pause(); }, 2000);
-      }
+      const prev = document.getElementById(vids[current]);
+      current = (current + 1) % 3;
+      const next = document.getElementById(vids[current]);
+      if (!prev || !next) return;
+      next.currentTime = 0; next.play();
+      next.style.opacity = "1";
+      prev.style.opacity = "0";
+      setTimeout(() => { prev.pause(); }, 2000);
     };
-    // Start with vid2 paused
-    setTimeout(() => { const v2 = document.getElementById("vid2"); if (v2) v2.pause(); }, 100);
+    // Start with vid2 and vid3 paused
+    setTimeout(() => { ["vid2","vid3"].forEach(id => { const v = document.getElementById(id); if (v) v.pause(); }); }, 100);
     const id = setInterval(swap, 12000);
     window.addEventListener("scroll",h);
     return () => { clearInterval(id); window.removeEventListener("scroll",h); };
@@ -252,7 +248,7 @@ export default function App() {
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
           .logo-scroll-wrap{display:none!important}
-          #vid1,#vid2{object-fit:cover!important;object-position:center 20%!important;height:140%!important;top:-10%!important}
+          #vid1,#vid2,#vid3{object-fit:cover!important;object-position:center 20%!important;height:140%!important;top:-10%!important}
 
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
@@ -263,7 +259,7 @@ export default function App() {
           #mretained{grid-template-columns:1fr!important}
         }
         @media(max-width:480px){
-          #vid1,#vid2{object-fit:cover!important;object-position:center 15%!important;height:160%!important;top:-15%!important}
+          #vid1,#vid2,#vid3{object-fit:cover!important;object-position:center 15%!important;height:160%!important;top:-15%!important}
           #mstats-top{display:none!important}
           #mstats-bottom{display:block!important}
         }
@@ -309,6 +305,7 @@ export default function App() {
         <div style={{position:"absolute",inset:0,zIndex:0}}>
           <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",transition:"opacity 2s ease"}}><source src="./video1.mp4" type="video/mp4"/></video>
           <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video2.mp4" type="video/mp4"/></video>
+          <video id="vid3" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 2s ease"}}><source src="./video3.mp4" type="video/mp4"/></video>
 
         </div>
         {/* Dark overlay */}
