@@ -297,9 +297,9 @@ export default function App() {
       {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
         <div style={{position:"absolute",inset:0,zIndex:0}}>
-          <video id="vid1" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:3}}><source src="./video1.mp4" type="video/mp4"/></video>
-          <video id="vid2" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:2}}><source src="./video2.mp4" type="video/mp4"/></video>
-          <video id="vid3" autoPlay muted loop playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:1}}><source src="./video3.mp4" type="video/mp4"/></video>
+          <video id="vid1" autoPlay muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:3}}><source src="./video1.mp4" type="video/mp4"/></video>
+          <video id="vid2" autoPlay muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:2}}><source src="./video2.mp4" type="video/mp4"/></video>
+          <video id="vid3" autoPlay muted playsInline style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",zIndex:1}}><source src="./video3.mp4" type="video/mp4"/></video>
         </div>
         {/* Dark overlay */}
         <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,rgba(14,11,36,.4) 0%,rgba(14,11,36,.15) 30%,rgba(14,11,36,.7) 75%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.8) 0%,transparent 55%)`}} />
