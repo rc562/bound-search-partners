@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a",gl:"#c5c3ce"};
 
@@ -20,10 +20,21 @@ export default function App() {
   const [retainedOpen,setRetainedOpen] = useState(null);
   const [activeSrv,setActiveSrv] = useState(null);
   const [hovProc,setHovProc] = useState(null);
+  const [navHidden,setNavHidden] = useState(false);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 60);
-    window.addEventListener("scroll",h);
+    const h = () => {
+      const y = window.scrollY;
+      setScrolled(y > 60);
+      if(y > 120) {
+        setNavHidden(y > lastScrollY.current);
+      } else {
+        setNavHidden(false);
+      }
+      lastScrollY.current = y;
+    };
+    window.addEventListener("scroll",h,{passive:true});
     return () => window.removeEventListener("scroll",h);
   }, []);
 
@@ -253,7 +264,7 @@ export default function App() {
       `}</style>
 
       {/* NAV */}
-      <nav style={{position:"fixed",top:0,left:0,width:"100%",zIndex:1000,padding:scrolled?"12px 0":"20px 0",background:scrolled?"rgba(14,11,36,.95)":"transparent",backdropFilter:scrolled?"blur(20px)":"none",borderBottom:scrolled?"1px solid rgba(226,60,65,.12)":"none",transition:"all .5s cubic-bezier(.23,1,.32,1)"}}>
+      <nav style={{position:"fixed",top:0,left:0,width:"100%",zIndex:1000,padding:scrolled?"12px 0":"20px 0",background:scrolled?"rgba(14,11,36,.95)":"transparent",backdropFilter:scrolled?"blur(20px)":"none",borderBottom:scrolled?"1px solid rgba(226,60,65,.12)":"none",transform:navHidden?"translateY(-100%)":"translateY(0)",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
           <div onClick={() => go("home")} style={{cursor:"pointer"}}>
             <svg width="36" height="38" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
