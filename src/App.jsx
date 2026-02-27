@@ -233,6 +233,7 @@ export default function App() {
           #bspChat{width:calc(100vw - 32px)!important;right:16px!important;bottom:80px!important;max-height:70vh!important}
           .mburger{display:flex!important}
           .mnav{display:none!important}
+          .float-logo{display:none!important}
           .mticker{display:none!important}
           #mstats-top{display:none!important}
           #mstats-bottom{display:block!important}
@@ -281,7 +282,7 @@ export default function App() {
       </nav>
 
       {/* Floating logo — always visible */}
-      <div onClick={() => go("home")} style={{
+      <div className="float-logo" onClick={() => go("home")} style={{
         position:"fixed",top:20,left:24,zIndex:1001,
         cursor:"pointer",
         opacity:navHidden?1:0,
