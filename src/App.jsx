@@ -75,10 +75,10 @@ export default function App() {
   };
 
   const srvs = [
-    {t:"Executive Search",tag:"Targeting the leaders who aren't looking — and building the case for why they should.",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Every engagement is retained, personally led, and grounded in deep understanding of your business, culture, and competitive landscape.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain · VP Manufacturing",del:["Full market mapping & competitive landscape analysis","Proprietary candidate shortlist within 30 days","Structured behavioral & leadership assessments","Offer negotiation, counteroffer strategy & onboarding support"]},
-    {t:"Operations & Plant Leadership",tag:"The hires that determine whether strategy becomes execution.",d:"Plant managers, engineering directors, and quality leaders — the operational backbone of any manufacturing organization. We go deep into the industrial talent market to surface leaders with real floor presence, CI discipline, and team-building track records.",r:"Plant Manager · Director Engineering · Quality Director · Director of Operations",del:["Targeted outreach to passive operational leaders","Technical competency & leadership style vetting","On-site culture alignment evaluation","90-day onboarding support & guarantee-backed engagement"]},
-    {t:"Organizational Advisory",tag:"Clarity before commitment — understanding what your organization actually needs.",d:"Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance. Whether you need to understand your leadership bench, plan for succession, benchmark compensation, or map the talent landscape before a search begins — we deliver focused engagements with clear deliverables, not open-ended retainers.",r:"Leadership Audit · Succession Planning · Org Design · Comp Benchmarking · Talent Mapping",del:["Leadership bench strength assessment","Succession gap analysis with actionable timeline","Compensation benchmarking vs. regional & national market","Talent availability & density mapping"]},
-    {t:"Strategic Advisory & Business Intelligence",tag:"PE-grade strategic intelligence, delivered in weeks — not quarters.",d:"Business model audits, strategic roadmaps, and portfolio diagnostics built for private equity firms, venture-backed companies, and manufacturers navigating inflection points. The depth of a Big Four engagement at a fraction of the cost and timeline — powered by AI-augmented research and real operational expertise.",r:"Business Model Audit · Strategic Roadmap · Market Entry Analysis · Portfolio Diagnostics",del:["Comprehensive business model audit & assessment","Strategic roadmap with prioritized initiatives","Competitive landscape & market entry analysis","AI-augmented research at institutional depth"]},
+    {t:"Executive Search",tag:"Targeting the leaders who aren't looking — and building the case for why they should.",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Every engagement is retained, personally led, and grounded in deep understanding of your business, culture, and competitive landscape.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain · VP Manufacturing",rl:"Typical Roles",del:["Full market mapping & competitive landscape analysis","Proprietary candidate shortlist within 30 days","Structured behavioral & leadership assessments","Offer negotiation, counteroffer strategy & onboarding support"]},
+    {t:"Operations & Plant Leadership",tag:"The hires that determine whether strategy becomes execution.",d:"Plant managers, engineering directors, and quality leaders — the operational backbone of any manufacturing organization. We go deep into the industrial talent market to surface leaders with real floor presence, CI discipline, and team-building track records.",r:"Plant Manager · Director Engineering · Quality Director · Director of Operations",rl:"Typical Roles",del:["Targeted outreach to passive operational leaders","Technical competency & leadership style vetting","On-site culture alignment evaluation","90-day onboarding support & guarantee-backed engagement"]},
+    {t:"Organizational Advisory",tag:"Clarity before commitment — understanding what your organization actually needs.",d:"Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance. Whether you need to understand your leadership bench, plan for succession, benchmark compensation, or map the talent landscape before a search begins — we deliver focused engagements with clear deliverables, not open-ended retainers.",r:"Leadership Audit · Succession Planning · Org Design · Comp Benchmarking · Talent Mapping",rl:"Engagement Types",del:["Leadership bench strength assessment","Succession gap analysis with actionable timeline","Compensation benchmarking vs. regional & national market","Talent availability & density mapping"]},
+    {t:"Strategic Advisory & Business Intelligence",tag:"PE-grade strategic intelligence, delivered in weeks — not quarters.",d:"Business model audits, strategic roadmaps, and portfolio diagnostics built for private equity firms, venture-backed companies, and manufacturers navigating inflection points. The depth of a Big Four engagement at a fraction of the cost and timeline — powered by AI-augmented research and real operational expertise.",r:"Business Model Audit · Strategic Roadmap · Market Entry Analysis · Portfolio Diagnostics",rl:"Capabilities",del:["Comprehensive business model audit & assessment","Strategic roadmap with prioritized initiatives","Competitive landscape & market entry analysis","AI-augmented research at institutional depth"]},
   ];
 
   const proc = [
@@ -412,11 +412,13 @@ export default function App() {
                       transition:"color .2s",
                     }}>{s.t}</h3>
                     <div style={{
-                      width:32,height:32,
+                      width:36,height:36,
+                      border:isOpen?`1px solid ${C.r}`:"1px solid rgba(226,60,65,.2)",
+                      background:isOpen?"rgba(226,60,65,.1)":"transparent",
                       display:"flex",alignItems:"center",justifyContent:"center",
-                      color:isOpen?C.w:C.g,
-                      fontSize:20,fontWeight:300,
-                      transition:"transform .3s cubic-bezier(.23,1,.32,1), color .2s",
+                      color:isOpen?C.r:C.r,
+                      fontSize:22,fontWeight:300,
+                      transition:"transform .3s cubic-bezier(.23,1,.32,1), background .2s, border-color .2s",
                       transform:isOpen?"rotate(45deg)":"rotate(0deg)",
                       flexShrink:0,marginLeft:16,
                     }}>+</div>
@@ -431,27 +433,27 @@ export default function App() {
                   }}>
                     <div style={{paddingBottom:32}}>
                       {/* Tagline + description */}
-                      <p style={{fontSize:13,fontStyle:"italic",color:C.gl,opacity:.4,lineHeight:1.5,marginBottom:12}}>{s.tag}</p>
-                      <p style={{fontSize:15,lineHeight:1.85,color:C.gl,maxWidth:700,marginBottom:24}}>{s.d}</p>
+                      <p style={{fontSize:13,fontStyle:"italic",color:C.r,opacity:.5,lineHeight:1.5,marginBottom:12}}>{s.tag}</p>
+                      <p style={{fontSize:15,lineHeight:1.85,color:"#d4d1e0",maxWidth:700,marginBottom:24}}>{s.d}</p>
 
                       {/* Two columns: deliverables + roles */}
                       <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"24px 48px",alignItems:"start"}} className="srv-expand">
                         <div>
-                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.g,marginBottom:12}}>Deliverables</div>
+                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Deliverables</div>
                           {s.del.map((d,di)=>(
                             <div key={di} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"5px 0"}}>
                               <span style={{color:C.r,fontSize:8,marginTop:5,flexShrink:0}}>&#9656;</span>
-                              <span style={{fontSize:13,color:C.gl,lineHeight:1.55}}>{d}</span>
+                              <span style={{fontSize:13,color:"#d4d1e0",lineHeight:1.55}}>{d}</span>
                             </div>
                           ))}
                         </div>
                         <div>
-                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.g,marginBottom:12}}>Typical Roles</div>
+                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>{s.rl}</div>
                           <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
                             {s.r.split(" · ").map((role,ri)=>(
-                              <span key={ri} style={{padding:"6px 14px",border:"1px solid rgba(226,60,65,.12)",color:C.g,fontSize:11,fontWeight:500,letterSpacing:".03em",transition:"all .25s"}}
-                                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
-                                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.12)";e.currentTarget.style.color=C.g}}
+                              <span key={ri} style={{padding:"6px 14px",border:"1px solid rgba(226,60,65,.2)",color:"#d4d1e0",fontSize:11,fontWeight:500,letterSpacing:".03em",transition:"all .25s"}}
+                                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.06)"}}
+                                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color="#d4d1e0";e.currentTarget.style.background="transparent"}}
                               >{role}</span>
                             ))}
                           </div>
