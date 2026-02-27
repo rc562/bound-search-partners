@@ -820,7 +820,7 @@ export default function App() {
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Ready to begin?</div>
           <h2 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
-          <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Every day a critical seat stays empty, momentum is lost. Bound Search Partners exists to close that gap.</p>
+          <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Ready when you are.</p>
           <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
         </div>
       </section>
