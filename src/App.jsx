@@ -18,7 +18,7 @@ export default function App() {
   const [chatLoading,setChatLoading] = useState(false);
   const [activeCase,setActiveCase] = useState(0);
   const [retainedOpen,setRetainedOpen] = useState(null);
-  const [activeSrv,setActiveSrv] = useState(0);
+  const [activeSrv,setActiveSrv] = useState(null);
   const [hovProc,setHovProc] = useState(null);
 
   useEffect(() => {
@@ -265,14 +265,14 @@ export default function App() {
             </div>
             <div className="mnav" style={{display:"flex",alignItems:"center",gap:"2.5rem"}}>
             {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact",""]].map(([id,label]) => (
-              <span key={id} onClick={() => go(id)} className={id!=="contact"?"navlink":""} style={{fontSize:12,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",...(id==="contact"?{padding:"8px 24px",background:C.r,color:C.w,transition:"all .3s"}:{color:C.gl})}} onMouseEnter={id==="contact"?e=>{e.target.style.background="#c8333a";e.target.style.transform="translateY(-1px)"}:undefined} onMouseLeave={id==="contact"?e=>{e.target.style.background=C.r;e.target.style.transform="translateY(0)"}:undefined}>{id==="contact"?"Start a Search":label}</span>
+              <span key={id} onClick={() => go(id)} className={id!=="contact"?"navlink":""} style={{fontSize:12,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",...(id==="contact"?{padding:"8px 24px",background:C.r,color:C.w,transition:"all .3s"}:{color:C.gl})}} onMouseEnter={id==="contact"?e=>{e.target.style.background="#c8333a";e.target.style.transform="translateY(-1px)"}:undefined} onMouseLeave={id==="contact"?e=>{e.target.style.background=C.r;e.target.style.transform="translateY(0)"}:undefined}>{id==="contact"?"Start a Conversation":label}</span>
             ))}
           </div>
         </div>
       </nav>
 
       {mobileMenu && <div style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",background:"rgba(14,11,36,.98)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:32}} onClick={() => setMobileMenu(false)}>
-        {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact","Start a Search"]].map(([id,label]) => (
+        {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact","Start a Conversation"]].map(([id,label]) => (
           <span key={id} onClick={() => {go(id);setMobileMenu(false)}} style={{fontSize:id==="contact"?16:24,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",color:id==="contact"?C.w:C.gl,...(id==="contact"?{padding:"14px 40px",background:C.r}:{})}}>{label}</span>
         ))}
       </div>}
@@ -414,10 +414,10 @@ export default function App() {
                     }}>{s.t}</h3>
                     <div style={{
                       width:36,height:36,
-                      border:isOpen?`1px solid ${C.r}`:"1px solid rgba(226,60,65,.2)",
-                      background:isOpen?"rgba(226,60,65,.1)":"transparent",
+                      border:isOpen?`1px solid ${C.w}`:"1px solid rgba(255,255,255,.2)",
+                      background:isOpen?"rgba(255,255,255,.1)":"transparent",
                       display:"flex",alignItems:"center",justifyContent:"center",
-                      color:isOpen?C.r:C.r,
+                      color:C.w,
                       fontSize:22,fontWeight:300,
                       transition:"transform .3s cubic-bezier(.23,1,.32,1), background .2s, border-color .2s",
                       transform:isOpen?"rotate(45deg)":"rotate(0deg)",
@@ -472,7 +472,7 @@ export default function App() {
             <span onClick={()=>go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
               onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}}
               onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}
-            >Discuss Your Search →</span>
+            >Start a Conversation →</span>
           </div>
         </div>
       </section>
@@ -821,7 +821,7 @@ export default function App() {
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Ready to begin?</div>
           <h2 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
           <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Every day a critical seat stays empty, momentum is lost. Bound Search Partners exists to close that gap.</p>
-          <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Search →</span>
+          <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
         </div>
       </section>
 
