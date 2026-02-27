@@ -75,11 +75,10 @@ export default function App() {
   };
 
   const srvs = [
-    {t:"Retained Executive Search",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Targeting leaders who aren't looking — and convincing them to listen.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain"},
-    {t:"Operational Leadership",d:"Plant managers, engineering directors, quality leaders — the operational backbone that determines whether strategy becomes execution.",r:"Plant Manager · Director Engineering · Quality Director"},
-    {t:"Organizational & Leadership Advisory",d:"Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance. Leadership bench assessments, succession gap analysis, organizational structure reviews, and compensation benchmarking — delivered as focused 2–4 week engagements with clear deliverables, not open-ended retainers.",r:"Leadership Audit · Succession Planning · Org Design · Comp Benchmarking"},
-    {t:"Market Intelligence",d:"Compensation analysis, competitive talent mapping, and availability studies. A clear-eyed view of the landscape before a search begins.",r:"Comp Benchmarking · Talent Mapping · Availability"},
-    {t:"Confidential Searches",d:"Replacing a sitting executive. Entering a new market. Building leadership around an acquisition. When discretion is not optional.",r:"CEO Replacement · M&A Integration · Board Advisory"},
+    {t:"Executive Search",tag:"Targeting the leaders who aren't looking — and building the case for why they should.",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Every engagement is retained, personally led, and grounded in deep understanding of your business, culture, and competitive landscape.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain · VP Manufacturing",del:["Full market mapping & competitive landscape analysis","Proprietary candidate shortlist within 30 days","Structured behavioral & leadership assessments","Offer negotiation, counteroffer strategy & onboarding support"]},
+    {t:"Operations & Plant Leadership",tag:"The hires that determine whether strategy becomes execution.",d:"Plant managers, engineering directors, and quality leaders — the operational backbone of any manufacturing organization. We go deep into the industrial talent market to surface leaders with real floor presence, CI discipline, and team-building track records.",r:"Plant Manager · Director Engineering · Quality Director · Director of Operations",del:["Targeted outreach to passive operational leaders","Technical competency & leadership style vetting","On-site culture alignment evaluation","90-day onboarding support & guarantee-backed engagement"]},
+    {t:"Organizational Advisory",tag:"Clarity before commitment — understanding what your organization actually needs.",d:"Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance. Whether you need to understand your leadership bench, plan for succession, benchmark compensation, or map the talent landscape before a search begins — we deliver focused engagements with clear deliverables, not open-ended retainers.",r:"Leadership Audit · Succession Planning · Org Design · Comp Benchmarking · Talent Mapping",del:["Leadership bench strength assessment","Succession gap analysis with actionable timeline","Compensation benchmarking vs. regional & national market","Talent availability & density mapping"]},
+    {t:"Strategic Advisory & Business Intelligence",tag:"PE-grade strategic intelligence, delivered in weeks — not quarters.",d:"Business model audits, strategic roadmaps, and portfolio diagnostics built for private equity firms, venture-backed companies, and manufacturers navigating inflection points. The depth of a Big Four engagement at a fraction of the cost and timeline — powered by AI-augmented research and real operational expertise.",r:"Business Model Audit · Strategic Roadmap · Market Entry Analysis · Portfolio Diagnostics",del:["Comprehensive business model audit & assessment","Strategic roadmap with prioritized initiatives","Competitive landscape & market entry analysis","AI-augmented research at institutional depth"]},
   ];
 
   const proc = [
@@ -212,6 +211,7 @@ export default function App() {
         @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
+        @keyframes srvFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
         .srv-tabs::-webkit-scrollbar{display:none}
         @media(min-width:769px){.srv-tabs{justify-content:center!important}}
         #mcloud{display:none}
@@ -229,6 +229,7 @@ export default function App() {
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
           #mind{display:none!important}
+          .srv-expand{grid-template-columns:1fr!important}
           #mcloud{display:flex!important}
           #mlogos{display:grid!important}
           .logo-scroll-wrap{display:none!important}
@@ -380,72 +381,91 @@ export default function App() {
 
       {/* SERVICES */}
       <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0",overflow:"hidden"}}>
-        <div style={{maxWidth:900,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+        <div style={{maxWidth:960,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           {/* Section label */}
-          <div style={{textAlign:"center",marginBottom:"clamp(2.5rem,5vw,4rem)"}}>
+          <div style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)"}}>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
             <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em"}}>Search. Advisory. Intelligence.</h2>
           </div>
 
-          {/* Navigation pills */}
-          <div style={{display:"flex",justifyContent:"flex-start",gap:0,marginBottom:"clamp(3rem,6vw,5rem)",borderBottom:"1px solid rgba(226,60,65,.12)",overflowX:"auto",WebkitOverflowScrolling:"touch",scrollbarWidth:"none",msOverflowStyle:"none"}} className="srv-tabs">
-            {srvs.map((s,i)=>(
-              <button key={i} onClick={()=>setActiveSrv(i)}
-                style={{padding:"14px 20px",background:"none",border:"none",borderBottom:activeSrv===i?`2px solid ${C.r}`:"2px solid transparent",color:activeSrv===i?C.w:C.g,fontSize:13,fontWeight:activeSrv===i?700:500,letterSpacing:".02em",cursor:"pointer",transition:"all .3s",marginBottom:-1,whiteSpace:"nowrap",flexShrink:0}}
-                onMouseEnter={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.gl}}
-                onMouseLeave={e=>{if(activeSrv!==i)e.currentTarget.style.color=C.g}}
-              >{s.t.split(" ").length>2?s.t.split(" ").slice(0,2).join(" "):s.t}</button>
-            ))}
-          </div>
+          {/* Accordion */}
+          <div>
+            {srvs.map((s,i)=>{
+              const isOpen = activeSrv===i;
+              return (
+                <div key={i} style={{borderTop:i===0?"1px solid rgba(226,60,65,.1)":"none",borderBottom:"1px solid rgba(226,60,65,.1)"}}>
+                  {/* Row trigger */}
+                  <div
+                    onClick={()=>setActiveSrv(isOpen?null:i)}
+                    style={{
+                      display:"flex",justifyContent:"space-between",alignItems:"center",
+                      padding:"22px 0",cursor:"pointer",
+                      transition:"padding .3s ease",
+                    }}
+                    onMouseEnter={e=>{if(!isOpen)e.currentTarget.querySelector('.srv-title').style.color=C.w}}
+                    onMouseLeave={e=>{if(!isOpen)e.currentTarget.querySelector('.srv-title').style.color=C.gl}}
+                  >
+                    <h3 className="srv-title" style={{
+                      fontSize:"clamp(1.1rem,2vw,1.35rem)",fontWeight:600,
+                      color:isOpen?C.w:C.gl,
+                      letterSpacing:"-.01em",lineHeight:1.3,
+                      transition:"color .2s",
+                    }}>{s.t}</h3>
+                    <div style={{
+                      width:32,height:32,
+                      display:"flex",alignItems:"center",justifyContent:"center",
+                      color:isOpen?C.w:C.g,
+                      fontSize:20,fontWeight:300,
+                      transition:"transform .3s cubic-bezier(.23,1,.32,1), color .2s",
+                      transform:isOpen?"rotate(45deg)":"rotate(0deg)",
+                      flexShrink:0,marginLeft:16,
+                    }}>+</div>
+                  </div>
 
-          {/* Active service — single centered column */}
-          <div style={{position:"relative",minHeight:260}}>
-            {srvs.map((s,i)=>(
-              <div key={i} style={{
-                position:i===activeSrv?"relative":"absolute",
-                top:0,left:0,right:0,
-                opacity:activeSrv===i?1:0,
-                transform:activeSrv===i?"none":"translateY(16px)",
-                transition:"opacity .4s ease, transform .4s ease",
-                pointerEvents:activeSrv===i?"auto":"none",
-                textAlign:"center"
-              }}>
-                <h3 style={{fontSize:"clamp(1.6rem,3vw,2.2rem)",fontWeight:700,color:C.w,lineHeight:1.2,letterSpacing:"-.015em",marginBottom:12}}>{s.t}</h3>
-                <div style={{width:40,height:3,background:C.r,margin:"0 auto 28px"}}/>
-                <p style={{fontSize:"clamp(1rem,1.3vw,1.1rem)",lineHeight:1.9,color:C.gl,maxWidth:640,margin:"0 auto 36px"}}>{s.d}</p>
-                <div style={{display:"flex",flexWrap:"wrap",justifyContent:"center",gap:10}}>
-                  {s.r.split(" · ").map((role,ri)=>(
-                    <span key={ri} style={{padding:"8px 18px",border:"1px solid rgba(226,60,65,.18)",color:C.g,fontSize:12,fontWeight:500,letterSpacing:".03em",transition:"all .3s"}}
-                      onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
-                      onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.18)";e.currentTarget.style.color=C.g}}
-                    >{role}</span>
-                  ))}
+                  {/* Expandable content */}
+                  <div style={{
+                    maxHeight:isOpen?600:0,
+                    opacity:isOpen?1:0,
+                    overflow:"hidden",
+                    transition:"max-height .4s cubic-bezier(.23,1,.32,1), opacity .3s ease",
+                  }}>
+                    <div style={{paddingBottom:32}}>
+                      {/* Tagline + description */}
+                      <p style={{fontSize:13,fontStyle:"italic",color:C.gl,opacity:.4,lineHeight:1.5,marginBottom:12}}>{s.tag}</p>
+                      <p style={{fontSize:15,lineHeight:1.85,color:C.gl,maxWidth:700,marginBottom:24}}>{s.d}</p>
+
+                      {/* Two columns: deliverables + roles */}
+                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"24px 48px",alignItems:"start"}} className="srv-expand">
+                        <div>
+                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.g,marginBottom:12}}>Deliverables</div>
+                          {s.del.map((d,di)=>(
+                            <div key={di} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"5px 0"}}>
+                              <span style={{color:C.r,fontSize:8,marginTop:5,flexShrink:0}}>&#9656;</span>
+                              <span style={{fontSize:13,color:C.gl,lineHeight:1.55}}>{d}</span>
+                            </div>
+                          ))}
+                        </div>
+                        <div>
+                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.g,marginBottom:12}}>Typical Roles</div>
+                          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                            {s.r.split(" · ").map((role,ri)=>(
+                              <span key={ri} style={{padding:"6px 14px",border:"1px solid rgba(226,60,65,.12)",color:C.g,fontSize:11,fontWeight:500,letterSpacing:".03em",transition:"all .25s"}}
+                                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
+                                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.12)";e.currentTarget.style.color=C.g}}
+                              >{role}</span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Bottom nav: arrows + dots */}
-          <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:20,marginTop:"clamp(2.5rem,5vw,4rem)"}}>
-            <button onClick={()=>setActiveSrv(p=>(p-1+srvs.length)%srvs.length)} aria-label="Previous service"
-              style={{width:40,height:40,border:"1px solid rgba(226,60,65,.2)",background:"none",color:C.g,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
-              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.g}}
-            >{"\u2190"}</button>
-            <div style={{display:"flex",alignItems:"center",gap:8}}>
-              {srvs.map((_,i)=>(
-                <div key={i} onClick={()=>setActiveSrv(i)} style={{width:activeSrv===i?24:8,height:6,background:activeSrv===i?C.r:"rgba(226,60,65,.15)",transition:"all .35s cubic-bezier(.23,1,.32,1)",cursor:"pointer"}}/>
-              ))}
-            </div>
-            <button onClick={()=>setActiveSrv(p=>(p+1)%srvs.length)} aria-label="Next service"
-              style={{width:40,height:40,border:"1px solid rgba(226,60,65,.2)",background:"none",color:C.g,fontSize:18,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w}}
-              onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color=C.g}}
-            >{"\u2192"}</button>
-          </div>
-
-          {/* Single CTA below everything */}
-          <div style={{textAlign:"center",marginTop:"clamp(2.5rem,5vw,4rem)"}}>
+          {/* CTA */}
+          <div style={{textAlign:"center",marginTop:"clamp(3rem,6vw,5rem)"}}>
             <span onClick={()=>go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
               onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}}
               onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}
