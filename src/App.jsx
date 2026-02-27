@@ -22,26 +22,14 @@ export default function App() {
   const [hovProc,setHovProc] = useState(null);
   const [navHidden,setNavHidden] = useState(false);
   const lastScrollY = useRef(0);
-  const scrollUpAccum = useRef(0);
+  const [navOpen,setNavOpen] = useState(false);
 
   useEffect(() => {
     const h = () => {
       const y = window.scrollY;
       setScrolled(y > 60);
-      if(y > 120) {
-        if(y > lastScrollY.current) {
-          // scrolling down
-          scrollUpAccum.current = 0;
-          setNavHidden(true);
-        } else {
-          // scrolling up — accumulate distance
-          scrollUpAccum.current += (lastScrollY.current - y);
-          if(scrollUpAccum.current > 40) setNavHidden(false);
-        }
-      } else {
-        setNavHidden(false);
-        scrollUpAccum.current = 0;
-      }
+      setNavHidden(y > 200);
+      if(y > lastScrollY.current && y > 200) setNavOpen(false);
       lastScrollY.current = y;
     };
     window.addEventListener("scroll",h,{passive:true});
@@ -291,6 +279,58 @@ export default function App() {
           </div>
         </div>
       </nav>
+
+      {/* Floating collapsed menu button */}
+      <div style={{
+        position:"fixed",top:20,right:24,zIndex:1001,
+        opacity:navHidden?1:0,
+        transform:navHidden?"scale(1)":"scale(.8)",
+        pointerEvents:navHidden?"auto":"none",
+        transition:"all .3s cubic-bezier(.23,1,.32,1)",
+      }}>
+        <div onClick={()=>setNavOpen(!navOpen)} style={{
+          width:44,height:44,borderRadius:"50%",
+          background:"rgba(14,11,36,.8)",backdropFilter:"blur(16px)",
+          border:"1px solid rgba(226,60,65,.15)",
+          display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:navOpen?0:5,
+          cursor:"pointer",transition:"all .3s",
+        }}
+          onMouseEnter={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.4)"}}
+          onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.15)"}}
+        >
+          <div style={{width:18,height:2,background:navOpen?C.r:C.w,transform:navOpen?"rotate(45deg) translateY(1px)":"none",transition:"all .3s"}}/>
+          <div style={{width:18,height:2,background:C.w,opacity:navOpen?0:1,transition:"all .2s"}}/>
+          <div style={{width:18,height:2,background:navOpen?C.r:C.w,transform:navOpen?"rotate(-45deg) translateY(-1px)":"none",transition:"all .3s"}}/>
+        </div>
+
+        {/* Dropdown menu */}
+        <div style={{
+          position:"absolute",top:52,right:0,
+          background:"rgba(14,11,36,.92)",backdropFilter:"blur(20px)",
+          border:"1px solid rgba(226,60,65,.1)",
+          borderRadius:8,
+          padding:navOpen?"12px 0":"0",
+          minWidth:180,
+          opacity:navOpen?1:0,
+          transform:navOpen?"translateY(0)":"translateY(-8px)",
+          pointerEvents:navOpen?"auto":"none",
+          transition:"all .25s cubic-bezier(.23,1,.32,1)",
+          overflow:"hidden",
+          maxHeight:navOpen?400:0,
+        }}>
+          {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact","Contact"]].map(([id,label]) => (
+            <div key={id} onClick={()=>{go(id);setNavOpen(false)}} style={{
+              padding:"10px 24px",cursor:"pointer",
+              fontSize:12,fontWeight:600,letterSpacing:".12em",textTransform:"uppercase",
+              color:id==="contact"?C.r:C.gl,
+              transition:"all .2s",
+            }}
+              onMouseEnter={e=>{e.currentTarget.style.background="rgba(226,60,65,.06)";e.currentTarget.style.color=C.w}}
+              onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.color=id==="contact"?C.r:C.gl}}
+            >{label}</div>
+          ))}
+        </div>
+      </div>
 
       {mobileMenu && <div style={{position:"fixed",top:0,left:0,width:"100%",height:"100%",background:"rgba(14,11,36,.98)",zIndex:999,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:32}} onClick={() => setMobileMenu(false)}>
         {[["home","Home"],["about","About"],["services","Services"],["results","Results"],["contact","Contact"]].map(([id,label]) => (
