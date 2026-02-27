@@ -280,6 +280,18 @@ export default function App() {
         </div>
       </nav>
 
+      {/* Floating logo — always visible */}
+      <div onClick={() => go("home")} style={{
+        position:"fixed",top:20,left:24,zIndex:1001,
+        cursor:"pointer",
+        opacity:navHidden?1:0,
+        transform:navHidden?"scale(1)":"scale(.8)",
+        pointerEvents:navHidden?"auto":"none",
+        transition:"all .3s cubic-bezier(.23,1,.32,1)",
+      }}>
+        <svg width="36" height="38" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
+      </div>
+
       {/* Floating collapsed menu button */}
       <div style={{
         position:"fixed",top:20,right:24,zIndex:1001,
