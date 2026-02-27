@@ -6,6 +6,7 @@ export default function App() {
   const [scrolled,setScrolled] = useState(false);
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
+  const [hovBond,setHovBond] = useState(null);
   const [mobileMenu,setMobileMenu] = useState(false);
   const [cloudWord,setCloudWord] = useState(null);
   const [formSent,setFormSent] = useState(false);
@@ -677,16 +678,56 @@ export default function App() {
         <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:500,height:500,background:"radial-gradient(circle,rgba(226,60,65,.04),transparent 70%)",pointerEvents:"none"}}/>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
-          {/* B icon — living */}
+          {/* B icon — interactive */}
           <div style={{position:"relative",width:140,height:150,margin:"0 auto"}}>
-            <div style={{position:"absolute",left:6,top:6,width:34,height:138,background:C.w,borderRadius:3,opacity:.92,transform:bondVis?"translateX(0)":"translateX(-100px)",transition:"all 1s cubic-bezier(.23,1,.32,1) .1s"}}/>
-            <div style={{position:"absolute",right:6,top:6,width:78,height:62,background:C.r,borderRadius:3,transform:bondVis?"translateX(0)":"translateX(100px)",transition:"all 1s cubic-bezier(.23,1,.32,1) .1s"}}/>
-            <div style={{position:"absolute",right:6,bottom:6,width:78,height:62,background:C.r,opacity:.9,borderRadius:3,transform:bondVis?"translateX(0)":"translateX(100px)",transition:"all 1s cubic-bezier(.23,1,.32,1) .25s"}}/>
-            <div style={{position:"absolute",inset:-20,background:"radial-gradient(ellipse,rgba(226,60,65,.06),transparent 70%)",opacity:bondVis?1:0,transition:"opacity .8s ease .4s"}}/>
+            {/* White bar — "the right company" */}
+            <div style={{
+              position:"absolute",left:6,top:6,width:34,height:138,background:C.w,borderRadius:3,opacity:.92,
+              transform:bondVis?(hovBond==="company"?"translateX(-30px) scale(1.12)":hovBond==="leader"?"translateX(6px) scale(.95) rotate(2deg)":hovBond==="bsp"?"translateX(18px) scale(1.08)":"translateX(0)"):"translateX(-100px)",
+              transition:"all .4s cubic-bezier(.23,1,.32,1)",
+            }}/>
+            {/* Red top — "the right leader" */}
+            <div style={{
+              position:"absolute",right:6,top:6,width:78,height:62,background:C.r,borderRadius:3,
+              transform:bondVis?(hovBond==="leader"?"translateX(30px) translateY(-8px) scale(1.12)":hovBond==="company"?"translateX(-6px) scale(.95)":hovBond==="bsp"?"translateX(-18px) translateY(4px) scale(1.08)":"translateX(0)"):"translateX(100px)",
+              transition:"all .4s cubic-bezier(.23,1,.32,1)",
+            }}/>
+            {/* Red bottom — "the right leader" */}
+            <div style={{
+              position:"absolute",right:6,bottom:6,width:78,height:62,background:C.r,opacity:.9,borderRadius:3,
+              transform:bondVis?(hovBond==="leader"?"translateX(30px) translateY(8px) scale(1.12)":hovBond==="company"?"translateX(-6px) scale(.95)":hovBond==="bsp"?"translateX(-18px) translateY(-4px) scale(1.08)":"translateX(0)"):"translateX(100px)",
+              transition:"all .4s cubic-bezier(.23,1,.32,1) .05s",
+            }}/>
+            {/* Glow */}
+            <div style={{
+              position:"absolute",inset:-30,
+              background:"radial-gradient(ellipse,rgba(226,60,65,.15),transparent 70%)",
+              opacity:hovBond==="bsp"?1:hovBond?0.4:bondVis?.2:0,
+              transform:hovBond==="bsp"?"scale(1.3)":"scale(1)",
+              transition:"all .4s ease",
+            }}/>
           </div>
 
-          {/* Tagline */}
-          <div style={{marginTop:28,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .5s"}}>The right company <span style={{color:C.r}}>+</span> the right leader <span style={{color:C.r}}>=</span> Bound Search Partners.</div>
+          {/* Tagline — interactive phrases */}
+          <div style={{marginTop:28,fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(12px)",transition:"all .5s ease .5s"}}>
+            <span
+              onMouseEnter={()=>setHovBond("company")}
+              onMouseLeave={()=>setHovBond(null)}
+              style={{cursor:"default",transition:"color .2s",color:hovBond==="company"?C.w:C.gl,borderBottom:hovBond==="company"?"2px solid rgba(255,255,255,.3)":"2px solid transparent",paddingBottom:2}}
+            >The right company</span>
+            {" "}<span style={{color:C.r}}>+</span>{" "}
+            <span
+              onMouseEnter={()=>setHovBond("leader")}
+              onMouseLeave={()=>setHovBond(null)}
+              style={{cursor:"default",transition:"color .2s",color:hovBond==="leader"?C.r:"inherit",borderBottom:hovBond==="leader"?"2px solid rgba(226,60,65,.3)":"2px solid transparent",paddingBottom:2}}
+            >the right leader</span>
+            {" "}<span style={{color:C.r}}>=</span>{" "}
+            <span
+              onMouseEnter={()=>setHovBond("bsp")}
+              onMouseLeave={()=>setHovBond(null)}
+              style={{cursor:"default",transition:"color .2s",color:hovBond==="bsp"?C.w:"inherit",borderBottom:hovBond==="bsp"?"2px solid rgba(226,60,65,.4)":"2px solid transparent",paddingBottom:2}}
+            >Bound Search Partners.</span>
+          </div>
 
           {/* Values — single row of keywords */}
           <div style={{marginTop:28,display:"flex",justifyContent:"center",flexWrap:"wrap",gap:"8px 24px",opacity:bondVis?1:0,transform:bondVis?"translateY(0)":"translateY(10px)",transition:"all .6s ease .7s"}}>
