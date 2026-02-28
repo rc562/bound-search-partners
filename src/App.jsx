@@ -521,10 +521,19 @@ export default function App() {
       <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0",overflow:"hidden"}}>
         <div style={{maxWidth:960,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           {/* Section label */}
-          <div ref={srvHeaderRef} style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)",minHeight:120}}>
+          <div ref={srvHeaderRef} style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)"}}>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",minHeight:"1.2em"}}>
-              {srvTw.displayed}<span style={{opacity: srvTw.done ? 0 : 1, animation: srvTw.started && !srvTw.done ? "blink .6s step-end infinite" : "none", color:C.r}}>|</span>
+            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em"}}>
+              {(() => {
+                const full = "Search. Advisory. Intelligence.";
+                const len = srvTw.displayed.length;
+                return full.split("").map((ch, i) => (
+                  <React.Fragment key={i}>
+                    <span style={{color: i < len ? C.w : "transparent"}}>{ch}</span>
+                    {i === len - 1 && srvTw.started && !srvTw.done && <span style={{color:C.r,animation:"blink .6s step-end infinite",fontWeight:300}}>|</span>}
+                  </React.Fragment>
+                ));
+              })()}
             </h2>
           </div>
 
