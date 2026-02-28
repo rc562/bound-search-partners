@@ -1,6 +1,30 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 const C = {n:"#0e0b24",nm:"#181338",nl:"#2a2456",r:"#e23c41",w:"#fff",g:"#8a879a",gl:"#c5c3ce"};
+
+function useTypewriter(text, speed = 40, startDelay = 0) {
+  const [displayed, setDisplayed] = useState("");
+  const [started, setStarted] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const start = useCallback(() => {
+    if (started) return;
+    setStarted(true);
+    setTimeout(() => {
+      let i = 0;
+      const interval = setInterval(() => {
+        i++;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
+        }
+      }, speed);
+    }, startDelay);
+  }, [text, speed, startDelay, started]);
+
+  return { displayed, done, start, started };
+}
 
 export default function App() {
   const [scrolled,setScrolled] = useState(false);
@@ -23,6 +47,27 @@ export default function App() {
   const [navHidden,setNavHidden] = useState(false);
   const lastScrollY = useRef(0);
   const [navOpen,setNavOpen] = useState(false);
+
+  // Typewriter hooks
+  const heroTw = useTypewriter("The leaders who move industries start here.", 45, 300);
+  const srvTw = useTypewriter("Search. Advisory. Intelligence.", 50, 100);
+  const heroRef = useRef(null);
+  const srvHeaderRef = useRef(null);
+
+  // Trigger typewriters on scroll into view
+  useEffect(() => {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          if (e.target === heroRef.current) heroTw.start();
+          if (e.target === srvHeaderRef.current) srvTw.start();
+        }
+      });
+    }, { threshold: 0.3 });
+    if (heroRef.current) obs.observe(heroRef.current);
+    if (srvHeaderRef.current) obs.observe(srvHeaderRef.current);
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     const h = () => {
@@ -220,6 +265,8 @@ export default function App() {
         @keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
+        @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        @keyframes dotpulse{0%,100%{opacity:1}50%{opacity:.2}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
         @keyframes srvFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
         .srv-tabs::-webkit-scrollbar{display:none}
@@ -362,7 +409,16 @@ export default function App() {
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)"}}>
             <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
-            <h1 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The leaders who<br/><span style={{color:C.r,fontStyle:"italic"}}>move</span> industries<br/>start here.</h1>
+            <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24,minHeight:"3.5em"}}>
+              {(() => {
+                const t = heroTw.displayed;
+                const moveStart = 16, moveEnd = 20;
+                if (t.length <= moveStart) return t;
+                if (t.length <= moveEnd) return <>{t.slice(0, moveStart)}<span style={{color:C.r,fontStyle:"italic"}}>{t.slice(moveStart)}</span></>;
+                return <>{t.slice(0, moveStart)}<span style={{color:C.r,fontStyle:"italic"}}>{t.slice(moveStart, moveEnd)}</span>{t.slice(moveEnd)}</>;
+              })()}
+              {heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300}}>|</span>}
+            </h1>
             <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40}}>Bound Search Partners is a boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
             <div id="mherobtns" style={{display:"flex",gap:24,flexWrap:"wrap"}}>
               <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
@@ -458,9 +514,11 @@ export default function App() {
       <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0",overflow:"hidden"}}>
         <div style={{maxWidth:960,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           {/* Section label */}
-          <div style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)"}}>
+          <div ref={srvHeaderRef} style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)",minHeight:120}}>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em"}}>Search. Advisory. Intelligence.</h2>
+            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",minHeight:"1.2em"}}>
+              {srvTw.displayed}<span style={{opacity: srvTw.done ? 0 : 1, animation: srvTw.started && !srvTw.done ? "blink .6s step-end infinite" : "none", color:C.r}}>|</span>
+            </h2>
           </div>
 
           {/* Accordion */}
