@@ -51,8 +51,10 @@ export default function App() {
   // Typewriter hooks
   const heroTw = useTypewriter("The leaders who move industries start here.", 45, 300);
   const srvTw = useTypewriter("Search. Advisory. Intelligence.", 50, 100);
+  const readyTw = useTypewriter("Ready when you are.", 60, 200);
   const heroRef = useRef(null);
   const srvHeaderRef = useRef(null);
+  const readyRef = useRef(null);
 
   // Trigger typewriters on scroll into view
   useEffect(() => {
@@ -61,11 +63,13 @@ export default function App() {
         if (e.isIntersecting) {
           if (e.target === heroRef.current) heroTw.start();
           if (e.target === srvHeaderRef.current) srvTw.start();
+          if (e.target === readyRef.current) readyTw.start();
         }
       });
     }, { threshold: 0.3 });
     if (heroRef.current) obs.observe(heroRef.current);
     if (srvHeaderRef.current) obs.observe(srvHeaderRef.current);
+    if (readyRef.current) obs.observe(readyRef.current);
     return () => obs.disconnect();
   }, []);
 
@@ -968,7 +972,18 @@ export default function App() {
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Ready to begin?</div>
           <h2 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
-          <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>Ready when you are.</p>
+          <p ref={readyRef} style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>
+            {(() => {
+              const full = "Ready when you are.";
+              const len = readyTw.displayed.length;
+              return full.split("").map((ch, i) => (
+                <React.Fragment key={i}>
+                  <span style={{color: i < len ? C.gl : "transparent"}}>{ch}</span>
+                  {i === len - 1 && readyTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300}}>|</span>}
+                </React.Fragment>
+              ));
+            })()}
+          </p>
           <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
         </div>
       </section>
