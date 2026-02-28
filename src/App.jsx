@@ -409,13 +409,20 @@ export default function App() {
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)"}}>
             <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
-            <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24,minHeight:"3.5em"}}>
+            <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>
               {(() => {
-                const t = heroTw.displayed;
-                const moveStart = 16, moveEnd = 20;
-                if (t.length <= moveStart) return t;
-                if (t.length <= moveEnd) return <>{t.slice(0, moveStart)}<span style={{color:C.r,fontStyle:"italic"}}>{t.slice(moveStart)}</span></>;
-                return <>{t.slice(0, moveStart)}<span style={{color:C.r,fontStyle:"italic"}}>{t.slice(moveStart, moveEnd)}</span>{t.slice(moveEnd)}</>;
+                const full = "The leaders who move industries start here.";
+                const len = heroTw.displayed.length;
+                const chars = full.split("").map((ch, i) => {
+                  const visible = i < len;
+                  const inMove = i >= 16 && i < 20;
+                  return <span key={i} style={{
+                    color: visible ? (inMove ? C.r : C.w) : "transparent",
+                    fontStyle: inMove ? "italic" : "normal",
+                    transition: "color 0s",
+                  }}>{ch}</span>;
+                });
+                return chars;
               })()}
               {heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300}}>|</span>}
             </h1>
