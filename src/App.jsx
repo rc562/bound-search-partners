@@ -41,7 +41,6 @@ export default function App() {
   const [chatInput,setChatInput] = useState("");
   const [chatLoading,setChatLoading] = useState(false);
   const [activeCase,setActiveCase] = useState(0);
-  const [retainedOpen,setRetainedOpen] = useState(null);
   const [activeSrv,setActiveSrv] = useState(null);
   const [hovProc,setHovProc] = useState(null);
   const [navHidden,setNavHidden] = useState(false);
@@ -206,13 +205,6 @@ export default function App() {
     }
   ];
 
-  const retainedFAQ = [
-    {q:"What is retained executive search?",a:"Retained search means we work exclusively on your behalf, on a dedicated basis, for a fixed fee agreed upfront. Unlike contingency firms — who only get paid if they place someone and often work multiple searches simultaneously — a retained firm invests fully in understanding your business, culture, and the competitive landscape before a single candidate is contacted."},
-    {q:"When should a company use retained vs. contingency?",a:"Retained search is the right model when the hire is critical — VP and above, roles requiring confidentiality, positions where the wrong hire has a six- or seven-figure cost of failure, or situations where the best candidates are not actively looking. If you can fill the role from a job board, you probably don't need us."},
-    {q:"How long does a retained search take?",a:"Most searches are completed within 60–120 days, depending on complexity. Some factors that extend timelines: highly specialized technical requirements, geographic constraints, confidential replacements, or niche industries where the candidate universe is small."},
-    {q:"What happens if the hire doesn't work out?",a:"Every Bound Search Partners engagement includes a guarantee period. If a placed candidate leaves or is terminated within the guarantee window, we re-open the search at no additional professional fee. We stand behind our placements because our retention rates — 92% at year one — reflect the rigor of our process."},
-  ];
-
   const go = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
 
   // Philly skyline SVG component for footer
@@ -267,7 +259,6 @@ export default function App() {
         .navlink{position:relative;transition:color .3s}.navlink:hover{color:#fff!important}.navlink::after{content:"";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:#e23c41;transition:width .3s ease}.navlink:hover::after{width:100%}
         ::selection{background:#e23c4144;color:#fff}input:focus,textarea:focus{border-color:#e23c41!important;outline:none}
         @keyframes tickScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-        @keyframes logoScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
         @keyframes dotpulse{0%,100%{opacity:1}50%{opacity:.2}}
@@ -413,23 +404,28 @@ export default function App() {
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)"}}>
             <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
-            <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24,position:"relative"}}>
-              {(() => {
-                const full = "The leaders who move industries start here.";
-                const len = heroTw.displayed.length;
-                return full.split("").map((ch, i) => {
-                  const visible = i < len;
-                  const inMove = i >= 16 && i < 20;
-                  return <React.Fragment key={i}>
-                    <span style={{
-                      color: visible ? (inMove ? C.r : C.w) : "transparent",
-                      fontStyle: inMove ? "italic" : "normal",
-                    }}>{ch}</span>
-                    {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
-                  </React.Fragment>;
-                });
-              })()}
-            </h1>
+            <div style={{marginBottom:24,overflow:"hidden"}}>
+              <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
+                <span style={{visibility:"hidden",position:"absolute",left:0,top:0,right:0}} aria-hidden="true">The leaders who move industries start here.</span>
+                <span style={{display:"block"}}>
+                {(() => {
+                  const full = "The leaders who move industries start here.";
+                  const len = heroTw.displayed.length;
+                  return full.split("").map((ch, i) => {
+                    const visible = i < len;
+                    const inMove = i >= 16 && i < 20;
+                    return <React.Fragment key={i}>
+                      <span style={{
+                        color: visible ? (inMove ? C.r : C.w) : "transparent",
+                        fontStyle: inMove ? "italic" : "normal",
+                      }}>{ch}</span>
+                      {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
+                    </React.Fragment>;
+                  });
+                })()}
+                </span>
+              </h1>
+            </div>
             <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40}}>Bound Search Partners is a boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
             <div id="mherobtns" style={{display:"flex",gap:24,flexWrap:"wrap"}}>
               <span onClick={() => go("contact")} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
@@ -630,35 +626,6 @@ export default function App() {
       </section>
 
       {/* Gradient transition */}
-      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.12),transparent)"}}/>
-
-      {/* LOGO CAROUSEL */}
-      <section style={{background:C.nm,padding:"clamp(3rem,6vw,5rem) 0"}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",textAlign:"center",marginBottom:32}}>
-          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Trusted By</div>
-          <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginTop:16}}>Partnered with industry leaders.</h2>
-        </div>
-        <div className="logo-scroll-wrap" style={{position:"relative",overflow:"hidden"}}>
-          <div style={{position:"absolute",top:0,bottom:0,left:0,width:80,background:"linear-gradient(90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
-          <div style={{position:"absolute",top:0,bottom:0,right:0,width:80,background:"linear-gradient(-90deg,#181338,transparent)",zIndex:2,pointerEvents:"none"}}/>
-          <div className="logo-scroll" style={{display:"flex",animation:"logoScroll 30s linear infinite",width:"max-content"}} onMouseEnter={e=>e.currentTarget.style.animationPlayState="paused"} onMouseLeave={e=>e.currentTarget.style.animationPlayState="running"}>
-            {[...Array(2)].map((_,rep) => ["hunter_douglas.png","honickman.png","aak.png","mcc.png","post_brothers.png","makinex.png","k_hartwall.png","marand.png","cf.png","journeyman.png","elementia.png","dwyeromega.png"].map((f,i) => (
-              <div key={`${rep}-${i}`} style={{flexShrink:0,width:200,height:100,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem 2rem",background:C.nm,borderRight:"1px solid rgba(226,60,65,.06)"}}>
-                <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:40,width:"auto",maxWidth:150,objectFit:"contain",opacity:.7}}/>
-              </div>
-            ))).flat()}
-          </div>
-        </div>
-        {/* Mobile static logo grid */}
-        <div id="mlogos" style={{gridTemplateColumns:"repeat(3,1fr)",gap:1,padding:"0 clamp(1.5rem,4vw,4rem)",marginTop:24}}>
-          {["hunter_douglas.png","honickman.png","aak.png","mcc.png","post_brothers.png","makinex.png","k_hartwall.png","marand.png","cf.png","journeyman.png","dwyeromega.png"].map((f,i) => (
-            <div key={i} style={{display:"flex",alignItems:"center",justifyContent:"center",padding:"16px 12px",background:"rgba(226,60,65,.02)",border:"1px solid rgba(226,60,65,.04)"}}>
-              <img src={`./logos/${f}`} alt={f.split(".")[0]} style={{height:28,width:"auto",maxWidth:90,objectFit:"contain",opacity:.6}}/>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
 
@@ -734,11 +701,11 @@ export default function App() {
           <div id="mind" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:0}}>
             {inds.map((ind,i) => (
               <div key={i} onMouseEnter={() => setHovInd(i)} onMouseLeave={() => setHovInd(null)}
-                style={{padding:"clamp(1.5rem,2.5vw,2.5rem)",borderTop:"1px solid rgba(226,60,65,.08)",borderRight:i%3!==2?"1px solid rgba(226,60,65,.08)":"none",cursor:"default",transition:"all .3s",background:hovInd===i?"rgba(226,60,65,.04)":"transparent",position:"relative"}}>
+                style={{padding:"clamp(1.5rem,2.5vw,2.5rem)",borderTop:"1px solid rgba(226,60,65,.08)",borderRight:i%3!==2?"1px solid rgba(226,60,65,.08)":"none",cursor:"default",transition:"background .3s",background:hovInd===i?"rgba(226,60,65,.04)":"transparent",position:"relative",overflow:"hidden",minHeight:160}}>
                 <div style={{position:"absolute",top:0,left:0,width:hovInd===i?"100%":"0%",height:2,background:C.r,transition:"width .4s cubic-bezier(.23,1,.32,1)"}}/>
                 <h4 style={{fontSize:"clamp(1.25rem,2vw,1.75rem)",fontWeight:700,marginBottom:6,color:hovInd===i?C.w:C.gl,transition:"color .3s"}}>{ind.n}</h4>
-                <div style={{fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:hovInd===i?16:0,transition:"margin .3s"}}>{ind.s}</div>
-                <div style={{fontSize:13,color:C.gl,lineHeight:1.8,maxHeight:hovInd===i?200:0,opacity:hovInd===i?.7:0,overflow:"hidden",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>{ind.d}<div style={{marginTop:8,fontSize:11,fontWeight:700,color:C.r,letterSpacing:".1em",opacity:.6}}>{ind.r}</div></div>
+                <div style={{fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:8}}>{ind.s}</div>
+                <div style={{fontSize:13,color:C.gl,lineHeight:1.8,opacity:hovInd===i?.7:0,transform:hovInd===i?"translateY(0)":"translateY(8px)",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>{ind.d}<div style={{marginTop:8,fontSize:11,fontWeight:700,color:C.r,letterSpacing:".1em",opacity:.6}}>{ind.r}</div></div>
               </div>
             ))}
           </div>
@@ -769,58 +736,6 @@ export default function App() {
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
-
-      {/* WHY RETAINED */}
-      <section style={{padding:"clamp(5rem,10vw,9rem) 0 clamp(2rem,4vw,3rem)",background:C.n}}>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          {/* Header — full width */}
-          <div style={{maxWidth:700,marginBottom:"clamp(3rem,6vw,4rem)"}}>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Why Retained Search</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>You're hiring a <span style={{color:C.r,fontStyle:"italic"}}>partner</span>, not a vendor.</h2>
-            <p style={{fontSize:"1.05rem",lineHeight:1.8,color:C.gl}}>Most manufacturers have used contingency recruiters — firms that get paid only if they place someone. It works for some roles. But for the leaders who will shape your business, the model breaks down. Retained search invests in understanding your business before a single candidate is contacted. The result: better candidates, fewer false starts, and leaders who stay.</p>
-          </div>
-
-          {/* Two columns — comparison + FAQ */}
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1.4fr",gap:"clamp(3rem,6vw,5rem)",alignItems:"start"}} id="mretained">
-            {/* Left — Comparison */}
-            <div>
-              <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:0}}>
-                <div style={{padding:24,background:"rgba(255,255,255,.02)",borderLeft:"3px solid rgba(255,255,255,.08)"}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Contingency</div>
-                  {["Race to fill","Resume volume","Paid on placement","Shared attention","Transactional"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.g,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{color:C.g,fontSize:10}}>—</span>{t}
-                    </div>
-                  ))}
-                </div>
-                <div style={{padding:24,background:"rgba(226,60,65,.04)",borderLeft:`3px solid ${C.r}`}}>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Retained</div>
-                  {["Research-driven","Curated shortlist","Invested from day one","Exclusive dedication","Strategic partnership"].map((t,i) => (
-                    <div key={i} style={{fontSize:13,color:C.gl,padding:"8px 0",display:"flex",alignItems:"center",gap:8}}>
-                      <span style={{color:C.r,fontSize:10}}>◆</span>{t}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-            {/* Right — FAQ accordion */}
-            <div>
-              <div style={{fontSize:11,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:16}}>Common Questions</div>
-              {retainedFAQ.map((faq,i) => (
-                <div key={i} style={{borderBottom:"1px solid rgba(226,60,65,.08)"}}>
-                  <div onClick={() => setRetainedOpen(retainedOpen===i?null:i)} style={{padding:"18px 0",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16}}>
-                    <span style={{fontSize:15,fontWeight:700,color:retainedOpen===i?C.w:C.gl,transition:"color .3s"}}>{faq.q}</span>
-                    <span style={{fontSize:18,color:retainedOpen===i?C.r:C.g,transition:"all .3s",transform:retainedOpen===i?"rotate(45deg)":"rotate(0deg)",flexShrink:0}}>+</span>
-                  </div>
-                  <div style={{maxHeight:retainedOpen===i?500:0,overflow:"hidden",transition:"max-height .5s cubic-bezier(.23,1,.32,1)"}}>
-                    <p style={{fontSize:14,color:C.gl,lineHeight:1.8,paddingBottom:20}}>{faq.a}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
@@ -994,7 +909,13 @@ export default function App() {
       <footer style={{background:C.nm,padding:"56px 0 24px",borderTop:"1px solid rgba(226,60,65,.08)"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
-            <svg width="220" height="36" viewBox="0 0 340 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Aptos,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Aptos,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
+            <div style={{display:"flex",alignItems:"center",gap:20}}>
+              <svg width="220" height="36" viewBox="0 0 340 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Aptos,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Aptos,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
+              <div style={{width:1,height:28,background:"rgba(255,255,255,.08)"}}/>
+              <a href="https://www.getjourneyman.com" target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",opacity:.5,transition:"opacity .3s",cursor:"pointer"}} onMouseEnter={e=>e.currentTarget.style.opacity=.85} onMouseLeave={e=>e.currentTarget.style.opacity=.5}>
+                <img src="./journeyman-logo-white-transparent.png" alt="Journeyman" style={{height:22,width:"auto"}}/>
+              </a>
+            </div>
             <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
           </div>
 
