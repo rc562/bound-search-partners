@@ -530,7 +530,7 @@ export default function App() {
                 return full.split("").map((ch, i) => (
                   <React.Fragment key={i}>
                     <span style={{color: i < len ? C.w : "transparent"}}>{ch}</span>
-                    {i === len - 1 && srvTw.started && !srvTw.done && <span style={{color:C.r,animation:"blink .6s step-end infinite",fontWeight:300}}>|</span>}
+                    {i === len - 1 && srvTw.started && !srvTw.done && <span style={{color:C.r,animation:"blink .6s step-end infinite",fontWeight:300,position:"absolute"}}> |</span>}
                   </React.Fragment>
                 ));
               })()}
