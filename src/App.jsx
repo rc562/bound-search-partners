@@ -425,7 +425,7 @@ export default function App() {
                       color: visible ? (inMove ? C.r : C.w) : "transparent",
                       fontStyle: inMove ? "italic" : "normal",
                     }}>{ch}</span>
-                    {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300}}>|</span>}
+                    {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
                   </React.Fragment>;
                 });
               })()}
