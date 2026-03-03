@@ -921,7 +921,7 @@ export default function App() {
             <div>
               <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2025 Bound Search Partners LLC. All rights reserved.</div>
               <div style={{fontSize:11,color:C.g,opacity:.6,marginBottom:4}}>Made with love in the City of Brotherly Love.</div>
-              <div style={{fontSize:10,color:C.g,opacity:.4,marginBottom:8}}>Website designed and built by Bob Cwenar & Claude by Anthropic.</div>
+              <div style={{fontSize:10,color:C.g,opacity:.4,marginBottom:8}}>Website designed and built by Bob Cwenar.</div>
               <div style={{fontSize:10,color:C.g,opacity:.35,display:"flex",alignItems:"center",gap:6}}>&#128274; This site does not collect, store, or share any personal data. All form submissions are encrypted and sent directly to Bound Search Partners.</div>
             </div>
             {/* Philly Skyline SVG */}
