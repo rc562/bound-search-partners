@@ -921,7 +921,7 @@ export default function App() {
             <div>
               <div style={{fontSize:12,color:C.g,marginBottom:6}}>© 2025 Bound Search Partners LLC. All rights reserved.</div>
               <div style={{fontSize:11,color:C.g,opacity:.6,marginBottom:4}}>Made with love in the City of Brotherly Love.</div>
-              <div style={{fontSize:10,color:C.g,opacity:.4}}>Website designed and built by Bob Cwenar & Claude by Anthropic.</div>
+              <div style={{fontSize:10,color:C.g,opacity:.4}}>Website designed and built by Bob Cwenar.</div>
             </div>
             {/* Philly Skyline SVG */}
             <svg id="mskyline" viewBox="0 0 400 160" fill="none" style={{width:220,height:88,flexShrink:0}}>
