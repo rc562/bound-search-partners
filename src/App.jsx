@@ -37,6 +37,7 @@ export default function App() {
   const [statsVis,setStatsVis] = useState(false);
   const [formSending,setFormSending] = useState(false);
   const [chatOpen,setChatOpen] = useState(false);
+  const [bannerDismissed,setBannerDismissed] = useState(false);
   const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
   const [chatInput,setChatInput] = useState("");
   const [chatLoading,setChatLoading] = useState(false);
@@ -392,6 +393,17 @@ export default function App() {
           <span key={id} onClick={() => {go(id);setMobileMenu(false)}} style={{fontSize:id==="contact"?16:24,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",cursor:"pointer",color:id==="contact"?C.w:C.gl,...(id==="contact"?{padding:"14px 40px",background:C.r}:{})}}>{label}</span>
         ))}
       </div>}
+
+      {/* ALERT BANNER */}
+      {!bannerDismissed && (
+        <div style={{position:"relative",background:"rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.15)",padding:"10px 48px 10px 20px",display:"flex",alignItems:"center",justifyContent:"center",gap:8,zIndex:100}}>
+          <span style={{fontSize:10,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,flexShrink:0}}>New</span>
+          <a href="./BSP_Hormuz_Client_Bulletin_March2026.pdf" target="_blank" rel="noopener noreferrer" style={{fontSize:13,color:C.gl,textDecoration:"none",transition:"color .2s"}} onMouseEnter={e=>e.target.style.color=C.w} onMouseLeave={e=>e.target.style.color=C.gl}>
+            Client Advisory: The Strait of Hormuz Crisis — A Grounded Assessment for Manufacturing Leaders <span style={{color:C.r}}>&#8594;</span>
+          </a>
+          <div onClick={()=>setBannerDismissed(true)} style={{position:"absolute",right:16,top:"50%",transform:"translateY(-50%)",cursor:"pointer",color:C.g,fontSize:18,lineHeight:1,padding:4,opacity:.5,transition:"opacity .2s"}} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=.5}>&times;</div>
+        </div>
+      )}
 
       {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
