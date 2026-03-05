@@ -398,7 +398,7 @@ export default function App() {
       {!bannerDismissed && (
         <div style={{position:"relative",background:"rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.15)",padding:"10px 48px 10px 20px",display:"flex",alignItems:"center",justifyContent:"center",gap:8,zIndex:100}}>
           <span style={{fontSize:10,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,flexShrink:0}}>New</span>
-          <a href="./BSP_Hormuz_Client_Bulletin_March2026.pdf" target="_blank" rel="noopener noreferrer" style={{fontSize:13,color:C.gl,textDecoration:"none",transition:"color .2s"}} onMouseEnter={e=>e.target.style.color=C.w} onMouseLeave={e=>e.target.style.color=C.gl}>
+          <a href="/BSP_Hormuz_Client_Bulletin_March2026.pdf" target="_blank" rel="noopener noreferrer" style={{fontSize:13,color:C.gl,textDecoration:"none",transition:"color .2s"}} onMouseEnter={e=>e.target.style.color=C.w} onMouseLeave={e=>e.target.style.color=C.gl}>
             Client Advisory: The Strait of Hormuz Crisis — A Grounded Assessment for Manufacturing Leaders <span style={{color:C.r}}>&#8594;</span>
           </a>
           <div onClick={()=>setBannerDismissed(true)} style={{position:"absolute",right:16,top:"50%",transform:"translateY(-50%)",cursor:"pointer",color:C.g,fontSize:18,lineHeight:1,padding:4,opacity:.5,transition:"opacity .2s"}} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=.5}>&times;</div>
