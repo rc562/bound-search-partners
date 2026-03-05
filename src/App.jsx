@@ -396,7 +396,7 @@ export default function App() {
 
       {/* ALERT BANNER */}
       {!bannerDismissed && (
-        <div style={{position:"relative",background:"rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.15)",zIndex:100}}>
+        <div style={{position:"relative",background:"rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.15)",zIndex:1002}}>
           <a href="https://boundsearch.com/BSP_Hormuz_Client_Bulletin_March2026.pdf" target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"10px 48px 10px 20px",textDecoration:"none",color:"inherit"}}>
             <span style={{fontSize:10,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,flexShrink:0}}>New</span>
             <span style={{fontSize:13,color:C.gl}}>Client Advisory: The Strait of Hormuz Crisis — A Grounded Assessment for Manufacturing Leaders <span style={{color:C.r}}>→</span></span>
