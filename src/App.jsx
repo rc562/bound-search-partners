@@ -876,6 +876,28 @@ export default function App() {
             ) : (
               <form name="contact" method="POST" data-netlify="true" onSubmit={async(e)=>{e.preventDefault();setFormSending(true);try{const fd=new FormData(e.target);fd.append("form-name","contact");await fetch("/",{method:"POST",body:fd});setFormSent(true)}catch{alert("Something went wrong. Please email bob@boundsearch.com directly.")}setFormSending(false)}}>
                 <input type="hidden" name="form-name" value="contact"/>
+                <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
+                  <div>
+                    <label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>I Am A</label>
+                    <select name="visitor-type" required style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s",appearance:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a879a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center",paddingRight:40}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}>
+                      <option value="" disabled selected style={{color:"#8a879a"}}>Select one</option>
+                      <option value="Client / Prospective Client">Client / Prospective Client</option>
+                      <option value="Candidate">Candidate</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Inquiry Type</label>
+                    <select name="inquiry-type" required style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s",appearance:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a879a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center",paddingRight:40}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}>
+                      <option value="" disabled selected style={{color:"#8a879a"}}>Select one</option>
+                      <option value="Executive Search">Executive Search</option>
+                      <option value="Operations & Plant Leadership">Operations & Plant Leadership</option>
+                      <option value="Organizational Advisory">Organizational Advisory</option>
+                      <option value="Strategic Advisory & Business Intelligence">Strategic Advisory & Business Intelligence</option>
+                      <option value="General Inquiry">General Inquiry</option>
+                    </select>
+                  </div>
+                </div>
                 <div id="mfr1" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
                   {[["first-name","First Name"],["last-name","Last Name"]].map(([n,l]) => <div key={n}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} required style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>)}
                 </div>
