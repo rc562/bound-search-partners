@@ -397,10 +397,10 @@ export default function App() {
       {/* ALERT BANNER */}
       {!bannerDismissed && (
         <div style={{position:"relative",background:"rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.15)",zIndex:1002}}>
-          <a href="https://boundsearch.com/BSP_Hormuz_Client_Bulletin_March2026.pdf" target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"10px 48px 10px 20px",textDecoration:"none",color:"inherit"}}>
-            <span style={{fontSize:10,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,flexShrink:0}}>New</span>
-            <span style={{fontSize:13,color:C.gl}}>Client Advisory: The Strait of Hormuz Crisis — A Grounded Assessment for Manufacturing Leaders <span style={{color:C.r}}>→</span></span>
-          </a>
+          <span onClick={()=>go("advisories")} style={{display:"flex",alignItems:"center",justifyContent:"center",gap:8,padding:"10px 48px 10px 20px",textDecoration:"none",color:"inherit",cursor:"pointer"}}>
+            <span style={{fontSize:10,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,flexShrink:0}}>Updated Mar 12</span>
+            <span style={{fontSize:13,color:C.gl}}>Hormuz Strait Advisory — 7-day update now available <span style={{color:C.r}}>→</span></span>
+          </span>
           <div onClick={()=>setBannerDismissed(true)} style={{position:"absolute",right:16,top:"50%",transform:"translateY(-50%)",cursor:"pointer",color:C.g,fontSize:18,lineHeight:1,padding:8,opacity:.5,transition:"opacity .2s",zIndex:101}} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=.5}>×</div>
         </div>
       )}
@@ -939,12 +939,45 @@ export default function App() {
 
 
 
+      {/* ADVISORIES SECTION */}
+      <section id="advisories" style={{padding:"40px 0",background:C.nm,borderTop:"1px solid rgba(226,60,65,.08)"}}>
+        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+
+          <div style={{display:"flex",alignItems:"baseline",gap:24,marginBottom:20,flexWrap:"wrap"}}>
+            <span style={{fontSize:10,fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Advisories</span>
+            <span style={{fontSize:12,color:C.g,opacity:.6}}>Grounded analysis on events affecting manufacturing and industrial operations.</span>
+          </div>
+
+          {/* Advisory list */}
+          <div style={{display:"flex",flexDirection:"column"}}>
+            {[
+              {date:"Mar 12, 2026",badge:"Latest",title:"Strait of Hormuz: What's Changed Since March 5",desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.",href:"/BSP_Hormuz_Update_March12.pdf",featured:true},
+              {date:"Mar 5, 2026",badge:"",title:"Strait of Hormuz: A Grounded Assessment",desc:"The original bulletin. Separated verified data from noise, mapped four transmission channels into U.S. manufacturing.",href:"/BSP_Hormuz_Client_Bulletin_March2026.pdf",featured:false},
+            ].map((item,i) => (
+              <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:24,padding:"14px 0",borderTop:"1px solid rgba(255,255,255,.05)",textDecoration:"none",transition:"background .2s",flexWrap:"wrap"}}
+                onMouseEnter={e=>e.currentTarget.style.background="rgba(226,60,65,.03)"}
+                onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
+                <span style={{fontSize:11,color:item.featured?C.r:C.g,fontWeight:600,letterSpacing:".08em",whiteSpace:"nowrap",minWidth:80}}>{item.date}</span>
+                {item.badge && <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:"#fff",background:C.r,padding:"2px 8px",flexShrink:0}}>{item.badge}</span>}
+                <span style={{fontSize:13,fontWeight:700,color:item.featured?C.w:C.gl,flex:"1 1 200px"}}>{item.title}</span>
+                <span style={{fontSize:12,color:C.g,flex:"2 1 300px",display:"none"}} className="adv-desc">{item.desc}</span>
+                <span style={{fontSize:11,color:C.r,whiteSpace:"nowrap",fontWeight:600}}>Read →</span>
+              </a>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* Gradient transition */}
+      <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.08),transparent)"}}/>
+
       {/* FOOTER with Philly skyline SVG */}
       <footer style={{background:C.nm,padding:"56px 0 24px",borderTop:"1px solid rgba(226,60,65,.08)"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <svg width="180" height="36" viewBox="0 0 280 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Aptos,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Aptos,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
-            <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
+            <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Advisories","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
           </div>
 
           {/* Divider line */}
