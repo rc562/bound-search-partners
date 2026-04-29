@@ -399,7 +399,7 @@ export default function App() {
         <div style={{position:"fixed",top:16,right:16,zIndex:10003,display:"flex",alignItems:"center",gap:10,padding:"8px 12px 8px 14px",background:C.n,border:"1px solid rgba(226,60,65,.25)",borderRadius:6,boxShadow:"0 4px 24px rgba(0,0,0,.35)",animation:"fu .4s cubic-bezier(.23,1,.32,1) forwards",maxWidth:320}}>
           <div onClick={()=>go("advisories")} style={{display:"flex",alignItems:"center",gap:10,cursor:"pointer",flex:1,minWidth:0}}>
             <span style={{width:6,height:6,borderRadius:"50%",background:C.r,flexShrink:0,animation:"beacon 2s ease infinite"}}/>
-            <span style={{fontSize:10,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,flexShrink:0}}>Mar 12</span>
+<span style={{fontSize:10,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:C.r,flexShrink:0}}>Apr 29</span>
             <span style={{fontSize:11,color:C.gl,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>Hormuz Advisory updated <span style={{color:C.r}}>→</span></span>
           </div>
           <div onClick={()=>setBannerDismissed(true)} style={{cursor:"pointer",color:C.g,fontSize:16,lineHeight:1,padding:"0 0 0 8px",opacity:.5,transition:"opacity .2s",flexShrink:0}} onMouseEnter={e=>e.currentTarget.style.opacity=1} onMouseLeave={e=>e.currentTarget.style.opacity=.5}>×</div>
@@ -953,8 +953,8 @@ export default function App() {
           <div style={{display:"flex",flexDirection:"column"}}>
             {[
 {date:"Apr 29, 2026", badge:"Latest", title:"Strait of Hormuz: 60 Days In", desc:"What has actually shifted for U.S. manufacturing — and what hasn't. Three structural changes, five operational realities, and what to watch in May.", href:"/BSP_Hormuz_Update_April29.pdf", featured:true},
-{date:"Mar 12, 2026", badge:"", title:"Strait of Hormuz: What's Changed Since March 5", desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.", href:"/BSP_Hormuz_Update_March12.pdf", featured:false},
-{date:"Mar 5, 2026", badge:"", title:"Strait of Hormuz: A Grounded Assessment", desc:"The original bulletin. Separated verified data from noise, mapped four transmission channels into U.S. manufacturing.", href:"/BSP_Hormuz_Client_Bulletin_March2026.pdf", featured:false},
+              {date:"Mar 12, 2026", badge:"", title:"Strait of Hormuz: What's Changed Since March 5", desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.", href:"/BSP_Hormuz_Update_March12.pdf", featured:false},
+              {date:"Mar 5, 2026", badge:"", title:"Strait of Hormuz: A Grounded Assessment", desc:"The original bulletin. Separated verified data from noise, mapped four transmission channels into U.S. manufacturing.", href:"/BSP_Hormuz_Client_Bulletin_March2026.pdf", featured:false},
             ].map((item,i) => (
               <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:24,padding:"14px 0",borderTop:"1px solid rgba(255,255,255,.05)",textDecoration:"none",transition:"background .2s",flexWrap:"wrap"}}
                 onMouseEnter={e=>e.currentTarget.style.background="rgba(226,60,65,.03)"}
