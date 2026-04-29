@@ -952,8 +952,9 @@ export default function App() {
           {/* Advisory list */}
           <div style={{display:"flex",flexDirection:"column"}}>
             {[
-              {date:"Mar 12, 2026",badge:"Latest",title:"Strait of Hormuz: What's Changed Since March 5",desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.",href:"/BSP_Hormuz_Update_March12.pdf",featured:true},
-              {date:"Mar 5, 2026",badge:"",title:"Strait of Hormuz: A Grounded Assessment",desc:"The original bulletin. Separated verified data from noise, mapped four transmission channels into U.S. manufacturing.",href:"/BSP_Hormuz_Client_Bulletin_March2026.pdf",featured:false},
+{date:"Apr 29, 2026", badge:"Latest", title:"Strait of Hormuz: 60 Days In", desc:"What has actually shifted for U.S. manufacturing — and what hasn't. Three structural changes, five operational realities, and what to watch in May.", href:"/BSP_Hormuz_Update_April29.pdf", featured:true},
+{date:"Mar 12, 2026", badge:"", title:"Strait of Hormuz: What's Changed Since March 5", desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.", href:"/BSP_Hormuz_Update_March12.pdf", featured:false},
+{date:"Mar 5, 2026", badge:"", title:"Strait of Hormuz: A Grounded Assessment", desc:"The original bulletin. Separated verified data from noise, mapped four transmission channels into U.S. manufacturing.", href:"/BSP_Hormuz_Client_Bulletin_March2026.pdf", featured:false},
             ].map((item,i) => (
               <a key={i} href={item.href} target="_blank" rel="noopener noreferrer" style={{display:"flex",alignItems:"center",gap:24,padding:"14px 0",borderTop:"1px solid rgba(255,255,255,.05)",textDecoration:"none",transition:"background .2s",flexWrap:"wrap"}}
                 onMouseEnter={e=>e.currentTarget.style.background="rgba(226,60,65,.03)"}
