@@ -58,6 +58,7 @@ export default function App() {
   const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
   const [chatInput,setChatInput] = useState("");
   const [chatLoading,setChatLoading] = useState(false);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const [activeCase,setActiveCase] = useState(0);
   const [activeSrv,setActiveSrv] = useState(0);
   const [hovProc,setHovProc] = useState(null);
@@ -247,6 +248,36 @@ export default function App() {
 
   const go = (id) => document.getElementById(id)?.scrollIntoView({behavior:"smooth"});
 
+  const renderSrvDetail = (s) => (
+    <div>
+      <p style={{fontSize:13,fontStyle:"italic",color:C.r,opacity:.6,lineHeight:1.5,marginBottom:14}}>{s.tag}</p>
+      <p style={{fontSize:15,lineHeight:1.85,color:"#d4d1e0",marginBottom:26}}>{s.d}</p>
+      <div style={{fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Deliverables</div>
+      <div style={{marginBottom:24}}>
+        {s.del.map((d,di)=>(
+          <div key={di} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"5px 0"}}>
+            <span style={{color:C.r,fontSize:8,marginTop:5,flexShrink:0}}>&#9656;</span>
+            <span style={{fontSize:13,color:"#d4d1e0",lineHeight:1.55}}>{d}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>{s.rl}</div>
+      <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+        {s.r.split(" · ").map((role,ri)=>(
+          <span key={ri} style={{position:"relative",padding:"7px 14px",border:`1px solid ${hovChip===ri?"rgba(226,60,65,.6)":"rgba(226,60,65,.2)"}`,color:hovChip===ri?C.w:"#d4d1e0",fontSize:11,fontWeight:500,letterSpacing:".03em",cursor:"default",transition:"all .25s",background:hovChip===ri?"rgba(226,60,65,.07)":"transparent"}}
+            onMouseEnter={()=>setHovChip(ri)} onMouseLeave={()=>setHovChip(null)}
+            onClick={(e)=>{e.stopPropagation();setHovChip(hovChip===ri?null:ri);}}
+          >
+            {role}
+            <span style={{position:"absolute",bottom:"calc(100% + 10px)",left:0,width:"min(270px,72vw)",padding:"12px 14px",background:"#14102e",border:"1px solid rgba(226,60,65,.3)",borderRadius:4,fontSize:12,lineHeight:1.6,color:C.gl,fontWeight:400,letterSpacing:0,boxShadow:"0 12px 36px rgba(0,0,0,.5)",opacity:hovChip===ri?1:0,transform:hovChip===ri?"translateY(0)":"translateY(6px)",transition:"all .3s cubic-bezier(.23,1,.32,1)",pointerEvents:"none",zIndex:20,whiteSpace:"normal"}}>
+              {s.rds[ri]}
+            </span>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+
   // Philly skyline SVG component for footer
   const PhillySkyline = () => (
     <svg viewBox="0 0 400 160" fill="none" style={{width:200,height:80,opacity:.15}}>
@@ -328,8 +359,16 @@ export default function App() {
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
           #mcasedetail{grid-template-columns:1fr!important}
           #srvScene{grid-template-columns:1fr!important}
+          .caseTabs{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch}
+          .caseTabs>button{flex:0 0 auto!important;max-width:70vw}
           .mfRow{text-align:left!important}
           .mfAnno{grid-template-columns:1fr!important}
+          .ghostTitle{-webkit-text-stroke:0!important;color:rgba(197,195,206,.42)!important}
+          .mfRowDetail{display:none!important}
+          .mfMobDetail{display:block!important}
+          .caseTabs{flex-wrap:nowrap!important;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+          .caseTabs button{flex:0 0 auto!important;min-width:max-content!important}
+          .caseTabs button span{overflow:visible!important;text-overflow:clip!important}
           .mfName{display:block!important;padding:.25rem 0}
           .mfSep{display:none!important}
           #mretained{grid-template-columns:1fr!important}
@@ -535,42 +574,21 @@ export default function App() {
                     <h3 className={active?undefined:"ghostTitle"} style={{fontSize:"clamp(1.55rem,3.4vw,3rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.08,margin:0,color:active?C.w:"transparent",transition:"color .45s ease"}}>
                       {s.t}<span style={{color:active?C.r:"transparent",transition:"color .45s ease"}}>.</span>
                     </h3>
+                    {isMobile && active && (
+                      <div onClick={e=>e.stopPropagation()} style={{paddingTop:18,animation:"detailIn .4s cubic-bezier(.23,1,.32,1)",cursor:"default"}}>
+                        {renderSrvDetail(s)}
+                      </div>
+                    )}
                   </div>
                 );
               })}
             </div>
 
-            <div key={activeSrv} style={{animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",paddingTop:6}}>
-              {(() => { const s = srvs[activeSrv]; return (
-                <div>
-                  <p style={{fontSize:13,fontStyle:"italic",color:C.r,opacity:.6,lineHeight:1.5,marginBottom:14}}>{s.tag}</p>
-                  <p style={{fontSize:15,lineHeight:1.85,color:"#d4d1e0",marginBottom:26}}>{s.d}</p>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Deliverables</div>
-                  <div style={{marginBottom:24}}>
-                    {s.del.map((d,di)=>(
-                      <div key={di} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"5px 0"}}>
-                        <span style={{color:C.r,fontSize:8,marginTop:5,flexShrink:0}}>&#9656;</span>
-                        <span style={{fontSize:13,color:"#d4d1e0",lineHeight:1.55}}>{d}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>{s.rl}</div>
-                  <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                    {s.r.split(" · ").map((role,ri)=>(
-                      <span key={ri} style={{position:"relative",padding:"7px 14px",border:`1px solid ${hovChip===ri?"rgba(226,60,65,.6)":"rgba(226,60,65,.2)"}`,color:hovChip===ri?C.w:"#d4d1e0",fontSize:11,fontWeight:500,letterSpacing:".03em",cursor:"default",transition:"all .25s",background:hovChip===ri?"rgba(226,60,65,.07)":"transparent"}}
-                        onMouseEnter={()=>setHovChip(ri)} onMouseLeave={()=>setHovChip(null)}
-                        onClick={()=>setHovChip(hovChip===ri?null:ri)}
-                      >
-                        {role}
-                        <span style={{position:"absolute",bottom:"calc(100% + 10px)",left:0,width:"min(270px,72vw)",padding:"12px 14px",background:"#14102e",border:"1px solid rgba(226,60,65,.3)",borderRadius:4,fontSize:12,lineHeight:1.6,color:C.gl,fontWeight:400,letterSpacing:0,boxShadow:"0 12px 36px rgba(0,0,0,.5)",opacity:hovChip===ri?1:0,transform:hovChip===ri?"translateY(0)":"translateY(6px)",transition:"all .3s cubic-bezier(.23,1,.32,1)",pointerEvents:"none",zIndex:20,whiteSpace:"normal"}}>
-                          {s.rds[ri]}
-                        </span>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );})()}
-            </div>
+            {!isMobile && (
+              <div key={activeSrv} style={{animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",paddingTop:6}}>
+                {renderSrvDetail(srvs[activeSrv])}
+              </div>
+            )}
           </div>
 
         </div>
@@ -586,7 +604,7 @@ export default function App() {
           <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:56}}>Real searches.<br/>Measurable results.</h2></Rise>
           
           {/* Case selector tabs */}
-          <div style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
+          <div className="caseTabs" style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
             {cases.map((c,i) => (
               <button key={i} onClick={() => setActiveCase(i)} style={{flex:activeCase===i?"2.5 1 0%":"1 1 0%",padding:"16px 20px",background:activeCase===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeCase===i?`3px solid ${C.r}`:"3px solid transparent",color:activeCase===i?C.w:C.g,fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
                 <span style={{whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",display:"block"}}>{activeCase===i?c.role:c.ind}</span>
@@ -649,8 +667,8 @@ export default function App() {
 
           {/* the manifesto block — annotations anchor under the clicked word */}
           <div style={{fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.5,maxWidth:1040,margin:"0 auto"}}>
-            {[[0,1,2],[3,4,5],[6,7,8]].map((row,r) => {
-              const openRow = indOpen >= 0 ? Math.floor(indOpen/3) : -1;
+            {(isMobile ? inds.map((_,i) => [i]) : [[0,1,2],[3,4,5],[6,7,8]]).map((row,r) => {
+              const openRow = indOpen >= 0 ? (isMobile ? indOpen : Math.floor(indOpen/3)) : -1;
               const DH = typeof window !== "undefined" && window.innerWidth < 640 ? 640 : 300;
               const shown = rowItem[r];
               return (
@@ -676,11 +694,24 @@ export default function App() {
                             {d.n}
                           </span>
                           {ci < row.length - 1 && <span className="mfSep" style={{color:C.r,opacity:.45,margin:"0 .5em",fontWeight:400}}>·</span>}
+                          <span className="mfMobDetail" style={{display:"none",overflow:"hidden",maxHeight:indOpen===i?700:0,opacity:indOpen===i?1:0,transition:"max-height .4s cubic-bezier(.23,1,.32,1), opacity .3s ease"}}>
+                            <span style={{display:"block",padding:"10px 0 22px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
+                              <span style={{display:"block",width:22,height:2,background:C.r,marginBottom:12}}/>
+                              <span style={{display:"block",fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:10}}>{d.s}</span>
+                              <span style={{display:"block",fontSize:14.5,color:"#d4d1e0",lineHeight:1.85,marginBottom:16}}>{d.d}</span>
+                              <span style={{display:"block",fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:10}}>Roles We Place</span>
+                              <span style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                                {d.r.split(" · ").map((role,ri)=>(
+                                  <span key={ri} style={{padding:"6px 13px",border:"1px solid rgba(226,60,65,.22)",color:"#d4d1e0",fontSize:11,fontWeight:500,letterSpacing:".03em"}}>{role}</span>
+                                ))}
+                              </span>
+                            </span>
+                          </span>
                         </span>
                       );
                     })}
                   </div>
-                  <div style={{overflow:"hidden",height:openRow===r?DH:0,transition:"height .5s cubic-bezier(.23,1,.32,1)"}}>
+                  <div className="mfRowDetail" style={{overflow:"hidden",height:openRow===r?DH:0,transition:"height .5s cubic-bezier(.23,1,.32,1)"}}>
                     {shown != null && (() => {
                       const d = inds[shown];
                       const A = (anchors[r] && typeof anchors[r] === "object") ? anchors[r] : {x: anchors[r]||0, w: 0};
