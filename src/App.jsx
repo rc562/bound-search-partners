@@ -26,33 +26,55 @@ function useTypewriter(text, speed = 40, startDelay = 0) {
   return { displayed, done, start, started };
 }
 
+const REDUCE = typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function Rise({children, delay = 0}) {
+  const ref = useRef(null);
+  const [vis, setVis] = useState(REDUCE);
+  useEffect(() => {
+    if (REDUCE) return;
+    const obs = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { setVis(true); obs.disconnect(); }
+    }), {threshold:.35});
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div ref={ref} style={{overflow:"hidden"}}>
+      <div style={{transform:vis?"translateY(0)":"translateY(110%)",transition:`transform .9s cubic-bezier(.23,1,.32,1) ${delay}s`}}>{children}</div>
+    </div>
+  );
+}
+
 export default function App() {
   const [scrolled,setScrolled] = useState(false);
   const [hovInd,setHovInd] = useState(null);
   const [bondVis,setBondVis] = useState(false);
   const [hovBond,setHovBond] = useState(null);
   const [mobileMenu,setMobileMenu] = useState(false);
-  const [cloudWord,setCloudWord] = useState(null);
   const [formSent,setFormSent] = useState(false);
-  const [statsVis,setStatsVis] = useState(false);
   const [formSending,setFormSending] = useState(false);
   const [chatOpen,setChatOpen] = useState(false);
   const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
   const [chatInput,setChatInput] = useState("");
   const [chatLoading,setChatLoading] = useState(false);
   const [activeCase,setActiveCase] = useState(0);
-  const [activeSrv,setActiveSrv] = useState(null);
+  const [activeSrv,setActiveSrv] = useState(0);
   const [hovProc,setHovProc] = useState(null);
   const [navHidden,setNavHidden] = useState(false);
   const lastScrollY = useRef(0);
   const [navOpen,setNavOpen] = useState(false);
+  const [ctaVis,setCtaVis] = useState(false);
+  const [activeInd,setActiveInd] = useState(0);
+  const [indOpen,setIndOpen] = useState(-1);
+  const [rowItem,setRowItem] = useState({});
+  const [anchors,setAnchors] = useState({});
+  const [hovChip,setHovChip] = useState(null);
 
   // Typewriter hooks
   const heroTw = useTypewriter("The leaders who move industries start here.", 45, 300);
-  const srvTw = useTypewriter("Search. Advisory. Intelligence.", 50, 100);
   const readyTw = useTypewriter("Ready when you are.", 60, 200);
   const heroRef = useRef(null);
-  const srvHeaderRef = useRef(null);
   const readyRef = useRef(null);
 
   // Trigger typewriters on scroll into view
@@ -61,24 +83,31 @@ export default function App() {
       entries.forEach(e => {
         if (e.isIntersecting) {
           if (e.target === heroRef.current) heroTw.start();
-          if (e.target === srvHeaderRef.current) srvTw.start();
           if (e.target === readyRef.current) readyTw.start();
         }
       });
     }, { threshold: 0.3 });
     if (heroRef.current) obs.observe(heroRef.current);
-    if (srvHeaderRef.current) obs.observe(srvHeaderRef.current);
     if (readyRef.current) obs.observe(readyRef.current);
     return () => obs.disconnect();
   }, []);
 
   useEffect(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const h = () => {
       const y = window.scrollY;
       setScrolled(y > 60);
       setNavHidden(y > 200);
       if(y > lastScrollY.current && y > 200) setNavOpen(false);
       lastScrollY.current = y;
+      if (!reduce && y < window.innerHeight * 1.2) {
+        const hc = document.getElementById("heroContent");
+        if (hc) {
+          if (y > 0) hc.style.animation = "none";
+          hc.style.transform = `translateY(${y * .22}px)`;
+          hc.style.opacity = Math.max(1 - y / 650, 0);
+        }
+      }
     };
     window.addEventListener("scroll",h,{passive:true});
     return () => window.removeEventListener("scroll",h);
@@ -98,11 +127,11 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const el = document.getElementById("mstats-top");
+    const el = document.getElementById("closer");
     if (!el) return;
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if(entry.isIntersecting) setStatsVis(true); });
-    },{threshold:0.3});
+      entries.forEach(entry => { if(entry.isIntersecting) setCtaVis(true); });
+    },{threshold:.35});
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -133,10 +162,10 @@ export default function App() {
   };
 
   const srvs = [
-    {t:"Executive Search",tag:"Targeting the leaders who aren't looking — and building the case for why they should.",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Every engagement is retained, personally led, and grounded in deep understanding of your business, culture, and competitive landscape.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain · VP Manufacturing",rl:"Typical Roles",del:["Full market mapping & competitive landscape analysis","Proprietary candidate shortlist within 30 days","Structured behavioral & leadership assessments","Offer negotiation, counteroffer strategy & onboarding support"]},
-    {t:"Operations & Plant Leadership",tag:"The hires that determine whether strategy becomes execution.",d:"Plant managers, engineering directors, and quality leaders — the operational backbone of any manufacturing organization. We go deep into the industrial talent market to surface leaders with real floor presence, CI discipline, and team-building track records.",r:"Plant Manager · Director Engineering · Quality Director · Director of Operations",rl:"Typical Roles",del:["Targeted outreach to passive operational leaders","Technical competency & leadership style vetting","On-site culture alignment evaluation","90-day onboarding support & guarantee-backed engagement"]},
-    {t:"Organizational Advisory",tag:"Clarity before commitment — understanding what your organization actually needs.",d:"Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance. Whether you need to understand your leadership bench, plan for succession, benchmark compensation, or map the talent landscape before a search begins — we deliver focused engagements with clear deliverables, not open-ended retainers.",r:"Leadership Audit · Succession Planning · Org Design · Comp Benchmarking · Talent Mapping",rl:"Engagement Types",del:["Leadership bench strength assessment","Succession gap analysis with actionable timeline","Compensation benchmarking vs. regional & national market","Talent availability & density mapping"]},
-    {t:"Strategic Advisory & Business Intelligence",tag:"PE-grade strategic intelligence, delivered in weeks — not quarters.",d:"Business model audits, strategic roadmaps, and portfolio diagnostics built for private equity firms, venture-backed companies, and manufacturers navigating inflection points. The depth of a Big Four engagement at a fraction of the cost and timeline — powered by AI-augmented research and real operational expertise.",r:"Business Model Audit · Strategic Roadmap · Market Entry Analysis · Portfolio Diagnostics",rl:"Capabilities",del:["Comprehensive business model audit & assessment","Strategic roadmap with prioritized initiatives","Competitive landscape & market entry analysis","AI-augmented research at institutional depth"]},
+    {t:"Executive Search",tag:"Targeting the leaders who aren't looking — and building the case for why they should.",d:"C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Every engagement is retained, personally led, and grounded in deep understanding of your business, culture, and competitive landscape.",r:"CEO · COO · CFO · VP Operations · VP Supply Chain · VP Manufacturing",rl:"Typical Roles",del:["Full market mapping & competitive landscape analysis","Proprietary candidate shortlist within 30 days","Structured behavioral & leadership assessments","Offer negotiation, counteroffer strategy & onboarding support"],rds:["When the board needs a builder, not a caretaker — we map every operator who has scaled a business like yours.","The integrator who turns strategy into throughput. Operators with P&L scars, not just polish.","Finance leaders fluent in plant economics — capex, working capital, and the cost story behind every unit.","Multi-site operators who raise output and keep the people doing it. Floor credibility, executive range.","Leaders who have lived tariff shocks, dual-sourcing, and nearshoring — networks that bend without breaking.","Floor-up leaders who pair CI discipline with on-time capital project delivery."]},
+    {t:"Operations & Plant Leadership",tag:"The hires that determine whether strategy becomes execution.",d:"Plant managers, engineering directors, and quality leaders — the operational backbone of any manufacturing organization. We go deep into the industrial talent market to surface leaders with real floor presence, CI discipline, and team-building track records.",r:"Plant Manager · Director Engineering · Quality Director · Director of Operations",rl:"Typical Roles",del:["Targeted outreach to passive operational leaders","Technical competency & leadership style vetting","On-site culture alignment evaluation","90-day onboarding support & guarantee-backed engagement"],rds:["The hire that decides whether your site hits plan. We vet for floor presence, not resume polish.","Technical depth that can run capex, vendors, and a team — the bridge between design and the floor.","Leaders who build quality systems your customers audit and trust — before the complaint, not after.","Cross-functional operators who own output, cost, and culture across shifts and sites."]},
+    {t:"Organizational Advisory",tag:"Clarity before commitment — understanding what your organization actually needs.",d:"Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance. Whether you need to understand your leadership bench, plan for succession, benchmark compensation, or map the talent landscape before a search begins — we deliver focused engagements with clear deliverables, not open-ended retainers.",r:"Leadership Audit · Succession Planning · Org Design · Comp Benchmarking · Talent Mapping",rl:"Engagement Types",del:["Leadership bench strength assessment","Succession gap analysis with actionable timeline","Compensation benchmarking vs. regional & national market","Talent availability & density mapping"],rds:["A clear-eyed read on your bench before a transition forces the question.","Know who is ready, who is close, and where the gaps are — with a timeline you can act on.","Structure that matches how the work actually flows — not the org chart you inherited.","Real market data on what leadership costs in your region and sector — before a counteroffer teaches you.","Who is out there, where they sit, and how reachable they are — before you commit to a search."]},
+    {t:"Strategic Advisory & Business Intelligence",tag:"PE-grade strategic intelligence, delivered in weeks — not quarters.",d:"Business model audits, strategic roadmaps, and portfolio diagnostics built for private equity firms, venture-backed companies, and manufacturers navigating inflection points. The depth of a Big Four engagement at a fraction of the cost and timeline — powered by AI-augmented research and real operational expertise.",r:"Business Model Audit · Strategic Roadmap · Market Entry Analysis · Portfolio Diagnostics",rl:"Capabilities",del:["Comprehensive business model audit & assessment","Strategic roadmap with prioritized initiatives","Competitive landscape & market entry analysis","AI-augmented research at institutional depth"],rds:["A VC-grade teardown of how you make money and where it leaks — in weeks, not quarters.","Prioritized moves with owners and sequence. Strategy you can run Monday morning.","Demand, competitors, channel, and risk on a new market — before the capital commits.","Rapid reads across holdings: where the EBITDA levers are and which leadership gaps block them."]},
   ];
 
   const proc = [
@@ -147,15 +176,15 @@ export default function App() {
   ];
 
   const inds = [
-    {n:"Manufacturing",s:"Discrete & Process",r:"VP Operations · Plant Manager · Director of Manufacturing · VP Quality · COO",d:"From lean transformations to greenfield launches, we place the operators who keep the floor running."},
-    {n:"Supply Chain & Logistics",s:"End-to-End",r:"VP Supply Chain · Director Procurement · Head of Logistics · CSCO",d:"Tariff shifts, nearshoring, dual-sourcing — today's supply chain leaders need a broader playbook than ever."},
-    {n:"Building Products",s:"Construction & Materials",r:"Division President · VP Sales · Director Product Dev",d:"We know the intersection of construction cycles, channel strategy, and product innovation."},
-    {n:"Food & Beverage",s:"CPG & Production",r:"VP Manufacturing · Plant Director · Director Food Safety · COO",d:"Safety, compliance, and speed-to-shelf. We find leaders who balance all three."},
-    {n:"Chemicals & Packaging",s:"Specialty & Industrial",r:"VP Operations · Director Engineering · EHS Director · CTO",d:"Technical depth meets regulatory rigor. Our network runs deep in specialty chemicals and flexible packaging."},
-    {n:"Private Equity",s:"Portfolio & Platform",r:"Portfolio CEO · Operating Partner · CFO PE-Backed · Board Director",d:"We partner with PE firms to place operating leaders who drive EBITDA from day one."},
-    {n:"Industrial Equipment",s:"Capital Goods",r:"VP Engineering · Director Product Mgmt · GM Aftermarket",d:"Aftermarket, service, and OEM — we understand what drives margin in capital goods."},
-    {n:"Real Estate",s:"Development & Construction",r:"VP Development · Director Construction · Head of Acquisitions",d:"Ground-up development to asset management. We place leaders across the project lifecycle."},
-    {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer",d:"Finding technical leaders who can sell, manage, and deliver complex engineering programs."},
+    {n:"Manufacturing",s:"Discrete & Process",r:"VP Operations · Plant Manager · Director of Manufacturing · VP Quality · COO",d:"From lean transformations to greenfield launches, we place the operators who keep the floor running. Our network spans discrete and process environments — leaders who have lived takt times, changeovers, and plants run under real cost pressure. We know the difference between a resume that says operational excellence and a leader who has actually delivered it."},
+    {n:"Supply Chain & Logistics",s:"End-to-End",r:"VP Supply Chain · Director Procurement · Head of Logistics · CSCO",d:"Tariff shifts, nearshoring, dual-sourcing — today's supply chain leaders need a broader playbook than ever. We place executives who have redesigned networks under pressure, not just managed steady-state flow. The leaders in our network have lived the disruptions your board is asking about."},
+    {n:"Building Products",s:"Construction & Materials",r:"Division President · VP Sales · Director Product Dev",d:"We know the intersection of construction cycles, channel strategy, and product innovation. Building products leadership demands range — reading housing starts, managing dealer and distributor relationships, and driving product development against commodity cost swings. We place leaders who have run that full equation."},
+    {n:"Food & Beverage",s:"CPG & Production",r:"VP Manufacturing · Plant Director · Director Food Safety · COO",d:"Safety, compliance, and speed-to-shelf — we find leaders who balance all three. From plant floors under SQF and FDA scrutiny to the commercial pressure of retail and private-label customers, we place operators who protect the brand while hitting the number."},
+    {n:"Chemicals & Packaging",s:"Specialty & Industrial",r:"VP Operations · Director Engineering · EHS Director · CTO",d:"Technical depth meets regulatory rigor. Our network runs deep in specialty chemicals and flexible packaging — leaders fluent in process safety, EHS culture, and the engineering realities of continuous operations. These are searches where a wrong hire is measured in more than dollars."},
+    {n:"Private Equity",s:"Portfolio & Platform",r:"Portfolio CEO · Operating Partner · CFO PE-Backed · Board Director",d:"We partner with PE firms to place operating leaders who drive EBITDA from day one. Speed and certainty matter most inside a hold period — we deliver vetted operators who have created value in sponsor-backed companies before and know what the investment thesis demands of them."},
+    {n:"Industrial Equipment",s:"Capital Goods",r:"VP Engineering · Director Product Mgmt · GM Aftermarket",d:"Aftermarket, service, and OEM — we understand what drives margin in capital goods. We place leaders who balance the engineering culture of equipment businesses with the commercial discipline that aftermarket growth requires."},
+    {n:"Real Estate",s:"Development & Construction",r:"VP Development · Director Construction · Head of Acquisitions",d:"Ground-up development to asset management — we place leaders across the project lifecycle. Executives who can underwrite, entitle, build, and operate. Development leadership is about managing risk across years-long commitments, and we know who has actually delivered."},
+    {n:"Engineering Services",s:"Design & Consulting",r:"VP Engineering · Practice Leader · Chief Engineer",d:"Finding technical leaders who can sell, manage, and deliver complex engineering programs. The best practice leaders are rainmakers and engineers at once — we know how rare that combination is, and where to find it."},
   ];
 
   const cases = [
@@ -202,6 +231,17 @@ export default function App() {
       status:"In role and scaling",
       challenge:"A global specialty chemical company producing highly engineered, client-specific products needed to transition technical leadership to a new generation. The role — Head of Product Stewardship for North America — required a rare combination: deep formulation knowledge, client-facing credibility, and cultural fit with a particular engineering leadership style.",
       outcome:"Found the needle in the haystack. The hire brought the technical specificity the organization required, earned trust with the existing engineering leadership, and has successfully scaled into an enterprise-level product stewardship role covering all of North America."
+    },
+    {
+      id:"05",
+      ind:"Food Ingredients Manufacturing",
+      rev:"$1B+ Revenue · Global",
+      role:"Plant Manager",
+      focus:"Site Leadership · U.S. Flagship Operations",
+      days:"Confidential",
+      status:"Placed 2026 — onboarding",
+      challenge:"A global specialty food ingredients manufacturer needed a Plant Manager for its U.S. flagship site — a high-visibility role demanding floor credibility, food-safety rigor, and the leadership range to run one of the company's most strategically important plants.",
+      outcome:"Ran a full retained process from market mapping through offer negotiation, delivering a competitive multi-finalist slate. Placed a proven plant leader who is onboarding with strong organizational alignment — and the client has since retained BSP for its next leadership search."
     }
   ];
 
@@ -260,28 +300,26 @@ export default function App() {
         ::selection{background:#e23c4144;color:#fff}input:focus,textarea:focus{border-color:#e23c41!important;outline:none}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        @keyframes kbDrift{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.09) translate(-1.4%,1%)}}
+        .kbDrift{animation:kbDrift 30s ease-in-out infinite alternate;will-change:transform}
+        @media(prefers-reduced-motion:reduce){.kbDrift{animation:none}}
         @keyframes dotpulse{0%,100%{opacity:1}50%{opacity:.2}}
         .mburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px}
         @keyframes srvFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes caseIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes detailIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+        .ghostTitle{-webkit-text-stroke:1.2px rgba(255,255,255,.3)}
         .srv-tabs::-webkit-scrollbar{display:none}
         @media(min-width:769px){.srv-tabs{justify-content:center!important}}
         @media(min-width:900px){.adv-desc{display:inline!important}}
-        #mcloud{display:none}
-        #mstats-bottom{display:none}
         .mnav{display:flex;align-items:center;gap:2.5rem}
         @media(max-width:768px){
           #bspChat{width:calc(100vw - 32px)!important;right:16px!important;bottom:80px!important;max-height:70vh!important}
           .mburger{display:flex!important}
           .mnav{display:none!important}
           .float-logo{display:none!important}
-          #mstats-top{display:none!important}
-          #mstats-bottom{display:block!important}
           #mabout{grid-template-columns:1fr!important}
           #mabout>div:last-child{display:none!important}
-          #mind{display:none!important}
-          .srv-expand{grid-template-columns:1fr!important}
-          #mcloud{display:flex!important}
-          #heroVid{object-fit:cover!important;object-position:center center!important}
 
           #mfounder{grid-template-columns:1fr!important}
           #mcontact{grid-template-columns:1fr!important}
@@ -289,15 +327,20 @@ export default function App() {
           #mfootbot{flex-direction:column-reverse!important;align-items:center!important;text-align:center!important}
                     #mherobtns{flex-direction:column!important;align-items:flex-start!important}
           #mcasedetail{grid-template-columns:1fr!important}
+          #srvScene{grid-template-columns:1fr!important}
+          .mfRow{text-align:left!important}
+          .mfAnno{grid-template-columns:1fr!important}
+          .mfName{display:block!important;padding:.25rem 0}
+          .mfSep{display:none!important}
           #mretained{grid-template-columns:1fr!important}
         }
         @media(max-width:480px){
-          #heroVid{object-fit:cover!important;object-position:center center!important}
-          #mstats-top{display:none!important}
-          #mstats-bottom{display:block!important}
         }
 
       `}</style>
+
+      {/* Film grain — site-wide material texture */}
+      <div aria-hidden="true" style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:5000,opacity:.05,backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")`}}/>
 
       {/* NAV */}
       <nav style={{position:"fixed",top:0,left:0,width:"100%",zIndex:1000,padding:scrolled?"12px 0":"20px 0",background:scrolled?"rgba(14,11,36,.6)":"transparent",backdropFilter:scrolled?"blur(16px)":"none",borderBottom:scrolled?"1px solid rgba(226,60,65,.06)":"none",transform:navHidden?"translateY(-100%)":"translateY(0)",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>
@@ -390,14 +433,14 @@ export default function App() {
 
       {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
-        <div style={{position:"absolute",inset:0,zIndex:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center"}}>
-          <video id="heroVid" autoPlay muted loop playsInline poster="./hero-poster.jpg" preload="auto" onCanPlay={e=>{e.target.style.opacity=1}} style={{position:"absolute",inset:0,objectFit:"cover",width:"100%",height:"100%",opacity:0,transition:"opacity 1.2s ease"}}><source src="./hero.mp4" type="video/mp4"/></video>
+        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden"}}>
+          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center"}}/>
         </div>
         {/* Dark overlay */}
         <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,rgba(14,11,36,.4) 0%,rgba(14,11,36,.15) 30%,rgba(14,11,36,.7) 75%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.8) 0%,transparent 55%)`}} />
         {/* Hero content */}
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)"}}>
+          <div id="heroContent" style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)",willChange:"transform,opacity"}}>
             <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
             <div style={{marginBottom:24,overflow:"hidden"}}>
               <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
@@ -430,18 +473,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* STATS */}
-      <div id="mstats-top" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)"}}>
-        <div id="mstats" style={{maxWidth:1320,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(4,1fr)"}}>
-          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
-            <div key={i} style={{padding:"40px 24px",textAlign:"center",borderRight:i<3?"1px solid rgba(226,60,65,.12)":"none",opacity:statsVis?1:0,transform:statsVis?"translateY(0)":"translateY(16px)",transition:`all .5s cubic-bezier(.23,1,.32,1) ${i*.1}s`}}>
-              <div style={{fontSize:"clamp(2rem,3.5vw,3rem)",fontWeight:700,color:C.r,lineHeight:1,marginBottom:8}}>{n}</div>
-              <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.15),transparent)"}}/>
 
@@ -453,8 +484,7 @@ export default function App() {
             
             {/* Text */}
             <div>
-              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Firm</div>
-              <h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2>
+              <Rise><h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2></Rise>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound Search Partners was founded on one principle: executive search should be personal. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound Search Partners works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
             </div>
@@ -466,7 +496,7 @@ export default function App() {
                 <div key={i} style={{display:"flex",gap:20,marginBottom:i<proc.length-1?0:0}} onMouseEnter={() => setHovProc(i)} onMouseLeave={() => setHovProc(null)}>
                   {/* Vertical line + number */}
                   <div style={{display:"flex",flexDirection:"column",alignItems:"center",flexShrink:0}}>
-                    <div style={{width:hovProc===i?40:36,height:hovProc===i?40:36,borderRadius:"50%",border:`1.5px solid ${hovProc===i?C.r:'rgba(226,60,65,.2)'}`,background:hovProc===i?"rgba(226,60,65,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:hovProc===i?C.r:C.g,flexShrink:0,transition:"all .3s cubic-bezier(.23,1,.32,1)",boxShadow:hovProc===i?"0 0 20px rgba(226,60,65,.15)":"none"}}>{step.p}</div>
+                    <div style={{width:hovProc===i?40:36,height:hovProc===i?40:36,borderRadius:"50%",border:`1.5px solid ${hovProc===i?C.r:'rgba(226,60,65,.2)'}`,background:hovProc===i?"rgba(226,60,65,.1)":"transparent",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:700,color:hovProc===i?C.r:C.g,flexShrink:0,transition:"all .3s cubic-bezier(.23,1,.32,1)",boxShadow:hovProc===i?"0 0 20px rgba(226,60,65,.15)":"none"}}><span style={{width:7,height:7,borderRadius:"50%",background:hovProc===i?C.r:"rgba(226,60,65,.4)",transition:"background .3s"}}/></div>
                     {i<proc.length-1 && <div style={{width:1,flex:1,background:`linear-gradient(180deg,rgba(226,60,65,${hovProc===i?.35:.2}),rgba(226,60,65,.05))`,minHeight:24,transition:"all .3s"}}/>}
                   </div>
                   {/* Content */}
@@ -486,111 +516,63 @@ export default function App() {
       </section>
 
 
-      {/* SERVICES */}
-      <section id="services" style={{background:C.n,padding:"clamp(5rem,10vw,9rem) 0",overflow:"hidden"}}>
-        <div style={{maxWidth:960,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          {/* Section label */}
-          <div ref={srvHeaderRef} style={{textAlign:"center",marginBottom:"clamp(3rem,6vw,5rem)"}}>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em"}}>
-              {(() => {
-                const full = "Search. Advisory. Intelligence.";
-                const len = srvTw.displayed.length;
-                return full.split("").map((ch, i) => (
-                  <React.Fragment key={i}>
-                    <span style={{color: i < len ? C.w : "transparent"}}>{ch}</span>
-                    {i === len - 1 && srvTw.started && !srvTw.done && <span style={{color:C.r,animation:"blink .6s step-end infinite",fontWeight:300,position:"absolute"}}> |</span>}
-                  </React.Fragment>
-                ));
-              })()}
-            </h2>
-          </div>
+      {/* SERVICES — living index */}
+      <section id="services" style={{background:C.n,padding:"clamp(6rem,11vw,9rem) 0",position:"relative",overflow:"hidden"}}>
+        <div aria-hidden="true" style={{position:"absolute",width:"min(720px,90vw)",height:"min(720px,90vw)",borderRadius:"50%",background:"radial-gradient(circle,rgba(226,60,65,.5),transparent 60%)",filter:"blur(50px)",opacity:.12,pointerEvents:"none",top:`${activeSrv*20-6}%`,left:"52%",transition:"top 1.2s cubic-bezier(.23,1,.32,1)",willChange:"top"}}/>
 
-          {/* Accordion */}
-          <div>
-            {srvs.map((s,i)=>{
-              const isOpen = activeSrv===i;
-              return (
-                <div key={i} style={{borderTop:i===0?"1px solid rgba(226,60,65,.1)":"none",borderBottom:"1px solid rgba(226,60,65,.1)"}}>
-                  {/* Row trigger */}
-                  <div
-                    onClick={()=>setActiveSrv(isOpen?null:i)}
-                    style={{
-                      display:"flex",justifyContent:"space-between",alignItems:"center",
-                      padding:"22px 0",cursor:"pointer",
-                      transition:"padding .3s ease",
-                    }}
-                    onMouseEnter={e=>{if(!isOpen)e.currentTarget.querySelector('.srv-title').style.color=C.w}}
-                    onMouseLeave={e=>{if(!isOpen)e.currentTarget.querySelector('.srv-title').style.color=C.gl}}
-                  >
-                    <h3 className="srv-title" style={{
-                      fontSize:"clamp(1.1rem,2vw,1.35rem)",fontWeight:600,
-                      color:isOpen?C.w:C.gl,
-                      letterSpacing:"-.01em",lineHeight:1.3,
-                      transition:"color .2s",
-                    }}>{s.t}</h3>
-                    <div style={{
-                      width:36,height:36,
-                      border:isOpen?`1px solid ${C.w}`:"1px solid rgba(255,255,255,.2)",
-                      background:isOpen?"rgba(255,255,255,.1)":"transparent",
-                      display:"flex",alignItems:"center",justifyContent:"center",
-                      color:C.w,
-                      fontSize:22,fontWeight:300,
-                      transition:"transform .3s cubic-bezier(.23,1,.32,1), background .2s, border-color .2s",
-                      transform:isOpen?"rotate(45deg)":"rotate(0deg)",
-                      flexShrink:0,marginLeft:16,
-                    }}>+</div>
+        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
+          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4.5rem)"}}>Search. Advisory. Intelligence.</h2></Rise>
+
+          <div id="srvScene" style={{display:"grid",gridTemplateColumns:"1.3fr 1fr",gap:"clamp(2.5rem,5vw,5.5rem)",alignItems:"start"}}>
+            <div>
+              {srvs.map((s,i) => {
+                const active = activeSrv === i;
+                return (
+                  <div key={i} onMouseEnter={() => {setActiveSrv(i);setHovChip(null);}} onClick={() => {setActiveSrv(i);setHovChip(null);}} role="button" tabIndex={0}
+                    onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setActiveSrv(i);}}}
+                    style={{padding:"clamp(1.2rem,2.1vw,1.8rem) 0",cursor:"pointer",borderBottom:"1px solid rgba(226,60,65,.08)",userSelect:"none"}}>
+                    <h3 className={active?undefined:"ghostTitle"} style={{fontSize:"clamp(1.55rem,3.4vw,3rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.08,margin:0,color:active?C.w:"transparent",transition:"color .45s ease"}}>
+                      {s.t}<span style={{color:active?C.r:"transparent",transition:"color .45s ease"}}>.</span>
+                    </h3>
                   </div>
+                );
+              })}
+            </div>
 
-                  {/* Expandable content */}
-                  <div style={{
-                    maxHeight:isOpen?1200:0,
-                    opacity:isOpen?1:0,
-                    overflow:"hidden",
-                    transition:"max-height .4s cubic-bezier(.23,1,.32,1), opacity .3s ease",
-                  }}>
-                    <div style={{paddingBottom:32}}>
-                      {/* Tagline + description */}
-                      <p style={{fontSize:13,fontStyle:"italic",color:C.r,opacity:.5,lineHeight:1.5,marginBottom:12}}>{s.tag}</p>
-                      <p style={{fontSize:15,lineHeight:1.85,color:"#d4d1e0",maxWidth:700,marginBottom:24}}>{s.d}</p>
-
-                      {/* Two columns: deliverables + roles */}
-                      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"24px 48px",alignItems:"start"}} className="srv-expand">
-                        <div>
-                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Deliverables</div>
-                          {s.del.map((d,di)=>(
-                            <div key={di} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"5px 0"}}>
-                              <span style={{color:C.r,fontSize:8,marginTop:5,flexShrink:0}}>&#9656;</span>
-                              <span style={{fontSize:13,color:"#d4d1e0",lineHeight:1.55}}>{d}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <div>
-                          <div style={{fontSize:9,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>{s.rl}</div>
-                          <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
-                            {s.r.split(" · ").map((role,ri)=>(
-                              <span key={ri} style={{padding:"6px 14px",border:"1px solid rgba(226,60,65,.2)",color:"#d4d1e0",fontSize:11,fontWeight:500,letterSpacing:".03em",transition:"all .25s"}}
-                                onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.color=C.w;e.currentTarget.style.background="rgba(226,60,65,.06)"}}
-                                onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.2)";e.currentTarget.style.color="#d4d1e0";e.currentTarget.style.background="transparent"}}
-                              >{role}</span>
-                            ))}
-                          </div>
-                        </div>
+            <div key={activeSrv} style={{animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",paddingTop:6}}>
+              {(() => { const s = srvs[activeSrv]; return (
+                <div>
+                  <p style={{fontSize:13,fontStyle:"italic",color:C.r,opacity:.6,lineHeight:1.5,marginBottom:14}}>{s.tag}</p>
+                  <p style={{fontSize:15,lineHeight:1.85,color:"#d4d1e0",marginBottom:26}}>{s.d}</p>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Deliverables</div>
+                  <div style={{marginBottom:24}}>
+                    {s.del.map((d,di)=>(
+                      <div key={di} style={{display:"flex",alignItems:"flex-start",gap:10,padding:"5px 0"}}>
+                        <span style={{color:C.r,fontSize:8,marginTop:5,flexShrink:0}}>&#9656;</span>
+                        <span style={{fontSize:13,color:"#d4d1e0",lineHeight:1.55}}>{d}</span>
                       </div>
-                    </div>
+                    ))}
+                  </div>
+                  <div style={{fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:12}}>{s.rl}</div>
+                  <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                    {s.r.split(" · ").map((role,ri)=>(
+                      <span key={ri} style={{position:"relative",padding:"7px 14px",border:`1px solid ${hovChip===ri?"rgba(226,60,65,.6)":"rgba(226,60,65,.2)"}`,color:hovChip===ri?C.w:"#d4d1e0",fontSize:11,fontWeight:500,letterSpacing:".03em",cursor:"default",transition:"all .25s",background:hovChip===ri?"rgba(226,60,65,.07)":"transparent"}}
+                        onMouseEnter={()=>setHovChip(ri)} onMouseLeave={()=>setHovChip(null)}
+                        onClick={()=>setHovChip(hovChip===ri?null:ri)}
+                      >
+                        {role}
+                        <span style={{position:"absolute",bottom:"calc(100% + 10px)",left:0,width:"min(270px,72vw)",padding:"12px 14px",background:"#14102e",border:"1px solid rgba(226,60,65,.3)",borderRadius:4,fontSize:12,lineHeight:1.6,color:C.gl,fontWeight:400,letterSpacing:0,boxShadow:"0 12px 36px rgba(0,0,0,.5)",opacity:hovChip===ri?1:0,transform:hovChip===ri?"translateY(0)":"translateY(6px)",transition:"all .3s cubic-bezier(.23,1,.32,1)",pointerEvents:"none",zIndex:20,whiteSpace:"normal"}}>
+                          {s.rds[ri]}
+                        </span>
+                      </span>
+                    ))}
                   </div>
                 </div>
-              );
-            })}
+              );})()}
+            </div>
           </div>
 
-          {/* CTA */}
-          <div style={{textAlign:"center",marginTop:"clamp(3rem,6vw,5rem)"}}>
-            <span onClick={()=>go("contact")} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click()}}} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"14px 36px",background:"transparent",border:`2px solid ${C.r}`,color:C.w,fontSize:12,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}}
-              onMouseEnter={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(-2px)"}}
-              onMouseLeave={e=>{e.currentTarget.style.background="transparent";e.currentTarget.style.transform="translateY(0)"}}
-            >Start a Conversation →</span>
-          </div>
         </div>
       </section>
 
@@ -601,20 +583,19 @@ export default function App() {
       <section id="results" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Placement Outcomes</div>
-          <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:56}}>Real searches.<br/>Measurable results.</h2>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:56}}>Real searches.<br/>Measurable results.</h2></Rise>
           
           {/* Case selector tabs */}
           <div style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
             {cases.map((c,i) => (
               <button key={i} onClick={() => setActiveCase(i)} style={{flex:activeCase===i?"2.5 1 0%":"1 1 0%",padding:"16px 20px",background:activeCase===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeCase===i?`3px solid ${C.r}`:"3px solid transparent",color:activeCase===i?C.w:C.g,fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
-                <span style={{opacity:.2,fontSize:20,fontWeight:700,color:C.r,display:"block",marginBottom:2}}>{c.id}</span>
                 <span style={{whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",display:"block"}}>{activeCase===i?c.role:c.ind}</span>
               </button>
             ))}
           </div>
 
           {/* Active case detail */}
-          <div style={{padding:"clamp(2rem,4vw,3.5rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`}}>
+          <div key={activeCase} style={{padding:"clamp(2rem,4vw,3.5rem)",background:"rgba(226,60,65,.03)",borderLeft:`4px solid ${C.r}`,animation:"caseIn .5s cubic-bezier(.23,1,.32,1)"}}>
             <div style={{display:"grid",gridTemplateColumns:"1fr",gap:32}}>
               {/* Header row */}
               <div>
@@ -660,45 +641,80 @@ export default function App() {
         </div>
       </section>
 
-      {/* INDUSTRIES */}
-      <section id="industries" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm,position:"relative"}}>
-        <div style={{position:"absolute",inset:0,opacity:.03,backgroundImage:"radial-gradient(circle at 1px 1px, rgba(226,60,65,.4) 1px, transparent 0)",backgroundSize:"40px 40px",pointerEvents:"none"}}/>
-        <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Industries</div>
-          <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:600,marginBottom:56}}>Nine sectors.<br/>Deep expertise.</h2>
-          <div id="mind" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:0}}>
-            {inds.map((ind,i) => (
-              <div key={i} onMouseEnter={() => setHovInd(i)} onMouseLeave={() => setHovInd(null)}
-                style={{padding:"clamp(1.5rem,2.5vw,2.5rem)",borderTop:"1px solid rgba(226,60,65,.08)",borderRight:i%3!==2?"1px solid rgba(226,60,65,.08)":"none",cursor:"default",transition:"background .3s",background:hovInd===i?"rgba(226,60,65,.04)":"transparent",position:"relative",overflow:"hidden",minHeight:160}}>
-                <div style={{position:"absolute",top:0,left:0,width:hovInd===i?"100%":"0%",height:2,background:C.r,transition:"width .4s cubic-bezier(.23,1,.32,1)"}}/>
-                <h4 style={{fontSize:"clamp(1.25rem,2vw,1.75rem)",fontWeight:700,marginBottom:6,color:hovInd===i?C.w:C.gl,transition:"color .3s"}}>{ind.n}</h4>
-                <div style={{fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:8}}>{ind.s}</div>
-                <div style={{fontSize:13,color:C.gl,lineHeight:1.8,opacity:hovInd===i?.7:0,transform:hovInd===i?"translateY(0)":"translateY(8px)",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>{ind.d}<div style={{marginTop:8,fontSize:11,fontWeight:700,color:C.r,letterSpacing:".1em",opacity:.6}}>{ind.r}</div></div>
-              </div>
-            ))}
-          </div>
-          {/* Mobile accordion */}
-          <div id="mcloud" style={{flexDirection:"column",gap:0}}>
-            {inds.map((ind,i) => {
-              const isOpen = cloudWord === i;
+      {/* INDUSTRIES — manifesto */}
+      <section id="industries" style={{padding:"clamp(6rem,11vw,10rem) 0",background:C.nm,position:"relative",overflow:"hidden"}}>
+        <div style={{maxWidth:1100,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative",textAlign:"center"}}>
+          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:18}}>Industries</div>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4rem)"}}>We know your world.</h2></Rise>
+
+          {/* the manifesto block — annotations anchor under the clicked word */}
+          <div style={{fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.5,maxWidth:1040,margin:"0 auto"}}>
+            {[[0,1,2],[3,4,5],[6,7,8]].map((row,r) => {
+              const openRow = indOpen >= 0 ? Math.floor(indOpen/3) : -1;
+              const DH = typeof window !== "undefined" && window.innerWidth < 640 ? 640 : 300;
+              const shown = rowItem[r];
               return (
-                <div key={i} onClick={() => setCloudWord(isOpen ? null : i)}
-                  style={{borderBottom:"1px solid rgba(226,60,65,.08)",cursor:"pointer",transition:"all .3s"}}>
-                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"14px 0"}}>
-                    <div style={{display:"flex",alignItems:"center",gap:12}}>
-                      <div style={{width:3,height:20,background:isOpen?C.r:"rgba(226,60,65,.2)",borderRadius:2,transition:"all .3s"}}/>
-                      <span style={{fontSize:16,fontWeight:isOpen?700:600,color:isOpen?C.w:C.gl,transition:"all .3s"}}>{ind.n}</span>
-                    </div>
-                    <span style={{fontSize:10,color:isOpen?C.r:C.g,transition:"all .3s",transform:isOpen?"rotate(180deg)":"rotate(0deg)"}}>▼</span>
+                <React.Fragment key={r}>
+                  <div className="mfRow" style={{textAlign:"center",padding:".18em 0",position:"relative"}}>
+                    {row.map((i,ci) => {
+                      const d = inds[i];
+                      const lit = indOpen === i || hovInd === i;
+                      return (
+                        <span key={i}>
+                          <span className={"mfName" + (lit ? "" : " ghostTitle")}
+                            onMouseEnter={() => setHovInd(i)} onMouseLeave={() => setHovInd(null)}
+                            onClick={(e) => {
+                              const left = e.currentTarget.offsetLeft;
+                              const rowEl = e.currentTarget.closest(".mfRow");
+                              setAnchors(a => ({...a, [r]: {x: left, w: rowEl ? rowEl.clientWidth : 0}}));
+                              setRowItem(m => ({...m, [r]: i}));
+                              setIndOpen(indOpen === i ? -1 : i);
+                            }}
+                            role="button" tabIndex={0}
+                            onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click();}}}
+                            style={{cursor:"pointer",color:lit?C.w:"transparent",transition:"color .4s ease",userSelect:"none",whiteSpace:"nowrap",display:"inline-block"}}>
+                            {d.n}
+                          </span>
+                          {ci < row.length - 1 && <span className="mfSep" style={{color:C.r,opacity:.45,margin:"0 .5em",fontWeight:400}}>·</span>}
+                        </span>
+                      );
+                    })}
                   </div>
-                  <div style={{maxHeight:isOpen?120:0,overflow:"hidden",transition:"max-height .4s cubic-bezier(.23,1,.32,1)",paddingLeft:15}}>
-                    <div style={{fontSize:13,color:C.gl,lineHeight:1.7,marginBottom:8}}>{ind.d}</div>
-                    <div style={{fontSize:11,fontWeight:600,color:C.r,letterSpacing:1,opacity:.7,paddingBottom:14}}>{ind.r}</div>
+                  <div style={{overflow:"hidden",height:openRow===r?DH:0,transition:"height .5s cubic-bezier(.23,1,.32,1)"}}>
+                    {shown != null && (() => {
+                      const d = inds[shown];
+                      const A = (anchors[r] && typeof anchors[r] === "object") ? anchors[r] : {x: anchors[r]||0, w: 0};
+                      const bw = A.w ? Math.min(640, A.w) : 640;
+                      const bodyLeft = A.w ? Math.round(A.x * (A.w - bw) / A.w) : 0;
+                      return (
+                      <div style={{position:"relative",textAlign:"left"}}>
+                        <div style={{position:"absolute",top:14,left:A.x,width:2,height:18,background:C.r,transition:"left .45s cubic-bezier(.23,1,.32,1)"}}/>
+                        <div style={{paddingLeft:bodyLeft,transition:"padding-left .45s cubic-bezier(.23,1,.32,1)"}}>
+                        <div style={{maxWidth:640,padding:"46px 0 24px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
+                          <div className="mfAnno" style={{display:"grid",gridTemplateColumns:"1.5fr 1fr",gap:"clamp(1.5rem,3vw,3rem)",alignItems:"start"}}>
+                            <div>
+                              <div style={{fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:10}}>{d.s}</div>
+                              <div style={{fontSize:14.5,color:"#d4d1e0",lineHeight:1.85}}>{d.d}</div>
+                            </div>
+                            <div>
+                              <div style={{fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:10}}>Roles We Place</div>
+                              <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+                                {d.r.split(" · ").map((role,ri)=>(
+                                  <span key={ri} style={{padding:"6px 13px",border:"1px solid rgba(226,60,65,.22)",color:"#d4d1e0",fontSize:11,fontWeight:500,letterSpacing:".03em"}}>{role}</span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+                      </div>
+                    );})()}
                   </div>
-                </div>
+                </React.Fragment>
               );
             })}
           </div>
+
         </div>
       </section>
 
@@ -774,8 +790,8 @@ export default function App() {
       <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
         <div id="mfounder" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"center"}}>
           <div>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>The Founder</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Bob Cwenar</h2>
+            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Founder &amp; Principal</div>
+            <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Bob Cwenar</h2></Rise>
             <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar brings over a decade of experience in retained executive search, specializing in manufacturing, industrial, and supply chain leadership. A graduate of Drexel University, he began his career at Armstrong Franklin, helping grow the firm from a four-person team into a recognized name in the sector.</p>
             <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Following Armstrong Franklin's merger with GattiHR and acquisition by Kingsley Gate Partners, Bob led national-scale search engagements for clients ranging from founder-led startups to enterprises exceeding $10 billion in revenue — experience that shaped his understanding of what great search looks like at every level.</p>
             <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>He founded Bound Search Partners to offer clients a more direct, senior-led model — one where every engagement is personally managed from strategy through onboarding. It's the kind of search experience that's hard to find at larger firms, and it's the standard here.</p>
@@ -785,24 +801,12 @@ export default function App() {
         </div>
       </section>
 
-      {/* MOBILE STATS - after bio */}
-      <div id="mstats-bottom" style={{background:C.nm,borderTop:"1px solid rgba(226,60,65,.15)",borderBottom:"1px solid rgba(226,60,65,.15)",width:"100%"}}>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(2,1fr)",width:"100%"}}>
-          {[["200+","Executive Placements Led"],["92%","Year-One Retention Rate"],["10+","Years in Retained Search"],["50+","Client Organizations Served"]].map(([n,l],i) => (
-            <div key={i} style={{padding:"24px 16px",textAlign:"center",borderRight:i%2===0?"1px solid rgba(226,60,65,.12)":"none",borderBottom:i<2?"1px solid rgba(226,60,65,.12)":"none"}}>
-              <div style={{fontSize:28,fontWeight:700,color:C.r,lineHeight:1,marginBottom:6}}>{n}</div>
-              <div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g}}>{l}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* CONTACT */}
       <section id="contact" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
         <div id="mcontact" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:"clamp(3rem,5vw,5rem)",alignItems:"start"}}>
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Contact</div>
-            <h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Start a <span style={{color:C.r,fontStyle:"italic"}}>conversation</span>.</h2>
+            <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Start a <span style={{color:C.r,fontStyle:"italic"}}>conversation</span>.</h2></Rise>
             <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:32}}>Every engagement begins with a candid discussion about the role and whether Bound Search Partners is the right fit.</p>
             {[["Phone","(267) 265-1792","tel:+12672651792"],["Email","bob@boundsearch.com","mailto:bob@boundsearch.com"],["Headquarters","Philadelphia, PA — Serving clients nationwide",null]].map(([label,val,href],i) => (
               <div key={i} style={{display:"flex",alignItems:"center",gap:16,padding:"16px 0",borderTop:"1px solid rgba(255,255,255,.05)"}}>
@@ -871,10 +875,11 @@ export default function App() {
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.12),transparent)"}}/>
 
       {/* CTA */}
-      <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n,textAlign:"center"}}>
-        <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Ready to begin?</div>
-          <h2 style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",marginBottom:24}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
+      <section id="closer" style={{padding:"clamp(5rem,10vw,8.5rem) 0",background:C.n,textAlign:"center",position:"relative",overflow:"hidden"}}>
+        <div aria-hidden="true" style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"min(900px,120vw)",height:"min(900px,120vw)",background:"radial-gradient(circle,rgba(226,60,65,.06),transparent 65%)",pointerEvents:"none",opacity:ctaVis?1:0,transition:"opacity 1.2s ease .3s"}}/>
+        <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
+          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24,opacity:ctaVis?1:0,transition:"opacity .6s ease"}}>Ready to begin?</div>
+          <h2 style={{fontSize:"clamp(2.8rem,7.5vw,5.75rem)",fontWeight:700,lineHeight:.94,letterSpacing:"-.03em",marginBottom:24,opacity:ctaVis?1:0,transform:ctaVis?"translateY(0)":"translateY(24px)",transition:"all .8s cubic-bezier(.23,1,.32,1) .1s"}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
           <p ref={readyRef} style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>
             {(() => {
               const full = "Ready when you are.";
