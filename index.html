@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Bound Search Partners | Retained Executive Search for U.S. Manufacturing & Industrial</title>
-<meta name="description" content="Bound Search Partners is a boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Founded in Philadelphia, serving manufacturers nationwide.">
+<meta name="description" content="Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Founded in Philadelphia, serving manufacturers nationwide.">
+<link rel="preload" href="/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:title" content="Bound Search Partners | Retained Executive Search">
-<meta property="og:description" content="Boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Philadelphia-based, serving U.S. manufacturers nationwide.">
+<meta property="og:description" content="Retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Philadelphia-based, serving U.S. manufacturers nationwide.">
 <meta property="og:image" content="https://boundsearch.com/og-image.png">
 <meta property="og:url" content="https://boundsearch.com">
 <meta property="og:type" content="website">
@@ -21,7 +22,7 @@
   "@type": "ProfessionalService",
   "name": "Bound Search Partners LLC",
   "alternateName": "Bound Search Partners",
-  "description": "Boutique retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Founded in Philadelphia, serving U.S. manufacturers nationwide.",
+  "description": "Retained executive search firm specializing in manufacturing, industrial, and supply chain leadership. Founded in Philadelphia, serving U.S. manufacturers nationwide.",
   "url": "https://boundsearch.com",
   "logo": "https://boundsearch.com/og-image.png",
   "telephone": "+1-267-265-1792",
@@ -58,8 +59,9 @@
 }
 </script>
 <style>
+  @font-face{font-family:'Inter';src:url('/fonts/inter-var.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:#0e0b24;font-family:'Aptos','Segoe UI',sans-serif}
+  body{background:#0e0b24;font-family:'Inter','Segoe UI',-apple-system,sans-serif}
   @keyframes sR{to{opacity:.92;transform:translateX(0)}}
   @keyframes sL{to{opacity:1;transform:translateX(0)}}
   @keyframes fi{to{opacity:1}}
@@ -70,6 +72,9 @@
 <div id="root"></div>
 <!-- Hidden form for Netlify form detection -->
 <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+  <input name="bot-field"/>
+  <input name="visitor-type"/>
+  <input name="inquiry-type"/>
   <input name="first-name"/>
   <input name="last-name"/>
   <input name="email"/>
