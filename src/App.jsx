@@ -172,7 +172,7 @@ export default function App() {
   const proc = [
     {p:"01",t:"AI-Powered Intelligence",d:"Proprietary AI tools map the full universe of qualified candidates — not just those in databases. Market mapping, compensation benchmarking, and competitive intelligence at a scale no human team can replicate.",l:"Machine Scale"},
     {p:"02",t:"Human Curation",d:"Every candidate is personally vetted for technical capability, cultural alignment, and leadership trajectory. No algorithmic shortlists. No resume blasts. Every conversation is substantive.",l:"Human Judgment"},
-    {p:"03",t:"Client Partnership",d:"Real-time access to a dedicated consultant — not a portal. The process adapts to each search, each culture, each hire. No playbook is one-size-fits-all.",l:"Adaptive"},
+    {p:"03",t:"Client Partnership",d:"Direct access to the consultant running your search — backed by a live client portal where every update and document stays one click away. The process adapts to each search, each culture, each hire.",l:"Adaptive"},
     {p:"04",t:"Placement & Beyond",d:"Offer negotiation, counteroffer strategy, resignation coaching, and 90-day onboarding support. Ends when the hire is performing — not when the offer is signed.",l:"Accountable"},
   ];
 
@@ -968,7 +968,8 @@ export default function App() {
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <svg width="180" height="36" viewBox="0 0 280 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Inter,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Inter,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
-            <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}</div>
+            <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}
+              <a href="./portal.html" style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s",textDecoration:"none"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>Client Portal</a></div>
           </div>
 
           {/* Divider line */}
