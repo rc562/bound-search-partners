@@ -69,7 +69,6 @@ export default function App() {
   const [activeInd,setActiveInd] = useState(0);
   const [indOpen,setIndOpen] = useState(-1);
   const [rowItem,setRowItem] = useState({});
-  const [anchors,setAnchors] = useState({});
   const [hovChip,setHovChip] = useState(null);
 
   // Typewriter hooks
@@ -331,6 +330,7 @@ export default function App() {
         ::selection{background:#e23c4144;color:#fff}input:focus,textarea:focus{border-color:#e23c41!important;outline:none}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        @keyframes annoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
         @keyframes kbDrift{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.09) translate(-1.4%,1%)}}
         .kbDrift{animation:kbDrift 30s ease-in-out infinite alternate;will-change:transform}
         @media(prefers-reduced-motion:reduce){.kbDrift{animation:none}}
@@ -669,7 +669,7 @@ export default function App() {
           <div style={{fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.5,maxWidth:1040,margin:"0 auto"}}>
             {(isMobile ? inds.map((_,i) => [i]) : [[0,1,2],[3,4,5],[6,7,8]]).map((row,r) => {
               const openRow = indOpen >= 0 ? (isMobile ? indOpen : Math.floor(indOpen/3)) : -1;
-              const DH = typeof window !== "undefined" && window.innerWidth < 640 ? 640 : 300;
+              const DH = typeof window !== "undefined" && window.innerWidth < 640 ? 640 : 250;
               const shown = rowItem[r];
               return (
                 <React.Fragment key={r}>
@@ -681,22 +681,18 @@ export default function App() {
                         <span key={i}>
                           <span className={"mfName" + (lit ? "" : " ghostTitle")}
                             onMouseEnter={() => setHovInd(i)} onMouseLeave={() => setHovInd(null)}
-                            onClick={(e) => {
-                              const left = e.currentTarget.offsetLeft;
-                              const rowEl = e.currentTarget.closest(".mfRow");
-                              setAnchors(a => ({...a, [r]: {x: left, w: rowEl ? rowEl.clientWidth : 0}}));
+                            onClick={() => {
                               setRowItem(m => ({...m, [r]: i}));
                               setIndOpen(indOpen === i ? -1 : i);
                             }}
                             role="button" tabIndex={0}
                             onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click();}}}
                             style={{cursor:"pointer",color:lit?C.w:"transparent",transition:"color .4s ease",userSelect:"none",whiteSpace:"nowrap",display:"inline-block"}}>
-                            {d.n}
+                            {d.n}{indOpen === i && <span style={{color:C.r}}>.</span>}
                           </span>
                           {ci < row.length - 1 && <span className="mfSep" style={{color:C.r,opacity:.45,margin:"0 .5em",fontWeight:400}}>·</span>}
                           <span className="mfMobDetail" style={{display:"none",overflow:"hidden",maxHeight:indOpen===i?700:0,opacity:indOpen===i?1:0,transition:"max-height .4s cubic-bezier(.23,1,.32,1), opacity .3s ease"}}>
                             <span style={{display:"block",padding:"10px 0 22px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
-                              <span style={{display:"block",width:22,height:2,background:C.r,marginBottom:12}}/>
                               <span style={{display:"block",fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:10}}>{d.s}</span>
                               <span style={{display:"block",fontSize:14.5,color:"#d4d1e0",lineHeight:1.85,marginBottom:16}}>{d.d}</span>
                               <span style={{display:"block",fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:10}}>Roles We Place</span>
@@ -714,14 +710,9 @@ export default function App() {
                   <div className="mfRowDetail" style={{overflow:"hidden",height:openRow===r?DH:0,transition:"height .5s cubic-bezier(.23,1,.32,1)"}}>
                     {shown != null && (() => {
                       const d = inds[shown];
-                      const A = (anchors[r] && typeof anchors[r] === "object") ? anchors[r] : {x: anchors[r]||0, w: 0};
-                      const bw = A.w ? Math.min(640, A.w) : 640;
-                      const bodyLeft = A.w ? Math.round(A.x * (A.w - bw) / A.w) : 0;
                       return (
-                      <div style={{position:"relative",textAlign:"left"}}>
-                        <div style={{position:"absolute",top:14,left:A.x,width:2,height:18,background:C.r,transition:"left .45s cubic-bezier(.23,1,.32,1)"}}/>
-                        <div style={{paddingLeft:bodyLeft,transition:"padding-left .45s cubic-bezier(.23,1,.32,1)"}}>
-                        <div style={{maxWidth:640,padding:"46px 0 24px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
+                      <div key={shown} style={{textAlign:"left",animation:"annoIn .4s ease both"}}>
+                        <div style={{padding:"26px 0 30px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
                           <div className="mfAnno" style={{display:"grid",gridTemplateColumns:"1.5fr 1fr",gap:"clamp(1.5rem,3vw,3rem)",alignItems:"start"}}>
                             <div>
                               <div style={{fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:10}}>{d.s}</div>
@@ -736,7 +727,6 @@ export default function App() {
                               </div>
                             </div>
                           </div>
-                        </div>
                         </div>
                       </div>
                     );})()}
@@ -907,6 +897,8 @@ export default function App() {
 
       {/* CTA */}
       <section id="closer" style={{padding:"clamp(5rem,10vw,8.5rem) 0",background:C.n,textAlign:"center",position:"relative",overflow:"hidden"}}>
+        <div aria-hidden="true" style={{position:"absolute",inset:0,backgroundImage:"url(./closer-bg.jpg)",backgroundSize:"cover",backgroundPosition:"center 38%"}}/>
+        <div aria-hidden="true" style={{position:"absolute",inset:0,background:"linear-gradient(180deg, #0e0b24 0%, rgba(14,11,36,.78) 28%, rgba(14,11,36,.78) 72%, #0e0b24 100%)"}}/>
         <div aria-hidden="true" style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"min(900px,120vw)",height:"min(900px,120vw)",background:"radial-gradient(circle,rgba(226,60,65,.06),transparent 65%)",pointerEvents:"none",opacity:ctaVis?1:0,transition:"opacity 1.2s ease .3s"}}/>
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24,opacity:ctaVis?1:0,transition:"opacity .6s ease"}}>Ready to begin?</div>
