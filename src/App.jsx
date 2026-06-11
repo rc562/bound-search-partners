@@ -501,7 +501,7 @@ export default function App() {
             <div style={{marginBottom:24,overflow:"hidden"}}>
               <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
                 <span style={{visibility:"hidden",position:"absolute",left:0,top:0,right:0}} aria-hidden="true">The leaders who move industries start here.</span>
-                <span style={{display:"block"}}>
+                <span style={{display:"block",filter:"drop-shadow(0 2px 16px rgba(8,6,20,.85)) drop-shadow(0 1px 3px rgba(8,6,20,.4))"}}>
                 {(() => {
                   const full = "The leaders who move industries start here.";
                   const len = heroTw.displayed.length;
@@ -511,7 +511,6 @@ export default function App() {
                     return <React.Fragment key={i}>
                       <span style={{
                         color: visible ? (inMove ? C.r : C.w) : "transparent",
-                        textShadow: visible ? "0 2px 34px rgba(8,6,20,.85)" : "none",
                         fontStyle: inMove ? "italic" : "normal",
                       }}>{ch}</span>
                       {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
@@ -1091,30 +1090,31 @@ export default function App() {
       </div>
 
       {/* Chat panel */}
-      <div style={{position:"fixed",bottom:92,right:24,width:"min(390px, calc(100vw - 32px))",maxHeight:"min(560px, 72vh)",borderRadius:20,overflow:"hidden",background:"rgba(16,12,38,.9)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(226,60,65,.22)",boxShadow:"0 24px 64px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(20px) scale(.96)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .35s cubic-bezier(.23,1,.32,1)"}}>
+      <div style={{position:"fixed",bottom:92,right:24,width:"min(390px, calc(100vw - 32px))",maxHeight:"min(560px, 72vh)",borderRadius:20,overflow:"hidden",background:"rgba(12,11,18,.94)",backdropFilter:"blur(28px)",WebkitBackdropFilter:"blur(28px)",border:"1px solid rgba(255,255,255,.09)",boxShadow:"0 24px 64px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(20px) scale(.96)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .35s cubic-bezier(.23,1,.32,1)"}}>
         {/* Header */}
-        <div style={{padding:"15px 20px",borderBottom:"1px solid rgba(255,255,255,.07)",display:"flex",alignItems:"center",gap:12}}>
-          <span className="orbCore" style={{width:11,height:11}} aria-hidden="true"/>
-          <div style={{flex:1}}>
-            <div style={{fontSize:13.5,fontWeight:700,letterSpacing:".02em"}}>Bound Search Partners</div>
-            <div style={{fontSize:10.5,color:C.g,letterSpacing:".08em"}}>AI Assistant · replies instantly</div>
+        <div style={{padding:"14px 16px 12px",borderBottom:"1px solid rgba(255,255,255,.08)",position:"relative",textAlign:"center"}}>
+          <div style={{width:44,height:44,borderRadius:"50%",background:"linear-gradient(135deg,#e8474c,#b22a31)",margin:"0 auto 7px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 12px rgba(226,60,65,.35)"}}>
+            <svg width="17" height="18" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".95"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#fff" opacity=".85"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#fff" opacity=".7"/></svg>
           </div>
-          <span onClick={() => setChatOpen(false)} role="button" aria-label="Close chat" style={{cursor:"pointer",color:C.g,padding:4,lineHeight:0}}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <div style={{fontSize:12.5,fontWeight:600,letterSpacing:".01em"}}>Bound Search Partners</div>
+          <div style={{fontSize:10,color:C.g,marginTop:2}}>AI Assistant</div>
+          <span onClick={() => setChatOpen(false)} role="button" aria-label="Close chat" style={{cursor:"pointer",color:C.g,padding:6,lineHeight:0,position:"absolute",top:12,right:12}}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </span>
         </div>
 
         {/* Messages */}
         <div id="chatScroll" style={{flex:1,overflowY:"auto",padding:"16px 20px",display:"flex",flexDirection:"column",gap:12,maxHeight:360}}>
+          <div style={{textAlign:"center",fontSize:10,fontWeight:600,color:"#73708a",margin:"2px 0 4px"}}>Today {new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})}</div>
           {chatMsgs.map((m,i) => (
             <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
-              <div style={{maxWidth:"80%",padding:"10px 15px",borderRadius:m.role==="user"?"18px 18px 5px 18px":"18px 18px 18px 5px",background:m.role==="user"?"linear-gradient(135deg,#e8474c,#c8333a)":"rgba(255,255,255,.08)",fontSize:13.5,lineHeight:1.55,color:m.role==="user"?"#fff":"#e6e4ee",boxShadow:m.role==="user"?"0 2px 12px rgba(226,60,65,.25)":"none"}}>
+              <div style={{maxWidth:"80%",padding:"10px 15px",borderRadius:m.role==="user"?"18px 18px 5px 18px":"18px 18px 18px 5px",background:m.role==="user"?"linear-gradient(180deg,#e8474c,#cf3238)":"#26252e",fontSize:13.5,lineHeight:1.5,color:m.role==="user"?"#fff":"#ececf2",boxShadow:m.role==="user"?"0 2px 12px rgba(226,60,65,.25)":"none"}}>
                 {m.content}
               </div>
             </div>
           ))}
           {chatLoading && <div style={{display:"flex",justifyContent:"flex-start"}}>
-            <div style={{padding:"13px 16px",borderRadius:"18px 18px 18px 5px",background:"rgba(255,255,255,.08)",display:"flex",gap:5,alignItems:"center"}}>
+            <div style={{padding:"13px 16px",borderRadius:"18px 18px 18px 5px",background:"#26252e",display:"flex",gap:5,alignItems:"center"}}>
               {[0,1,2].map(i => <span key={i} style={{width:7,height:7,borderRadius:"50%",background:"#9b98ad",animation:`typeDot 1.2s ease ${i*.18}s infinite`}}/>)}
             </div>
           </div>}
@@ -1126,11 +1126,13 @@ export default function App() {
         </div>
 
         {/* Input */}
-        <div style={{padding:"10px 14px 14px",borderTop:"1px solid rgba(255,255,255,.07)",display:"flex",gap:10,alignItems:"center"}}>
-          <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Message Bound Search…" style={{flex:1,padding:"11px 17px",background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.1)",borderRadius:22,color:C.w,fontFamily:"inherit",fontSize:13.5,outline:"none",transition:"border-color .3s, background .3s"}} onFocus={e=>{e.target.style.borderColor="rgba(226,60,65,.45)";e.target.style.background="rgba(255,255,255,.08)"}} onBlur={e=>{e.target.style.borderColor="rgba(255,255,255,.1)";e.target.style.background="rgba(255,255,255,.06)"}}/>
-          <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} aria-label="Send" style={{width:38,height:38,flexShrink:0,borderRadius:"50%",background:chatInput.trim()?"linear-gradient(135deg,#e8474c,#c8333a)":"rgba(255,255,255,.08)",border:"none",display:"flex",alignItems:"center",justifyContent:"center",cursor:chatInput.trim()?"pointer":"default",transition:"all .25s",boxShadow:chatInput.trim()?"0 2px 12px rgba(226,60,65,.35)":"none"}}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={chatInput.trim()?"#fff":"#6b6880"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-          </button>
+        <div style={{padding:"10px 14px 14px",borderTop:"1px solid rgba(255,255,255,.08)"}}>
+          <div style={{position:"relative",display:"flex",alignItems:"center"}}>
+            <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Message" style={{flex:1,padding:"10px 46px 10px 17px",background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.14)",borderRadius:21,color:C.w,fontFamily:"inherit",fontSize:14,outline:"none",transition:"border-color .3s"}} onFocus={e=>{e.target.style.borderColor="rgba(226,60,65,.5)"}} onBlur={e=>{e.target.style.borderColor="rgba(255,255,255,.14)"}}/>
+            <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} aria-label="Send" style={{position:"absolute",right:5,width:30,height:30,borderRadius:"50%",background:chatInput.trim()?"linear-gradient(180deg,#e8474c,#cf3238)":"rgba(255,255,255,.1)",border:"none",display:"flex",alignItems:"center",justifyContent:"center",cursor:chatInput.trim()?"pointer":"default",transition:"all .25s"}}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={chatInput.trim()?"#fff":"#5d5a72"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
