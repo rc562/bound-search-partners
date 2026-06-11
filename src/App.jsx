@@ -331,6 +331,15 @@ export default function App() {
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
         @keyframes annoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+        .orbCore{width:14px;height:14px;border-radius:50%;background:#e23c41;flex-shrink:0;animation:orbBreathe 3.2s ease-in-out infinite;box-shadow:0 0 14px rgba(226,60,65,.8)}
+        @keyframes orbBreathe{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(226,60,65,.55)}50%{transform:scale(1.18);box-shadow:0 0 20px rgba(226,60,65,.95)}}
+        .orbPing{position:absolute;left:19px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:1px solid rgba(226,60,65,.7);animation:orbPing 4s cubic-bezier(0,0,.2,1) infinite;pointer-events:none}
+        @keyframes orbPing{0%,55%{transform:scale(1);opacity:0}60%{transform:scale(1);opacity:.9}100%{transform:scale(3.2);opacity:0}}
+        .orbLabel{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#c5c3ce;white-space:nowrap;max-width:0;opacity:0;transition:max-width .45s cubic-bezier(.23,1,.32,1),opacity .35s ease .05s}
+        .orbLauncher:hover .orbLabel,.orbLauncher:focus-visible .orbLabel{max-width:90px;opacity:1}
+        .orbLauncher:hover{border-color:rgba(226,60,65,.7);box-shadow:0 10px 40px rgba(226,60,65,.25), inset 0 1px 0 rgba(255,255,255,.08)}
+        @media(hover:none){.orbLabel{display:none}}
+        @media(prefers-reduced-motion:reduce){.orbCore,.orbPing{animation:none}}
         @keyframes kbDrift{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.09) translate(-1.4%,1%)}}
         .kbDrift{animation:kbDrift 30s ease-in-out infinite alternate;will-change:transform}
         @media(prefers-reduced-motion:reduce){.kbDrift{animation:none}}
@@ -503,7 +512,7 @@ export default function App() {
                 </span>
               </h1>
             </div>
-            <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40,textShadow:"0 1px 18px rgba(8,6,20,.8)"}}>Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
+            <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.55,color:C.w,fontWeight:500,maxWidth:600,marginBottom:40,textShadow:"0 2px 22px rgba(8,6,20,.9), 0 1px 4px rgba(8,6,20,.6)"}}>Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
             <div id="mherobtns" style={{display:"flex",gap:24,flexWrap:"wrap"}}>
               <span onClick={() => go("contact")} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click()}}} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
               <span onClick={() => go("services")} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click()}}} style={{display:"inline-flex",padding:"16px 0",color:C.gl,fontSize:13,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",borderBottom:"1px solid rgba(255,255,255,.12)",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.target.style.color=C.w;e.target.style.borderBottomColor=C.r}} onMouseLeave={e=>{e.target.style.color=C.gl;e.target.style.borderBottomColor="rgba(255,255,255,.12)"}}>Explore Services</span>
@@ -1062,14 +1071,15 @@ export default function App() {
 
       {/* AI CHAT WIDGET */}
       {/* Chat bubble */}
-      <div onClick={() => setChatOpen(!chatOpen)} style={{position:"fixed",bottom:24,right:24,width:56,height:56,borderRadius:"50%",background:chatOpen?"#c8333a":C.r,boxShadow:"0 4px 20px rgba(226,60,65,.4)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",zIndex:10001,transition:"all .3s"}}
-        onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.08)";e.currentTarget.style.boxShadow="0 6px 28px rgba(226,60,65,.5)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="0 4px 20px rgba(226,60,65,.4)"}}>
+      <div onClick={() => setChatOpen(!chatOpen)} className="orbLauncher" role="button" tabIndex={0} aria-label="Chat with BSP"
+        onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setChatOpen(!chatOpen);}}}
+        style={{position:"fixed",bottom:24,right:24,height:54,minWidth:54,borderRadius:27,background:"rgba(18,14,42,.72)",border:"1px solid rgba(226,60,65,.35)",backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",boxShadow:"0 8px 32px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)",display:"flex",alignItems:"center",gap:12,padding:"0 19px",cursor:"pointer",zIndex:10001,transition:"all .45s cubic-bezier(.23,1,.32,1)",overflow:"hidden"}}>
+        {!chatOpen && <span className="orbPing" aria-hidden="true"/>}
         {chatOpen
-          ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>}
+          ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" style={{flexShrink:0}}><path d="M18 6L6 18M6 6l12 12"/></svg>
+          : <span className="orbCore" aria-hidden="true"/>}
+        {!chatOpen && <span className="orbLabel">Ask BSP</span>}
       </div>
-      {/* Notification dot */}
-      {!chatOpen && chatMsgs.length===1 && <div style={{position:"fixed",bottom:68,right:24,width:12,height:12,borderRadius:"50%",background:"#fff",border:"2px solid "+C.r,zIndex:10002,animation:"beacon 2s ease infinite",pointerEvents:"none"}}/>}
 
       {/* Chat panel */}
       <div style={{position:"fixed",bottom:92,right:24,width:380,maxHeight:520,borderRadius:12,overflow:"hidden",background:C.n,border:"1px solid rgba(226,60,65,.15)",boxShadow:"0 12px 48px rgba(0,0,0,.5)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(16px) scale(.95)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .3s cubic-bezier(.23,1,.32,1)"}}>
