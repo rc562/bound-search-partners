@@ -505,17 +505,17 @@ export default function App() {
                 {(() => {
                   const full = "The leaders who move industries start here.";
                   const len = heroTw.displayed.length;
-                  return full.split("").map((ch, i) => {
-                    const visible = i < len;
-                    const inMove = i >= 16 && i < 20;
-                    return <React.Fragment key={i}>
-                      <span style={{
-                        color: visible ? (inMove ? C.r : C.w) : "transparent",
-                        fontStyle: inMove ? "italic" : "normal",
-                      }}>{ch}</span>
-                      {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
-                    </React.Fragment>;
+                  const cursor = <span key="cur" style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,fontStyle:"normal",position:"absolute"}}>|</span>;
+                  const ranges = [[0,16,false],[16,20,true],[20,full.length,false]];
+                  const out = [];
+                  ranges.forEach(([a,b,ital],ri) => {
+                    const v = Math.min(Math.max(len,a),b);
+                    if (v > a) out.push(<span key={"v"+ri} style={{color:ital?C.r:C.w,fontStyle:ital?"italic":"normal"}}>{full.slice(a,v)}</span>);
+                    if (heroTw.started && len === v && len >= a && len < b) out.push(cursor);
+                    if (b > v) out.push(<span key={"t"+ri} style={{color:"transparent",fontStyle:ital?"italic":"normal"}}>{full.slice(v,b)}</span>);
                   });
+                  if (heroTw.started && len >= full.length) out.push(cursor);
+                  return out;
                 })()}
                 </span>
               </h1>
@@ -1093,8 +1093,8 @@ export default function App() {
       <div style={{position:"fixed",bottom:92,right:24,width:"min(390px, calc(100vw - 32px))",maxHeight:"min(560px, 72vh)",borderRadius:20,overflow:"hidden",background:"rgba(12,11,18,.94)",backdropFilter:"blur(28px)",WebkitBackdropFilter:"blur(28px)",border:"1px solid rgba(255,255,255,.09)",boxShadow:"0 24px 64px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(20px) scale(.96)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .35s cubic-bezier(.23,1,.32,1)"}}>
         {/* Header */}
         <div style={{padding:"14px 16px 12px",borderBottom:"1px solid rgba(255,255,255,.08)",position:"relative",textAlign:"center"}}>
-          <div style={{width:44,height:44,borderRadius:"50%",background:"linear-gradient(135deg,#e8474c,#b22a31)",margin:"0 auto 7px",display:"flex",alignItems:"center",justifyContent:"center",boxShadow:"0 2px 12px rgba(226,60,65,.35)"}}>
-            <svg width="17" height="18" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".95"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#fff" opacity=".85"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#fff" opacity=".7"/></svg>
+          <div style={{width:44,height:44,borderRadius:"50%",background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)",margin:"0 auto 7px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <svg width="18" height="19" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
           </div>
           <div style={{fontSize:12.5,fontWeight:600,letterSpacing:".01em"}}>Bound Search Partners</div>
           <div style={{fontSize:10,color:C.g,marginTop:2}}>AI Assistant</div>
