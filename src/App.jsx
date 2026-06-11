@@ -54,6 +54,13 @@ export default function App() {
   const [mobileMenu,setMobileMenu] = useState(false);
   const [formSent,setFormSent] = useState(false);
   const [formSending,setFormSending] = useState(false);
+  const [heroReady,setHeroReady] = useState(false);
+  useEffect(() => {
+    const img = new Image();
+    img.src = "./hero-poster.jpg";
+    if (img.complete) setHeroReady(true);
+    else img.onload = () => setHeroReady(true);
+  }, []);
   const [chatOpen,setChatOpen] = useState(false);
   const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
   const [chatInput,setChatInput] = useState("");
@@ -69,7 +76,6 @@ export default function App() {
   const [activeInd,setActiveInd] = useState(0);
   const [indOpen,setIndOpen] = useState(-1);
   const [rowItem,setRowItem] = useState({});
-  const [anchors,setAnchors] = useState({});
   const [hovChip,setHovChip] = useState(null);
 
   // Typewriter hooks
@@ -331,6 +337,17 @@ export default function App() {
         ::selection{background:#e23c4144;color:#fff}input:focus,textarea:focus{border-color:#e23c41!important;outline:none}
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+        @keyframes annoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+        @keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-4px);opacity:1}}
+        .orbCore{width:14px;height:14px;border-radius:50%;background:#e23c41;flex-shrink:0;animation:orbBreathe 3.2s ease-in-out infinite;box-shadow:0 0 14px rgba(226,60,65,.8)}
+        @keyframes orbBreathe{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(226,60,65,.55)}50%{transform:scale(1.18);box-shadow:0 0 20px rgba(226,60,65,.95)}}
+        .orbPing{position:absolute;left:19px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:1px solid rgba(226,60,65,.7);animation:orbPing 4s cubic-bezier(0,0,.2,1) infinite;pointer-events:none}
+        @keyframes orbPing{0%,55%{transform:scale(1);opacity:0}60%{transform:scale(1);opacity:.9}100%{transform:scale(3.2);opacity:0}}
+        .orbLabel{font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#c5c3ce;white-space:nowrap;max-width:0;opacity:0;transition:max-width .45s cubic-bezier(.23,1,.32,1),opacity .35s ease .05s}
+        .orbLauncher:hover .orbLabel,.orbLauncher:focus-visible .orbLabel{max-width:90px;opacity:1}
+        .orbLauncher:hover{border-color:rgba(226,60,65,.7);box-shadow:0 10px 40px rgba(226,60,65,.25), inset 0 1px 0 rgba(255,255,255,.08)}
+        @media(hover:none){.orbLabel{display:none}}
+        @media(prefers-reduced-motion:reduce){.orbCore,.orbPing{animation:none}}
         @keyframes kbDrift{0%{transform:scale(1) translate(0,0)}100%{transform:scale(1.09) translate(-1.4%,1%)}}
         .kbDrift{animation:kbDrift 30s ease-in-out infinite alternate;will-change:transform}
         @media(prefers-reduced-motion:reduce){.kbDrift{animation:none}}
@@ -379,7 +396,7 @@ export default function App() {
       `}</style>
 
       {/* Film grain — site-wide material texture */}
-      <div aria-hidden="true" style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:5000,opacity:.05,backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")`}}/>
+      <div aria-hidden="true" style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:5000,opacity:.026,backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")`}}/>
 
       {/* NAV */}
       <nav style={{position:"fixed",top:0,left:0,width:"100%",zIndex:1000,padding:scrolled?"12px 0":"20px 0",background:scrolled?"rgba(14,11,36,.6)":"transparent",backdropFilter:scrolled?"blur(16px)":"none",borderBottom:scrolled?"1px solid rgba(226,60,65,.06)":"none",transform:navHidden?"translateY(-100%)":"translateY(0)",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>
@@ -472,11 +489,11 @@ export default function App() {
 
       {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
-        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden"}}>
-          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center"}}/>
+        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden",backgroundImage:"url(data:image/jpeg;base64,/9j//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB1AAEAAwEBAQAAAAAAAAAAAAAGBQEHBAADAQADAQEAAAAAAAAAAAAAAAACAQMEABAAAgEEAQMDAwUBAAAAAAAAAgERADEhAxJBYQQiBRORUXGBIzKh0UIRAQABBAMBAQEAAAAAAAAAAAEAIRESYQMCMRNCUf/AABEIABsAMAMBIgACEQADEQD/2gAMAwEAAhEDEQA/ADOvQ6kvjAGkRIW7S4mKR69YpXVA/LevZ5rTJEHC6afGFno+t62/f+VlsE9vJTXszs+T/lpJz0wks0lHTWVaz/dIJZItmtXxxRLpV+JsN+VxRmp2rHJqUimG5tFTOVCGUZrq1pQurwvpNX8LoMfuS2eT4+zYJ6Q1E+V2nKy7Z+1I/a/KHaXuG42S1gS2JuXAZShXmFauecLst7aZy/I5ekNplyXqRNCl2UvP9VEwQYcTjvj8qvQkFvt+frelpaxIRbSb9GeuVnN6wBixK9i6wwGs5lFl4hO/6VxkOwHyac9CnM2pjqAYNxaY7Z6V8gSKG8sUbXZ81/tJYsdyDPYZskzcOP5Yt0S71Zcw0S2QiRRxF4cK7i965SUkbfRuO2akPKxq8VLCett93yvSSnXaQj9aJ//Z)",backgroundSize:"cover",backgroundPosition:"center",filter:"none"}}>
+          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center",opacity:heroReady?1:0,transition:"opacity .9s ease"}}/>
         </div>
         {/* Dark overlay */}
-        <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,rgba(14,11,36,.4) 0%,rgba(14,11,36,.15) 30%,rgba(14,11,36,.7) 75%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.8) 0%,transparent 55%)`}} />
+        <div style={{position:"absolute",inset:0,zIndex:1,background:`radial-gradient(ellipse 58% 52% at 26% 58%, rgba(10,8,26,.62), transparent 72%),linear-gradient(180deg,transparent 0%,transparent 70%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.4) 0%,transparent 40%)`}} />
         {/* Hero content */}
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div id="heroContent" style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)",willChange:"transform,opacity"}}>
@@ -484,26 +501,26 @@ export default function App() {
             <div style={{marginBottom:24,overflow:"hidden"}}>
               <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
                 <span style={{visibility:"hidden",position:"absolute",left:0,top:0,right:0}} aria-hidden="true">The leaders who move industries start here.</span>
-                <span style={{display:"block"}}>
+                <span style={{display:"block",filter:"drop-shadow(0 2px 16px rgba(8,6,20,.85)) drop-shadow(0 1px 3px rgba(8,6,20,.4))"}}>
                 {(() => {
                   const full = "The leaders who move industries start here.";
                   const len = heroTw.displayed.length;
-                  return full.split("").map((ch, i) => {
-                    const visible = i < len;
-                    const inMove = i >= 16 && i < 20;
-                    return <React.Fragment key={i}>
-                      <span style={{
-                        color: visible ? (inMove ? C.r : C.w) : "transparent",
-                        fontStyle: inMove ? "italic" : "normal",
-                      }}>{ch}</span>
-                      {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
-                    </React.Fragment>;
+                  const cursor = <span key="cur" style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,fontStyle:"normal",position:"absolute"}}>|</span>;
+                  const ranges = [[0,16,false],[16,20,true],[20,full.length,false]];
+                  const out = [];
+                  ranges.forEach(([a,b,ital],ri) => {
+                    const v = Math.min(Math.max(len,a),b);
+                    if (v > a) out.push(<span key={"v"+ri} style={{color:ital?C.r:C.w,fontStyle:ital?"italic":"normal"}}>{full.slice(a,v)}</span>);
+                    if (heroTw.started && len === v && len >= a && len < b) out.push(cursor);
+                    if (b > v) out.push(<span key={"t"+ri} style={{color:"transparent",fontStyle:ital?"italic":"normal"}}>{full.slice(v,b)}</span>);
                   });
+                  if (heroTw.started && len >= full.length) out.push(cursor);
+                  return out;
                 })()}
                 </span>
               </h1>
             </div>
-            <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40}}>Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
+            <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.55,color:C.w,fontWeight:500,maxWidth:600,marginBottom:40,textShadow:"0 2px 22px rgba(8,6,20,.9), 0 1px 4px rgba(8,6,20,.6)"}}>Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
             <div id="mherobtns" style={{display:"flex",gap:24,flexWrap:"wrap"}}>
               <span onClick={() => go("contact")} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click()}}} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
               <span onClick={() => go("services")} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click()}}} style={{display:"inline-flex",padding:"16px 0",color:C.gl,fontSize:13,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",borderBottom:"1px solid rgba(255,255,255,.12)",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.target.style.color=C.w;e.target.style.borderBottomColor=C.r}} onMouseLeave={e=>{e.target.style.color=C.gl;e.target.style.borderBottomColor="rgba(255,255,255,.12)"}}>Explore Services</span>
@@ -669,7 +686,7 @@ export default function App() {
           <div style={{fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.5,maxWidth:1040,margin:"0 auto"}}>
             {(isMobile ? inds.map((_,i) => [i]) : [[0,1,2],[3,4,5],[6,7,8]]).map((row,r) => {
               const openRow = indOpen >= 0 ? (isMobile ? indOpen : Math.floor(indOpen/3)) : -1;
-              const DH = typeof window !== "undefined" && window.innerWidth < 640 ? 640 : 300;
+              const DH = typeof window !== "undefined" && window.innerWidth < 640 ? 640 : 250;
               const shown = rowItem[r];
               return (
                 <React.Fragment key={r}>
@@ -681,22 +698,18 @@ export default function App() {
                         <span key={i}>
                           <span className={"mfName" + (lit ? "" : " ghostTitle")}
                             onMouseEnter={() => setHovInd(i)} onMouseLeave={() => setHovInd(null)}
-                            onClick={(e) => {
-                              const left = e.currentTarget.offsetLeft;
-                              const rowEl = e.currentTarget.closest(".mfRow");
-                              setAnchors(a => ({...a, [r]: {x: left, w: rowEl ? rowEl.clientWidth : 0}}));
+                            onClick={() => {
                               setRowItem(m => ({...m, [r]: i}));
                               setIndOpen(indOpen === i ? -1 : i);
                             }}
                             role="button" tabIndex={0}
                             onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click();}}}
                             style={{cursor:"pointer",color:lit?C.w:"transparent",transition:"color .4s ease",userSelect:"none",whiteSpace:"nowrap",display:"inline-block"}}>
-                            {d.n}
+                            {d.n}{indOpen === i && <span style={{color:C.r}}>.</span>}
                           </span>
                           {ci < row.length - 1 && <span className="mfSep" style={{color:C.r,opacity:.45,margin:"0 .5em",fontWeight:400}}>·</span>}
                           <span className="mfMobDetail" style={{display:"none",overflow:"hidden",maxHeight:indOpen===i?700:0,opacity:indOpen===i?1:0,transition:"max-height .4s cubic-bezier(.23,1,.32,1), opacity .3s ease"}}>
                             <span style={{display:"block",padding:"10px 0 22px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
-                              <span style={{display:"block",width:22,height:2,background:C.r,marginBottom:12}}/>
                               <span style={{display:"block",fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:10}}>{d.s}</span>
                               <span style={{display:"block",fontSize:14.5,color:"#d4d1e0",lineHeight:1.85,marginBottom:16}}>{d.d}</span>
                               <span style={{display:"block",fontSize:10,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:C.r,marginBottom:10}}>Roles We Place</span>
@@ -714,14 +727,9 @@ export default function App() {
                   <div className="mfRowDetail" style={{overflow:"hidden",height:openRow===r?DH:0,transition:"height .5s cubic-bezier(.23,1,.32,1)"}}>
                     {shown != null && (() => {
                       const d = inds[shown];
-                      const A = (anchors[r] && typeof anchors[r] === "object") ? anchors[r] : {x: anchors[r]||0, w: 0};
-                      const bw = A.w ? Math.min(640, A.w) : 640;
-                      const bodyLeft = A.w ? Math.round(A.x * (A.w - bw) / A.w) : 0;
                       return (
-                      <div style={{position:"relative",textAlign:"left"}}>
-                        <div style={{position:"absolute",top:14,left:A.x,width:2,height:18,background:C.r,transition:"left .45s cubic-bezier(.23,1,.32,1)"}}/>
-                        <div style={{paddingLeft:bodyLeft,transition:"padding-left .45s cubic-bezier(.23,1,.32,1)"}}>
-                        <div style={{maxWidth:640,padding:"46px 0 24px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
+                      <div key={shown} style={{textAlign:"left",animation:"annoIn .4s ease both"}}>
+                        <div style={{padding:"26px 0 30px",fontSize:15,fontWeight:400,letterSpacing:0,lineHeight:1.8}}>
                           <div className="mfAnno" style={{display:"grid",gridTemplateColumns:"1.5fr 1fr",gap:"clamp(1.5rem,3vw,3rem)",alignItems:"start"}}>
                             <div>
                               <div style={{fontSize:12,color:C.g,letterSpacing:".05em",marginBottom:10}}>{d.s}</div>
@@ -736,7 +744,6 @@ export default function App() {
                               </div>
                             </div>
                           </div>
-                        </div>
                         </div>
                       </div>
                     );})()}
@@ -907,6 +914,8 @@ export default function App() {
 
       {/* CTA */}
       <section id="closer" style={{padding:"clamp(5rem,10vw,8.5rem) 0",background:C.n,textAlign:"center",position:"relative",overflow:"hidden"}}>
+        <div aria-hidden="true" style={{position:"absolute",inset:0,backgroundImage:"url(./closer-bg.jpg)",backgroundSize:"cover",backgroundPosition:"center 38%"}}/>
+        <div aria-hidden="true" style={{position:"absolute",inset:0,background:"linear-gradient(180deg, #0e0b24 0%, transparent 24%, transparent 76%, #0e0b24 100%)"}}/>
         <div aria-hidden="true" style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"min(900px,120vw)",height:"min(900px,120vw)",background:"radial-gradient(circle,rgba(226,60,65,.06),transparent 65%)",pointerEvents:"none",opacity:ctaVis?1:0,transition:"opacity 1.2s ease .3s"}}/>
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24,opacity:ctaVis?1:0,transition:"opacity .6s ease"}}>Ready to begin?</div>
@@ -1070,39 +1079,44 @@ export default function App() {
 
       {/* AI CHAT WIDGET */}
       {/* Chat bubble */}
-      <div onClick={() => setChatOpen(!chatOpen)} style={{position:"fixed",bottom:24,right:24,width:56,height:56,borderRadius:"50%",background:chatOpen?"#c8333a":C.r,boxShadow:"0 4px 20px rgba(226,60,65,.4)",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",zIndex:10001,transition:"all .3s"}}
-        onMouseEnter={e=>{e.currentTarget.style.transform="scale(1.08)";e.currentTarget.style.boxShadow="0 6px 28px rgba(226,60,65,.5)"}} onMouseLeave={e=>{e.currentTarget.style.transform="scale(1)";e.currentTarget.style.boxShadow="0 4px 20px rgba(226,60,65,.4)"}}>
+      <div onClick={() => setChatOpen(!chatOpen)} className="orbLauncher" role="button" tabIndex={0} aria-label="Chat with BSP"
+        onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setChatOpen(!chatOpen);}}}
+        style={{position:"fixed",bottom:24,right:24,height:54,minWidth:54,borderRadius:27,background:"rgba(18,14,42,.72)",border:"1px solid rgba(226,60,65,.35)",backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",boxShadow:"0 8px 32px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)",display:"flex",alignItems:"center",gap:12,padding:"0 19px",cursor:"pointer",zIndex:10001,transition:"all .45s cubic-bezier(.23,1,.32,1)",overflow:"hidden"}}>
+        {!chatOpen && <span className="orbPing" aria-hidden="true"/>}
         {chatOpen
-          ? <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-          : <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>}
+          ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" style={{flexShrink:0}}><path d="M18 6L6 18M6 6l12 12"/></svg>
+          : <span className="orbCore" aria-hidden="true"/>}
+        {!chatOpen && <span className="orbLabel">Ask BSP</span>}
       </div>
-      {/* Notification dot */}
-      {!chatOpen && chatMsgs.length===1 && <div style={{position:"fixed",bottom:68,right:24,width:12,height:12,borderRadius:"50%",background:"#fff",border:"2px solid "+C.r,zIndex:10002,animation:"beacon 2s ease infinite",pointerEvents:"none"}}/>}
 
       {/* Chat panel */}
-      <div style={{position:"fixed",bottom:92,right:24,width:380,maxHeight:520,borderRadius:12,overflow:"hidden",background:C.n,border:"1px solid rgba(226,60,65,.15)",boxShadow:"0 12px 48px rgba(0,0,0,.5)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(16px) scale(.95)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .3s cubic-bezier(.23,1,.32,1)"}}>
+      <div style={{position:"fixed",bottom:92,right:24,width:"min(390px, calc(100vw - 32px))",maxHeight:"min(560px, 72vh)",borderRadius:20,overflow:"hidden",background:"rgba(12,11,18,.94)",backdropFilter:"blur(28px)",WebkitBackdropFilter:"blur(28px)",border:"1px solid rgba(255,255,255,.09)",boxShadow:"0 24px 64px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.05)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(20px) scale(.96)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .35s cubic-bezier(.23,1,.32,1)"}}>
         {/* Header */}
-        <div style={{padding:"16px 20px",background:C.nm,borderBottom:"1px solid rgba(226,60,65,.1)",display:"flex",alignItems:"center",gap:12}}>
-          <div style={{width:32,height:32,borderRadius:"50%",background:"rgba(226,60,65,.1)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-            <svg width="14" height="15" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
+        <div style={{padding:"14px 16px 12px",borderBottom:"1px solid rgba(255,255,255,.08)",position:"relative",textAlign:"center"}}>
+          <div style={{width:44,height:44,borderRadius:"50%",background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)",margin:"0 auto 7px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+            <svg width="18" height="19" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
           </div>
-          <div>
-            <div style={{fontSize:14,fontWeight:700}}>Bound Search Partners</div>
-            <div style={{fontSize:10,color:C.g,letterSpacing:1}}>AI Assistant</div>
-          </div>
+          <div style={{fontSize:12.5,fontWeight:600,letterSpacing:".01em"}}>Bound Search Partners</div>
+          <div style={{fontSize:10,color:C.g,marginTop:2}}>AI Assistant</div>
+          <span onClick={() => setChatOpen(false)} role="button" aria-label="Close chat" style={{cursor:"pointer",color:C.g,padding:6,lineHeight:0,position:"absolute",top:12,right:12}}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </span>
         </div>
 
         {/* Messages */}
         <div id="chatScroll" style={{flex:1,overflowY:"auto",padding:"16px 20px",display:"flex",flexDirection:"column",gap:12,maxHeight:360}}>
+          <div style={{textAlign:"center",fontSize:10,fontWeight:600,color:"#73708a",margin:"2px 0 4px"}}>Today {new Date().toLocaleTimeString([], {hour:"numeric",minute:"2-digit"})}</div>
           {chatMsgs.map((m,i) => (
             <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
-              <div style={{maxWidth:"85%",padding:"10px 14px",borderRadius:m.role==="user"?"12px 12px 2px 12px":"12px 12px 12px 2px",background:m.role==="user"?C.r:"rgba(226,60,65,.06)",fontSize:13,lineHeight:1.6,color:m.role==="user"?"#fff":C.gl}}>
+              <div style={{maxWidth:"80%",padding:"10px 15px",borderRadius:m.role==="user"?"18px 18px 5px 18px":"18px 18px 18px 5px",background:m.role==="user"?"linear-gradient(180deg,#e8474c,#cf3238)":"#26252e",fontSize:13.5,lineHeight:1.5,color:m.role==="user"?"#fff":"#ececf2",boxShadow:m.role==="user"?"0 2px 12px rgba(226,60,65,.25)":"none"}}>
                 {m.content}
               </div>
             </div>
           ))}
-          {chatLoading && <div style={{display:"flex",gap:4,padding:"8px 0"}}>
-            {[0,1,2].map(i => <div key={i} style={{width:6,height:6,borderRadius:"50%",background:C.r,opacity:.4,animation:`f1 1s ease ${i*.15}s infinite`}}/>)}
+          {chatLoading && <div style={{display:"flex",justifyContent:"flex-start"}}>
+            <div style={{padding:"13px 16px",borderRadius:"18px 18px 18px 5px",background:"#26252e",display:"flex",gap:5,alignItems:"center"}}>
+              {[0,1,2].map(i => <span key={i} style={{width:7,height:7,borderRadius:"50%",background:"#9b98ad",animation:`typeDot 1.2s ease ${i*.18}s infinite`}}/>)}
+            </div>
           </div>}
         </div>
 
@@ -1112,11 +1126,13 @@ export default function App() {
         </div>
 
         {/* Input */}
-        <div style={{padding:"8px 16px 12px",borderTop:"1px solid rgba(226,60,65,.08)",display:"flex",gap:8}}>
-          <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Ask about our services..." style={{flex:1,padding:"10px 14px",background:C.nm,border:"1px solid rgba(226,60,65,.08)",borderRadius:8,color:C.w,fontFamily:"inherit",fontSize:13,outline:"none",transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.3)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.08)"}/>
-          <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} style={{padding:"10px 14px",background:chatInput.trim()?C.r:"rgba(226,60,65,.2)",border:"none",borderRadius:8,cursor:chatInput.trim()?"pointer":"default",transition:"all .2s"}}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </button>
+        <div style={{padding:"10px 14px 14px",borderTop:"1px solid rgba(255,255,255,.08)"}}>
+          <div style={{position:"relative",display:"flex",alignItems:"center"}}>
+            <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Message" style={{flex:1,padding:"10px 46px 10px 17px",background:"rgba(255,255,255,.05)",border:"1px solid rgba(255,255,255,.14)",borderRadius:21,color:C.w,fontFamily:"inherit",fontSize:14,outline:"none",transition:"border-color .3s"}} onFocus={e=>{e.target.style.borderColor="rgba(226,60,65,.5)"}} onBlur={e=>{e.target.style.borderColor="rgba(255,255,255,.14)"}}/>
+            <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} aria-label="Send" style={{position:"absolute",right:5,width:30,height:30,borderRadius:"50%",background:chatInput.trim()?"linear-gradient(180deg,#e8474c,#cf3238)":"rgba(255,255,255,.1)",border:"none",display:"flex",alignItems:"center",justifyContent:"center",cursor:chatInput.trim()?"pointer":"default",transition:"all .25s"}}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={chatInput.trim()?"#fff":"#5d5a72"} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
