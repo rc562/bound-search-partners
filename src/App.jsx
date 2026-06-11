@@ -67,13 +67,12 @@ export default function App() {
   const [chatLoading,setChatLoading] = useState(false);
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const [activeCase,setActiveCase] = useState(0);
-  const [activeSrv,setActiveSrv] = useState(0);
+  const [activeSrv,setActiveSrv] = useState(-1);
   const [hovProc,setHovProc] = useState(null);
   const [navHidden,setNavHidden] = useState(false);
   const lastScrollY = useRef(0);
   const [navOpen,setNavOpen] = useState(false);
   const [ctaVis,setCtaVis] = useState(false);
-  const [activeInd,setActiveInd] = useState(0);
   const [indOpen,setIndOpen] = useState(-1);
   const [rowItem,setRowItem] = useState({});
   const [hovChip,setHovChip] = useState(null);
@@ -574,7 +573,7 @@ export default function App() {
 
       {/* SERVICES — living index */}
       <section id="services" style={{background:C.n,padding:"clamp(6rem,11vw,9rem) 0",position:"relative",overflow:"hidden"}}>
-        <div aria-hidden="true" style={{position:"absolute",width:"min(720px,90vw)",height:"min(720px,90vw)",borderRadius:"50%",background:"radial-gradient(circle,rgba(226,60,65,.5),transparent 60%)",filter:"blur(50px)",opacity:.12,pointerEvents:"none",top:`${activeSrv*20-6}%`,left:"52%",transition:"top 1.2s cubic-bezier(.23,1,.32,1)",willChange:"top"}}/>
+        <div aria-hidden="true" style={{position:"absolute",width:"min(720px,90vw)",height:"min(720px,90vw)",borderRadius:"50%",background:"radial-gradient(circle,rgba(226,60,65,.5),transparent 60%)",filter:"blur(50px)",opacity:.12,pointerEvents:"none",top:`${Math.max(activeSrv,0)*20-6}%`,left:"52%",transition:"top 1.2s cubic-bezier(.23,1,.32,1)",willChange:"top"}}/>
 
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
@@ -585,7 +584,7 @@ export default function App() {
               {srvs.map((s,i) => {
                 const active = activeSrv === i;
                 return (
-                  <div key={i} onMouseEnter={() => {setActiveSrv(i);setHovChip(null);}} onClick={() => {setActiveSrv(i);setHovChip(null);}} role="button" tabIndex={0}
+                  <div key={i} onMouseEnter={() => {setActiveSrv(i);setHovChip(null);}} onClick={() => {setActiveSrv(isMobile && activeSrv===i ? -1 : i);setHovChip(null);}} role="button" tabIndex={0}
                     onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setActiveSrv(i);}}}
                     style={{padding:"clamp(1.2rem,2.1vw,1.8rem) 0",cursor:"pointer",borderBottom:"1px solid rgba(226,60,65,.08)",userSelect:"none"}}>
                     <h3 className={active?undefined:"ghostTitle"} style={{fontSize:"clamp(1.55rem,3.4vw,3rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.08,margin:0,color:active?C.w:"transparent",transition:"color .45s ease"}}>
@@ -601,7 +600,7 @@ export default function App() {
               })}
             </div>
 
-            {!isMobile && (
+            {!isMobile && activeSrv >= 0 && (
               <div key={activeSrv} style={{animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",paddingTop:6}}>
                 {renderSrvDetail(srvs[activeSrv])}
               </div>
