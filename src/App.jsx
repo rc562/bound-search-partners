@@ -491,7 +491,7 @@ export default function App() {
           <div id="heroContent" style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)",willChange:"transform,opacity"}}>
             <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
             <div style={{marginBottom:24,overflow:"hidden"}}>
-              <h1 ref={heroRef} style={{textShadow:"0 2px 30px rgba(8,6,20,.75), 0 1px 6px rgba(8,6,20,.5)",fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
+              <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
                 <span style={{visibility:"hidden",position:"absolute",left:0,top:0,right:0}} aria-hidden="true">The leaders who move industries start here.</span>
                 <span style={{display:"block"}}>
                 {(() => {
@@ -503,6 +503,7 @@ export default function App() {
                     return <React.Fragment key={i}>
                       <span style={{
                         color: visible ? (inMove ? C.r : C.w) : "transparent",
+                        textShadow: visible ? "0 2px 30px rgba(8,6,20,.75), 0 1px 6px rgba(8,6,20,.5)" : "none",
                         fontStyle: inMove ? "italic" : "normal",
                       }}>{ch}</span>
                       {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
