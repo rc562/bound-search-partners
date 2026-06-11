@@ -338,6 +338,10 @@ export default function App() {
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
         @keyframes annoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
         @keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-4px);opacity:1}}
+        @media(hover:none){
+          body, body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
+          input, textarea{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
+        }
         .orbCore{width:14px;height:14px;border-radius:50%;background:#e23c41;flex-shrink:0;animation:orbBreathe 3.2s ease-in-out infinite;box-shadow:0 0 14px rgba(226,60,65,.8)}
         @keyframes orbBreathe{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(226,60,65,.55)}50%{transform:scale(1.18);box-shadow:0 0 20px rgba(226,60,65,.95)}}
         .orbPing{position:absolute;left:19px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:1px solid rgba(226,60,65,.7);animation:orbPing 4s cubic-bezier(0,0,.2,1) infinite;pointer-events:none}
