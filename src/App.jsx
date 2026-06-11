@@ -54,6 +54,13 @@ export default function App() {
   const [mobileMenu,setMobileMenu] = useState(false);
   const [formSent,setFormSent] = useState(false);
   const [formSending,setFormSending] = useState(false);
+  const [heroReady,setHeroReady] = useState(false);
+  useEffect(() => {
+    const img = new Image();
+    img.src = "./hero-poster.jpg";
+    if (img.complete) setHeroReady(true);
+    else img.onload = () => setHeroReady(true);
+  }, []);
   const [chatOpen,setChatOpen] = useState(false);
   const [chatMsgs,setChatMsgs] = useState([{role:"assistant",content:"Hi — I'm the Bound Search Partners AI assistant. I can answer questions about our services, process, and approach, or help you think through what kind of leadership hire might be right for your organization. How can I help?"}]);
   const [chatInput,setChatInput] = useState("");
@@ -331,6 +338,7 @@ export default function App() {
         @keyframes beacon{0%,100%{opacity:.8}50%{opacity:.15}}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
         @keyframes annoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+        @keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-4px);opacity:1}}
         .orbCore{width:14px;height:14px;border-radius:50%;background:#e23c41;flex-shrink:0;animation:orbBreathe 3.2s ease-in-out infinite;box-shadow:0 0 14px rgba(226,60,65,.8)}
         @keyframes orbBreathe{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(226,60,65,.55)}50%{transform:scale(1.18);box-shadow:0 0 20px rgba(226,60,65,.95)}}
         .orbPing{position:absolute;left:19px;top:50%;width:14px;height:14px;margin-top:-7px;border-radius:50%;border:1px solid rgba(226,60,65,.7);animation:orbPing 4s cubic-bezier(0,0,.2,1) infinite;pointer-events:none}
@@ -481,8 +489,8 @@ export default function App() {
 
       {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
-        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden"}}>
-          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center"}}/>
+        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden",backgroundImage:"url(data:image/jpeg;base64,/9j//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB1AAEAAwEBAQAAAAAAAAAAAAAGBQEHBAADAQADAQEAAAAAAAAAAAAAAAACAQMEABAAAgEEAQMDAwUBAAAAAAAAAgERADEhAxJBYQQiBRORUXGBIzKh0UIRAQABBAMBAQEAAAAAAAAAAAEAIRESYQMCMRNCUf/AABEIABsAMAMBIgACEQADEQD/2gAMAwEAAhEDEQA/ADOvQ6kvjAGkRIW7S4mKR69YpXVA/LevZ5rTJEHC6afGFno+t62/f+VlsE9vJTXszs+T/lpJz0wks0lHTWVaz/dIJZItmtXxxRLpV+JsN+VxRmp2rHJqUimG5tFTOVCGUZrq1pQurwvpNX8LoMfuS2eT4+zYJ6Q1E+V2nKy7Z+1I/a/KHaXuG42S1gS2JuXAZShXmFauecLst7aZy/I5ekNplyXqRNCl2UvP9VEwQYcTjvj8qvQkFvt+frelpaxIRbSb9GeuVnN6wBixK9i6wwGs5lFl4hO/6VxkOwHyac9CnM2pjqAYNxaY7Z6V8gSKG8sUbXZ81/tJYsdyDPYZskzcOP5Yt0S71Zcw0S2QiRRxF4cK7i965SUkbfRuO2akPKxq8VLCett93yvSSnXaQj9aJ//Z)",backgroundSize:"cover",backgroundPosition:"center",filter:"none"}}>
+          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center",opacity:heroReady?1:0,transition:"opacity .9s ease"}}/>
         </div>
         {/* Dark overlay */}
         <div style={{position:"absolute",inset:0,zIndex:1,background:`radial-gradient(ellipse 58% 52% at 26% 58%, rgba(10,8,26,.62), transparent 72%),linear-gradient(180deg,transparent 0%,transparent 70%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.4) 0%,transparent 40%)`}} />
@@ -503,7 +511,7 @@ export default function App() {
                     return <React.Fragment key={i}>
                       <span style={{
                         color: visible ? (inMove ? C.r : C.w) : "transparent",
-                        textShadow: visible ? "0 2px 30px rgba(8,6,20,.75), 0 1px 6px rgba(8,6,20,.5)" : "none",
+                        textShadow: visible ? "0 2px 34px rgba(8,6,20,.85)" : "none",
                         fontStyle: inMove ? "italic" : "normal",
                       }}>{ch}</span>
                       {i === len - 1 && heroTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300,position:"absolute"}}>|</span>}
@@ -1083,29 +1091,32 @@ export default function App() {
       </div>
 
       {/* Chat panel */}
-      <div style={{position:"fixed",bottom:92,right:24,width:380,maxHeight:520,borderRadius:12,overflow:"hidden",background:C.n,border:"1px solid rgba(226,60,65,.15)",boxShadow:"0 12px 48px rgba(0,0,0,.5)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(16px) scale(.95)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .3s cubic-bezier(.23,1,.32,1)"}}>
+      <div style={{position:"fixed",bottom:92,right:24,width:"min(390px, calc(100vw - 32px))",maxHeight:"min(560px, 72vh)",borderRadius:20,overflow:"hidden",background:"rgba(16,12,38,.9)",backdropFilter:"blur(24px)",WebkitBackdropFilter:"blur(24px)",border:"1px solid rgba(226,60,65,.22)",boxShadow:"0 24px 64px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.05)",zIndex:10000,display:"flex",flexDirection:"column",transform:chatOpen?"translateY(0) scale(1)":"translateY(20px) scale(.96)",opacity:chatOpen?1:0,pointerEvents:chatOpen?"auto":"none",transition:"all .35s cubic-bezier(.23,1,.32,1)"}}>
         {/* Header */}
-        <div style={{padding:"16px 20px",background:C.nm,borderBottom:"1px solid rgba(226,60,65,.1)",display:"flex",alignItems:"center",gap:12}}>
-          <div style={{width:32,height:32,borderRadius:"50%",background:"rgba(226,60,65,.1)",display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
-            <svg width="14" height="15" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
+        <div style={{padding:"15px 20px",borderBottom:"1px solid rgba(255,255,255,.07)",display:"flex",alignItems:"center",gap:12}}>
+          <span className="orbCore" style={{width:11,height:11}} aria-hidden="true"/>
+          <div style={{flex:1}}>
+            <div style={{fontSize:13.5,fontWeight:700,letterSpacing:".02em"}}>Bound Search Partners</div>
+            <div style={{fontSize:10.5,color:C.g,letterSpacing:".08em"}}>AI Assistant · replies instantly</div>
           </div>
-          <div>
-            <div style={{fontSize:14,fontWeight:700}}>Bound Search Partners</div>
-            <div style={{fontSize:10,color:C.g,letterSpacing:1}}>AI Assistant</div>
-          </div>
+          <span onClick={() => setChatOpen(false)} role="button" aria-label="Close chat" style={{cursor:"pointer",color:C.g,padding:4,lineHeight:0}}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </span>
         </div>
 
         {/* Messages */}
         <div id="chatScroll" style={{flex:1,overflowY:"auto",padding:"16px 20px",display:"flex",flexDirection:"column",gap:12,maxHeight:360}}>
           {chatMsgs.map((m,i) => (
             <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start"}}>
-              <div style={{maxWidth:"85%",padding:"10px 14px",borderRadius:m.role==="user"?"12px 12px 2px 12px":"12px 12px 12px 2px",background:m.role==="user"?C.r:"rgba(226,60,65,.06)",fontSize:13,lineHeight:1.6,color:m.role==="user"?"#fff":C.gl}}>
+              <div style={{maxWidth:"80%",padding:"10px 15px",borderRadius:m.role==="user"?"18px 18px 5px 18px":"18px 18px 18px 5px",background:m.role==="user"?"linear-gradient(135deg,#e8474c,#c8333a)":"rgba(255,255,255,.08)",fontSize:13.5,lineHeight:1.55,color:m.role==="user"?"#fff":"#e6e4ee",boxShadow:m.role==="user"?"0 2px 12px rgba(226,60,65,.25)":"none"}}>
                 {m.content}
               </div>
             </div>
           ))}
-          {chatLoading && <div style={{display:"flex",gap:4,padding:"8px 0"}}>
-            {[0,1,2].map(i => <div key={i} style={{width:6,height:6,borderRadius:"50%",background:C.r,opacity:.4,animation:`f1 1s ease ${i*.15}s infinite`}}/>)}
+          {chatLoading && <div style={{display:"flex",justifyContent:"flex-start"}}>
+            <div style={{padding:"13px 16px",borderRadius:"18px 18px 18px 5px",background:"rgba(255,255,255,.08)",display:"flex",gap:5,alignItems:"center"}}>
+              {[0,1,2].map(i => <span key={i} style={{width:7,height:7,borderRadius:"50%",background:"#9b98ad",animation:`typeDot 1.2s ease ${i*.18}s infinite`}}/>)}
+            </div>
           </div>}
         </div>
 
@@ -1115,10 +1126,10 @@ export default function App() {
         </div>
 
         {/* Input */}
-        <div style={{padding:"8px 16px 12px",borderTop:"1px solid rgba(226,60,65,.08)",display:"flex",gap:8}}>
-          <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Ask about our services..." style={{flex:1,padding:"10px 14px",background:C.nm,border:"1px solid rgba(226,60,65,.08)",borderRadius:8,color:C.w,fontFamily:"inherit",fontSize:13,outline:"none",transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.3)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.08)"}/>
-          <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} style={{padding:"10px 14px",background:chatInput.trim()?C.r:"rgba(226,60,65,.2)",border:"none",borderRadius:8,cursor:chatInput.trim()?"pointer":"default",transition:"all .2s"}}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <div style={{padding:"10px 14px 14px",borderTop:"1px solid rgba(255,255,255,.07)",display:"flex",gap:10,alignItems:"center"}}>
+          <input value={chatInput} onChange={e=>setChatInput(e.target.value)} onKeyDown={e=>{if(e.key==="Enter")sendChat()}} placeholder="Message Bound Search…" style={{flex:1,padding:"11px 17px",background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.1)",borderRadius:22,color:C.w,fontFamily:"inherit",fontSize:13.5,outline:"none",transition:"border-color .3s, background .3s"}} onFocus={e=>{e.target.style.borderColor="rgba(226,60,65,.45)";e.target.style.background="rgba(255,255,255,.08)"}} onBlur={e=>{e.target.style.borderColor="rgba(255,255,255,.1)";e.target.style.background="rgba(255,255,255,.06)"}}/>
+          <button onClick={sendChat} disabled={chatLoading||!chatInput.trim()} aria-label="Send" style={{width:38,height:38,flexShrink:0,borderRadius:"50%",background:chatInput.trim()?"linear-gradient(135deg,#e8474c,#c8333a)":"rgba(255,255,255,.08)",border:"none",display:"flex",alignItems:"center",justifyContent:"center",cursor:chatInput.trim()?"pointer":"default",transition:"all .25s",boxShadow:chatInput.trim()?"0 2px 12px rgba(226,60,65,.35)":"none"}}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={chatInput.trim()?"#fff":"#6b6880"} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
           </button>
         </div>
       </div>
