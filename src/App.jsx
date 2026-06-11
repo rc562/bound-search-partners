@@ -831,8 +831,12 @@ export default function App() {
       <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
         <div id="mfounder" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"center"}}>
           <div>
-            <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Founder &amp; Principal</div>
-            <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:24}}>Bob Cwenar</h2></Rise>
+            <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:18}}>Bob Cwenar<span style={{color:C.r}}>.</span></h2></Rise>
+            <div style={{display:"flex",alignItems:"center",gap:14,marginBottom:28}}>
+              <span style={{width:34,height:3,background:C.r,flexShrink:0}}/>
+              <span style={{fontSize:"clamp(.68rem,.95vw,.8rem)",fontWeight:700,letterSpacing:".24em",textTransform:"uppercase",color:C.r,whiteSpace:"nowrap"}}>Founder &amp; Managing Partner</span>
+              <span style={{flex:1,height:1,background:"rgba(226,60,65,.18)"}}/>
+            </div>
             <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Bob Cwenar brings over a decade of experience in retained executive search, specializing in manufacturing, industrial, and supply chain leadership. A graduate of Drexel University, he began his career at Armstrong Franklin, helping grow the firm from a four-person team into a recognized name in the sector.</p>
             <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>Following Armstrong Franklin's merger with GattiHR and acquisition by Kingsley Gate Partners, Bob led national-scale search engagements for clients ranging from founder-led startups to enterprises exceeding $10 billion in revenue — experience that shaped his understanding of what great search looks like at every level.</p>
             <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>He founded Bound Search Partners to offer clients a more direct, senior-led model — one where every engagement is personally managed from strategy through onboarding. It's the kind of search experience that's hard to find at larger firms, and it's the standard here.</p>
