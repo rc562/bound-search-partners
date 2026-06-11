@@ -476,13 +476,13 @@ export default function App() {
           <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center"}}/>
         </div>
         {/* Dark overlay */}
-        <div style={{position:"absolute",inset:0,zIndex:1,background:`linear-gradient(180deg,transparent 0%,transparent 70%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.45) 0%,transparent 42%)`}} />
+        <div style={{position:"absolute",inset:0,zIndex:1,background:`radial-gradient(ellipse 58% 52% at 26% 58%, rgba(10,8,26,.62), transparent 72%),linear-gradient(180deg,transparent 0%,transparent 70%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.4) 0%,transparent 40%)`}} />
         {/* Hero content */}
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div id="heroContent" style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)",willChange:"transform,opacity"}}>
             <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
             <div style={{marginBottom:24,overflow:"hidden"}}>
-              <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
+              <h1 ref={heroRef} style={{textShadow:"0 2px 30px rgba(8,6,20,.75), 0 1px 6px rgba(8,6,20,.5)",fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
                 <span style={{visibility:"hidden",position:"absolute",left:0,top:0,right:0}} aria-hidden="true">The leaders who move industries start here.</span>
                 <span style={{display:"block"}}>
                 {(() => {
@@ -503,7 +503,7 @@ export default function App() {
                 </span>
               </h1>
             </div>
-            <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40}}>Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
+            <p style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",lineHeight:1.5,color:C.gl,maxWidth:600,marginBottom:40,textShadow:"0 1px 18px rgba(8,6,20,.8)"}}>Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
             <div id="mherobtns" style={{display:"flex",gap:24,flexWrap:"wrap"}}>
               <span onClick={() => go("contact")} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click()}}} style={{display:"inline-flex",alignItems:"center",gap:12,padding:"16px 36px",background:C.r,color:C.w,fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.currentTarget.style.background="#c8333a";e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 8px 24px rgba(226,60,65,.3)"}} onMouseLeave={e=>{e.currentTarget.style.background=C.r;e.currentTarget.style.transform="translateY(0)";e.currentTarget.style.boxShadow="none"}}>Start a Conversation →</span>
               <span onClick={() => go("services")} role="button" tabIndex={0} onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();e.currentTarget.click()}}} style={{display:"inline-flex",padding:"16px 0",color:C.gl,fontSize:13,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",borderBottom:"1px solid rgba(255,255,255,.12)",cursor:"pointer",transition:"all .3s"}} onMouseEnter={e=>{e.target.style.color=C.w;e.target.style.borderBottomColor=C.r}} onMouseLeave={e=>{e.target.style.color=C.gl;e.target.style.borderBottomColor="rgba(255,255,255,.12)"}}>Explore Services</span>
