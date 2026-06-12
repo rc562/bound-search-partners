@@ -74,6 +74,7 @@ export default function App() {
   const [navOpen,setNavOpen] = useState(false);
   const [ctaVis,setCtaVis] = useState(false);
   const [indOpen,setIndOpen] = useState(-1);
+  const [bwActive,setBwActive] = useState(-1);
   const [advToast,setAdvToast] = useState(false);
   useEffect(() => {
     try { if (sessionStorage.getItem("bspAdvToast4")) return; } catch(e) {}
@@ -889,6 +890,49 @@ export default function App() {
 <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>The record: more than 200 executive placements, with 92 percent retained beyond the first year. It is the standard to which every Bound search is held.</p>
           </div>
           <div><img src="./headshot.jpg" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",borderRadius:2,display:"block"}}/></div>
+        </div>
+
+        {/* Beyond the work */}
+        <div style={{maxWidth:1320,margin:"56px auto 0",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+          <div style={{borderTop:"1px solid rgba(255,255,255,.06)",paddingTop:40}}>
+            <div style={{fontSize:"clamp(.62rem,.85vw,.74rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:14}}>Beyond the work</div>
+            <p style={{fontSize:"1rem",lineHeight:1.7,color:C.gl,marginBottom:28,maxWidth:560}}>Search is a people business. It seems only fair to be one.</p>
+            <div style={{display:"flex",flexWrap:"wrap",gap:"10px 34px",marginBottom:18}}>
+              {[
+                {w:"Philadelphia", d:"Rooted, not relocated. The skyline on this site is the view from home."},
+                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. An appreciation for people who make physical things runs in the family."},
+                {w:"Behind the lens", d:"Usually within reach of a camera. City frames and landscapes, mostly — patience training disguised as a hobby."},
+                {w:"The kitchen", d:"Cooking is the other discipline practiced here: preparation, timing, execution, no hand-offs."},
+                {w:"Markets & macro", d:"A standing fascination with geopolitics, supply chains, and what moves them — which is how the advisories on this site got started."},
+                {w:"City-builder", d:"Strategy games where you zone districts and untangle traffic. It's research, technically."},
+              ].map((item,i) => {
+                const on = bwActive === i;
+                return (
+                  <span key={i} role="button" tabIndex={0}
+                    onMouseEnter={() => {if(!isMobile) setBwActive(i);}}
+                    onClick={() => setBwActive(on ? -1 : i)}
+                    onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setBwActive(on?-1:i);}}}
+                    style={{fontSize:"clamp(1.25rem,2.4vw,1.9rem)",fontWeight:800,letterSpacing:"-.01em",cursor:"pointer",color:on?C.w:"rgba(244,243,247,.22)",transition:"color .35s",userSelect:"none",whiteSpace:"nowrap"}}>
+                    {item.w}<span style={{color:on?C.r:"transparent",transition:"color .35s"}}>.</span>
+                  </span>
+                );
+              })}
+            </div>
+            <div style={{minHeight:54}}>
+              {bwActive >= 0 && (
+                <p key={bwActive} style={{fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",borderLeft:`2px solid ${C.r}`,paddingLeft:16}}>
+                  {[
+                    "Rooted, not relocated. The skyline on this site is the view from home.",
+                    "Bob's father builds custom homes and restores historic properties in Bucks County. An appreciation for people who make physical things runs in the family.",
+                    "Usually within reach of a camera. City frames and landscapes, mostly — patience training disguised as a hobby.",
+                    "Cooking is the other discipline practiced here: preparation, timing, execution, no hand-offs.",
+                    "A standing fascination with geopolitics, supply chains, and what moves them — which is how the advisories on this site got started.",
+                    "Strategy games where you zone districts and untangle traffic. It's research, technically.",
+                  ][bwActive]}
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </section>
 
