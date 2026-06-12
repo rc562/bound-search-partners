@@ -951,10 +951,7 @@ export default function App() {
                 <div><strong style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:3}}>{label}</strong>{href?<a href={href} style={{color:C.w,textDecoration:"none"}}>{val}</a>:<span>{val}</span>}</div>
               </div>
             ))}
-            <div style={{marginTop:24,padding:20,border:"1px solid rgba(226,60,65,.12)",background:"rgba(226,60,65,.02)"}}>
-              <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:10}}>Typical Timeline</div>
-              <p style={{fontSize:14,color:C.gl,lineHeight:1.8}}><strong style={{color:C.w}}>Within 24 hours</strong> — Direct response from the founder.<br/><strong style={{color:C.w}}>Within 48 hours</strong> — Discovery call.<br/><strong style={{color:C.w}}>Within one week</strong> — Terms finalized. Research begins.</p>
-            </div>
+            <p style={{marginTop:24,fontSize:13.5,color:C.gl,lineHeight:1.7,borderLeft:`2px solid ${C.r}`,paddingLeft:14}}>Every inquiry receives a direct response from the founder within 24 hours.</p>
           </div>
           <div>
             {formSent ? (
