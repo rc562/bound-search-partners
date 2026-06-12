@@ -74,6 +74,13 @@ export default function App() {
   const [navOpen,setNavOpen] = useState(false);
   const [ctaVis,setCtaVis] = useState(false);
   const [indOpen,setIndOpen] = useState(-1);
+  const [advToast,setAdvToast] = useState(false);
+  useEffect(() => {
+    try { if (sessionStorage.getItem("bspAdvToast4")) return; } catch(e) {}
+    const t = setTimeout(() => setAdvToast(true), 1600);
+    return () => clearTimeout(t);
+  }, []);
+  const dismissToast = () => { setAdvToast(false); try { sessionStorage.setItem("bspAdvToast4","1"); } catch(e) {} };
   const [rowItem,setRowItem] = useState({});
   const [hovChip,setHovChip] = useState(null);
 
@@ -338,6 +345,7 @@ export default function App() {
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
         @keyframes annoIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
         @keyframes typeDot{0%,60%,100%{transform:translateY(0);opacity:.45}30%{transform:translateY(-4px);opacity:1}}
+        @keyframes toastUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
         @media(hover:none){
           body, body *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none}
           input, textarea{-webkit-user-select:text!important;user-select:text!important;-webkit-touch-callout:default}
@@ -532,6 +540,19 @@ export default function App() {
         </div>
       </section>
 
+      {advToast && (
+        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
+            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
+            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
+          </div>
+          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
+          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
+          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
+        </div>
+      )}
+
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.15),transparent)"}}/>
 
@@ -613,6 +634,19 @@ export default function App() {
 
         </div>
       </section>
+
+      {advToast && (
+        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
+            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
+            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
+          </div>
+          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
+          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
+          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
+        </div>
+      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
@@ -758,6 +792,19 @@ export default function App() {
 
         </div>
       </section>
+
+      {advToast && (
+        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
+            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
+            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
+          </div>
+          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
+          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
+          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
+        </div>
+      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
@@ -915,6 +962,19 @@ export default function App() {
         </div>
       </section>
 
+      {advToast && (
+        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
+            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
+            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
+          </div>
+          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
+          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
+          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
+        </div>
+      )}
+
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.12),transparent)"}}/>
 
@@ -965,8 +1025,7 @@ export default function App() {
                 onMouseEnter={e=>e.currentTarget.style.background="rgba(226,60,65,.03)"}
                 onMouseLeave={e=>e.currentTarget.style.background="transparent"}>
                 <span style={{fontSize:11,color:item.featured?C.r:C.g,fontWeight:600,letterSpacing:".08em",whiteSpace:"nowrap",minWidth:80}}>{item.date}</span>
-                {item.badge && <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:"#fff",background:C.r,padding:"2px 8px",flexShrink:0}}>{item.badge}</span>}
-                <span style={{fontSize:13,fontWeight:700,color:item.featured?C.w:C.gl,flex:"1 1 200px"}}>{item.title}</span>
+                <span style={{fontSize:13,fontWeight:700,color:item.featured?C.w:C.gl,flex:"1 1 200px",display:"flex",alignItems:"center",gap:10}}>{item.title}{item.badge && <span style={{fontSize:9,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",color:"#fff",background:C.r,padding:"2px 8px",flexShrink:0}}>{item.badge}</span>}</span>
                 <span style={{fontSize:12,color:C.g,flex:"2 1 300px",display:"none"}} className="adv-desc">{item.desc}</span>
                 <span style={{fontSize:11,color:C.r,whiteSpace:"nowrap",fontWeight:600}}>Read →</span>
               </a>
@@ -975,6 +1034,19 @@ export default function App() {
 
         </div>
       </section>
+
+      {advToast && (
+        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
+            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
+            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
+            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
+          </div>
+          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
+          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
+          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
+        </div>
+      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.08),transparent)"}}/>
