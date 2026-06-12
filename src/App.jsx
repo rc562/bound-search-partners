@@ -956,7 +956,8 @@ export default function App() {
           {/* Advisory list */}
           <div style={{display:"flex",flexDirection:"column"}}>
             {[
-{date:"Apr 29, 2026", badge:"Latest", title:"Strait of Hormuz: 60 Days In", desc:"What has actually shifted for U.S. manufacturing — and what hasn't. Three structural changes, five operational realities, and what to watch in May.", href:"/BSP_Hormuz_Update_April29.pdf", featured:true},
+{date:"Jun 12, 2026", badge:"New", title:"The Bottleneck Has Moved", desc:"Both Middle East corridors blocked at once. U.S. factory activity at a four-year high. $1.77 trillion committed to capacity no one has staffed. Advisory No. 04 on where the constraint moved.", href:"/BSP_Advisory_2026-06-12.pdf", featured:true},
+              {date:"Apr 29, 2026", badge:"", title:"Strait of Hormuz: 60 Days In", desc:"What has actually shifted for U.S. manufacturing — and what hasn't. Three structural changes, five operational realities, and what to watch in May.", href:"/BSP_Hormuz_Update_April29.pdf", featured:false},
               {date:"Mar 12, 2026", badge:"", title:"Strait of Hormuz: What's Changed Since March 5", desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.", href:"/BSP_Hormuz_Update_March12.pdf", featured:false},
               {date:"Mar 5, 2026", badge:"", title:"Strait of Hormuz: A Grounded Assessment", desc:"The original bulletin. Separated verified data from noise, mapped four transmission channels into U.S. manufacturing.", href:"/BSP_Hormuz_Client_Bulletin_March2026.pdf", featured:false},
             ].map((item,i) => (
