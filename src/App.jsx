@@ -856,11 +856,11 @@ export default function App() {
             <p style={{fontSize:"1rem",lineHeight:1.7,color:C.gl,marginBottom:18,maxWidth:560}}>Search is a people business. It seems only fair to be one.</p>
             <div style={{display:"flex",flexWrap:"wrap",gap:"10px 34px",marginBottom:18}}>
               {[
-                                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited."},
+                                {w:"Philadelphia", d:"Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves."},
+                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited."},
                 {w:"Behind the lens", d:"A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one."},
                 {w:"The kitchen", d:"Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish."},
                 {w:"Markets & macro", d:"A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site."},
-                {w:"City-builder", d:"Strategy games where you zone districts and untangle traffic. It's research, technically."},
               ].map((item,i) => {
                 const on = bwActive === i;
                 return (
@@ -878,11 +878,11 @@ export default function App() {
               {bwActive >= 0 && (
                 <p key={bwActive} style={{fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",borderLeft:`2px solid ${C.r}`,paddingLeft:16}}>
                   {[
-                                        "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
+                                        "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
+                    "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
                     "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
                     "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
                     "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site.",
-                    "Strategy games where you zone districts and untangle traffic. It's research, technically.",
                   ][bwActive]}
                 </p>
               )}
