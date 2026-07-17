@@ -75,13 +75,6 @@ export default function App() {
   const [ctaVis,setCtaVis] = useState(false);
   const [indOpen,setIndOpen] = useState(-1);
   const [bwActive,setBwActive] = useState(-1);
-  const [advToast,setAdvToast] = useState(false);
-  useEffect(() => {
-    try { if (sessionStorage.getItem("bspAdvToast4")) return; } catch(e) {}
-    const t = setTimeout(() => setAdvToast(true), 1600);
-    return () => clearTimeout(t);
-  }, []);
-  const dismissToast = () => { setAdvToast(false); try { sessionStorage.setItem("bspAdvToast4","1"); } catch(e) {} };
   const [rowItem,setRowItem] = useState({});
   const [hovChip,setHovChip] = useState(null);
 
@@ -541,18 +534,6 @@ export default function App() {
         </div>
       </section>
 
-      {advToast && (
-        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
-            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
-            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
-          </div>
-          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
-          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
-          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
-        </div>
-      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.15),transparent)"}}/>
@@ -636,18 +617,6 @@ export default function App() {
         </div>
       </section>
 
-      {advToast && (
-        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
-            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
-            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
-          </div>
-          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
-          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
-          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
-        </div>
-      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
@@ -794,18 +763,6 @@ export default function App() {
         </div>
       </section>
 
-      {advToast && (
-        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
-            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
-            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
-          </div>
-          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
-          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
-          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
-        </div>
-      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
@@ -899,11 +856,11 @@ export default function App() {
             <p style={{fontSize:"1rem",lineHeight:1.7,color:C.gl,marginBottom:28,maxWidth:560}}>Search is a people business. It seems only fair to be one.</p>
             <div style={{display:"flex",flexWrap:"wrap",gap:"10px 34px",marginBottom:18}}>
               {[
-                {w:"Philadelphia", d:"Rooted, not relocated. The skyline on this site is the view from home."},
-                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. An appreciation for people who make physical things runs in the family."},
-                {w:"Behind the lens", d:"Usually within reach of a camera. City frames and landscapes, mostly — patience training disguised as a hobby."},
-                {w:"The kitchen", d:"Cooking is the other discipline practiced here: preparation, timing, execution, no hand-offs."},
-                {w:"Markets & macro", d:"A standing fascination with geopolitics, supply chains, and what moves them — which is how the advisories on this site got started."},
+                {w:"Philadelphia", d:"Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves."},
+                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited."},
+                {w:"Behind the lens", d:"A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one."},
+                {w:"The kitchen", d:"Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish."},
+                {w:"Markets & macro", d:"A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site."},
                 {w:"City-builder", d:"Strategy games where you zone districts and untangle traffic. It's research, technically."},
               ].map((item,i) => {
                 const on = bwActive === i;
@@ -922,11 +879,11 @@ export default function App() {
               {bwActive >= 0 && (
                 <p key={bwActive} style={{fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",borderLeft:`2px solid ${C.r}`,paddingLeft:16}}>
                   {[
-                    "Rooted, not relocated. The skyline on this site is the view from home.",
-                    "Bob's father builds custom homes and restores historic properties in Bucks County. An appreciation for people who make physical things runs in the family.",
-                    "Usually within reach of a camera. City frames and landscapes, mostly — patience training disguised as a hobby.",
-                    "Cooking is the other discipline practiced here: preparation, timing, execution, no hand-offs.",
-                    "A standing fascination with geopolitics, supply chains, and what moves them — which is how the advisories on this site got started.",
+                    "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
+                    "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
+                    "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
+                    "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
+                    "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site.",
                     "Strategy games where you zone districts and untangle traffic. It's research, technically.",
                   ][bwActive]}
                 </p>
@@ -1003,18 +960,6 @@ export default function App() {
         </div>
       </section>
 
-      {advToast && (
-        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
-            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
-            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
-          </div>
-          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
-          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
-          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
-        </div>
-      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.12),transparent)"}}/>
@@ -1076,18 +1021,6 @@ export default function App() {
         </div>
       </section>
 
-      {advToast && (
-        <div style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(360px,calc(100vw - 40px))",background:"rgba(16,13,40,.92)",backdropFilter:"blur(14px)",WebkitBackdropFilter:"blur(14px)",border:"1px solid rgba(226,60,65,.25)",borderRadius:10,padding:"14px 16px",boxShadow:"0 18px 50px rgba(0,0,0,.45)",animation:"toastUp .5s cubic-bezier(.23,1,.32,1)"}}>
-          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:6}}>
-            <span style={{fontSize:8.5,fontWeight:800,letterSpacing:".18em",color:"#fff",background:C.r,padding:"2px 7px",borderRadius:2}}>NEW</span>
-            <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g}}>Client Advisory · No. 04</span>
-            <span onClick={dismissToast} style={{marginLeft:"auto",cursor:"pointer",color:C.g,fontSize:15,lineHeight:1,padding:"0 2px"}} aria-label="Dismiss">×</span>
-          </div>
-          <div style={{fontSize:14.5,fontWeight:800,color:C.w,marginBottom:4,letterSpacing:"-.01em"}}>The Bottleneck Has Moved</div>
-          <div style={{fontSize:11.5,color:C.gl,lineHeight:1.5,marginBottom:10}}>Two corridors blocked. A four-year factory high. $1.77T no one has staffed.</div>
-          <a href="/BSP_Advisory_2026-06-12.pdf" target="_blank" rel="noopener noreferrer" onClick={dismissToast} style={{fontSize:11,fontWeight:700,letterSpacing:".08em",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
-        </div>
-      )}
 
       {/* Gradient transition */}
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.08),transparent)"}}/>
