@@ -833,7 +833,7 @@ export default function App() {
       </section>
 
       {/* FOUNDER */}
-      <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
+      <section style={{padding:"clamp(5rem,10vw,9rem) 0 clamp(2.5rem,5vw,4rem)",background:C.nm}}>
         <div id="mfounder" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"center"}}>
           <div>
             <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:18}}>Bob Cwenar<span style={{color:C.r}}>.</span></h2></Rise>
@@ -874,25 +874,25 @@ export default function App() {
                 );
               })}
             </div>
-            <div style={{minHeight:44}}>
-              {bwActive >= 0 && (
-                <p key={bwActive} style={{fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",borderLeft:`2px solid ${C.r}`,paddingLeft:16}}>
-                  {[
-                                        "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
-                    "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
-                    "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
-                    "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
-                    "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site.",
-                  ][bwActive]}
+            <div style={{display:"grid"}}>
+              {[
+                "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
+                "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
+                "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
+                "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
+                "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site.",
+              ].map((t,i) => (
+                <p key={i} aria-hidden={bwActive!==i} style={{gridArea:"1 / 1",fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,borderLeft:`2px solid ${C.r}`,paddingLeft:16,opacity:bwActive===i?1:0,transform:bwActive===i?"translateY(0)":"translateY(6px)",transition:"opacity .35s cubic-bezier(.23,1,.32,1), transform .35s cubic-bezier(.23,1,.32,1)",pointerEvents:"none"}}>
+                  {t}
                 </p>
-              )}
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* CONTACT */}
-      <section id="contact" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
+      <section id="contact" style={{padding:"clamp(3rem,6vw,5rem) 0 clamp(5rem,10vw,9rem)",background:C.nm}}>
         <div id="mcontact" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:"clamp(3rem,5vw,5rem)",alignItems:"start"}}>
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Contact</div>
