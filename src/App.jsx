@@ -850,14 +850,13 @@ export default function App() {
         </div>
 
         {/* Beyond the work */}
-        <div style={{maxWidth:1320,margin:"56px auto 0",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{borderTop:"1px solid rgba(255,255,255,.06)",paddingTop:40}}>
-            <div style={{fontSize:"clamp(.62rem,.85vw,.74rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:14}}>Beyond the work</div>
-            <p style={{fontSize:"1rem",lineHeight:1.7,color:C.gl,marginBottom:28,maxWidth:560}}>Search is a people business. It seems only fair to be one.</p>
+        <div style={{maxWidth:1320,margin:"36px auto 0",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
+          <div style={{borderTop:"1px solid rgba(255,255,255,.06)",paddingTop:28}}>
+            <div style={{fontSize:"clamp(.62rem,.85vw,.74rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Beyond the work</div>
+            <p style={{fontSize:"1rem",lineHeight:1.7,color:C.gl,marginBottom:18,maxWidth:560}}>Search is a people business. It seems only fair to be one.</p>
             <div style={{display:"flex",flexWrap:"wrap",gap:"10px 34px",marginBottom:18}}>
               {[
-                {w:"Philadelphia", d:"Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves."},
-                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited."},
+                                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited."},
                 {w:"Behind the lens", d:"A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one."},
                 {w:"The kitchen", d:"Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish."},
                 {w:"Markets & macro", d:"A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site."},
@@ -875,12 +874,11 @@ export default function App() {
                 );
               })}
             </div>
-            <div style={{minHeight:54}}>
+            <div style={{minHeight:44}}>
               {bwActive >= 0 && (
                 <p key={bwActive} style={{fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",borderLeft:`2px solid ${C.r}`,paddingLeft:16}}>
                   {[
-                    "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
-                    "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
+                                        "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
                     "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
                     "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
                     "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site.",
