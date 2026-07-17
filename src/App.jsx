@@ -846,7 +846,9 @@ export default function App() {
 <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>He founded Bound Search Partners on a conviction proven across hundreds of engagements: searches succeed when they are led, start to finish, by the senior consultant accountable for the outcome. Every Bound engagement is personally directed — from search strategy and market mapping through final negotiation and onboarding — with no hand-offs and no layers between the client and the work.</p>
 <p style={{fontSize:"1.05rem",lineHeight:1.75,color:C.gl,marginBottom:20}}>The record: more than 200 executive placements, with 92 percent retained beyond the first year. It is the standard to which every Bound search is held.</p>
           </div>
-         <div><img src="./headshot.png" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",display:"block"}}/></div>
+          <div><img src="./headshot.png" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",display:"block"}}/></div>
+        </div>
+
         {/* Beyond the work */}
         <div style={{maxWidth:1320,margin:"56px auto 0",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{borderTop:"1px solid rgba(255,255,255,.06)",paddingTop:40}}>
