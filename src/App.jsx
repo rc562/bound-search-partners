@@ -49,13 +49,6 @@ function Rise({children, delay = 0}) {
 export default function App() {
   const [scrolled,setScrolled] = useState(false);
   const [hovInd,setHovInd] = useState(null);
-  const [advToast,setAdvToast] = useState(false);
-  useEffect(() => {
-    try { if (sessionStorage.getItem("bspAdvToast5")) return; } catch(e) {}
-    const t = setTimeout(() => setAdvToast(true), 1600);
-    return () => clearTimeout(t);
-  }, []);
-  const dismissToast = () => { setAdvToast(false); try { sessionStorage.setItem("bspAdvToast5","1"); } catch(e) {} };
   const [bondVis,setBondVis] = useState(false);
   const [hovBond,setHovBond] = useState(null);
   const [mobileMenu,setMobileMenu] = useState(false);
@@ -508,7 +501,12 @@ export default function App() {
         {/* Hero content */}
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div id="heroContent" style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)",willChange:"transform,opacity"}}>
-            <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.w,textShadow:"0 1px 12px rgba(8,6,20,.55)"}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
+            <a href="/advisory-05.html" target="_blank" rel="noopener" style={{display:"inline-flex",alignItems:"center",gap:10,marginBottom:20,padding:"7px 14px 7px 10px",border:"1px solid rgba(226,60,65,.45)",borderRadius:2,background:"rgba(14,11,36,.5)",backdropFilter:"blur(8px)",WebkitBackdropFilter:"blur(8px)",textDecoration:"none",transition:"border-color .3s, background .3s"}} onMouseEnter={e=>{e.currentTarget.style.borderColor=C.r;e.currentTarget.style.background="rgba(226,60,65,.12)";}} onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(226,60,65,.45)";e.currentTarget.style.background="rgba(14,11,36,.5)";}}>
+              <span style={{fontSize:9.5,fontWeight:700,letterSpacing:".14em",textTransform:"uppercase",color:"#fff",background:C.r,padding:"3px 7px",borderRadius:2,lineHeight:1}}>New</span>
+              <span style={{fontSize:12,fontWeight:600,letterSpacing:".05em",color:C.w,whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",maxWidth:"calc(100vw - 160px)"}}>Advisory <span style={{fontSize:"1.4em",lineHeight:1,verticalAlign:"-.05em"}}>№</span> 05 — Governing Without a Rulebook</span>
+              <span aria-hidden="true" style={{color:C.r,fontSize:13,lineHeight:1}}>→</span>
+            </a>
+            <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.w,textShadow:"0 1px 12px rgba(8,6,20,.55)"}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
             <div style={{marginBottom:24,overflow:"hidden"}}>
               <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
                 <span style={{visibility:"hidden",position:"absolute",left:0,top:0,right:0}} aria-hidden="true">The leaders who move industries start here.</span>
@@ -1105,17 +1103,6 @@ export default function App() {
       </footer>
 
       {/* AI CHAT WIDGET */}
-      {/* Advisory No. 05 toast */}
-      {advToast && (
-        <div role="status" style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(340px, calc(100vw - 110px))",background:"rgba(18,14,42,.92)",border:"1px solid rgba(226,60,65,.35)",borderRadius:4,padding:"16px 18px",backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",boxShadow:"0 12px 40px rgba(8,6,20,.5)",animation:"toastUp .45s cubic-bezier(.23,1,.32,1) both"}}>
-          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,marginBottom:8}}>
-            <span style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.r}}>Advisory · <span style={{fontSize:"1.45em",lineHeight:1,verticalAlign:"-.05em"}}>№</span> 05</span>
-            <span onClick={dismissToast} role="button" tabIndex={0} aria-label="Dismiss" onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();dismissToast();}}} style={{cursor:"pointer",color:C.g,fontSize:16,lineHeight:1}}>×</span>
-          </div>
-          <p style={{margin:"0 0 10px",fontSize:14,fontWeight:700,color:C.w,lineHeight:1.35}}>Governing Without a Rulebook</p>
-          <a href="/advisory-05.html" target="_blank" rel="noopener" onClick={dismissToast} style={{fontSize:12,fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
-        </div>
-      )}
       {/* Chat bubble */}
       <div onClick={() => setChatOpen(!chatOpen)} className="orbLauncher" role="button" tabIndex={0} aria-label="Chat with BSP"
         onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setChatOpen(!chatOpen);}}}
