@@ -81,7 +81,6 @@ export default function App() {
   const [navOpen,setNavOpen] = useState(false);
   const [ctaVis,setCtaVis] = useState(false);
   const [indOpen,setIndOpen] = useState(-1);
-  const [bwActive,setBwActive] = useState(-1);
   const [rowItem,setRowItem] = useState({});
   const [hovChip,setHovChip] = useState(null);
 
@@ -860,46 +859,6 @@ export default function App() {
           <div><img src="./headshot.png" alt="Bob Cwenar" style={{width:"100%",maxWidth:420,marginLeft:"auto",display:"block"}}/></div>
         </div>
 
-        {/* Beyond the work */}
-        <div style={{maxWidth:1320,margin:"36px auto 0",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
-          <div style={{borderTop:"1px solid rgba(255,255,255,.06)",paddingTop:28}}>
-            <div style={{fontSize:"clamp(.62rem,.85vw,.74rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:12}}>Beyond the work</div>
-            <p style={{fontSize:"1rem",lineHeight:1.7,color:C.gl,marginBottom:18,maxWidth:560}}>Search is a people business. It seems only fair to be one.</p>
-            <div style={{display:"flex",flexWrap:"wrap",gap:"10px 34px",marginBottom:18}}>
-              {[
-                                {w:"Philadelphia", d:"Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves."},
-                {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited."},
-                {w:"Behind the lens", d:"A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one."},
-                {w:"The kitchen", d:"Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish."},
-                {w:"Markets & macro", d:"A standing study of geopolitics, capital flows, and supply chains — the research habit behind the advisories published on this site."},
-              ].map((item,i) => {
-                const on = bwActive === i;
-                return (
-                  <span key={i} role="button" tabIndex={0}
-                    onMouseEnter={() => {if(!isMobile) setBwActive(i);}}
-                    onClick={() => setBwActive(on ? -1 : i)}
-                    onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setBwActive(on?-1:i);}}}
-                    style={{fontSize:"clamp(1.25rem,2.4vw,1.9rem)",fontWeight:800,letterSpacing:"-.01em",cursor:"pointer",color:on?C.w:"rgba(244,243,247,.22)",transition:"color .35s",userSelect:"none",whiteSpace:"nowrap"}}>
-                    {item.w}<span style={{color:on?C.r:"transparent",transition:"color .35s"}}>.</span>
-                  </span>
-                );
-              })}
-            </div>
-            <div style={{minHeight:44}}>
-              {bwActive >= 0 && (
-                <p key={bwActive} style={{fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",borderLeft:`2px solid ${C.r}`,paddingLeft:16}}>
-                  {[
-                                        "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
-                    "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
-                    "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
-                    "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
-                    "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the advisories published on this site.",
-                  ][bwActive]}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* CONTACT */}
