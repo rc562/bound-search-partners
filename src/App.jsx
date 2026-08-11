@@ -183,8 +183,8 @@ export default function App() {
   ];
 
   const proc = [
-    {p:"01",t:"AI-Powered Intelligence",d:"Proprietary AI tools map the full universe of qualified candidates — not just those in databases. Market mapping, compensation benchmarking, and competitive intelligence at a scale no human team can replicate.",l:"Machine Scale"},
-    {p:"02",t:"Human Curation",d:"Every candidate is personally vetted for technical capability, cultural alignment, and leadership trajectory. No algorithmic shortlists. No resume blasts. Every conversation is substantive.",l:"Human Judgment"},
+    {p:"01",t:"Human Curation",d:"Every candidate is personally vetted for technical capability, cultural alignment, and leadership trajectory. No algorithmic shortlists. No resume blasts. Every conversation is substantive.",l:"Human Judgment"},
+    {p:"02",t:"AI-Powered Intelligence",d:"The machine maps; the consultant decides. Proprietary tools chart the full candidate universe — market maps, compensation benchmarks, competitive intelligence — so judgment starts from everything, not a sample.",l:"Machine Scale"},
     {p:"03",t:"Client Partnership",d:"Direct access to the consultant running your search — backed by a live client portal where every update and document stays one click away. The process adapts to each search, each culture, each hire.",l:"Adaptive"},
     {p:"04",t:"Placement & Beyond",d:"Offer negotiation, counteroffer strategy, resignation coaching, and 90-day onboarding support. Ends when the hire is performing — not when the offer is signed.",l:"Accountable"},
   ];
@@ -204,7 +204,7 @@ export default function App() {
   const cases = [
     {
       id:"01",
-      ind:"Ingredients Manufacturing",
+      ind:"Ingredients Manufacturing", tab:"Ingredients", ml:"Time to Fill", m:"120 days",
       rev:"$500M+ Revenue",
       role:"VP Operations",
       focus:"Quality · Capital Projects · Automation",
@@ -215,7 +215,7 @@ export default function App() {
     },
     {
       id:"02",
-      ind:"Chemical Manufacturing",
+      ind:"Chemical Manufacturing", tab:"Chemical", ml:"Relocation", m:"Cross-country",
       rev:"$1B+ Revenue",
       role:"EHS Leader",
       focus:"Safety Transformation · Cultural Change",
@@ -226,7 +226,7 @@ export default function App() {
     },
     {
       id:"03",
-      ind:"Industrial Manufacturing",
+      ind:"Industrial Manufacturing", tab:"Industrial", ml:"Succession Window", m:"12–18 months",
       rev:"Mid-Market · Global",
       role:"U.S. Manufacturing Leader, Americas",
       focus:"Succession Planning · Multi-Site Operations",
@@ -237,7 +237,7 @@ export default function App() {
     },
     {
       id:"04",
-      ind:"Specialty Chemicals",
+      ind:"Specialty Chemicals", tab:"Specialty Chemicals", ml:"Coverage", m:"North America",
       rev:"$1B+ Revenue · Global",
       role:"Head of Product Stewardship, North America",
       focus:"Technical Leadership · Generational Transition",
@@ -248,7 +248,7 @@ export default function App() {
     },
     {
       id:"05",
-      ind:"Plastics Manufacturing",
+      ind:"Plastics Manufacturing", tab:"Plastics", ml:"Slate Delivered", m:"Multi-finalist",
       rev:"$1B+ Revenue · Global",
       role:"Plant Manager",
       focus:"Site Leadership · U.S. Flagship Operations",
@@ -501,15 +501,15 @@ export default function App() {
 
       {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
-        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden",backgroundImage:"url(data:image/jpeg;base64,/9j//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB1AAEAAwEBAQAAAAAAAAAAAAAGBQEHBAADAQADAQEAAAAAAAAAAAAAAAACAQMEABAAAgEEAQMDAwUBAAAAAAAAAgERADEhAxJBYQQiBRORUXGBIzKh0UIRAQABBAMBAQEAAAAAAAAAAAEAIRESYQMCMRNCUf/AABEIABsAMAMBIgACEQADEQD/2gAMAwEAAhEDEQA/ADOvQ6kvjAGkRIW7S4mKR69YpXVA/LevZ5rTJEHC6afGFno+t62/f+VlsE9vJTXszs+T/lpJz0wks0lHTWVaz/dIJZItmtXxxRLpV+JsN+VxRmp2rHJqUimG5tFTOVCGUZrq1pQurwvpNX8LoMfuS2eT4+zYJ6Q1E+V2nKy7Z+1I/a/KHaXuG42S1gS2JuXAZShXmFauecLst7aZy/I5ekNplyXqRNCl2UvP9VEwQYcTjvj8qvQkFvt+frelpaxIRbSb9GeuVnN6wBixK9i6wwGs5lFl4hO/6VxkOwHyac9CnM2pjqAYNxaY7Z6V8gSKG8sUbXZ81/tJYsdyDPYZskzcOP5Yt0S71Zcw0S2QiRRxF4cK7i965SUkbfRuO2akPKxq8VLCett93yvSSnXaQj9aJ//Z)",backgroundSize:"cover",backgroundPosition:"center",filter:"none"}}>
-          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center",opacity:heroReady?1:0,transition:"opacity .9s ease"}}/>
+        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden",backgroundImage:"url(data:image/jpeg;base64,/9j//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB1AAEAAwEBAQAAAAAAAAAAAAAGBQEHBAADAQADAQEAAAAAAAAAAAAAAAACAQMEABAAAgEEAQMDAwUBAAAAAAAAAgERADEhAxJBYQQiBRORUXGBIzKh0UIRAQABBAMBAQEAAAAAAAAAAAEAIRESYQMCMRNCUf/AABEIABsAMAMBIgACEQADEQD/2gAMAwEAAhEDEQA/ADOvQ6kvjAGkRIW7S4mKR69YpXVA/LevZ5rTJEHC6afGFno+t62/f+VlsE9vJTXszs+T/lpJz0wks0lHTWVaz/dIJZItmtXxxRLpV+JsN+VxRmp2rHJqUimG5tFTOVCGUZrq1pQurwvpNX8LoMfuS2eT4+zYJ6Q1E+V2nKy7Z+1I/a/KHaXuG42S1gS2JuXAZShXmFauecLst7aZy/I5ekNplyXqRNCl2UvP9VEwQYcTjvj8qvQkFvt+frelpaxIRbSb9GeuVnN6wBixK9i6wwGs5lFl4hO/6VxkOwHyac9CnM2pjqAYNxaY7Z6V8gSKG8sUbXZ81/tJYsdyDPYZskzcOP5Yt0S71Zcw0S2QiRRxF4cK7i965SUkbfRuO2akPKxq8VLCett93yvSSnXaQj9aJ//Z)",backgroundSize:"cover",backgroundPosition:"center",filter:"saturate(.7) brightness(.82)"}}>
+          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center",filter:"saturate(.7) brightness(.82)",opacity:heroReady?1:0,transition:"opacity .9s ease"}}/>
         </div>
         {/* Dark overlay */}
-        <div style={{position:"absolute",inset:0,zIndex:1,background:`radial-gradient(ellipse 58% 52% at 26% 58%, rgba(10,8,26,.62), transparent 72%),linear-gradient(180deg,transparent 0%,transparent 70%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.4) 0%,transparent 40%)`}} />
+        <div style={{position:"absolute",inset:0,zIndex:1,background:`radial-gradient(ellipse 62% 56% at 26% 58%, rgba(10,8,26,.78), transparent 74%),linear-gradient(180deg,transparent 0%,transparent 66%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.55) 0%,transparent 44%)`}} />
         {/* Hero content */}
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div id="heroContent" style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)",willChange:"transform,opacity"}}>
-            <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
+            <div style={{display:"inline-flex",alignItems:"center",gap:12,marginBottom:32}}><span style={{width:48,height:2,background:C.r,display:"block"}}/><span style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.w,textShadow:"0 1px 12px rgba(8,6,20,.55)"}}>Retained Executive Search · U.S. Manufacturing & Industrial</span></div>
             <div style={{marginBottom:24,overflow:"hidden"}}>
               <h1 ref={heroRef} style={{fontSize:"clamp(3rem,8vw,6.5rem)",fontWeight:700,lineHeight:.92,letterSpacing:"-.03em",position:"relative",margin:0}}>
                 <span style={{visibility:"hidden",position:"absolute",left:0,top:0,right:0}} aria-hidden="true">The leaders who move industries start here.</span>
@@ -556,6 +556,10 @@ export default function App() {
               <Rise><h2 style={{fontSize:"clamp(2rem,4.5vw,3.5rem)",fontWeight:700,lineHeight:1.1,letterSpacing:"-.02em",marginBottom:32}}>Executive search defined by <span style={{color:C.r,fontStyle:"italic"}}>depth</span>, not volume.</h2></Rise>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl,marginBottom:16}}>Bound Search Partners was founded on one principle: executive search should be personal. Every engagement is retained, personally led, and grounded in genuine understanding of the client's business, culture, and competitive landscape.</p>
               <p style={{fontSize:"1.1rem",lineHeight:1.8,color:C.gl}}>Founded in Philadelphia, serving manufacturers nationwide. Bound Search Partners works with industrial companies, PE-backed portfolio businesses, and the organizations that power the real economy.</p>
+              <div style={{display:"flex",gap:48,marginTop:36,paddingTop:24,borderTop:"1px solid rgba(255,255,255,.06)",flexWrap:"wrap"}}>
+                <div><div style={{fontSize:28,fontWeight:700,color:C.w,letterSpacing:"-.01em"}}>200+</div><div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginTop:6}}>Executive placements</div></div>
+                <div><div style={{fontSize:28,fontWeight:700,color:C.w,letterSpacing:"-.01em"}}>92<span style={{color:C.r}}>%</span></div><div style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginTop:6}}>Retained beyond year one</div></div>
+              </div>
             </div>
 
             {/* Process — clean vertical flow */}
@@ -591,7 +595,7 @@ export default function App() {
 
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
-          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4.5rem)"}}>Search. Advisory. Intelligence.</h2></Rise>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4.5rem)"}}>Search. Advisory. Intelligence<span style={{color:C.r}}>.</span></h2></Rise>
 
           <div id="srvScene" style={{display:"grid",gridTemplateColumns:"1.3fr 1fr",gap:"clamp(2.5rem,5vw,5.5rem)",alignItems:"start"}}>
             <div>
@@ -601,7 +605,7 @@ export default function App() {
                   <div key={i} onMouseEnter={() => {setActiveSrv(i);setHovChip(null);}} onClick={() => {setActiveSrv(isMobile && activeSrv===i ? -1 : i);setHovChip(null);}} role="button" tabIndex={0}
                     onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setActiveSrv(i);}}}
                     style={{padding:"clamp(1.2rem,2.1vw,1.8rem) 0",cursor:"pointer",borderBottom:"1px solid rgba(226,60,65,.08)",userSelect:"none"}}>
-                    <h3 className={active?undefined:"ghostTitle"} style={{fontSize:"clamp(1.55rem,3.4vw,3rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.08,margin:0,color:active?C.w:"transparent",transition:"color .45s ease"}}>
+                    <h3 style={{fontSize:"clamp(1.55rem,3.4vw,3rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.08,margin:0,color:active?C.w:C.g,transition:"color .45s ease"}}>
                       {s.t}<span style={{color:active?C.r:"transparent",transition:"color .45s ease"}}>.</span>
                     </h3>
                     {isMobile && active && (
@@ -637,8 +641,8 @@ export default function App() {
           {/* Case selector tabs */}
           <div className="caseTabs" style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
             {cases.map((c,i) => (
-              <button key={i} onClick={() => setActiveCase(i)} style={{flex:activeCase===i?"2.5 1 0%":"1 1 0%",padding:"16px 20px",background:activeCase===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeCase===i?`3px solid ${C.r}`:"3px solid transparent",color:activeCase===i?C.w:C.g,fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left",minWidth:0,overflow:"hidden"}}>
-                <span style={{whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis",display:"block"}}>{activeCase===i?c.role:c.ind}</span>
+              <button key={i} onClick={() => setActiveCase(i)} style={{flex:activeCase===i?"2.5 1 0%":"1 1 0%",padding:"16px 20px",background:activeCase===i?"rgba(226,60,65,.08)":"rgba(226,60,65,.02)",border:"none",borderBottom:activeCase===i?`3px solid ${C.r}`:"3px solid transparent",color:activeCase===i?C.w:C.g,fontFamily:"inherit",fontSize:12,fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",cursor:"pointer",transition:"all .4s cubic-bezier(.23,1,.32,1)",textAlign:"left"}}>
+                <span style={{whiteSpace:"nowrap",display:"block"}}>{c.tab}</span>
               </button>
             ))}
           </div>
@@ -659,8 +663,8 @@ export default function App() {
               {/* Metrics row */}
               <div style={{display:"flex",gap:48,flexWrap:"wrap",padding:"20px 0",borderTop:"1px solid rgba(226,60,65,.08)",borderBottom:"1px solid rgba(226,60,65,.08)"}}>
                 <div>
-                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Time to Fill</div>
-                  <div style={{fontSize:24,fontWeight:700,color:C.r}}>{cases[activeCase].days}{cases[activeCase].days!=="Confidential"&&cases[activeCase].days!=="Planned transition"?" days":""}</div>
+                  <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{cases[activeCase].ml}</div>
+                  <div style={{fontSize:24,fontWeight:700,color:C.r}}>{cases[activeCase].m}</div>
                 </div>
                 <div>
                   <div style={{fontSize:11,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Current Status</div>
@@ -927,10 +931,14 @@ export default function App() {
               <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={async(e)=>{e.preventDefault();setFormSending(true);try{const fd=new FormData(e.target);fd.append("form-name","contact");await fetch("/",{method:"POST",body:fd});setFormSent(true)}catch{alert("Something went wrong. Please email bob@boundsearch.com directly.")}setFormSending(false)}}>
                 <input type="hidden" name="form-name" value="contact"/>
                 <p style={{display:"none"}} aria-hidden="true"><label>Don't fill this out: <input name="bot-field"/></label></p>
+                <div id="mfr1" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
+                  {[["first-name","First Name"],["last-name","Last Name"]].map(([n,l]) => <div key={n}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} required style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(226,60,65,.18)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.5)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.18)"}/></div>)}
+                </div>
+
                 <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
                   <div>
                     <label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>I Am A</label>
-                    <select name="visitor-type" required defaultValue="" style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s",appearance:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a879a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center",paddingRight:40}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}>
+                    <select name="visitor-type" required defaultValue="" style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(226,60,65,.18)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s",appearance:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a879a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center",paddingRight:40}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.5)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.18)"}>
                       <option value="" disabled style={{color:"#8a879a"}}>Select one</option>
                       <option value="Client / Prospective Client">Client / Prospective Client</option>
                       <option value="Candidate">Candidate</option>
@@ -939,7 +947,7 @@ export default function App() {
                   </div>
                   <div>
                     <label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Inquiry Type</label>
-                    <select name="inquiry-type" required defaultValue="" style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s",appearance:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a879a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center",paddingRight:40}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}>
+                    <select name="inquiry-type" required defaultValue="" style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(226,60,65,.18)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s",appearance:"none",backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a879a' stroke-width='1.5' fill='none'/%3E%3C/svg%3E")`,backgroundRepeat:"no-repeat",backgroundPosition:"right 14px center",paddingRight:40}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.5)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.18)"}>
                       <option value="" disabled style={{color:"#8a879a"}}>Select one</option>
                       <option value="Executive Search">Executive Search</option>
                       <option value="Operations & Plant Leadership">Operations & Plant Leadership</option>
@@ -949,14 +957,11 @@ export default function App() {
                     </select>
                   </div>
                 </div>
-                <div id="mfr1" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
-                  {[["first-name","First Name"],["last-name","Last Name"]].map(([n,l]) => <div key={n}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} required style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>)}
-                </div>
                 <div id="mfr2" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:20,marginBottom:20}}>
-                  {[["email","Email","email"],["phone","Phone","tel"]].map(([n,l,t]) => <div key={n}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} type={t} required={n==="email"} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>)}
+                  {[["email","Email","email"],["phone","Phone","tel"]].map(([n,l,t]) => <div key={n}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} type={t} required={n==="email"} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(226,60,65,.18)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.5)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.18)"}/></div>)}
                 </div>
-                {[["company","Company"],["role","Role"]].map(([n,l]) => <div key={n} style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>)}
-                <div style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Additional Context</label><textarea name="message" rows={4} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(255,255,255,.06)",color:C.w,fontFamily:"inherit",fontSize:15,resize:"vertical",transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.4)"} onBlur={e=>e.target.style.borderColor="rgba(255,255,255,.06)"}/></div>
+                {[["company","Company"],["role","Role"]].map(([n,l]) => <div key={n} style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>{l}</label><input name={n} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(226,60,65,.18)",color:C.w,fontFamily:"inherit",fontSize:15,transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.5)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.18)"}/></div>)}
+                <div style={{marginBottom:20}}><label style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:6}}>Additional Context</label><textarea name="message" rows={4} style={{width:"100%",padding:14,background:C.n,border:"1px solid rgba(226,60,65,.18)",color:C.w,fontFamily:"inherit",fontSize:15,resize:"vertical",transition:"border-color .3s"}} onFocus={e=>e.target.style.borderColor="rgba(226,60,65,.5)"} onBlur={e=>e.target.style.borderColor="rgba(226,60,65,.18)"}/></div>
                 <button type="submit" disabled={formSending} style={{width:"100%",padding:"16px 36px",background:formSending?"rgba(226,60,65,.5)":C.r,color:C.w,border:"none",fontSize:13,fontWeight:700,letterSpacing:".15em",textTransform:"uppercase",cursor:formSending?"wait":"pointer",fontFamily:"inherit",transition:"all .3s"}} onMouseEnter={e=>{if(!formSending)e.target.style.background="#c8333a"}} onMouseLeave={e=>{if(!formSending)e.target.style.background=C.r}}>{formSending?"Sending...":"Submit Inquiry →"}</button>
               </form>
             )}
@@ -970,19 +975,19 @@ export default function App() {
 
       {/* CTA */}
       <section id="closer" style={{padding:"clamp(5rem,10vw,8.5rem) 0",background:C.n,textAlign:"center",position:"relative",overflow:"hidden"}}>
-        <div aria-hidden="true" style={{position:"absolute",inset:0,backgroundImage:"url(./closer-bg.jpg)",backgroundSize:"cover",backgroundPosition:"center 38%"}}/>
+        <div aria-hidden="true" style={{position:"absolute",inset:0,backgroundImage:"url(./closer-bg.jpg)",backgroundSize:"cover",backgroundPosition:"center 38%",filter:"saturate(.78) brightness(.9)"}}/>
         <div aria-hidden="true" style={{position:"absolute",inset:0,background:"linear-gradient(180deg, #0e0b24 0%, transparent 24%, transparent 76%, #0e0b24 100%)"}}/>
         <div aria-hidden="true" style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"min(900px,120vw)",height:"min(900px,120vw)",background:"radial-gradient(circle,rgba(226,60,65,.06),transparent 65%)",pointerEvents:"none",opacity:ctaVis?1:0,transition:"opacity 1.2s ease .3s"}}/>
         <div style={{maxWidth:800,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
-          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24,opacity:ctaVis?1:0,transition:"opacity .6s ease"}}>Ready to begin?</div>
+          <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.w,textShadow:"0 1px 12px rgba(8,6,20,.6)",marginBottom:24,opacity:ctaVis?1:0,transition:"opacity .6s ease"}}>Ready to begin?</div>
           <h2 style={{fontSize:"clamp(2.8rem,7.5vw,5.75rem)",fontWeight:700,lineHeight:.94,letterSpacing:"-.03em",marginBottom:24,opacity:ctaVis?1:0,transform:ctaVis?"translateY(0)":"translateY(24px)",transition:"all .8s cubic-bezier(.23,1,.32,1) .1s"}}>The right hire<br/>changes <span style={{color:C.r,fontStyle:"italic"}}>everything</span>.</h2>
-          <p ref={readyRef} style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.gl,lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>
+          <p ref={readyRef} style={{fontSize:"clamp(1.1rem,2vw,1.35rem)",color:C.w,textShadow:"0 1px 14px rgba(8,6,20,.7)",lineHeight:1.5,maxWidth:550,margin:"0 auto 40px"}}>
             {(() => {
               const full = "Ready when you are.";
               const len = readyTw.displayed.length;
               return full.split("").map((ch, i) => (
                 <React.Fragment key={i}>
-                  <span style={{color: i < len ? C.gl : "transparent"}}>{ch}</span>
+                  <span style={{color: i < len ? C.w : "transparent"}}>{ch}</span>
                   {i === len - 1 && readyTw.started && <span style={{color:C.r,animation:"blink .8s step-end infinite",fontWeight:300}}>|</span>}
                 </React.Fragment>
               ));
@@ -1006,7 +1011,7 @@ export default function App() {
           {/* Advisory list */}
           <div style={{display:"flex",flexDirection:"column"}}>
             {[
-{date:"Aug 11, 2026", badge:"New", title:"Governing Without a Rulebook", desc:"Washington finished its rules for vetting frontier AI — and won't say what's in them. Three labs in a month disclosed models acting beyond instruction. Advisory No. 05 on why this changes who you hire, not whether.", href:"/BSP_Advisory_2026-08-11.pdf", featured:true},
+{date:"Aug 11, 2026", badge:"New", title:"Governing Without a Rulebook", desc:"Washington finished its rules for vetting frontier AI — and won't say what's in them. Three labs in a month disclosed models acting beyond instruction. Advisory No. 05 on why this changes who you hire, not whether.", href:"/advisory-05.html", featured:true},
               {date:"Jun 12, 2026", badge:"", title:"The Bottleneck Has Moved", desc:"Both Middle East corridors blocked at once. U.S. factory activity at a four-year high. $1.77 trillion committed to capacity no one has staffed. Advisory No. 04 on where the constraint moved.", href:"/BSP_Advisory_2026-06-12.pdf", featured:false},
               {date:"Apr 29, 2026", badge:"", title:"Strait of Hormuz: 60 Days In", desc:"What has actually shifted for U.S. manufacturing — and what hasn't. Three structural changes, five operational realities, and what to watch in May.", href:"/BSP_Hormuz_Update_April29.pdf", featured:false},
               {date:"Mar 12, 2026", badge:"", title:"Strait of Hormuz: What's Changed Since March 5", desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.", href:"/BSP_Hormuz_Update_March12.pdf", featured:false},
@@ -1034,7 +1039,7 @@ export default function App() {
       <footer style={{background:C.nm,padding:"56px 0 24px",borderTop:"1px solid rgba(226,60,65,.08)"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
-            <svg width="180" height="36" viewBox="0 0 280 44" fill="none"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"/><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"/><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"/><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" strokeWidth="1.5" opacity=".2"/><text x="64" y="20" fill="#fff" fontFamily="Inter,sans-serif" fontSize="18" fontWeight="800" letterSpacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" fontFamily="Inter,sans-serif" fontSize="8" fontWeight="600" letterSpacing="5">SEARCH PARTNERS</text></svg>
+            <span role="img" aria-label="Bound Search Partners — Retained Executive Search" style={{display:"inline-flex",alignItems:"center",gap:15}}><svg width="33" height="36" viewBox="0 0 130 140" fill="none" aria-hidden="true"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg><span style={{display:"flex",flexDirection:"column",gap:4}}><span style={{fontWeight:700,fontSize:16.5,lineHeight:1,color:C.w,letterSpacing:".17em",whiteSpace:"nowrap"}}>BOUND SEARCH PARTNERS</span><span style={{fontWeight:600,fontSize:7.9,lineHeight:1,color:C.g,letterSpacing:".26em",textTransform:"uppercase",whiteSpace:"nowrap"}}>RETAINED EXECUTIVE SEARCH</span></span></span>
             <div style={{display:"flex",gap:32,flexWrap:"wrap"}}>{["Home","About","Services","Results","Contact"].map(l => <span key={l} onClick={() => go(l.toLowerCase())} style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</span>)}
               <a href="./portal.html" style={{fontSize:12,fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:C.g,cursor:"pointer",transition:"color .3s",textDecoration:"none"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>Client Portal</a></div>
           </div>
@@ -1042,13 +1047,18 @@ export default function App() {
           {/* Divider line */}
           <div style={{height:1,background:"rgba(226,60,65,.1)",marginTop:24,marginBottom:24}} />
 
+          {/* Legal fine print */}
+          <div style={{maxWidth:780,marginBottom:24}}>
+            <p style={{fontSize:11,lineHeight:1.75,color:"#73708a",margin:"0 0 6px"}}>Bound Search Partners LLC is a retained executive search firm. All client and candidate information is held in strict confidence; published outcomes are real and verified, with identities protected.</p>
+            <p style={{fontSize:11,lineHeight:1.75,color:"#73708a",margin:0}}>We present candidates without regard to race, color, religion, sex, national origin, age, disability, or veteran status. Advisories and market commentary are provided for general information only and do not constitute legal, financial, or investment advice.</p>
+          </div>
+
           {/* Bottom row: copyright left, skyline right */}
           <div id="mfootbot" style={{display:"flex",alignItems:"flex-end",justifyContent:"space-between",flexWrap:"wrap",gap:24}}>
             <div>
               <div style={{fontSize:12,color:C.g,marginBottom:6}}>© {new Date().getFullYear()} Bound Search Partners LLC. All rights reserved.</div>
-              <div style={{fontSize:11,color:C.g,opacity:.6,marginBottom:4}}>Made with love in the City of Brotherly Love.</div>
-              <div style={{fontSize:10,color:C.g,opacity:.4,marginBottom:8}}>Website designed and built by Bob Cwenar.</div>
-              <div style={{fontSize:10,color:C.g,opacity:.35,display:"flex",alignItems:"center",gap:6}}>&#128274; This site does not collect, store, or share any personal data. All form submissions are encrypted and sent directly to Bound Search Partners.</div>
+              <div style={{display:"flex",gap:18,marginBottom:6,flexWrap:"wrap"}}>{[["Privacy Policy","/privacy.html"],["Terms of Use","/terms.html"],["Accessibility","/accessibility.html"]].map(([l,h]) => <a key={l} href={h} style={{fontSize:11,fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",color:C.g,textDecoration:"none",transition:"color .3s"}} onMouseEnter={e=>e.target.style.color=C.r} onMouseLeave={e=>e.target.style.color=C.g}>{l}</a>)}</div>
+              <div style={{fontSize:11,color:C.g,opacity:.6}}>Made with love in the City of Brotherly Love.</div>
             </div>
             {/* Philly Skyline SVG */}
             <svg id="mskyline" viewBox="0 0 400 160" fill="none" style={{width:220,height:88,flexShrink:0}}>
@@ -1144,7 +1154,7 @@ export default function App() {
             <span onClick={dismissToast} role="button" tabIndex={0} aria-label="Dismiss" onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();dismissToast();}}} style={{cursor:"pointer",color:C.g,fontSize:16,lineHeight:1}}>×</span>
           </div>
           <p style={{margin:"0 0 10px",fontSize:14,fontWeight:700,color:C.w,lineHeight:1.35}}>Governing Without a Rulebook</p>
-          <a href="/BSP_Advisory_2026-08-11.pdf" target="_blank" rel="noopener" onClick={dismissToast} style={{fontSize:12,fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
+          <a href="/advisory-05.html" target="_blank" rel="noopener" onClick={dismissToast} style={{fontSize:12,fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
         </div>
       )}
       {/* Chat bubble */}
