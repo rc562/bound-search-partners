@@ -501,11 +501,11 @@ export default function App() {
 
       {/* HERO */}
       <section id="home" style={{position:"relative",minHeight:"100vh",display:"flex",alignItems:"flex-end",paddingBottom:"clamp(4rem,8vw,8rem)",overflow:"hidden",background:C.n}}>
-        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden",backgroundImage:"url(data:image/jpeg;base64,/9j//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB1AAEAAwEBAQAAAAAAAAAAAAAGBQEHBAADAQADAQEAAAAAAAAAAAAAAAACAQMEABAAAgEEAQMDAwUBAAAAAAAAAgERADEhAxJBYQQiBRORUXGBIzKh0UIRAQABBAMBAQEAAAAAAAAAAAEAIRESYQMCMRNCUf/AABEIABsAMAMBIgACEQADEQD/2gAMAwEAAhEDEQA/ADOvQ6kvjAGkRIW7S4mKR69YpXVA/LevZ5rTJEHC6afGFno+t62/f+VlsE9vJTXszs+T/lpJz0wks0lHTWVaz/dIJZItmtXxxRLpV+JsN+VxRmp2rHJqUimG5tFTOVCGUZrq1pQurwvpNX8LoMfuS2eT4+zYJ6Q1E+V2nKy7Z+1I/a/KHaXuG42S1gS2JuXAZShXmFauecLst7aZy/I5ekNplyXqRNCl2UvP9VEwQYcTjvj8qvQkFvt+frelpaxIRbSb9GeuVnN6wBixK9i6wwGs5lFl4hO/6VxkOwHyac9CnM2pjqAYNxaY7Z6V8gSKG8sUbXZ81/tJYsdyDPYZskzcOP5Yt0S71Zcw0S2QiRRxF4cK7i965SUkbfRuO2akPKxq8VLCett93yvSSnXaQj9aJ//Z)",backgroundSize:"cover",backgroundPosition:"center",filter:"saturate(.7) brightness(.82)"}}>
-          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center",filter:"saturate(.7) brightness(.82)",opacity:heroReady?1:0,transition:"opacity .9s ease"}}/>
+        <div style={{position:"absolute",inset:0,zIndex:0,overflow:"hidden",backgroundImage:"url(data:image/jpeg;base64,/9j//gAQTGF2YzYwLjMxLjEwMgD/2wBDAAgQEBMQExYWFhYWFhoYGhsbGxoaGhobGxsdHR0iIiIdHR0bGx0dICAiIiUmJSMjIiMmJigoKDAwLi44ODpFRVP/xAB1AAEAAwEBAQAAAAAAAAAAAAAGBQEHBAADAQADAQEAAAAAAAAAAAAAAAACAQMEABAAAgEEAQMDAwUBAAAAAAAAAgERADEhAxJBYQQiBRORUXGBIzKh0UIRAQABBAMBAQEAAAAAAAAAAAEAIRESYQMCMRNCUf/AABEIABsAMAMBIgACEQADEQD/2gAMAwEAAhEDEQA/ADOvQ6kvjAGkRIW7S4mKR69YpXVA/LevZ5rTJEHC6afGFno+t62/f+VlsE9vJTXszs+T/lpJz0wks0lHTWVaz/dIJZItmtXxxRLpV+JsN+VxRmp2rHJqUimG5tFTOVCGUZrq1pQurwvpNX8LoMfuS2eT4+zYJ6Q1E+V2nKy7Z+1I/a/KHaXuG42S1gS2JuXAZShXmFauecLst7aZy/I5ekNplyXqRNCl2UvP9VEwQYcTjvj8qvQkFvt+frelpaxIRbSb9GeuVnN6wBixK9i6wwGs5lFl4hO/6VxkOwHyac9CnM2pjqAYNxaY7Z6V8gSKG8sUbXZ81/tJYsdyDPYZskzcOP5Yt0S71Zcw0S2QiRRxF4cK7i965SUkbfRuO2akPKxq8VLCett93yvSSnXaQj9aJ//Z)",backgroundSize:"cover",backgroundPosition:"center"}}>
+          <div className="kbDrift" style={{position:"absolute",inset:0,backgroundImage:"url(./hero-poster.jpg)",backgroundSize:"cover",backgroundPosition:"center",opacity:heroReady?1:0,transition:"opacity .9s ease"}}/>
         </div>
         {/* Dark overlay */}
-        <div style={{position:"absolute",inset:0,zIndex:1,background:`radial-gradient(ellipse 62% 56% at 26% 58%, rgba(10,8,26,.78), transparent 74%),linear-gradient(180deg,transparent 0%,transparent 66%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.55) 0%,transparent 44%)`}} />
+        <div style={{position:"absolute",inset:0,zIndex:1,background:`radial-gradient(ellipse 58% 52% at 26% 58%, rgba(10,8,26,.62), transparent 72%),linear-gradient(180deg,transparent 0%,transparent 70%,${C.n} 100%),linear-gradient(90deg,rgba(14,11,36,.4) 0%,transparent 40%)`}} />
         {/* Hero content */}
         <div style={{position:"relative",zIndex:2,maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div id="heroContent" style={{maxWidth:860,opacity:0,animation:"fu .7s cubic-bezier(.23,1,.32,1) .2s forwards",transform:"translateY(20px)",willChange:"transform,opacity"}}>
@@ -546,7 +546,7 @@ export default function App() {
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.15),transparent)"}}/>
 
       {/* ABOUT */}
-      <section id="about" style={{padding:"clamp(6rem,12vw,10rem) 0",background:C.nm}}>
+      <section id="about" style={{padding:"clamp(4rem,7vw,6rem) 0",background:C.nm}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
           <div id="mabout" style={{display:"grid",gridTemplateColumns:"1.2fr .8fr",gap:"clamp(3rem,8vw,8rem)",alignItems:"center"}}>
@@ -590,12 +590,12 @@ export default function App() {
 
 
       {/* SERVICES — living index */}
-      <section id="services" style={{background:C.n,padding:"clamp(6rem,11vw,9rem) 0",position:"relative",overflow:"hidden"}}>
+      <section id="services" style={{background:C.n,padding:"clamp(4rem,6.5vw,5.5rem) 0",position:"relative",overflow:"hidden"}}>
         <div aria-hidden="true" style={{position:"absolute",width:"min(720px,90vw)",height:"min(720px,90vw)",borderRadius:"50%",background:"radial-gradient(circle,rgba(226,60,65,.5),transparent 60%)",filter:"blur(50px)",opacity:.12,pointerEvents:"none",top:`${Math.max(activeSrv,0)*20-6}%`,left:"52%",transition:"top 1.2s cubic-bezier(.23,1,.32,1)",willChange:"top"}}/>
 
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Services</div>
-          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4.5rem)"}}>Search. Advisory. Intelligence<span style={{color:C.r}}>.</span></h2></Rise>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:940,marginBottom:"clamp(2rem,3.5vw,3rem)"}}>Retained search for the leaders who <em style={{color:C.r,fontStyle:"italic"}}>run</em> plants, supply chains, and P&Ls.</h2></Rise>
 
           <div id="srvScene" style={{display:"grid",gridTemplateColumns:"1.3fr 1fr",gap:"clamp(2.5rem,5vw,5.5rem)",alignItems:"start"}}>
             <div>
@@ -633,10 +633,10 @@ export default function App() {
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
 
       {/* CASE STUDIES */}
-      <section id="results" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.n}}>
+      <section id="results" style={{padding:"clamp(3.5rem,6vw,5.5rem) 0",background:C.n}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:16}}>Placement Outcomes</div>
-          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:56}}>Real searches.<br/>Measurable results.</h2></Rise>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",maxWidth:700,marginBottom:40}}>Real searches.<br/>Measurable results.</h2></Rise>
           
           {/* Case selector tabs */}
           <div className="caseTabs" style={{display:"flex",gap:2,marginBottom:2,flexWrap:"wrap"}}>
@@ -695,10 +695,10 @@ export default function App() {
       </section>
 
       {/* INDUSTRIES — manifesto */}
-      <section id="industries" style={{padding:"clamp(6rem,11vw,10rem) 0",background:C.nm,position:"relative",overflow:"hidden"}}>
+      <section id="industries" style={{padding:"clamp(4rem,6.5vw,6rem) 0",background:C.nm,position:"relative",overflow:"hidden"}}>
         <div style={{maxWidth:1100,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative",textAlign:"center"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:18}}>Industries</div>
-          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4rem)"}}>We know your world<span style={{color:C.r}}>.</span></h2></Rise>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2rem,3.5vw,3rem)"}}>We know your world<span style={{color:C.r}}>.</span></h2></Rise>
 
           {/* the manifesto block — annotations anchor under the clicked word */}
           <div style={{fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.5,maxWidth:1040,margin:"0 auto"}}>
@@ -779,7 +779,7 @@ export default function App() {
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.1),transparent)"}}/>
 
       {/* BOND */}
-      <section id="bond" style={{padding:"clamp(3rem,6vw,5rem) 0 clamp(5rem,10vw,8rem)",background:C.n,textAlign:"center",overflow:"hidden",position:"relative"}}>
+      <section id="bond" style={{padding:"clamp(2.5rem,4.5vw,3.5rem) 0 clamp(3.5rem,6vw,5rem)",background:C.n,textAlign:"center",overflow:"hidden",position:"relative"}}>
         <div style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:500,height:500,background:"radial-gradient(circle,rgba(226,60,65,.04),transparent 70%)",pointerEvents:"none"}}/>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)"}}>
 
@@ -844,7 +844,7 @@ export default function App() {
       </section>
 
       {/* FOUNDER */}
-      <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
+      <section style={{padding:"clamp(3.5rem,6vw,5.5rem) 0",background:C.nm}}>
         <div id="mfounder" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"center"}}>
           <div>
             <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:18}}>Bob Cwenar<span style={{color:C.r}}>.</span></h2></Rise>
@@ -903,7 +903,7 @@ export default function App() {
       </section>
 
       {/* CONTACT */}
-      <section id="contact" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
+      <section id="contact" style={{padding:"clamp(3.5rem,6vw,5.5rem) 0",background:C.nm}}>
         <div id="mcontact" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:"clamp(3rem,5vw,5rem)",alignItems:"start"}}>
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Contact</div>
@@ -974,7 +974,7 @@ export default function App() {
       <div style={{height:1,background:"linear-gradient(90deg,transparent,rgba(226,60,65,.12),transparent)"}}/>
 
       {/* CTA */}
-      <section id="closer" style={{padding:"clamp(5rem,10vw,8.5rem) 0",background:C.n,textAlign:"center",position:"relative",overflow:"hidden"}}>
+      <section id="closer" style={{padding:"clamp(4rem,7vw,6rem) 0",background:C.n,textAlign:"center",position:"relative",overflow:"hidden"}}>
         <div aria-hidden="true" style={{position:"absolute",inset:0,backgroundImage:"url(./closer-bg.jpg)",backgroundSize:"cover",backgroundPosition:"center 38%",filter:"saturate(.78) brightness(.9)"}}/>
         <div aria-hidden="true" style={{position:"absolute",inset:0,background:"linear-gradient(180deg, #0e0b24 0%, transparent 24%, transparent 76%, #0e0b24 100%)"}}/>
         <div aria-hidden="true" style={{position:"absolute",top:"50%",left:"50%",transform:"translate(-50%,-50%)",width:"min(900px,120vw)",height:"min(900px,120vw)",background:"radial-gradient(circle,rgba(226,60,65,.06),transparent 65%)",pointerEvents:"none",opacity:ctaVis?1:0,transition:"opacity 1.2s ease .3s"}}/>
