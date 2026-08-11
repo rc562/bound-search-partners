@@ -49,6 +49,13 @@ function Rise({children, delay = 0}) {
 export default function App() {
   const [scrolled,setScrolled] = useState(false);
   const [hovInd,setHovInd] = useState(null);
+  const [advToast,setAdvToast] = useState(false);
+  useEffect(() => {
+    try { if (sessionStorage.getItem("bspAdvToast5")) return; } catch(e) {}
+    const t = setTimeout(() => setAdvToast(true), 1600);
+    return () => clearTimeout(t);
+  }, []);
+  const dismissToast = () => { setAdvToast(false); try { sessionStorage.setItem("bspAdvToast5","1"); } catch(e) {} };
   const [bondVis,setBondVis] = useState(false);
   const [hovBond,setHovBond] = useState(null);
   const [mobileMenu,setMobileMenu] = useState(false);
@@ -224,7 +231,7 @@ export default function App() {
       role:"U.S. Manufacturing Leader, Americas",
       focus:"Succession Planning · Multi-Site Operations",
       days:"Planned transition",
-      status:"~2 years in role, fully transitioned",
+      status:"Fully transitioned and leading",
       challenge:"A mid-sized industrial manufacturer serving automotive, construction equipment, and general industrial markets needed to plan succession for their Americas manufacturing leader approaching retirement. The 12–18 month transition demanded a candidate with engineering depth, strategic vision, and the ability to manage a complex multi-site network.",
       outcome:"Identified an operations leader with a strong engineering pedigree and the strategic range to lead across a complex manufacturing network. The predecessor has since retired, and the hire has fully stepped into the role — now nearly two years in and performing at the level the organization envisioned."
     },
@@ -241,13 +248,13 @@ export default function App() {
     },
     {
       id:"05",
-      ind:"Food Ingredients Manufacturing",
+      ind:"Plastics Manufacturing",
       rev:"$1B+ Revenue · Global",
       role:"Plant Manager",
       focus:"Site Leadership · U.S. Flagship Operations",
       days:"Confidential",
       status:"Placed 2026 — onboarding",
-      challenge:"A global specialty food ingredients manufacturer needed a Plant Manager for its U.S. flagship site — a high-visibility role demanding floor credibility, food-safety rigor, and the leadership range to run one of the company's most strategically important plants.",
+      challenge:"A global specialty plastics manufacturer needed a Plant Manager for its U.S. flagship site — a high-visibility role demanding floor credibility, process and quality rigor, and the leadership range to run one of the company's most strategically important plants.",
       outcome:"Ran a full retained process from market mapping through offer negotiation, delivering a competitive multi-finalist slate. Placed a proven plant leader who is onboarding with strong organizational alignment — and the client has since retained BSP for its next leadership search."
     }
   ];
@@ -404,7 +411,7 @@ export default function App() {
       <div aria-hidden="true" style={{position:"fixed",inset:0,pointerEvents:"none",zIndex:5000,opacity:.026,backgroundImage:`url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")`}}/>
 
       {/* NAV */}
-      <nav style={{position:"fixed",top:0,left:0,width:"100%",zIndex:1000,padding:scrolled?"12px 0":"20px 0",background:scrolled?"rgba(14,11,36,.6)":"transparent",backdropFilter:scrolled?"blur(16px)":"none",borderBottom:scrolled?"1px solid rgba(226,60,65,.06)":"none",transform:navHidden?"translateY(-100%)":"translateY(0)",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>
+      <nav style={{position:"fixed",top:0,left:0,width:"100%",zIndex:1000,padding:scrolled?"12px 0":"20px 0",background:"transparent",borderBottom:scrolled?"1px solid rgba(226,60,65,.06)":"none",transform:navHidden?"translateY(-100%)":"translateY(0)",transition:"all .4s cubic-bezier(.23,1,.32,1)"}}>
         <div style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"flex",alignItems:"center",justifyContent:"space-between"}}>
           <div onClick={() => go("home")} style={{cursor:"pointer"}}>
             <svg width="36" height="38" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg>
@@ -687,7 +694,7 @@ export default function App() {
       <section id="industries" style={{padding:"clamp(6rem,11vw,10rem) 0",background:C.nm,position:"relative",overflow:"hidden"}}>
         <div style={{maxWidth:1100,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",position:"relative",textAlign:"center"}}>
           <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:18}}>Industries</div>
-          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4rem)"}}>We know your world.</h2></Rise>
+          <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:"clamp(2.5rem,5vw,4rem)"}}>We know your world<span style={{color:C.r}}>.</span></h2></Rise>
 
           {/* the manifesto block — annotations anchor under the clicked word */}
           <div style={{fontSize:"clamp(1.25rem,2.5vw,2rem)",fontWeight:700,letterSpacing:"-.02em",lineHeight:1.5,maxWidth:1040,margin:"0 auto"}}>
@@ -833,7 +840,7 @@ export default function App() {
       </section>
 
       {/* FOUNDER */}
-      <section style={{padding:"clamp(5rem,10vw,9rem) 0 clamp(2.5rem,5vw,4rem)",background:C.nm}}>
+      <section style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
         <div id="mfounder" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1fr",gap:"clamp(3rem,6vw,6rem)",alignItems:"center"}}>
           <div>
             <Rise><h2 style={{fontSize:"clamp(2rem,5vw,3.75rem)",fontWeight:700,lineHeight:1.05,letterSpacing:"-.02em",marginBottom:18}}>Bob Cwenar<span style={{color:C.r}}>.</span></h2></Rise>
@@ -860,7 +867,7 @@ export default function App() {
                 {w:"Son of a builder", d:"Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited."},
                 {w:"Behind the lens", d:"A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one."},
                 {w:"The kitchen", d:"Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish."},
-                {w:"Markets & macro", d:"A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site."},
+                {w:"Markets & macro", d:"A standing study of geopolitics, capital flows, and supply chains — the research habit behind the advisories published on this site."},
               ].map((item,i) => {
                 const on = bwActive === i;
                 return (
@@ -874,25 +881,25 @@ export default function App() {
                 );
               })}
             </div>
-            <div style={{display:"grid"}}>
-              {[
-                "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
-                "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
-                "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
-                "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
-                "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the client advisories published on this site.",
-              ].map((t,i) => (
-                <p key={i} aria-hidden={bwActive!==i} style={{gridArea:"1 / 1",fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,borderLeft:`2px solid ${C.r}`,paddingLeft:16,opacity:bwActive===i?1:0,transform:bwActive===i?"translateY(0)":"translateY(6px)",transition:"opacity .35s cubic-bezier(.23,1,.32,1), transform .35s cubic-bezier(.23,1,.32,1)",pointerEvents:"none"}}>
-                  {t}
+            <div style={{minHeight:44}}>
+              {bwActive >= 0 && (
+                <p key={bwActive} style={{fontSize:".95rem",lineHeight:1.65,color:C.gl,maxWidth:680,margin:0,animation:"detailIn .45s cubic-bezier(.23,1,.32,1)",borderLeft:`2px solid ${C.r}`,paddingLeft:16}}>
+                  {[
+                                        "Rooted here by choice. The skyline on this site is the view from home; the industrial economy around it is the one this firm serves.",
+                    "Bob's father builds custom homes and restores historic properties in Bucks County. The regard for people who make physical things — and stand behind the finished work — is inherited.",
+                    "A longtime photographer of cities and landscapes. The discipline transfers: wait for the right frame, not the available one.",
+                    "Where the same standards apply — preparation, timing, execution. Bob cooks the way he runs searches: personally, start to finish.",
+                    "A standing study of geopolitics, capital flows, and supply chains — the research habit behind the advisories published on this site.",
+                  ][bwActive]}
                 </p>
-              ))}
+              )}
             </div>
           </div>
         </div>
       </section>
 
       {/* CONTACT */}
-      <section id="contact" style={{padding:"clamp(3rem,6vw,5rem) 0 clamp(5rem,10vw,9rem)",background:C.nm}}>
+      <section id="contact" style={{padding:"clamp(5rem,10vw,9rem) 0",background:C.nm}}>
         <div id="mcontact" style={{maxWidth:1320,margin:"0 auto",padding:"0 clamp(1.5rem,4vw,4rem)",display:"grid",gridTemplateColumns:"1fr 1.2fr",gap:"clamp(3rem,5vw,5rem)",alignItems:"start"}}>
           <div>
             <div style={{fontSize:"clamp(.65rem,.9vw,.78rem)",fontWeight:700,letterSpacing:".22em",textTransform:"uppercase",color:C.r,marginBottom:24}}>Contact</div>
@@ -906,7 +913,6 @@ export default function App() {
                 <div><strong style={{display:"block",fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.g,marginBottom:3}}>{label}</strong>{href?<a href={href} style={{color:C.w,textDecoration:"none"}}>{val}</a>:<span>{val}</span>}</div>
               </div>
             ))}
-            <p style={{marginTop:24,fontSize:13.5,color:C.gl,lineHeight:1.7,borderLeft:`2px solid ${C.r}`,paddingLeft:14}}>Every inquiry receives a direct response from the founder within 24 hours.</p>
           </div>
           <div>
             {formSent ? (
@@ -1000,7 +1006,8 @@ export default function App() {
           {/* Advisory list */}
           <div style={{display:"flex",flexDirection:"column"}}>
             {[
-{date:"Jun 12, 2026", badge:"New", title:"The Bottleneck Has Moved", desc:"Both Middle East corridors blocked at once. U.S. factory activity at a four-year high. $1.77 trillion committed to capacity no one has staffed. Advisory No. 04 on where the constraint moved.", href:"/BSP_Advisory_2026-06-12.pdf", featured:true},
+{date:"Aug 11, 2026", badge:"New", title:"Governing Without a Rulebook", desc:"Washington finished its rules for vetting frontier AI — and won't say what's in them. Three labs in a month disclosed models acting beyond instruction. Advisory No. 05 on why this changes who you hire, not whether.", href:"/BSP_Advisory_2026-08-11.pdf", featured:true},
+              {date:"Jun 12, 2026", badge:"", title:"The Bottleneck Has Moved", desc:"Both Middle East corridors blocked at once. U.S. factory activity at a four-year high. $1.77 trillion committed to capacity no one has staffed. Advisory No. 04 on where the constraint moved.", href:"/BSP_Advisory_2026-06-12.pdf", featured:false},
               {date:"Apr 29, 2026", badge:"", title:"Strait of Hormuz: 60 Days In", desc:"What has actually shifted for U.S. manufacturing — and what hasn't. Three structural changes, five operational realities, and what to watch in May.", href:"/BSP_Hormuz_Update_April29.pdf", featured:false},
               {date:"Mar 12, 2026", badge:"", title:"Strait of Hormuz: What's Changed Since March 5", desc:"Brent crossed $100. Iran mined the strait. Goldman is using March 21 as their base-case recovery date. Seven-day update.", href:"/BSP_Hormuz_Update_March12.pdf", featured:false},
               {date:"Mar 5, 2026", badge:"", title:"Strait of Hormuz: A Grounded Assessment", desc:"The original bulletin. Separated verified data from noise, mapped four transmission channels into U.S. manufacturing.", href:"/BSP_Hormuz_Client_Bulletin_March2026.pdf", featured:false},
@@ -1129,6 +1136,17 @@ export default function App() {
       </footer>
 
       {/* AI CHAT WIDGET */}
+      {/* Advisory No. 05 toast */}
+      {advToast && (
+        <div role="status" style={{position:"fixed",left:20,bottom:20,zIndex:70,maxWidth:"min(340px, calc(100vw - 110px))",background:"rgba(18,14,42,.92)",border:"1px solid rgba(226,60,65,.35)",borderRadius:4,padding:"16px 18px",backdropFilter:"blur(12px)",WebkitBackdropFilter:"blur(12px)",boxShadow:"0 12px 40px rgba(8,6,20,.5)",animation:"toastUp .45s cubic-bezier(.23,1,.32,1) both"}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,marginBottom:8}}>
+            <span style={{fontSize:10,fontWeight:600,letterSpacing:".15em",textTransform:"uppercase",color:C.r}}>Advisory · <span style={{fontSize:"1.45em",lineHeight:1,verticalAlign:"-.05em"}}>№</span> 05</span>
+            <span onClick={dismissToast} role="button" tabIndex={0} aria-label="Dismiss" onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();dismissToast();}}} style={{cursor:"pointer",color:C.g,fontSize:16,lineHeight:1}}>×</span>
+          </div>
+          <p style={{margin:"0 0 10px",fontSize:14,fontWeight:700,color:C.w,lineHeight:1.35}}>Governing Without a Rulebook</p>
+          <a href="/BSP_Advisory_2026-08-11.pdf" target="_blank" rel="noopener" onClick={dismissToast} style={{fontSize:12,fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",color:C.r,textDecoration:"none"}}>Read the advisory →</a>
+        </div>
+      )}
       {/* Chat bubble */}
       <div onClick={() => setChatOpen(!chatOpen)} className="orbLauncher" role="button" tabIndex={0} aria-label="Chat with BSP"
         onKeyDown={e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();setChatOpen(!chatOpen);}}}
