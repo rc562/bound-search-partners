@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessibility · Bound Search Partners</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&display=swap" rel="stylesheet">
+<style>:root{--night:#0e0b24;--red:#e23c41;--red-008:rgba(226,60,65,.08);--text-muted:#8a879a;--gutter:clamp(1.5rem,4vw,4rem);--font-sans:'Inter',system-ui,sans-serif;--font-serif:'Newsreader',Georgia,serif;--font-mono:'IBM Plex Mono',monospace;--paper:#f6f4ee;--paper-dim:#eeebe2;--paper-ink:#16132e;--paper-ink-soft:#3b3852;--paper-ink-mute:#6d6a80;--paper-rule:rgba(22,19,46,.16);--paper-rule-soft:rgba(22,19,46,.09);--paper-red-rule:rgba(226,60,65,.28);--paper-grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}</style>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:#fff;font-family:var(--font-sans)}
+::selection{background:rgba(226,60,65,.27);color:#fff}
+.wrap{max-width:860px;margin:0 auto;padding:0 var(--gutter)}
+.mast{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:28px 0}
+.mast a{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff}
+.mast a span{font-family:var(--font-mono);font-weight:600;font-size:12px;letter-spacing:.2em}
+.kick{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--red);white-space:nowrap}
+.sheet{background:var(--paper);color:var(--paper-ink);font-family:var(--font-serif);position:relative}
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.35;background-image:var(--paper-grain)}
+.inner{position:relative}
+.eff{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-ink-mute);margin:0 0 26px}
+h1{font-size:clamp(2.4rem,5.5vw,3.8rem);font-weight:500;line-height:1.06;letter-spacing:-.012em;margin:0 0 22px}
+.stand{font-size:clamp(1.1rem,1.9vw,1.3rem);line-height:1.5;color:var(--paper-ink-soft);max-width:54ch;margin:0}
+.meta{font-family:var(--font-mono);display:flex;gap:26px;flex-wrap:wrap;font-size:11px;letter-spacing:.08em;color:var(--paper-ink-mute);margin-top:28px}
+section{padding:clamp(1.8rem,3.5vw,2.6rem) 0;border-top:1px solid var(--paper-rule-soft)}
+.lab{display:flex;align-items:center;gap:14px;margin-bottom:18px;font-family:var(--font-mono)}
+.lab b{font-size:12px;font-weight:600;color:var(--red);letter-spacing:.1em}
+.lab i{width:26px;height:2px;background:var(--red);opacity:.55;flex-shrink:0;font-style:normal}
+.lab span{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--paper-ink)}
+p{font-size:17.5px;line-height:1.72;color:var(--paper-ink-soft);margin:0 0 18px;max-width:68ch;text-wrap:pretty}
+p:last-child{margin-bottom:0}
+.sign{border-top:2px solid var(--paper-ink);padding-top:18px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+.sign p{font-size:1.25rem;font-weight:500;margin:0;color:var(--paper-ink)}
+.sign span{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;color:var(--paper-ink-mute)}
+.foot{border-top:1px solid var(--red-008)}
+.foot .row{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;padding:26px 0;font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;color:var(--text-muted)}
+.foot nav{display:flex;gap:22px;flex-wrap:wrap}
+.foot a{color:var(--text-muted);text-decoration:none;text-transform:uppercase;font-weight:600}
+.foot a:hover{color:var(--red)}
+.foot .here{color:var(--red);text-transform:uppercase;font-weight:600}
+a{color:var(--red)}a:hover{color:#C8333A}
+</style>
+</head>
+<body>
+<div style="height:4px;background:var(--red)"></div>
+<header class="wrap mast">
+  <a href="/"><svg width="24" height="26" viewBox="0 0 130 140" fill="none"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"></rect><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"></rect><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"></rect></svg><span>BOUND SEARCH PARTNERS</span></a>
+  <span class="kick">Legal · Accessibility</span>
+</header>
+<div class="sheet">
+<div class="grain"></div>
+<div class="inner wrap" style="padding-top:clamp(3rem,6vw,4.5rem);padding-bottom:clamp(2.5rem,5vw,3.5rem)">
+  <p class="eff">Last reviewed August 10, 2026</p>
+  <h1>Accessibility<span style="color:var(--red)">.</span></h1>
+  <p class="stand">Search is a people business. The site should work for all of them.</p>
+  <div class="meta"><span>BSP-LEGAL-2026-03</span><span>BOUNDSEARCH.COM</span><span>BOB@BOUNDSEARCH.COM</span></div>
+  <div style="height:clamp(1.8rem,3.5vw,2.6rem)"></div>
+  <section>
+    <div class="lab"><b>01</b><i></i><span>Our standard</span></div>
+    <p>We aim for WCAG 2.1 Level AA across boundsearch.com and the client portal, and we review against it whenever the site changes.</p>
+  </section>
+  <section>
+    <div class="lab"><b>02</b><i></i><span>What we've built</span></div>
+    <p>Contrast-checked text on both of our surfaces — the dark site and the ivory documents. Motion that respects your reduced-motion setting everywhere animation appears. Semantic headings, landmarks, and labeled forms reachable by keyboard. Descriptive text on informative imagery; decorative texture is hidden from assistive technology.</p>
+  </section>
+  <section>
+    <div class="lab"><b>03</b><i></i><span>Known limits</span></div>
+    <p>Background photography and film-grain texture are purely visual. Printable advisory editions may lag their web versions for screen-reader structure — the web edition is the accessible copy of record.</p>
+  </section>
+  <section>
+    <div class="lab"><b>04</b><i></i><span>Tell us what isn't working</span></div>
+    <p>If anything on this site is hard to use, say so and we will fix it: <a href="mailto:bob@boundsearch.com">bob@boundsearch.com</a> or (267) 265-1792. A person answers, not a ticket queue.</p>
+  </section>
+  <div style="height:clamp(1.5rem,3vw,2.5rem)"></div>
+  <div class="sign"><p>Bound Search Partners<span style="color:var(--red)">.</span></p><span>BSP-LEGAL-2026-03 · AUG 2026 · BOUNDSEARCH.COM</span></div>
+</div>
+</div>
+<footer class="foot">
+  <div class="wrap row">
+    <span>© 2026 BOUND SEARCH PARTNERS LLC</span>
+    <nav><a href="/">boundsearch.com</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><span class="here">Accessibility</span></nav>
+  </div>
+</footer>
+</body>
+</html>
