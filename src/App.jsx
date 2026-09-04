@@ -180,7 +180,7 @@ function Nav({ go }) {
               {NAV.map(([id, label]) => (
                 <span key={id} onClick={() => go(id)} className="bsp-navlink" style={{ fontSize: 12, fontWeight: 600, letterSpacing: "var(--ls-nav)", textTransform: "uppercase", cursor: "pointer", color: id === "contact" ? "var(--red)" : "var(--text-secondary)", transition: "color var(--dur)" }}>{label}</span>
               ))}
-              {w > 1000 && <a href="#portal" onClick={(e) => e.preventDefault()} className="bsp-navlink" style={{ fontSize: 12, fontWeight: 600, letterSpacing: "var(--ls-nav)", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none", whiteSpace: "nowrap", transition: "color var(--dur)" }}>Client Portal</a>}
+              {w > 1000 && <a href="/portal.html" className="bsp-navlink" style={{ fontSize: 12, fontWeight: 600, letterSpacing: "var(--ls-nav)", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none", whiteSpace: "nowrap", transition: "color var(--dur)" }}>Client Portal</a>}
             </div>
           )}
         </Wrap>
@@ -211,7 +211,7 @@ function Nav({ go }) {
           </div>
           <div style={{ marginTop: 28, display: "flex", flexDirection: "column", gap: 14 }}>
             <Button arrow onClick={() => { go("contact"); setMenu(false); }} style={{ justifyContent: "center" }}>Start a Conversation</Button>
-            <span style={{ ...LABEL, textAlign: "center", color: "var(--text-secondary)" }}>Client Portal →</span>
+            <a href="/portal.html" style={{ ...LABEL, textAlign: "center", color: "var(--text-secondary)", textDecoration: "none" }}>Client Portal →</a>
           </div>
           <div style={{ position: "absolute", bottom: 28, left: "var(--gutter)", right: "var(--gutter)", display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--text-muted)" }}>
             <span>(267) 265-1792</span><span>bob@boundsearch.com</span>
@@ -1174,7 +1174,7 @@ function Footer({ go }) {
             <a href="tel:+12672651792" className="bsp-foot-link" style={lnk}>(267) 265-1792</a>
             <a href="mailto:bob@boundsearch.com" className="bsp-foot-link" style={lnk}>bob@boundsearch.com</a>
             <a href="https://www.linkedin.com/company/bound-search-partners-llc/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="bsp-foot-link" style={{ ...lnk, display: "inline-flex", alignItems: "center", color: "var(--text-secondary)" }}><LinkedInMark size={18} /></a>
-            <a href="#portal" onClick={(e) => e.preventDefault()} className="bsp-foot-link" style={{ ...lnk, marginTop: 6, fontSize: 11, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-secondary)" }}>Client Portal →</a>
+            <a href="/portal.html" className="bsp-foot-link" style={{ ...lnk, marginTop: 6, fontSize: 11, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-secondary)" }}>Client Portal →</a>
           </div>
         </div>
         <div style={{ height: 1, background: "rgba(226,60,65,.1)", margin: "0 0 24px" }} />
