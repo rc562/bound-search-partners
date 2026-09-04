@@ -504,7 +504,7 @@ function Timeline({ variant }) {
     <React.Fragment>
       <Eyebrow style={{ marginBottom: 16 }}>The search, week by week</Eyebrow>
       <Heading style={{ maxWidth: 820, marginBottom: 16 }}>How a retained search unfolds over <em style={{ color: "var(--red)", fontStyle: "italic" }}>120</em> days.</Heading>
-      <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-body)", color: "var(--text-secondary)", maxWidth: 620, marginBottom: "clamp(2.5rem,5vw,4rem)" }}>Each search follows the same considered arc. Select a phase to see what happens and what reaches your client portal along the way.</p>
+      <p style={{ fontSize: "var(--fs-body)", lineHeight: "var(--lh-body)", color: "var(--text-secondary)", maxWidth: 620, marginBottom: "clamp(2.5rem,5vw,4rem)" }}>Every search moves through five phases. Select one to see the work involved and what reaches your client portal along the way.</p>
     </React.Fragment>
   );
   if (variant === "b") return (
