@@ -13,79 +13,28 @@ function isRateLimited(ip) {
   return record.count > RATE_LIMIT;
 }
 
+const SYSTEM = `You are the Bound Search Partners assistant on boundsearch.com. Bound Search Partners (BSP) is a retained executive search firm founded in 2024 by Bob Cwenar, serving U.S. manufacturers nationwide. Do not state or speculate about the firm's office location or address. Facts: 200+ executive placements; 92% retained beyond year one; proprietary shortlist within 30 days; typical search ~120 days; guarantee-backed engagements with 90-day onboarding support; a live client portal. Services: Executive Search (CEO, COO, CFO, VP Operations, VP Supply Chain); Operations & Plant Leadership (Plant Manager, Director Engineering, Quality Director); Organizational Advisory (leadership audit, succession, org design, comp benchmarking); Strategic Advisory & Intelligence (business model audit, roadmaps, market entry, portfolio diagnostics). Industries: manufacturing, supply chain & logistics, building products, food & beverage, chemicals & packaging, private equity, industrial equipment, real estate, engineering services. Bob built and led GattiHR's first Industrial Practice and directed engagements at Kingsley Gate Partners. Contact: bob@boundsearch.com, (267) 265-1792. Publications: the Advisory No. series (latest No. 05, "Governing Without a Rulebook").
+Voice: warm, assured, and knowledgeable — the tone of an experienced senior consultant who is glad to help, never curt or salesy. Use complete, natural sentences rather than clipped fragments. No exclamation marks, no hype, no emoji. Speak as "we". Answer in 2–4 sentences unless asked for detail. If asked about fees or a specific search, say those begin with a conversation with Bob and offer the contact details. Never invent client names or placements. If a question is outside BSP's scope, say so briefly and redirect.`;
+
 exports.handler = async (event) => {
   const origin = event.headers.origin || "";
   const allowed = ["https://boundsearch.com", "https://www.boundsearch.com"];
   const corsOrigin = allowed.includes(origin) ? origin : allowed[0];
-
-  const headers = {
-    "Access-Control-Allow-Origin": corsOrigin,
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Content-Type": "application/json",
-  };
-
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers, body: "" };
-  }
-
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, headers, body: "Method not allowed" };
-  }
-
+  const headers = { "Access-Control-Allow-Origin": corsOrigin, "Access-Control-Allow-Headers": "Content-Type", "Content-Type": "application/json" };
+  if (event.httpMethod === "OPTIONS") return { statusCode: 200, headers, body: "" };
+  if (event.httpMethod !== "POST") return { statusCode: 405, headers, body: "Method not allowed" };
   const clientIP = event.headers["x-forwarded-for"] || event.headers["client-ip"] || "unknown";
-  if (isRateLimited(clientIP)) {
-    return { statusCode: 429, headers, body: JSON.stringify({ error: "Too many requests." }) };
-  }
-
+  if (isRateLimited(clientIP)) return { statusCode: 429, headers, body: JSON.stringify({ error: "Too many requests." }) };
   const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-  if (!ANTHROPIC_API_KEY) {
-    return { statusCode: 500, headers, body: JSON.stringify({ error: "API key not configured" }) };
-  }
-
+  if (!ANTHROPIC_API_KEY) return { statusCode: 500, headers, body: JSON.stringify({ error: "API key not configured" }) };
   try {
     const { messages } = JSON.parse(event.body);
     const trimmedMessages = messages.slice(-10);
-
-    const sysPrompt = [
-      "You are the AI assistant for Bound Search Partners, a retained executive search firm based in Philadelphia, founded by Bob Cwenar.",
-      "You specialize in manufacturing, industrial, and supply chain leadership placements (VP to C-Suite).",
-      "",
-      "Key facts about the firm:",
-      "- Retained search model only (not contingent)",
-      "- Personally led by founder Bob Cwenar, over a decade of experience",
-      "- Serves manufacturing, supply chain, building products, food and beverage, chemicals, packaging, PE portfolio companies, industrial equipment, real estate development, and engineering services",
-      "- Services: Executive Search, Operations and Plant Leadership, Organizational Advisory, Strategic Advisory",
-      "- 200+ executive placements, 92% year-one retention rate, 50+ client organizations",
-      "- Uses research-driven sourcing combined with personal human vetting of every candidate",
-      "- Phone: (267) 265-1792 | Email: bob@boundsearch.com | Website: boundsearch.com",
-      "- Based in Philadelphia, serving manufacturers nationwide",
-      "",
-      "Your role:",
-      "- Answer questions about Bound Search Partners services, process, and approach",
-      "- Help visitors think through their hiring needs and have a genuine conversation",
-      "- Be warm, direct, and knowledgeable. Match Bob's tone: confident but not arrogant",
-      "- Be conversational and natural. Do NOT end every response with contact info or a call to action",
-      "- Only suggest reaching out to Bob when the visitor explicitly asks how to get started, requests pricing, or is clearly ready to engage",
-      "- Keep responses concise (2-4 sentences usually). This is a chat widget, not an essay",
-      "- Never make up specific client names, case studies, or placement details",
-      "- If asked about pricing, say retained search fees are discussed during the initial consultation and are tailored to each engagement"
-    ].join("\n");
-
     const response = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": ANTHROPIC_API_KEY,
-        "anthropic-version": "2023-06-01",
-      },
-      body: JSON.stringify({
-        model: "claude-haiku-4-5-20251001",
-        max_tokens: 500,
-        system: sysPrompt,
-        messages: trimmedMessages,
-      }),
+      headers: { "Content-Type": "application/json", "x-api-key": ANTHROPIC_API_KEY, "anthropic-version": "2023-06-01" },
+      body: JSON.stringify({ model: "claude-haiku-4-5-20251001", max_tokens: 400, system: SYSTEM, messages: trimmedMessages }),
     });
-
     const data = await response.json();
     return { statusCode: 200, headers, body: JSON.stringify(data) };
   } catch (error) {
