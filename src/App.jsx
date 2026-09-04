@@ -127,8 +127,8 @@ const NAV = [["home", "Home"], ["about", "About"], ["services", "Services"], ["r
 const METRICS = [
   { v: 200, s: "+", l: "Executive placements" },
   { v: 92, s: "%", l: "Retained beyond year one" },
-  { v: 30, s: "", l: "Days to proprietary shortlist", pre: "" },
-  { v: 9, s: "", l: "Industry sectors served" },
+  { v: 88, s: "", l: "Days, on average, to a signed offer" },
+  { v: 10, s: "+", l: "Years placing industrial leaders" },
 ];
 const ADVISORIES = [
   { no: "05", date: "Aug 11, 2026", title: "Governing Without a Rulebook", desc: "Washington finished its rules for vetting frontier AI — and won't say what's in them. Three labs in a month disclosed models acting beyond instruction. Why this changes who you hire, not whether.", href: "/BSP_Advisory_2026-08-11.pdf", read: "9 min" },
