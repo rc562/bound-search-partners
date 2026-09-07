@@ -541,17 +541,29 @@ function Timeline({ variant }) {
     return (
       <section id="process" ref={ref} data-screen-label="Timeline" style={{ padding: "var(--section-y) 0", background: "var(--night)", overflow: "hidden" }}>
         <Wrap>
-          <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 300px", gap: "clamp(2rem,4vw,5rem)", alignItems: "start" }}>
-            <div>{head}</div>
-            <div style={{ justifySelf: mobile ? "start" : "end", paddingTop: mobile ? 0 : 8, marginBottom: mobile ? 4 : 0 }}><SearchWatch day={watchDay} size={mobile ? 190 : 260} /></div>
+          <div style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1fr 300px", gap: mobile ? 0 : "clamp(2rem,4vw,5rem)", alignItems: "start" }}>
+            <div>{mobile ? (
+              <React.Fragment>
+                <Eyebrow style={{ marginBottom: 16 }}>The search, week by week</Eyebrow>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 112px", gap: 16, alignItems: "center", marginBottom: 20 }}>
+                  <Heading style={{ fontSize: "clamp(1.75rem,7.5vw,2.3rem)" }}>How a retained search unfolds over <em style={{ color: "var(--red)", fontStyle: "italic" }}>120</em> days.</Heading>
+                  <SearchWatch day={watchDay} size={112} />
+                </div>
+                <p style={{ fontSize: 15, lineHeight: 1.7, color: "var(--text-secondary)", margin: "0 0 28px" }}>Every search moves through five phases. Tap one to see the work involved and what reaches your client portal along the way.</p>
+              </React.Fragment>
+            ) : head}</div>
+            {!mobile && <div style={{ justifySelf: "end", paddingTop: 8 }}><SearchWatch day={watchDay} size={260} /></div>}
           </div>
           {mobile ? (
             <div>
-              {PHASES.map((p, i) => { const on = active === i; return (
-                <button key={i} onClick={() => pick(i)} aria-pressed={on} style={{ fontFamily: "inherit", background: "none", border: "none", borderTop: `1px solid ${on ? "var(--red)" : "rgba(255,255,255,.1)"}`, width: "100%", textAlign: "left", cursor: "pointer", padding: "16px 0", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 6, color: on ? "#fff" : "var(--text-faint)", transition: "all .35s" }}>
-                  <span style={{ fontSize: "1.15rem", fontWeight: 700, letterSpacing: "-.02em" }}>{p.t}<span style={{ color: on ? "var(--red)" : "transparent" }}>.</span></span>
-                  <span style={{ fontSize: 10, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", whiteSpace: "nowrap" }}>{p.d}</span>
-                </button>); })}
+              <div className="v2-hscroll" style={{ display: "flex", gap: 8, overflowX: "auto", margin: "0 calc(-1 * var(--gutter))", padding: "2px var(--gutter) 6px", scrollbarWidth: "none", WebkitOverflowScrolling: "touch" }}>
+                {PHASES.map((p, i) => { const on = active === i; return (
+                  <button key={i} onClick={() => pick(i)} aria-pressed={on} style={{ fontFamily: "inherit", flexShrink: 0, background: on ? "rgba(226,60,65,.1)" : "transparent", border: `1px solid ${on ? "var(--red)" : "var(--red-018)"}`, cursor: "pointer", padding: "10px 14px", display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 3, color: on ? "#fff" : "var(--text-muted)", transition: "all .3s", minHeight: 44 }}>
+                    <span style={{ fontSize: 13.5, fontWeight: 700, letterSpacing: "-.01em", whiteSpace: "nowrap" }}>{p.t}</span>
+                    <span style={{ fontSize: 9.5, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", whiteSpace: "nowrap", color: on ? "var(--red)" : "var(--text-faint)" }}>{p.d}</span>
+                  </button>); })}
+              </div>
+              <div style={{ display: "flex", gap: 4, marginTop: 14 }}>{PHASES.map((p, i) => <span key={i} style={{ height: 2, flex: 1, background: i <= active ? "var(--red)" : "rgba(255,255,255,.1)", transition: "background .4s" }} />)}</div>
             </div>
           ) : (
           <div>
@@ -569,13 +581,13 @@ function Timeline({ variant }) {
             </div>
           </div>
           )}
-          <div style={{ marginTop: "clamp(2rem,5vw,4.5rem)" }}>
+          <div style={{ marginTop: mobile ? 24 : "clamp(2rem,5vw,4.5rem)" }}>
             <Stack items={PHASES} active={active} render={(p, i) => (
-              <div className="v2-grid-2" style={{ display: "grid", gridTemplateColumns: "1.2fr .8fr", gap: "clamp(2rem,6vw,7rem)", alignItems: "start" }}>
-                <p style={{ fontSize: "clamp(1.15rem,1.6vw,1.45rem)", lineHeight: 1.6, color: "#fff", fontWeight: 500, letterSpacing: "-.01em", margin: 0, maxWidth: 680 }}>{p.what}</p>
+              <div className="v2-grid-2" style={{ display: "grid", gridTemplateColumns: "1.2fr .8fr", gap: mobile ? 22 : "clamp(2rem,6vw,7rem)", alignItems: "start" }}>
+                <p style={{ fontSize: mobile ? "1.05rem" : "clamp(1.15rem,1.6vw,1.45rem)", lineHeight: 1.6, color: "#fff", fontWeight: 500, letterSpacing: "-.01em", margin: 0, maxWidth: 680 }}>{p.what}</p>
                 <div>
                   <div style={{ ...KICK, marginBottom: 6 }}>Delivered to your portal</div>
-                  {DELIV.filter((x) => x.p === i).map((x) => <div key={x.t} style={{ padding: "13px 0", borderBottom: "1px solid var(--white-06)", fontSize: 15, color: "var(--text-secondary)" }}>{x.t}</div>)}
+                  {DELIV.filter((x) => x.p === i).map((x) => <div key={x.t} style={{ padding: mobile ? "11px 0" : "13px 0", borderBottom: "1px solid var(--white-06)", fontSize: mobile ? 14 : 15, color: "var(--text-secondary)" }}>{x.t}</div>)}
                 </div>
               </div>
             )} />
@@ -783,21 +795,23 @@ function Industries() {
     </div>
   );
   return (
-    <section id="industries" data-screen-label="Industries" style={{ padding: "var(--section-y-lg) 0", background: "var(--night)", overflow: "hidden" }}>
+    <section id="industries" data-screen-label="Industries" style={{ padding: mobile ? "var(--section-y) 0" : "var(--section-y-lg) 0", background: "var(--night)", overflow: "hidden" }}>
       <Wrap max={1100} style={{ textAlign: mobile ? "left" : "center" }}>
         <Eyebrow style={{ marginBottom: 18 }}>Industries</Eyebrow>
-        <Heading style={{ marginBottom: "clamp(2.5rem,5vw,4rem)" }}>Sectors we know well<span style={{ color: "var(--red)" }}>.</span></Heading>
-        <div style={{ fontSize: mobile ? "1.35rem" : "clamp(1.25rem,2.5vw,2rem)", fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1.5, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: mobile ? "4px 0" : "6px 0", flexDirection: mobile ? "column" : "row" }}>
+        <Heading style={{ marginBottom: mobile ? 12 : "clamp(2.5rem,5vw,4rem)" }}>Sectors we know well<span style={{ color: "var(--red)" }}>.</span></Heading>
+        {mobile && <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.7, margin: "0 0 22px" }}>Tap a sector to see the roles we place there.</p>}
+        <div style={{ fontSize: mobile ? "1.15rem" : "clamp(1.25rem,2.5vw,2rem)", fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1.5, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: mobile ? 0 : "6px 0", flexDirection: mobile ? "column" : "row", borderTop: mobile ? "1px solid var(--white-06)" : "none" }}>
           {INDS.map((x, i) => {
             const lit = open === i;
             return (
               <React.Fragment key={i}>
                 <span role="button" tabIndex={0} onClick={() => setOpen(lit ? -1 : i)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(lit ? -1 : i); } }}
-                  className={lit || mobile ? "" : "bsp-ghost"} style={{ cursor: "pointer", color: lit ? "#fff" : mobile ? "rgba(197,195,206,.45)" : "transparent", transition: "color .4s", userSelect: "none", padding: mobile ? ".25rem 0" : "0 .35em", textAlign: mobile ? "left" : "center", display: "inline-block" }}>
-                  {x.n}<span style={{ color: lit ? "var(--red)" : "transparent" }}>.</span>
+                  className={lit || mobile ? "" : "bsp-ghost"} style={{ cursor: "pointer", color: lit ? "#fff" : mobile ? "var(--text-secondary)" : "transparent", transition: "color .4s", userSelect: "none", padding: mobile ? "15px 0" : "0 .35em", textAlign: mobile ? "left" : "center", display: mobile ? "flex" : "inline-block", justifyContent: "space-between", alignItems: "center", gap: 12, borderBottom: mobile && !lit ? "1px solid var(--white-06)" : "1px solid transparent", minHeight: mobile ? 44 : undefined }}>
+                  <span>{x.n}<span style={{ color: lit ? "var(--red)" : "transparent" }}>.</span></span>
+                  {mobile && <span aria-hidden="true" style={{ color: "var(--red)", fontSize: 18, fontWeight: 400, lineHeight: 1, transform: lit ? "rotate(45deg)" : "none", transition: "transform .3s", opacity: .8 }}>+</span>}
                 </span>
                 {!mobile && i < INDS.length - 1 && <span aria-hidden="true" style={{ color: "var(--red)", opacity: .45, fontWeight: 400 }}>·</span>}
-                {mobile && <div style={{ overflow: "hidden", maxHeight: lit ? 800 : 0, transition: "max-height .45s var(--ease-signature)" }}><div style={{ padding: "8px 0 22px" }}>{anno(x)}</div></div>}
+                {mobile && <div style={{ overflow: "hidden", maxHeight: lit ? 800 : 0, transition: "max-height .45s var(--ease-signature)", borderBottom: lit ? "1px solid var(--white-06)" : "none" }}><div style={{ padding: "0 0 22px" }}>{anno(x)}</div></div>}
               </React.Fragment>
             );
           })}
