@@ -115,8 +115,8 @@ function Odometer({ value, pad = 0 }) {
 const LABEL = { fontSize: 10, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-muted)" };
 const KICK = { fontSize: 10, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--red)" };
 const Terms = ({ items, size = 15 }) => (
-  <div style={{ fontSize: size, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.9, color: "#fff" }}>
-    {items.map((t, i) => <React.Fragment key={t}>{i > 0 && <span aria-hidden="true" style={{ color: "var(--red)", padding: "0 .55em", fontWeight: 400 }}>·</span>}<span style={{ whiteSpace: "nowrap" }}>{t}</span></React.Fragment>)}
+  <div style={{ fontSize: size, fontWeight: 600, letterSpacing: "-.01em", lineHeight: 1.9, color: "#fff", display: "flex", flexWrap: "wrap", alignItems: "baseline", minWidth: 0 }}>
+    {items.map((t, i) => <React.Fragment key={t}>{i > 0 && <span aria-hidden="true" style={{ color: "var(--red)", padding: "0 .55em", fontWeight: 400 }}>·</span>}<span>{t}</span></React.Fragment>)}
   </div>
 );
 const Wrap = ({ children, style = {}, max = "var(--container)" }) => <div style={{ maxWidth: max, margin: "0 auto", padding: "0 var(--gutter)", ...style }}>{children}</div>;
@@ -795,9 +795,9 @@ function Industries() {
   const [open, setOpen] = React.useState(-1);
   const d = open >= 0 ? INDS[open] : null;
   const anno = (x) => (
-    <div className="v2-grid-2" style={{ display: "grid", gridTemplateColumns: mobile ? "1fr" : "1.5fr 1fr", gap: mobile ? 18 : "clamp(1.5rem,3vw,3rem)", textAlign: "left", fontWeight: 400, letterSpacing: 0, fontSize: 15, lineHeight: 1.8 }}>
-      <div><div style={{ fontSize: 12, color: "var(--text-muted)", letterSpacing: ".05em", marginBottom: 10 }}>{x.s}</div><div style={{ fontSize: 14.5, color: "var(--text-body)", lineHeight: 1.85 }}>{x.d}</div></div>
-      <div><div style={{ ...KICK, marginBottom: 10 }}>Roles we place</div><Terms items={x.r.split(" · ")} /></div>
+    <div className="v2-grid-2" style={{ display: "grid", gridTemplateColumns: mobile ? "minmax(0,1fr)" : "minmax(0,1.5fr) minmax(0,1fr)", gap: mobile ? 18 : "clamp(1.5rem,3vw,3rem)", textAlign: "left", fontWeight: 400, letterSpacing: 0, fontSize: 15, lineHeight: 1.8, minWidth: 0 }}>
+      <div style={{ minWidth: 0 }}><div style={{ fontSize: 12, color: "var(--text-muted)", letterSpacing: ".05em", marginBottom: 10 }}>{x.s}</div><div style={{ fontSize: 14.5, color: "var(--text-body)", lineHeight: 1.85 }}>{x.d}</div></div>
+      <div style={{ minWidth: 0 }}><div style={{ ...KICK, marginBottom: 10 }}>Roles we place</div><Terms items={x.r.split(" · ")} size={mobile ? 14 : 15} /></div>
     </div>
   );
   return (
@@ -806,7 +806,7 @@ function Industries() {
         <Eyebrow style={{ marginBottom: 18 }}>Industries</Eyebrow>
         <Heading style={{ marginBottom: mobile ? 12 : "clamp(2.5rem,5vw,4rem)" }}>Sectors we know well<span style={{ color: "var(--red)" }}>.</span></Heading>
         {mobile && <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.7, margin: "0 0 22px" }}>Tap a sector to see the roles we place there.</p>}
-        <div style={{ fontSize: mobile ? "1.15rem" : "clamp(1.25rem,2.5vw,2rem)", fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1.5, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: mobile ? 0 : "6px 0", flexDirection: mobile ? "column" : "row", borderTop: mobile ? "1px solid var(--white-06)" : "none" }}>
+        <div style={{ fontSize: mobile ? "1.15rem" : "clamp(1.25rem,2.5vw,2rem)", fontWeight: 700, letterSpacing: "-.02em", lineHeight: 1.5, display: "flex", flexWrap: "wrap", justifyContent: "center", gap: mobile ? 0 : "6px 0", flexDirection: mobile ? "column" : "row", borderTop: mobile ? "1px solid var(--white-06)" : "none", minWidth: 0, maxWidth: "100%" }}>
           {INDS.map((x, i) => {
             const lit = open === i;
             return (
@@ -814,10 +814,10 @@ function Industries() {
                 <span role="button" tabIndex={0} onClick={() => setOpen(lit ? -1 : i)} onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setOpen(lit ? -1 : i); } }}
                   className={lit || mobile ? "" : "bsp-ghost"} style={{ cursor: "pointer", color: lit ? "#fff" : mobile ? "var(--text-secondary)" : "transparent", transition: "color .4s", userSelect: "none", padding: mobile ? "15px 0" : "0 .35em", textAlign: mobile ? "left" : "center", display: mobile ? "flex" : "inline-block", justifyContent: "space-between", alignItems: "center", gap: 12, borderBottom: mobile && !lit ? "1px solid var(--white-06)" : "1px solid transparent", minHeight: mobile ? 44 : undefined }}>
                   <span>{x.n}<span style={{ color: lit ? "var(--red)" : "transparent" }}>.</span></span>
-                  {mobile && <span aria-hidden="true" style={{ color: "var(--red)", fontSize: 18, fontWeight: 400, lineHeight: 1, transform: lit ? "rotate(45deg)" : "none", transition: "transform .3s", opacity: .8 }}>+</span>}
+                  {mobile && <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14" style={{ flexShrink: 0, transform: lit ? "rotate(45deg)" : "none", transition: "transform .3s var(--ease-signature)" }}><path d="M7 1v12M1 7h12" stroke="#E23C41" strokeWidth="1.6" strokeLinecap="round" /></svg>}
                 </span>
                 {!mobile && i < INDS.length - 1 && <span aria-hidden="true" style={{ color: "var(--red)", opacity: .45, fontWeight: 400 }}>·</span>}
-                {mobile && <div style={{ overflow: "hidden", maxHeight: lit ? 800 : 0, transition: "max-height .45s var(--ease-signature)", borderBottom: lit ? "1px solid var(--white-06)" : "none" }}><div style={{ padding: "0 0 22px" }}>{anno(x)}</div></div>}
+                {mobile && <div style={{ overflow: "hidden", maxHeight: lit ? 900 : 0, opacity: lit ? 1 : 0, transition: "max-height .45s var(--ease-signature), opacity .3s", borderBottom: lit ? "1px solid var(--white-06)" : "none", minWidth: 0 }}><div style={{ padding: "0 0 22px" }}>{anno(x)}</div></div>}
               </React.Fragment>
             );
           })}
