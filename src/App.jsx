@@ -968,7 +968,9 @@ function Insights({ variant }) {
 function Bond() {
   const [ref, vis] = useInView(.35);
   const [hov, setHov] = React.useState(null);
-  const tap = (k) => () => setHov(hov === k ? null : k);
+  const [touched, setTouched] = React.useState(false);
+  const enter = (k) => () => { setHov(k); setTouched(true); };
+  const tap = (k) => () => { setHov(k); setTouched(true); };
   const MEAN = {
     company: "We take on searches where we understand the business — plants, supply chains, and the people who run them.",
     leader: "Not the most available candidate. The one whose record fits the work ahead.",
@@ -984,15 +986,15 @@ function Bond() {
           <div style={{ position: "absolute", right: 6, bottom: 6, width: 78, height: 62, background: "var(--red)", opacity: .9, borderRadius: 3, transform: vis ? (hov === "leader" ? "translateX(30px) translateY(8px) scale(1.12)" : hov === "company" ? "translateX(-6px) scale(.95)" : hov === "bsp" ? "translateX(-18px) translateY(-4px) scale(1.08)" : "translateX(0)") : "translateX(100px)", transition: "all .4s var(--ease-signature) .05s" }} />
         </div>
         <div style={{ marginTop: 28, fontSize: "clamp(1.35rem,2.5vw,2rem)", fontWeight: 700, color: "#fff", padding: "0 8px", textWrap: "balance", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(12px)", transition: "all .5s ease .5s", lineHeight: 1.4 }}>
-          <span onMouseEnter={() => setHov("company")} onMouseLeave={() => setHov(null)} onClick={tap("company")} style={{ cursor: "pointer", color: hov === "company" ? "#fff" : "var(--text-secondary)", borderBottom: hov === "company" ? "2px solid rgba(255,255,255,.3)" : "2px solid transparent", transition: "all .2s" }}>The right company</span>
+          <span onMouseEnter={enter("company")} onClick={tap("company")} style={{ cursor: "pointer", color: hov === "company" ? "#fff" : "var(--text-secondary)", transition: "color .3s" }}>The right company</span>
           {" "}<span style={{ color: "var(--red)" }}>+</span>{" "}
-          <span onMouseEnter={() => setHov("leader")} onMouseLeave={() => setHov(null)} onClick={tap("leader")} style={{ cursor: "pointer", color: hov === "leader" ? "var(--red)" : "inherit", borderBottom: hov === "leader" ? "2px solid rgba(226,60,65,.3)" : "2px solid transparent", transition: "all .2s" }}>the right leader</span>
+          <span onMouseEnter={enter("leader")} onClick={tap("leader")} style={{ cursor: "pointer", color: hov === "leader" ? "var(--red)" : "inherit", transition: "color .3s" }}>the right leader</span>
           {" "}<span style={{ color: "var(--red)" }}>=</span>{" "}
-          <span onMouseEnter={() => setHov("bsp")} onMouseLeave={() => setHov(null)} onClick={tap("bsp")} style={{ cursor: "pointer", borderBottom: hov === "bsp" ? "2px solid rgba(226,60,65,.4)" : "2px solid transparent", transition: "all .2s" }}>Bound Search Partners.</span>
+          <span onMouseEnter={enter("bsp")} onClick={tap("bsp")} style={{ cursor: "pointer", color: hov === "bsp" ? "#fff" : "inherit", transition: "color .3s" }}>Bound Search Partners.</span>
         </div>
         <div style={{ position: "relative", height: 60, marginTop: 20, maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>
-          <p style={{ position: "absolute", inset: 0, margin: 0, fontSize: 12, fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--text-faint)", opacity: hov || !vis ? 0 : 1, transition: "opacity .3s", paddingTop: 6 }}>Hover a term</p>
-          {Object.keys(MEAN).map((k) => <p key={k} style={{ position: "absolute", inset: 0, margin: 0, fontSize: "clamp(1rem,1.3vw,1.15rem)", lineHeight: 1.6, color: "var(--text-secondary)", textWrap: "balance", opacity: hov === k ? 1 : 0, transform: hov === k ? "translateY(0)" : "translateY(8px)", transition: "all .4s var(--ease-signature)", pointerEvents: "none" }}>{MEAN[k]}</p>)}
+          <p style={{ position: "absolute", inset: 0, margin: 0, fontSize: 12, fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--text-faint)", opacity: touched || !vis ? 0 : 1, transition: "opacity .4s", paddingTop: 6 }}>Hover a term</p>
+          {Object.keys(MEAN).map((k) => <p key={k} style={{ position: "absolute", inset: 0, margin: 0, fontSize: "clamp(1rem,1.3vw,1.15rem)", lineHeight: 1.6, color: "var(--text-secondary)", textWrap: "balance", opacity: hov === k ? 1 : 0, transform: hov === k ? "translateY(0)" : "translateY(8px)", transition: "opacity .45s var(--ease-signature), transform .45s var(--ease-signature)", pointerEvents: "none" }}>{MEAN[k]}</p>)}
         </div>
       </Wrap>
     </section>
