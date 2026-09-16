@@ -267,11 +267,10 @@ function Hero({ go, variant }) {
       <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "radial-gradient(ellipse 62% 56% at 26% 58%, rgba(10,8,26,.78), transparent 74%),linear-gradient(180deg,transparent 0%,transparent 66%,var(--night) 100%),linear-gradient(90deg,rgba(14,11,36,.55) 0%,transparent 44%)" }} />
       <Wrap style={{ position: "relative", zIndex: 2, width: "100%", display: split ? "grid" : "block", gridTemplateColumns: split ? "1fr 360px" : undefined, gap: split ? "clamp(2rem,5vw,6rem)" : undefined, alignItems: "end" }}>
         <div style={{ maxWidth: 860, animation: "bsp-fade-up .7s var(--ease-signature) .2s both" }}>
-          <Eyebrow rule tone="light" style={{ marginBottom: 32 }}>Retained Executive Search · U.S. Manufacturing &amp; Industrial</Eyebrow>
           <h1 style={{ fontSize: "var(--fs-hero)", fontWeight: 700, lineHeight: "var(--lh-hero)", letterSpacing: "var(--ls-display)", margin: "0 0 24px", filter: "drop-shadow(0 2px 16px rgba(8,6,20,.85))" }}>
             The leaders who move <span style={{ color: "var(--red)", fontStyle: "italic" }}>industries</span> start here.
           </h1>
-          <p style={{ fontSize: "var(--fs-lead)", lineHeight: 1.55, color: "#fff", fontWeight: 500, maxWidth: 600, marginBottom: 40, textShadow: "var(--shadow-text)" }}>Bound Search Partners is a retained executive search firm specializing in manufacturing, industrial, and supply chain leadership.</p>
+          <p style={{ fontSize: "var(--fs-lead)", lineHeight: 1.55, color: "#fff", fontWeight: 500, maxWidth: 600, marginBottom: 40, textShadow: "var(--shadow-text)" }}>Retained search for manufacturing, industrial, and supply chain leadership.</p>
           <div className="v2-cta" style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "center" }}>
             <Button arrow onClick={() => go("contact")}>Start a Conversation</Button>
             <Button variant="ghost" arrow onClick={() => go("process")}>Our Process</Button>
