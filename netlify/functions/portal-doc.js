@@ -2,9 +2,9 @@
 // Docs are uploaded by Bob via CLI: netlify blobs:set portal-docs <docId> --input file.pdf
 // The doc must be listed in the engagement's docs[] for the presented code.
 
-const { getStore } = require("@netlify/blobs");
+import { getStore } from "@netlify/blobs";
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const code = (event.headers["x-portal-code"] || "").trim();
   const docId = (event.queryStringParameters || {}).doc || "";
   if (!code || !docId) return { statusCode: 400, body: "Bad request" };

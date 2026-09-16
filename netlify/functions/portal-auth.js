@@ -5,7 +5,7 @@
 const attempts = new Map(); // ip -> [timestamps]
 const LIMIT = 10, WINDOW = 10 * 60 * 1000;
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod !== "POST") return { statusCode: 405, body: "Method not allowed" };
 
   const ip = event.headers["x-nf-client-connection-ip"] || event.headers["client-ip"] || "unknown";
