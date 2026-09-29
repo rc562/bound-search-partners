@@ -136,7 +136,8 @@ const METRICS = [
   { v: 10, s: "+", l: "Years placing industrial leaders" },
 ];
 const ADVISORIES = [
-  { no: "06", date: "Sep 15, 2026", title: "Six-Dollar Diesel Is a Leadership Problem", desc: "Diesel is $6.27. Every plant pays the same price, so the price won't decide who has a good year. The people running your plants will.", href: "/advisory-06.html", read: "7 min" },
+    { no: "07", date: "Sep 29, 2026", title: "Yes, Nobody's Quitting. Don't Call It Loyalty", desc: "Quits are at 1.9% and a lot of companies are reading that as loyalty. Some people want to be there. Some just don't like their odds. From the dashboard, you can't tell which.", href: "/advisory-07.html", read: "4 min" },
+{ no: "06", date: "Sep 15, 2026", title: "Six-Dollar Diesel Is a Leadership Problem", desc: "Diesel is $6.27. Every plant pays the same price, so the price won't decide who has a good year. The people running your plants will.", href: "/advisory-06.html", read: "7 min" },
   { no: "05", date: "Aug 11, 2026", title: "Governing Without a Rulebook", desc: "Washington finished its rules for vetting frontier AI — and won't say what's in them. Three labs in a month disclosed models acting beyond instruction. Why this changes who you hire, not whether.", href: "/BSP_Advisory_2026-08-11.pdf", read: "9 min" },
   { no: "04", date: "Jun 12, 2026", title: "The Bottleneck Has Moved", desc: "Both Middle East corridors blocked at once. U.S. factory activity at a four-year high. $1.77 trillion committed to capacity no one has staffed.", href: "/BSP_Advisory_2026-06-12.pdf", read: "7 min" },
   { no: "03", date: "Apr 29, 2026", title: "Strait of Hormuz: 60 Days In", desc: "What has actually shifted for U.S. manufacturing — and what hasn't. Three structural changes, five operational realities.", href: "/BSP_Hormuz_Update_April29.pdf", read: "6 min" },
