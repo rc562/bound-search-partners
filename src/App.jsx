@@ -1205,7 +1205,7 @@ function Footer({ go }) {
         <div className="v2-row" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
           <div>
             <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>© 2026 Bound Search Partners LLC. All rights reserved.</div>
-            <div style={{ display: "flex", gap: 18, marginBottom: 6, flexWrap: "wrap" }}>{["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => <a key={l} href="#" onClick={(e) => e.preventDefault()} className="bsp-foot-link" style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none" }}>{l}</a>)}</div>
+            <div style={{ display: "flex", gap: 18, marginBottom: 6, flexWrap: "wrap" }}>{[["Privacy Policy", "/privacy.html"], ["Terms of Use", "/terms.html"], ["Accessibility", "/accessibility.html"]].map(([l, href]) => <a key={l} href={href} className="bsp-foot-link" style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none" }}>{l}</a>)}</div>
           </div>
           <Skyline />
         </div>
