@@ -1096,7 +1096,7 @@ const ICON = {
 };
 const LINES = [
   { k: "mail", label: "Email", val: "bob@boundsearch.com", href: "mailto:bob@boundsearch.com" },
-  { k: "pin", label: "Coverage", val: "Serving clients nationwide", href: null },
+  { k: "pin", val: "Serving clients nationwide", href: null },
 ];
 function Contact() {
   const w = useWidth(); const mobile = w <= 640;
@@ -1113,7 +1113,7 @@ function Contact() {
             {LINES.map((l) => (
               <div key={l.k} style={{ display: "flex", alignItems: "center", gap: 16, padding: "16px 0", borderTop: "1px solid var(--white-05)" }}>
                 <div style={{ width: 42, height: 42, display: "flex", alignItems: "center", justifyContent: "center", background: "var(--red-006)", color: "var(--red)", flexShrink: 0 }}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">{ICON[l.k]}</svg></div>
-                <div><strong style={{ display: "block", ...LABEL, marginBottom: 3 }}>{l.label}</strong>{l.href ? <a href={l.href} style={{ color: "#fff", textDecoration: "none" }}>{l.val}</a> : <span style={{ color: "#fff" }}>{l.val}</span>}</div>
+                <div>{l.label && <strong style={{ display: "block", ...LABEL, marginBottom: 3 }}>{l.label}</strong>}{l.href ? <a href={l.href} style={{ color: "#fff", textDecoration: "none" }}>{l.val}</a> : <span style={{ color: "#fff" }}>{l.val}</span>}</div>
               </div>
             ))}
           </div>
