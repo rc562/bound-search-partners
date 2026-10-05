@@ -191,7 +191,7 @@ function Portal() {
                 <div style={{border:"1px solid rgba(226,60,65,.12)",borderRadius:8,padding:24,background:"rgba(24,19,56,.35)"}}>
                   <div style={{fontSize:10,fontWeight:700,letterSpacing:".16em",textTransform:"uppercase",color:C.g,marginBottom:10}}>Direct Line</div>
                   <div style={{fontSize:15,fontWeight:600,lineHeight:1.5}}>bob@boundsearch.com</div>
-                  <div style={{fontSize:12,color:C.g,marginTop:6}}>(267) 265-1792 — no portal required to reach your partner.</div>
+                  <div style={{fontSize:12,color:C.g,marginTop:6}}>No portal required to reach your partner.</div>
                 </div>
               </div>
             </div>
