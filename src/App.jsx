@@ -214,7 +214,7 @@ function Nav({ go }) {
             <a href="/portal.html" style={{ ...LABEL, textAlign: "center", color: "var(--text-secondary)", textDecoration: "none" }}>Client Portal →</a>
           </div>
           <div style={{ position: "absolute", bottom: 28, left: "var(--gutter)", right: "var(--gutter)", display: "flex", justifyContent: "space-between", fontSize: 12, color: "var(--text-muted)" }}>
-            <span>(267) 265-1792</span><span>bob@boundsearch.com</span>
+            <span>bob@boundsearch.com</span>
           </div>
         </div>
       )}
@@ -1091,12 +1091,10 @@ function BenchCheck({ go }) {
 
 /* ---------- Contact ---------- */
 const ICON = {
-  phone: <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />,
   mail: <g><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7" /></g>,
   pin: <g><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></g>,
 };
 const LINES = [
-  { k: "phone", label: "Phone", val: "(267) 265-1792", href: "tel:+12672651792" },
   { k: "mail", label: "Email", val: "bob@boundsearch.com", href: "mailto:bob@boundsearch.com" },
   { k: "pin", label: "Coverage", val: "Serving clients nationwide", href: null },
 ];
@@ -1191,7 +1189,6 @@ function Footer({ go }) {
           <div style={col}><div style={h}>Services</div>{SRVS.map((s) => <span key={s.t} className="bsp-foot-link" style={lnk} onClick={() => go("services")}>{s.t}</span>)}</div>
           <div style={col}><div style={h}>Insights</div>{ADVISORIES.slice(0, 3).map((a) => <a key={a.no} href={a.href} target="_blank" rel="noopener noreferrer" className="bsp-foot-link" style={lnk}>Advisory <Numero n={a.no} size={1.2} /> — {a.title}</a>)}<span className="bsp-foot-link" style={{ ...lnk, color: "var(--red)" }} onClick={() => go("insights")}>All advisories →</span></div>
           <div style={col}><div style={h}>Contact</div>
-            <a href="tel:+12672651792" className="bsp-foot-link" style={lnk}>(267) 265-1792</a>
             <a href="mailto:bob@boundsearch.com" className="bsp-foot-link" style={lnk}>bob@boundsearch.com</a>
             <a href="https://www.linkedin.com/company/bound-search-partners-llc/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="bsp-foot-link" style={{ ...lnk, display: "inline-flex", alignItems: "center", color: "var(--text-secondary)" }}><LinkedInMark size={18} /></a>
             <a href="/portal.html" className="bsp-foot-link" style={{ ...lnk, marginTop: 6, fontSize: 11, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-secondary)" }}>Client Portal →</a>
@@ -1215,7 +1212,7 @@ function Footer({ go }) {
 }
 
 /* ---------- Chat (live) ---------- */
-const SYSTEM = `You are the Bound Search Partners assistant on boundsearch.com. Bound Search Partners (BSP) is a retained executive search firm founded in 2024 by Bob Cwenar, serving U.S. manufacturers nationwide. Do not state or speculate about the firm's office location or address. Facts: 200+ executive placements; 92% retained beyond year one; proprietary shortlist within 30 days; typical search ~120 days; guarantee-backed engagements with 90-day onboarding support. Services: Executive Search (CEO, COO, CFO, VP Operations, VP Supply Chain); Operations & Plant Leadership (Plant Manager, Director Engineering, Quality Director); Organizational Advisory (leadership audit, succession, org design, comp benchmarking); Strategic Advisory & Intelligence (business model audit, roadmaps, market entry, portfolio diagnostics). Industries: manufacturing, supply chain & logistics, building products, food & beverage, chemicals & packaging, private equity, industrial equipment, real estate, engineering services. Bob built and led GattiHR's first Industrial Practice and directed engagements at Kingsley Gate Partners. Contact: bob@boundsearch.com, (267) 265-1792. Publications: the Advisory No. series (latest No. 05, "Governing Without a Rulebook").
+const SYSTEM = `You are the Bound Search Partners assistant on boundsearch.com. Bound Search Partners (BSP) is a retained executive search firm founded in 2024 by Bob Cwenar, serving U.S. manufacturers nationwide. Do not state or speculate about the firm's office location or address. Facts: 200+ executive placements; 92% retained beyond year one; proprietary shortlist within 30 days; typical search ~120 days; guarantee-backed engagements with 90-day onboarding support. Services: Executive Search (CEO, COO, CFO, VP Operations, VP Supply Chain); Operations & Plant Leadership (Plant Manager, Director Engineering, Quality Director); Organizational Advisory (leadership audit, succession, org design, comp benchmarking); Strategic Advisory & Intelligence (business model audit, roadmaps, market entry, portfolio diagnostics). Industries: manufacturing, supply chain & logistics, building products, food & beverage, chemicals & packaging, private equity, industrial equipment, real estate, engineering services. Bob built and led GattiHR's first Industrial Practice and directed engagements at Kingsley Gate Partners. Contact: bob@boundsearch.com. Publications: the Advisory No. series (latest No. 05, "Governing Without a Rulebook").
 Voice: warm, assured, and knowledgeable — the tone of an experienced senior consultant who is glad to help, never curt or salesy. Use complete, natural sentences rather than clipped fragments. No exclamation marks, no hype, no emoji. Speak as "we". Answer in 2–4 sentences unless asked for detail. If asked about fees or a specific search, say those begin with a conversation with Bob and offer the contact details. Never invent client names or placements. If a question is outside BSP's scope, say so briefly and redirect.`;
 function Chat() {
   const w = useWidth(); const mobile = w <= 640;
@@ -1235,7 +1232,7 @@ function Chat() {
       setMsgs((m) => [...m, { role: "assistant", content: String(reply).trim() }]);
     } catch (e) {
       console.error("Ask BSP:", e);
-      setMsgs((m) => [...m, { role: "assistant", content: "The assistant is unavailable right now. Reach Bob directly at bob@boundsearch.com or (267) 265-1792." }]);
+      setMsgs((m) => [...m, { role: "assistant", content: "The assistant is unavailable right now. Reach Bob directly at bob@boundsearch.com." }]);
     } finally { setBusy(false); }
   };
   const prompts = ["How long does a search take?", "What roles do you place?", "How do you work with clients?"];
