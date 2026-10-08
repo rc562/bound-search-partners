@@ -40,6 +40,6 @@ export const handler = async (event) => {
     return { statusCode: response.ok ? 200 : 502, headers, body: JSON.stringify(data) };
   } catch (error) {
     console.error("chat function error", error);
-    return { statusCode: 500, headers, body: JSON.stringify({ error: "Failed to connect to AI service" }) };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: "Failed to connect to SI service" }) };
   }
 };
