@@ -85,33 +85,8 @@ function useInView(threshold = .3) {
   }, []);
   return [ref, vis];
 }
-function useCount(to, go, dur = 1400) {
-  const [v, setV] = React.useState(0);
-  React.useEffect(() => {
-    if (!go) return; let raf; const t0 = performance.now();
-    const step = (t) => { const p = Math.min(1, (t - t0) / dur); const e = 1 - Math.pow(1 - p, 3); setV(Math.round(to * e)); if (p < 1) raf = requestAnimationFrame(step); };
-    raf = requestAnimationFrame(step); return () => cancelAnimationFrame(raf);
-  }, [go, to]);
-  return v;
-}
-function CountUp({ to, suffix = "", prefix = "", go, dur = 1400 }) { const v = useCount(to, go, dur); return <span>{prefix}{v}{suffix}</span>; }
 const polar = (cx, cy, r, deg) => { const a = ((deg - 90) * Math.PI) / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; };
 const arcPath = (cx, cy, r, a0, a1) => { const [x0, y0] = polar(cx, cy, r, a0); const [x1, y1] = polar(cx, cy, r, a1); return `M ${x0} ${y0} A ${r} ${r} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${x1} ${y1}`; };
-/* Odometer: each digit is a rolling column 0–9; the value drives translateY so digits spin into place. */
-function Odometer({ value, pad = 0 }) {
-  const str = String(Math.max(0, Math.round(value))).padStart(pad, "0");
-  return (
-    <span style={{ display: "inline-flex", overflow: "hidden", height: "1em", lineHeight: 1, verticalAlign: "top", fontVariantNumeric: "tabular-nums" }}>
-      {str.split("").map((ch, i) => (
-        <span key={i} style={{ display: "inline-block", position: "relative", width: ".62em", height: "1em" }}>
-          <span style={{ position: "absolute", left: 0, top: 0, display: "flex", flexDirection: "column", transform: `translateY(-${+ch}em)`, transition: "transform .55s var(--ease-signature)" }}>
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((d) => <span key={d} style={{ height: "1em", lineHeight: 1, width: ".62em", textAlign: "center" }}>{d}</span>)}
-          </span>
-        </span>
-      ))}
-    </span>
-  );
-}
 const LABEL = { fontSize: 10, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-muted)" };
 const KICK = { fontSize: 10, fontWeight: 700, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--red)" };
 const Terms = ({ items, size = 15 }) => (
@@ -129,12 +104,6 @@ const Stack = ({ items, active, render }) => (
 );
 
 const NAV = [["home", "Home"], ["about", "About"], ["services", "Services"], ["results", "Results"], ["contact", "Contact"]];
-const METRICS = [
-  { v: 200, s: "+", l: "Executive placements" },
-  { v: 92, s: "%", l: "Retained beyond year one" },
-  { v: 88, s: "", l: "Days, on average, to a signed offer" },
-  { v: 10, s: "+", l: "Years placing industrial leaders" },
-];
 const ADVISORIES = [
     { no: "08", date: "Oct 13, 2026", title: "Cyber Readiness Is Everyone's Job Now", desc: "The cyberattacks that stopped plants and distribution centers over the past year and a half came in through suppliers, distributors, and software vendors. Getting ready is spread across the whole leadership team, with IT in one of the seats.", href: "/advisory-08.html", read: "7 min" },
     { no: "07", date: "Sep 29, 2026", title: "Yes, Nobody's Quitting. Don't Call It Loyalty", desc: "Quits are at 1.9% and a lot of companies are reading that as loyalty. Some people want to be there. Some just don't like their odds. From the dashboard, you can't tell which.", href: "/advisory-07.html", read: "4 min" },
@@ -148,6 +117,107 @@ const ADVISORIES = [
 const LinkedInMark = ({ size = 16 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>;
 const Numero = ({ n, size = 1.45 }) => <span><span style={{ fontSize: `${size}em`, lineHeight: 1, verticalAlign: "-.05em" }}>№</span> {n}</span>;
 
+/* ---------- Desktop nav ----------
+   Two directions behind one switch. 'a' = Quiet glass, 'b' = Floating pill, 'old' = the previous desktop bar.
+   Mobile nav (below) is untouched and renders at <= 768px regardless of this setting. */
+const navVariant = "a";
+const DNAV = [["about", "About"], ["services", "Services"], ["process", "Process"], ["results", "Results"], ["insights", "Insights"]];
+const DNAV_CSS = `
+.dn a{color:inherit;text-decoration:none}
+.dn a:focus-visible,.dn button:focus-visible{outline:2px solid #E23C41;outline-offset:4px;border-radius:4px}
+.dn-link{position:relative;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);transition:color .3s var(--ease-signature);white-space:nowrap}
+.dn-link:hover,.dn-link[aria-current="true"]{color:#fff}
+.dn-pill-link{position:relative;padding:10px 14px;border-radius:99px;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--text-secondary);transition:color .3s var(--ease-signature),background .3s var(--ease-signature)}
+.dn-pill-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.dn-pill-link[aria-current="true"]{color:#fff}
+.dn-dot{position:absolute;left:50%;bottom:3px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#E23C41;box-shadow:0 0 8px rgba(226,60,65,.8);transform:scale(0);transition:transform .4s var(--ease-signature)}
+.dn-pill-link[aria-current="true"] .dn-dot{transform:scale(1)}
+.dn-qg{transition:transform .25s ease,background .35s ease,border-color .35s ease}
+.dn-qg.dn-hide{transform:translateY(-100%)}
+@media (prefers-reduced-motion:reduce){.dn,.dn *{transition:none!important;animation:none!important}}
+`;
+function useActiveSection(ids) {
+  const [active, setActive] = React.useState(null);
+  React.useEffect(() => {
+    const h = () => {
+      const line = window.innerHeight * 0.35; let cur = null;
+      for (const id of ids) { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= line) cur = id; }
+      setActive(cur);
+    };
+    h(); window.addEventListener("scroll", h, { passive: true }); window.addEventListener("resize", h);
+    return () => { window.removeEventListener("scroll", h); window.removeEventListener("resize", h); };
+  }, []);
+  return active;
+}
+function DesktopNav({ go }) {
+  const w = useWidth();
+  const [scrolled, setScrolled] = React.useState(false);
+  React.useEffect(() => { const h = () => setScrolled(window.scrollY > 40); h(); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []);
+  const active = useActiveSection([...DNAV.map(([id]) => id), "contact"]);
+  const nav = (id) => (e) => { e.preventDefault(); go(id); };
+  const mark = <a href="#home" onClick={nav("home")} aria-label="Bound Search Partners, back to top" style={{ display: "flex" }}><BrandMark size={navVariant === "b" ? 30 : 34} lockup={navVariant === "a" ? w > 1100 : w > 1240} /></a>;
+  if (navVariant === "b") return (
+    <nav aria-label="Primary" className="dn" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+      <style>{DNAV_CSS}</style>
+      <div style={{ pointerEvents: "auto", marginTop: scrolled ? 14 : 22, width: scrolled ? "min(980px, calc(100% - 48px))" : "calc(100% - 2 * var(--gutter))", maxWidth: scrolled ? 980 : 1400, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20, padding: scrolled ? "8px 8px 8px 20px" : "10px 0", borderRadius: 99, background: scrolled ? "rgba(14,11,36,.72)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", border: `1px solid ${scrolled ? "rgba(255,255,255,.1)" : "rgba(255,255,255,0)"}`, boxShadow: scrolled ? "0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)" : "none", transition: "all .6s var(--ease-signature)" }}>
+        {mark}
+        <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {DNAV.map(([id, label]) => <a key={id} href={`#${id}`} onClick={nav(id)} className="dn-pill-link" aria-current={active === id ? "true" : undefined}>{label}<span className="dn-dot" aria-hidden="true" /></a>)}
+        </div>
+      </div>
+    </nav>
+  );
+  return <QuietGlass active={active} nav={nav} mark={mark} w={w} />;
+}
+/* Quiet glass show/hide: hides on scroll down, reveals on scroll up, always shown at the top
+   or while keyboard focus is inside the bar. One rAF-throttled scroll listener. */
+function useHideOnScroll(navRef) {
+  const [state, setState] = React.useState({ solid: false, hidden: false });
+  React.useEffect(() => {
+    let last = window.scrollY, ticking = false, hidden = false;
+    const update = () => {
+      ticking = false;
+      const y = Math.max(0, window.scrollY), dy = y - last;
+      const focusIn = navRef.current && navRef.current.contains(document.activeElement);
+      if (y <= 80 || focusIn) { hidden = false; last = y; }
+      else if (dy > 8) { hidden = true; last = y; }
+      else if (dy < -8) { hidden = false; last = y; }
+      setState((s) => (s.solid === y > 80 && s.hidden === hidden ? s : { solid: y > 80, hidden }));
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    update(); window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return [state, setState];
+}
+function QuietGlass({ active, nav, mark, w }) {
+  const navRef = React.useRef(null);
+  const [{ solid, hidden }, setVis] = useHideOnScroll(navRef);
+  const scrolled = solid;
+  const linksRef = React.useRef(null);
+  const [hover, setHover] = React.useState(null);
+  const [bar, setBar] = React.useState({ left: 0, width: 0, on: false });
+  const target = hover || (DNAV.some(([id]) => id === active) ? active : null);
+  React.useLayoutEffect(() => {
+    const box = linksRef.current; if (!box) return;
+    const el = target && box.querySelector(`[data-id="${target}"]`);
+    if (!el) { setBar((b) => ({ ...b, on: false })); return; }
+    setBar({ left: el.offsetLeft, width: el.offsetWidth, on: true });
+  }, [target, w]);
+  return (
+    <nav ref={navRef} aria-label="Primary" className={`dn dn-qg${hidden ? " dn-hide" : ""}`} onFocus={() => setVis((s) => ({ ...s, hidden: false }))} style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000, height: 72, display: "flex", alignItems: "center", background: scrolled ? "rgba(14,11,36,.9)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,.08)" : "rgba(255,255,255,0)"}` }}>
+      <style>{DNAV_CSS}</style>
+      <Wrap style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
+        {mark}
+        <div ref={linksRef} onMouseLeave={() => setHover(null)} style={{ position: "relative", display: "flex", alignItems: "center", gap: "clamp(1.75rem,3vw,3rem)" }}>
+          {DNAV.map(([id, label]) => <a key={id} data-id={id} href={`#${id}`} onClick={nav(id)} onMouseEnter={() => setHover(id)} onFocus={() => setHover(id)} onBlur={() => setHover(null)} className="dn-link" aria-current={active === id ? "true" : undefined} style={{ padding: "8px 0" }}>{label}</a>)}
+          <span aria-hidden="true" style={{ position: "absolute", bottom: 0, height: 1, left: bar.left, width: bar.width, background: "#E23C41", boxShadow: "0 0 10px rgba(226,60,65,.6)", opacity: bar.on ? 1 : 0, transition: "left .5s var(--ease-signature), width .5s var(--ease-signature), opacity .3s" }} />
+        </div>
+      </Wrap>
+    </nav>
+  );
+}
+
 /* ---------- Nav ---------- */
 function Nav({ go }) {
   const w = useWidth(); const mobile = w <= 768;
@@ -159,6 +229,7 @@ function Nav({ go }) {
     const h = () => { const y = window.scrollY; setScrolled(y > 60); setHidden(!mobile && y > 200); if (y > 200) setNavOpen(false); };
     h(); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h);
   }, [mobile]);
+  if (!mobile && navVariant !== "old") return <DesktopNav go={go} />;
   const glass = mobile && scrolled;
   return (
     <React.Fragment>
@@ -224,45 +295,8 @@ function Nav({ go }) {
 }
 
 /* ---------- Hero + proof ---------- */
-function Glance() {
-  const [ref, vis] = useInView(.2);
-  return (
-    <div ref={ref} style={{ width: "100%", maxWidth: 380, background: "var(--night)", borderTop: "3px solid var(--red)", padding: "26px 30px 28px", boxShadow: "0 40px 90px rgba(0,0,0,.55)" }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}><span style={{ ...KICK }}>The firm at a glance</span><span style={{ fontSize: 10, color: "var(--text-faint)", letterSpacing: ".1em" }}>2024 — 2026</span></div>
-      {METRICS.map((m, i) => (
-        <div key={m.l} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 20, padding: "14px 0", borderTop: i ? "1px solid var(--white-06)" : "none", animation: `bsp-fade-up .6s var(--ease-signature) ${.55 + i * .08}s both` }}>
-          <span style={{ fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.3 }}>{m.l}</span>
-          <span style={{ fontSize: 30, fontWeight: 700, letterSpacing: "-.03em", color: "#fff", lineHeight: 1, fontVariantNumeric: "tabular-nums", flexShrink: 0 }}><CountUp to={m.v} go={vis} />{m.s && <span style={{ color: "var(--red)" }}>{m.s}</span>}</span>
-        </div>
-      ))}
-      <a href={ADVISORIES[0].href} target="_blank" rel="noopener noreferrer" style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16, padding: "18px 0 0", marginTop: 4, borderTop: "1px solid var(--red-035)", textDecoration: "none", animation: "bsp-fade-up .6s var(--ease-signature) .95s both" }} className="bsp-foot-link">
-        <span><span style={{ ...LABEL, fontSize: 9, display: "block", marginBottom: 6 }}>Latest advisory · <Numero n={ADVISORIES[0].no} size={1.3} /></span><span style={{ color: "#fff", fontSize: 14, fontWeight: 700 }}>{ADVISORIES[0].title}</span></span>
-        <span style={{ color: "var(--red)", fontSize: 16 }}>→</span>
-      </a>
-    </div>
-  );
-}
-function ProofStrip() {
-  const [ref, vis] = useInView(.4);
-  const vals = METRICS.map((m) => useCount(m.v, vis, 1900));
-  return (
-    <div ref={ref} style={{ marginTop: "clamp(3rem,6vw,5rem)", position: "relative" }}>
-      <div style={{ height: 1, background: "rgba(255,255,255,.12)", position: "relative" }}><div style={{ position: "absolute", left: 0, top: 0, height: 1, width: vis ? "100%" : "0%", background: "var(--red)", boxShadow: "0 0 12px rgba(226,60,65,.6)", transition: "width 2s var(--ease-signature)" }} /></div>
-      <div className="v2-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", rowGap: 6 }}>
-        {METRICS.map((m, i) => (
-          <div key={m.l} style={{ padding: "22px 16px 0 0", opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(12px)", transition: `opacity .8s var(--ease-signature) ${.15 + i * .12}s, transform .8s var(--ease-signature) ${.15 + i * .12}s` }}>
-            <div style={{ display: "flex", alignItems: "baseline", fontSize: "clamp(2.1rem,4vw,3.8rem)", fontWeight: 700, letterSpacing: "-.04em", color: "#fff", lineHeight: 1, textShadow: "0 2px 18px rgba(8,6,20,.8)" }}>
-              <Odometer value={vals[i]} pad={String(m.v).length} />{m.s && <span style={{ color: "var(--red)", marginLeft: 2 }}>{m.s}</span>}
-            </div>
-            <div style={{ ...LABEL, marginTop: 10, fontSize: 9, color: "var(--text-secondary)", textShadow: "0 1px 10px rgba(8,6,20,.7)", lineHeight: 1.4 }}>{m.l}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 function Hero({ go, variant }) {
-  const w = useWidth(); const split = variant === "c" && w > 980;
+  const split = false;
   return (
     <section id="home" data-screen-label="Hero" style={{ position: "relative", minHeight: "100vh", display: "flex", alignItems: "flex-end", paddingTop: "clamp(7rem,14vh,10rem)", paddingBottom: variant === "b" ? "clamp(6rem,10vw,9rem)" : variant === "d" ? "clamp(2.5rem,5vw,4.5rem)" : "clamp(4rem,8vw,8rem)", overflow: split ? "visible" : "hidden", background: "var(--night)" }}>
       <div style={{ position: "absolute", inset: 0, zIndex: 0, backgroundImage: "url(/hero-poster.jpg)", backgroundSize: "cover", backgroundPosition: "center", filter: "saturate(.7) brightness(.82)" }} />
@@ -278,8 +312,6 @@ function Hero({ go, variant }) {
             <Button variant="ghost" arrow onClick={() => go("process")}>Our Process</Button>
           </div>
         </div>
-        {variant === "d" && <ProofStrip />}
-        {split && <div style={{ animation: "bsp-fade-up .7s var(--ease-signature) .5s both", justifySelf: "end" }}><Glance /></div>}
       </Wrap>
       {variant === "b" && (
         <a href={ADVISORIES[0].href} target="_blank" rel="noopener noreferrer" className="bsp-signal" style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 3, borderTop: "1px solid var(--red-012)", background: "rgba(14,11,36,.6)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", textDecoration: "none", color: "inherit" }}>
@@ -295,44 +327,12 @@ function Hero({ go, variant }) {
     </section>
   );
 }
-function ProofBand({ variant }) {
-  const [ref, vis] = useInView(.4);
-  if (variant === "c" || variant === "d") return null;
-  if (variant === "b") return (
-    <div ref={ref} style={{ background: "var(--night)", borderBottom: "1px solid var(--red-008)" }}>
-      <Wrap style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", gap: "12px 40px", padding: "22px var(--gutter)" }}>
-        {METRICS.map((m, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-            <span style={{ fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "-.02em" }}><CountUp to={m.v} go={vis} />{m.s && <span style={{ color: "var(--red)" }}>{m.s}</span>}</span>
-            <span style={{ ...LABEL, fontSize: 9 }}>{m.l}</span>
-          </div>
-        ))}
-        <span style={{ marginLeft: "auto", fontSize: 11, color: "var(--text-faint)", fontStyle: "italic" }}>Verified outcomes. Identities protected.</span>
-      </Wrap>
-    </div>
-  );
-  return (
-    <div ref={ref} style={{ background: "var(--night)" }}>
-      <Wrap>
-        <div className="v2-grid-4" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", borderTop: "1px solid var(--red-008)", borderBottom: "1px solid var(--red-008)" }}>
-          {METRICS.map((m, i) => (
-            <div key={i} style={{ padding: "clamp(1.4rem,2.5vw,2.2rem) clamp(1rem,2vw,2rem)", borderLeft: i ? "1px solid var(--red-008)" : "none" }}>
-              <div style={{ fontSize: "clamp(2rem,3.4vw,3rem)", fontWeight: 700, letterSpacing: "-.03em", lineHeight: 1, color: "#fff" }}><CountUp to={m.v} go={vis} />{m.s && <span style={{ color: "var(--red)" }}>{m.s}</span>}</div>
-              <div style={{ ...LABEL, marginTop: 12 }}>{m.l}</div>
-            </div>
-          ))}
-        </div>
-      </Wrap>
-    </div>
-  );
-}
-
 /* ---------- About + process ---------- */
 const PROC = [
   { t: "Human Curation", l: "Human Judgment", d: "Every candidate is personally assessed for technical capability, cultural fit, and leadership trajectory. Shortlists are built by a consultant who has spoken with each person, not generated by an algorithm." },
   { t: "SI-Powered Intelligence", l: "Machine Scale", d: "Proprietary research tools map the full candidate universe — market maps, compensation benchmarks, competitive intelligence — so that human judgment starts from a complete picture rather than a sample." },
   { t: "Client Partnership", l: "Adaptive", d: "You work directly with the consultant running your search. Weekly updates, one point of contact, no hand-offs." },
-  { t: "Placement & Beyond", l: "Accountable", d: "We stay involved through offer negotiation, counteroffer planning, resignation coaching, and the first 90 days on the job. Our work is finished when your new leader is settled and performing, not when the offer letter is signed." },
+  { t: "Placement & Beyond", l: "Accountable", d: "We stay involved through offer negotiation, counteroffer planning, resignation coaching, and the leader's first months in the role. Our work is finished when your new leader is settled and performing, not when the offer letter is signed." },
 ];
 function About({ overhang }) {
   const [hov, setHov] = React.useState(0);
@@ -377,8 +377,8 @@ function About({ overhang }) {
 
 /* ---------- Services (accordion on mobile) ---------- */
 const SRVS = [
-  { t: "Executive Search", tag: "Reaching the leaders who aren't looking, and giving them a genuine reason to consider the move.", d: "C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Each engagement is retained, personally led, and grounded in a real understanding of your business, culture, and competitive landscape.", rl: "Typical Roles", r: "CEO · COO · CFO · VP Operations · VP Supply Chain", del: ["Full market mapping & competitive landscape analysis", "Proprietary candidate shortlist within 30 days", "Structured behavioral & leadership assessments", "Offer negotiation, counteroffer strategy & onboarding"] },
-  { t: "Operations & Plant Leadership", tag: "The leaders who turn strategy into what actually happens on the floor.", d: "Plant managers, engineering directors, and quality leaders — the operational backbone of any manufacturing organization. We surface leaders with real floor presence, CI discipline, and team-building track records.", rl: "Typical Roles", r: "Plant Manager · Director Engineering · Quality Director · Director of Operations", del: ["Targeted outreach to passive operational leaders", "Technical competency & leadership style vetting", "On-site culture alignment evaluation", "90-day onboarding support & guarantee-backed engagement"] },
+  { t: "Executive Search", tag: "Reaching the leaders who aren't looking, and giving them a genuine reason to consider the move.", d: "C-suite, VP, and senior director placements across manufacturing, supply chain, and industrial sectors. Each engagement is retained, personally led, and grounded in a real understanding of your business, culture, and competitive landscape.", rl: "Typical Roles", r: "CEO · COO · CFO · VP Operations · VP Supply Chain", del: ["Full market mapping & competitive landscape analysis", "A carefully built, partner-reviewed shortlist", "Structured behavioral & leadership assessments", "Offer negotiation, counteroffer strategy & onboarding"] },
+  { t: "Operations & Plant Leadership", tag: "The leaders who turn strategy into what actually happens on the floor.", d: "Plant managers, engineering directors, and quality leaders — the operational backbone of any manufacturing organization. We surface leaders with real floor presence, CI discipline, and team-building track records.", rl: "Typical Roles", r: "Plant Manager · Director Engineering · Quality Director · Director of Operations", del: ["Targeted outreach to passive operational leaders", "Technical competency & leadership style vetting", "On-site culture alignment evaluation", "Partner-led onboarding check-ins"] },
   { t: "Organizational Advisory", tag: "Understanding what your organization truly needs before committing to a hire.", d: "Diagnostic-driven consulting for manufacturers navigating growth, transition, or underperformance — leadership bench, succession, compensation benchmarking, talent mapping. Engagements are focused and scoped, with clear deliverables from the outset.", rl: "Engagement Types", r: "Leadership Audit · Succession Planning · Org Design · Comp Benchmarking", del: ["Leadership bench strength assessment", "Succession gap analysis with actionable timeline", "Compensation benchmarking vs. regional & national market", "Talent availability & density mapping"] },
   { t: "Strategic Advisory & Intelligence", tag: "Strategic intelligence of institutional quality, delivered in weeks rather than quarters.", d: "Business model audits, strategic roadmaps, and portfolio diagnostics built for private equity firms, venture-backed companies, and manufacturers navigating inflection points. The depth of a large advisory practice, with the speed and attention of a small one.", rl: "Capabilities", r: "Business Model Audit · Strategic Roadmap · Market Entry · Portfolio Diagnostics", del: ["Comprehensive business model audit & assessment", "Strategic roadmap with prioritized initiatives", "Competitive landscape & market entry analysis", "AI-augmented research at institutional depth"] },
 ];
@@ -433,10 +433,10 @@ function Services() {
 /* ---------- Search timeline ---------- */
 const PHASES = [
   { d: "Days 0–10", day: 0, wk: [0, 1.5], t: "Calibration", what: "We begin by sitting down with the hiring executive and the people the role will touch. Together we agree on the success profile, compensation range, and decision process in writing, so everyone is aligned before outreach begins.", get: ["Search charter", "Success profile", "Compensation benchmark", "Weekly cadence"] },
-  { d: "Days 10–30", day: 10, wk: [1.5, 4.3], t: "Market map", what: "We map the full landscape of leaders running comparable operations, rather than sampling from it. The consultant approaches passive candidates directly, with a thoughtful case for why the opportunity deserves their attention.", get: ["Market map", "Target company list", "Proprietary shortlist by day 30"] },
+  { d: "Days 10–30", day: 10, wk: [1.5, 4.3], t: "Market map", what: "We map the full landscape of leaders running comparable operations, rather than sampling from it. The consultant approaches passive candidates directly, with a thoughtful case for why the opportunity deserves their attention.", get: ["Market map", "Target company list", "Proprietary shortlist"] },
   { d: "Days 30–60", day: 30, wk: [4.3, 8.6], t: "Assessment", what: "Candidates go through structured behavioral and leadership assessment, technical vetting, and culture alignment — on site where it matters. By the time you meet them, the slate has been carefully calibrated to the role.", get: ["Assessment reports", "Interview schedule", "Reference plan"] },
   { d: "Days 60–90", day: 60, wk: [8.6, 13], t: "Finalists & offer", what: "We present a competitive finalist slate and manage the offer from there — negotiation, counteroffer planning, and resignation coaching — so that an accepted offer becomes a start date.", get: ["Finalist slate", "Offer strategy", "Counteroffer plan"] },
-  { d: "Days 90–120+", day: 90, wk: [13, 17], t: "Onboarding", what: "Our involvement continues well past the start date, with structured 30/60/90-day support and retention check-ins through the first year. The search is complete when your new leader is settled and performing.", get: ["30/60/90 plan", "Retention check-ins", "Guarantee-backed engagement"] },
+  { d: "Days 90–120+", day: 90, wk: [13, 17], t: "Onboarding", what: "Our involvement continues well past the start date, with partner-led check-ins as your new leader settles into the role. The search is complete when your new leader is settled and performing.", get: ["Onboarding plan", "Partner-led check-ins"] },
 ];
 function PhaseDetail({ p, compact }) {
   return (
@@ -1009,9 +1009,8 @@ function Leadership() {
               <span style={{ fontSize: "clamp(.68rem,.95vw,.8rem)", fontWeight: 700, letterSpacing: ".24em", textTransform: "uppercase", color: "var(--red)", whiteSpace: "nowrap" }}>Founder &amp; Managing Partner</span>
               <span style={{ flex: 1, height: 1, background: "rgba(226,60,65,.18)" }} />
             </div>
-            <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: 20 }}>Bob Cwenar has spent more than a decade in retained executive search, focused exclusively on manufacturing, industrial, and supply chain leadership. He built and led GattiHR's first Industrial Practice and directed national and global engagements there and at Kingsley Gate Partners — serving organizations from founder-led companies to enterprises exceeding $10 billion in revenue.</p>
-            <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: 20 }}>He founded Bound Search Partners on something he saw hold true across hundreds of engagements: searches go well when the senior consultant who takes the brief is the same person who runs the process and stands behind the result. Clients work with Bob directly, from the first conversation through the first year.</p>
-            <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "var(--text-secondary)" }}>The record: more than <strong style={{ color: "#fff" }}>200 executive placements</strong>, with <strong style={{ color: "#fff" }}>92 percent retained beyond the first year</strong>.</p>
+            <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: 20 }}>Bob Cwenar has spent more than a decade in retained executive search, focused exclusively on manufacturing, industrial, and supply chain leadership. He built and led GattiHR's first Industrial Practice and directed national and global engagements there and at Kingsley Gate Partners — serving organizations from founder-led companies to large global enterprises.</p>
+            <p style={{ fontSize: "1.05rem", lineHeight: 1.75, color: "var(--text-secondary)", marginBottom: 20 }}>He founded Bound Search Partners on something he saw hold true across many years of engagements: searches go well when the senior consultant who takes the brief is the same person who runs the process and stands behind the result. Clients work with Bob directly, from the first conversation through the first year.</p>
             <div style={{ display: "flex", gap: 24, marginTop: 28, flexWrap: "wrap" }}>
               <a href="https://www.linkedin.com/in/bob-cwenar-75617860/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="bsp-foot-link" style={{ color: "var(--text-secondary)", display: "inline-flex", alignItems: "center", transition: "color var(--dur)" }}><LinkedInMark size={20} /></a>
               <a href="mailto:bob@boundsearch.com" className="bsp-foot-link" style={{ fontSize: 11, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-secondary)", textDecoration: "none", borderBottom: "1px solid var(--white-12)", paddingBottom: 6 }}>bob@boundsearch.com</a>
@@ -1192,18 +1191,17 @@ function Footer({ go }) {
           <div style={col}><div style={h}>Contact</div>
             <a href="mailto:bob@boundsearch.com" className="bsp-foot-link" style={lnk}>bob@boundsearch.com</a>
             <a href="https://www.linkedin.com/company/bound-search-partners-llc/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="bsp-foot-link" style={{ ...lnk, display: "inline-flex", alignItems: "center", color: "var(--text-secondary)" }}><LinkedInMark size={18} /></a>
-            <a href="/portal.html" className="bsp-foot-link" style={{ ...lnk, marginTop: 6, fontSize: 11, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-secondary)" }}>Client Portal →</a>
           </div>
         </div>
         <div style={{ height: 1, background: "rgba(226,60,65,.1)", margin: "0 0 24px" }} />
         <div style={{ maxWidth: 780, marginBottom: 24 }}>
-          <p style={{ fontSize: 11, lineHeight: 1.75, color: "var(--text-faint)", margin: "0 0 6px" }}>Bound Search Partners LLC is a retained executive search firm. Client and candidate information is held in confidence; the outcomes published here are real and verified, with identities protected.</p>
+          <p style={{ fontSize: 11, lineHeight: 1.75, color: "var(--text-faint)", margin: "0 0 6px" }}>Bound Search Partners LLC is a retained executive search firm. Client and candidate information is held in confidence, and identities in the outcomes described here are protected.</p>
           <p style={{ fontSize: 11, lineHeight: 1.75, color: "var(--text-faint)", margin: 0 }}>We present candidates without regard to race, color, religion, sex, national origin, age, disability, or veteran status. Advisories and market commentary are provided for general information only and do not constitute legal, financial, or investment advice.</p>
         </div>
         <div className="v2-row" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
           <div>
             <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>© 2026 Bound Search Partners LLC. All rights reserved.</div>
-            <div style={{ display: "flex", gap: 18, marginBottom: 6, flexWrap: "wrap" }}>{[["Privacy Policy", "/privacy.html"], ["Terms of Use", "/terms.html"], ["Accessibility", "/accessibility.html"]].map(([l, href]) => <a key={l} href={href} className="bsp-foot-link" style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none" }}>{l}</a>)}</div>
+            <div style={{ display: "flex", gap: 18, marginBottom: 6, flexWrap: "wrap" }}>{[["Privacy Policy", "/privacy.html"], ["Terms of Use", "/terms.html"], ["Accessibility", "/accessibility.html"], ["Client portal", "/portal.html"]].map(([l, href]) => <a key={l} href={href} className="bsp-foot-link" style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none" }}>{l}</a>)}</div>
           </div>
           <Skyline />
         </div>
@@ -1213,8 +1211,6 @@ function Footer({ go }) {
 }
 
 /* ---------- Chat (live) ---------- */
-const SYSTEM = `You are the Bound Search Partners assistant on boundsearch.com. Bound Search Partners (BSP) is a retained executive search firm founded in 2024 by Bob Cwenar, serving U.S. manufacturers nationwide. Do not state or speculate about the firm's office location or address. Facts: 200+ executive placements; 92% retained beyond year one; proprietary shortlist within 30 days; typical search ~120 days; guarantee-backed engagements with 90-day onboarding support. Services: Executive Search (CEO, COO, CFO, VP Operations, VP Supply Chain); Operations & Plant Leadership (Plant Manager, Director Engineering, Quality Director); Organizational Advisory (leadership audit, succession, org design, comp benchmarking); Strategic Advisory & Intelligence (business model audit, roadmaps, market entry, portfolio diagnostics). Industries: manufacturing, supply chain & logistics, building products, food & beverage, chemicals & packaging, private equity, industrial equipment, real estate, engineering services. Bob built and led GattiHR's first Industrial Practice and directed engagements at Kingsley Gate Partners. Contact: bob@boundsearch.com. Publications: the Advisory No. series (latest No. 05, "Governing Without a Rulebook").
-Voice: warm, assured, and knowledgeable — the tone of an experienced senior consultant who is glad to help, never curt or salesy. Use complete, natural sentences rather than clipped fragments. No exclamation marks, no hype, no emoji. Speak as "we". Answer in 2–4 sentences unless asked for detail. If asked about fees or a specific search, say those begin with a conversation with Bob and offer the contact details. Never invent client names or placements. If a question is outside BSP's scope, say so briefly and redirect.`;
 function Chat() {
   const w = useWidth(); const mobile = w <= 640;
   const [open, setOpen] = React.useState(false);
@@ -1228,8 +1224,11 @@ function Chat() {
     try {
       const res = await fetch("/.netlify/functions/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: next.map((m) => ({ role: m.role, content: m.content })) }) });
       const data = await res.json();
-      const reply = Array.isArray(data && data.content) ? data.content.map((c) => c.text || "").join("") : "";
-      if (!reply) throw new Error((data && data.error && (data.error.message || data.error)) || "empty");
+      const reply = data && typeof data.reply === "string" ? data.reply : "";
+      if (!reply) {
+        if (res.status === 429 && data && data.error) { setMsgs((m) => [...m, { role: "assistant", content: String(data.error) }]); return; }
+        throw new Error("empty");
+      }
       setMsgs((m) => [...m, { role: "assistant", content: String(reply).trim() }]);
     } catch (e) {
       console.error("Ask BSP:", e);
@@ -1279,7 +1278,6 @@ export default function App() {
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 5000, opacity: .026, backgroundImage: "var(--grain)" }} />
       <Nav go={go} />
       <Hero go={go} variant={variant} />
-      <ProofBand variant={variant} />
       <About />
       <Divider />
       <Services />
