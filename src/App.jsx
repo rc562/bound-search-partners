@@ -118,7 +118,7 @@ const LinkedInMark = ({ size = 16 }) => <svg width={size} height={size} viewBox=
 const Numero = ({ n, size = 1.45 }) => <span><span style={{ fontSize: `${size}em`, lineHeight: 1, verticalAlign: "-.05em" }}>№</span> {n}</span>;
 
 /* ---------- Desktop nav ----------
-   Two directions behind one switch. 'a' = Quiet glass, 'b' = Floating pill.
+   Two directions behind one switch. 'a' = Quiet glass, 'b' = Floating pill, 'old' = the previous desktop bar.
    Mobile nav (below) is untouched and renders at <= 768px regardless of this setting. */
 const navVariant = "a";
 const DNAV = [["about", "About"], ["services", "Services"], ["process", "Process"], ["results", "Results"], ["insights", "Insights"]];
@@ -128,8 +128,8 @@ const DNAV_CSS = `
 .dn-link{position:relative;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);transition:color .3s var(--ease-signature);white-space:nowrap}
 .dn-link:hover,.dn-link[aria-current="true"]{color:#fff}
 .dn-cta{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff;white-space:nowrap}
-.dn-cta .dn-arrow{display:inline-block;color:#E23C41;transition:transform .4s var(--ease-signature)}
-.dn-cta:hover .dn-arrow,.dn-cta:focus-visible .dn-arrow{transform:translateX(4px)}
+.dn-cta .dn-arrow{display:inline-block;color:#fff;font-size:14px;text-shadow:0 1px 8px rgba(8,6,20,.9);transition:transform .4s var(--ease-signature)}
+.dn-cta:hover .dn-arrow,.dn-cta:focus-visible .dn-arrow{transform:translateX(4px);color:#ff6b6f}
 .dn-sub{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;transition:color .3s}
 .dn-sub:hover{color:#fff}
 .dn-pill-link{position:relative;padding:10px 14px;border-radius:99px;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--text-secondary);transition:color .3s var(--ease-signature),background .3s var(--ease-signature)}
@@ -139,6 +139,8 @@ const DNAV_CSS = `
 .dn-pill-link[aria-current="true"] .dn-dot{transform:scale(1)}
 .dn-pill-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:99px;background:#E23C41;color:#fff;font-size:12px;font-weight:600;letter-spacing:.08em;white-space:nowrap;transition:background .3s}
 .dn-pill-cta:hover{background:var(--red-hover)}
+.dn-qg{transition:transform .25s ease,background .35s ease,border-color .35s ease}
+.dn-qg.dn-hide{transform:translateY(-100%)}
 @media (prefers-reduced-motion:reduce){.dn,.dn *{transition:none!important;animation:none!important}}
 `;
 function useActiveSection(ids) {
@@ -176,9 +178,33 @@ function DesktopNav({ go }) {
       </div>
     </nav>
   );
-  return <QuietGlass go={go} scrolled={scrolled} active={active} nav={nav} mark={mark} w={w} />;
+  return <QuietGlass active={active} nav={nav} mark={mark} w={w} />;
 }
-function QuietGlass({ scrolled, active, nav, mark, w }) {
+/* Quiet glass show/hide: hides on scroll down, reveals on scroll up, always shown at the top
+   or while keyboard focus is inside the bar. One rAF-throttled scroll listener. */
+function useHideOnScroll(navRef) {
+  const [state, setState] = React.useState({ solid: false, hidden: false });
+  React.useEffect(() => {
+    let last = window.scrollY, ticking = false, hidden = false;
+    const update = () => {
+      ticking = false;
+      const y = Math.max(0, window.scrollY), dy = y - last;
+      const focusIn = navRef.current && navRef.current.contains(document.activeElement);
+      if (y <= 80 || focusIn) { hidden = false; last = y; }
+      else if (dy > 8) { hidden = true; last = y; }
+      else if (dy < -8) { hidden = false; last = y; }
+      setState((s) => (s.solid === y > 80 && s.hidden === hidden ? s : { solid: y > 80, hidden }));
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    update(); window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return [state, setState];
+}
+function QuietGlass({ active, nav, mark, w }) {
+  const navRef = React.useRef(null);
+  const [{ solid, hidden }, setVis] = useHideOnScroll(navRef);
+  const scrolled = solid;
   const linksRef = React.useRef(null);
   const [hover, setHover] = React.useState(null);
   const [bar, setBar] = React.useState({ left: 0, width: 0, on: false });
@@ -190,7 +216,7 @@ function QuietGlass({ scrolled, active, nav, mark, w }) {
     setBar({ left: el.offsetLeft, width: el.offsetWidth, on: true });
   }, [target, w]);
   return (
-    <nav aria-label="Primary" className="dn" style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000, height: scrolled ? 64 : 88, display: "flex", alignItems: "center", background: scrolled ? "rgba(14,11,36,.78)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,.07)" : "rgba(255,255,255,0)"}`, transition: "height .5s var(--ease-signature), background .5s var(--ease-signature), border-color .5s" }}>
+    <nav ref={navRef} aria-label="Primary" className={`dn dn-qg${hidden ? " dn-hide" : ""}`} onFocus={() => setVis((s) => ({ ...s, hidden: false }))} style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000, height: 72, display: "flex", alignItems: "center", background: scrolled ? "rgba(14,11,36,.9)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,.08)" : "rgba(255,255,255,0)"}` }}>
       <style>{DNAV_CSS}</style>
       <Wrap style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
         {mark}
@@ -218,7 +244,7 @@ function Nav({ go }) {
     const h = () => { const y = window.scrollY; setScrolled(y > 60); setHidden(!mobile && y > 200); if (y > 200) setNavOpen(false); };
     h(); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h);
   }, [mobile]);
-  if (!mobile) return <DesktopNav go={go} />;
+  if (!mobile && navVariant !== "old") return <DesktopNav go={go} />;
   const glass = mobile && scrolled;
   return (
     <React.Fragment>
