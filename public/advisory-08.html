@@ -22,40 +22,82 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 @font-face{font-family:'Inter';src:url('/inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
-
-:root{--red:#e23c41;--red-hover:#c8333a;--paper-ink:#16132e;--paper-ink-soft:#3b3852;--paper-ink-mute:#6d6a80;--paper-rule:rgba(22,19,46,.16);--paper-rule-soft:rgba(22,19,46,.09);--paper-red-rule:rgba(226,60,65,.28);--font-serif:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+:root{--night:#0e0b24;--night-mid:#181338;--red:#e23c41;--red-hover:#c8333a;--paper-ink:#16132e;--paper-ink-soft:#3b3852;--paper-ink-mute:#6d6a80;--paper-rule:rgba(22,19,46,.14);--paper-rule-soft:rgba(22,19,46,.08);--paper-red-rule:rgba(226,60,65,.28);--text-secondary:#c5c3ce;--text-faint:#73708a;--font-serif:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--gutter:clamp(1.5rem,4vw,4rem);--ease:cubic-bezier(.23,1,.32,1)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:#f5f5f4;color:var(--paper-ink);font-family:var(--font-serif);-webkit-font-smoothing:antialiased;padding:48px 24px}
+body{margin:0;background:#f3f2f6;color:var(--paper-ink);font-family:var(--font-serif);-webkit-font-smoothing:antialiased;font-feature-settings:'ss01','cv11'}
 ::selection{background:rgba(226,60,65,.18)}
-a{color:var(--paper-ink);text-decoration:none;border-bottom:1px solid var(--paper-red-rule);transition:color .3s cubic-bezier(.23,1,.32,1),border-color .3s cubic-bezier(.23,1,.32,1)}
+a{color:var(--paper-ink);text-decoration:none;border-bottom:1px solid var(--paper-red-rule);transition:color .3s var(--ease),border-color .3s var(--ease)}
 a:hover{color:var(--red);border-bottom-color:var(--red)}
-.page{max-width:816px;margin:0 auto;padding:72px clamp(24px,6vw,72px) 72px;background:#fff;border-radius:7px;box-shadow:0 2px 10px rgba(20,20,19,.12)}
-@media (max-width:640px){body{padding:0}.page{border-radius:0;box-shadow:none}}
+.wrap{max-width:1120px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
+.rule{height:3px;background:var(--red)}
+.top-band{background:var(--night);background-image:radial-gradient(ellipse 80% 120% at 85% 0%,rgba(226,60,65,.10),transparent 60%);padding-bottom:220px;color:#fff}
+.mast{padding-top:26px;padding-bottom:26px;display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid rgba(255,255,255,.07)}
+.mast a{display:inline-flex;border:0}
+.mast svg{height:26px;width:auto;display:block}
+.nav{display:flex;gap:28px;align-items:center}
+.nav a{border:0;color:var(--text-secondary);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.nav a:hover{color:#fff}
+.nav .no{color:var(--red);font-family:var(--font-mono)}
+.crumb{padding-top:44px;font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+.crumb b{color:var(--red);font-weight:600}
+.page{position:relative;max-width:816px;margin:-200px auto 0;padding:64px clamp(24px,6vw,72px) 64px;background:#fff;border-radius:4px;box-shadow:0 1px 2px rgba(14,11,36,.06),0 24px 60px -24px rgba(14,11,36,.28)}
+.page::before{content:"";position:absolute;left:clamp(24px,6vw,72px);top:0;width:56px;height:3px;background:var(--red)}
+.page>header{display:none}
 h1,h2,p{margin:0}
+.page h1{font-size:46px !important;font-weight:650 !important;letter-spacing:-.028em !important;line-height:1.04 !important}
+.page h1 em{font-style:normal}
 .mono{font-family:var(--font-mono)}
-.para{font-size:18px;line-height:1.72;color:var(--paper-ink-soft);margin:0 0 18px;text-wrap:pretty;max-width:68ch}
+.para{font-size:17.5px;line-height:1.75;color:var(--paper-ink-soft);margin:0 0 18px;text-wrap:pretty;max-width:68ch}
 .para:last-child{margin-bottom:0}
-h2{font-size:clamp(1.5rem,3vw,1.8rem);font-weight:500;line-height:1.15;letter-spacing:-.01em;margin:0 0 16px;color:var(--paper-ink)}
+h2{font-size:clamp(1.4rem,2.6vw,1.65rem);font-weight:650;line-height:1.18;letter-spacing:-.02em;margin:0 0 16px;color:var(--paper-ink)}
 .sec{padding:clamp(1.8rem,4vw,2.6rem) 0;border-top:1px solid var(--paper-rule-soft)}
 .red{color:var(--red)}
-.q{margin:22px 0 4px;padding:6px 0 6px 20px;border-left:2px solid var(--red)}
+.q{margin:26px 0 4px;padding:20px 24px;border-left:3px solid var(--red);background:linear-gradient(90deg,rgba(226,60,65,.05),rgba(226,60,65,0) 85%)}
 .q .lbl{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin:0 0 8px}
-.q .txt{font-size:clamp(1.25rem,2.4vw,1.5rem);font-weight:500;font-style:italic;line-height:1.35;letter-spacing:-.008em;margin:0;max-width:52ch;color:var(--paper-ink);text-wrap:pretty}
+.q .txt{font-size:clamp(1.2rem,2.3vw,1.42rem);font-weight:600;line-height:1.35;letter-spacing:-.015em;margin:0;max-width:52ch;color:var(--paper-ink);text-wrap:pretty}
 .fig p{margin:0}
-.name{font-size:17px;font-weight:500;line-height:1.2;color:var(--paper-ink)}
+.name{font-size:16.5px;font-weight:600;line-height:1.25;color:var(--paper-ink);letter-spacing:-.01em}
 .small{font-size:15px;line-height:1.55;color:var(--paper-ink-soft);text-wrap:pretty}
 .meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--paper-ink-mute)}
-@media (max-width:640px){.flow{grid-template-columns:1fr !important;gap:14px 0 !important}.flow .arrow{transform:rotate(90deg)}.chart{grid-template-columns:minmax(96px,120px) minmax(0,1fr) !important}}
+.cta{background:var(--night-mid);margin-top:88px;border-top:1px solid rgba(226,60,65,.12)}
+.cta .wrap{max-width:860px;padding-top:clamp(3rem,6vw,5rem);padding-bottom:clamp(3rem,6vw,5rem);text-align:center;display:flex;flex-direction:column;align-items:center;gap:26px}
+.cta p{font-size:16px;line-height:1.8;color:var(--text-secondary);max-width:600px;text-wrap:pretty}
+.cta .ready{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.025em;line-height:1.1;color:#fff}
+.btn{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:16px 36px;background:var(--red);color:#fff;border:0;line-height:1;transition:all .4s var(--ease)}
+.btn:hover{background:var(--red-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(226,60,65,.3);color:#fff}
+footer{background:var(--night);border-top:1px solid rgba(226,60,65,.08)}
+footer .wrap{padding-top:36px;padding-bottom:40px}
+footer .top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:24px}
+footer .top svg{height:22px;width:auto;display:block}
+footer a.site{border:0;font-size:13px;font-weight:600;letter-spacing:.1em;color:var(--text-secondary)}
+footer a.site:hover{color:#fff}
+footer .line{height:1px;background:rgba(255,255,255,.06);margin-bottom:20px}
+footer p{font-size:12px;line-height:1.7;color:var(--text-faint)}
+@media (max-width:640px){
+ .top-band{padding-bottom:0}.nav a:not(.no){display:none}.crumb{padding-top:22px;padding-bottom:22px}
+ .page{margin-top:0;border-radius:0;box-shadow:none;padding-top:40px}
+ .page h1{font-size:34px !important}
+ .q{padding:16px 18px}
+ .cta{margin-top:0}
+ .flow{grid-template-columns:1fr !important;gap:14px 0 !important}.flow .arrow{transform:rotate(90deg)}.chart{grid-template-columns:minmax(96px,120px) minmax(0,1fr) !important}}
+@media print{
+ body{background:#fff}.top-band{background:none;padding:0;border-bottom:2px solid var(--paper-ink)}.top-band .mast svg rect:first-child,.top-band .mast svg text:first-of-type{fill:var(--paper-ink)}.nav,.crumb,.cta,.rule{display:none}
+ .page{margin:0;box-shadow:none;max-width:none;padding:24px 0}
+ footer{background:none}footer svg{display:none}footer p{color:#555}
+ .keep,.q,.sec h2{break-inside:avoid}h2{break-after:avoid}a{border:0}}
 </style>
 </head>
 <body>
+<div class="top-band">
+<div class="rule"></div>
+<div class="wrap mast">
+  <a href="https://boundsearch.com" aria-label="Bound Search Partners"><svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" fill="none" role="img" aria-label="Bound Search Partners"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"></rect><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"></rect><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"></rect><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" stroke-width="1.5" opacity=".2"></line><text x="64" y="20" fill="#fff" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" font-family="Inter,sans-serif" font-size="8" font-weight="600" letter-spacing="5">SEARCH PARTNERS</text></svg></a>
+  <nav class="nav"><a href="https://boundsearch.com/#insights">Insights</a><a href="https://boundsearch.com">Home</a><a class="no" href="#">№ 08</a></nav>
+</div>
+<div class="wrap crumb">Insights <b>/</b> Advisory № 08</div>
+</div>
 <article class="page">
-<header style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:2px solid var(--paper-ink)">
-  <span style="font-size:20px;font-weight:500;letter-spacing:-.005em">Bound Search Partners<span class="red">.</span></span>
-  <span class="mono" style="font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--red)"><span style="font-size:1.45em;line-height:1;vertical-align:-.05em">№</span> 08</span>
-</header>
-
 <div style="padding:34px 0 26px">
   <p class="mono" style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-ink-mute);margin:0 0 20px">October 13, 2026</p>
   <h1 style="font-size:44px;font-weight:500;line-height:1.06;letter-spacing:-.012em;margin:0 0 20px;text-wrap:pretty">Cyber readiness is <em class="red">everyone's</em> job now<span class="red">.</span></h1>
@@ -156,5 +198,23 @@ h2{font-size:clamp(1.5rem,3vw,1.8rem);font-weight:500;line-height:1.15;letter-sp
 </div>
 <p style="font-size:12px;line-height:1.5;color:var(--paper-ink-mute);margin:10px 0 0;text-wrap:pretty">Sources: KPMG 2026 US Supply Chain Survey · BBC (Sep–Oct 2025) · Reuters (Oct 7 and Nov 14, 2025) · JLR (Oct 7, 2025) · UNFI 8-K (Jun 9, 2025) and July 2025 update · CyberScoop (Jul 17, 2025) · Verizon DBIR, 2025 and 2026 editions (May 19, 2026) · Microsoft Digital Defense Report 2026 (Oct 1, 2026) · CISA OT guidance (Jan 13, 2025). Informational only; not investment, legal, or professional advice.</p>
 </article>
+<div class="cta">
+  <div class="wrap">
+    <p>Bound Search Partners is a retained executive search firm focused on U.S. manufacturing, industrial and supply chain leadership. We're glad to talk through any of this.</p>
+    <p class="ready">Ready when you are<span class="red">.</span></p>
+    <a class="btn" href="mailto:bob@boundsearch.com?subject=Bound%20No.%2008">Start a Conversation <span aria-hidden="true">→</span></a>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <div class="top">
+      <svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" fill="none" role="img" aria-label="Bound Search Partners"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"></rect><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"></rect><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"></rect><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" stroke-width="1.5" opacity=".2"></line><text x="64" y="20" fill="#fff" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" font-family="Inter,sans-serif" font-size="8" font-weight="600" letter-spacing="5">SEARCH PARTNERS</text></svg>
+      <a class="site" href="https://boundsearch.com">boundsearch.com</a>
+    </div>
+    <div class="line"></div>
+    <p>© 2026 Bound Search Partners. All rights reserved. Informational purposes only; not investment, legal, or professional advice. Sharing with attribution is welcome.</p>
+  </div>
+</footer>
 </body>
 </html>
