@@ -127,8 +127,6 @@ const DNAV_CSS = `
 .dn a:focus-visible,.dn button:focus-visible{outline:2px solid #E23C41;outline-offset:4px;border-radius:4px}
 .dn-link{position:relative;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);transition:color .3s var(--ease-signature);white-space:nowrap}
 .dn-link:hover,.dn-link[aria-current="true"]{color:#fff}
-.dn-sub{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;transition:color .3s}
-.dn-sub:hover{color:#fff}
 .dn-pill-link{position:relative;padding:10px 14px;border-radius:99px;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--text-secondary);transition:color .3s var(--ease-signature),background .3s var(--ease-signature)}
 .dn-pill-link:hover{color:#fff;background:rgba(255,255,255,.06)}
 .dn-pill-link[aria-current="true"]{color:#fff}
@@ -161,13 +159,10 @@ function DesktopNav({ go }) {
   if (navVariant === "b") return (
     <nav aria-label="Primary" className="dn" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
       <style>{DNAV_CSS}</style>
-      <div style={{ pointerEvents: "auto", marginTop: scrolled ? 14 : 22, width: scrolled ? "min(980px, calc(100% - 48px))" : "calc(100% - 2 * var(--gutter))", maxWidth: scrolled ? 980 : 1400, display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 20, padding: scrolled ? "8px 8px 8px 20px" : "10px 0", borderRadius: 99, background: scrolled ? "rgba(14,11,36,.72)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", border: `1px solid ${scrolled ? "rgba(255,255,255,.1)" : "rgba(255,255,255,0)"}`, boxShadow: scrolled ? "0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)" : "none", transition: "all .6s var(--ease-signature)" }}>
+      <div style={{ pointerEvents: "auto", marginTop: scrolled ? 14 : 22, width: scrolled ? "min(980px, calc(100% - 48px))" : "calc(100% - 2 * var(--gutter))", maxWidth: scrolled ? 980 : 1400, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20, padding: scrolled ? "8px 8px 8px 20px" : "10px 0", borderRadius: 99, background: scrolled ? "rgba(14,11,36,.72)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", border: `1px solid ${scrolled ? "rgba(255,255,255,.1)" : "rgba(255,255,255,0)"}`, boxShadow: scrolled ? "0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)" : "none", transition: "all .6s var(--ease-signature)" }}>
         {mark}
         <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
           {DNAV.map(([id, label]) => <a key={id} href={`#${id}`} onClick={nav(id)} className="dn-pill-link" aria-current={active === id ? "true" : undefined}>{label}<span className="dn-dot" aria-hidden="true" /></a>)}
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 16, paddingRight: 12 }}>
-          <a href="/portal.html" className="dn-sub">Client portal</a>
         </div>
       </div>
     </nav>
@@ -212,14 +207,11 @@ function QuietGlass({ active, nav, mark, w }) {
   return (
     <nav ref={navRef} aria-label="Primary" className={`dn dn-qg${hidden ? " dn-hide" : ""}`} onFocus={() => setVis((s) => ({ ...s, hidden: false }))} style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000, height: 72, display: "flex", alignItems: "center", background: scrolled ? "rgba(14,11,36,.9)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,.08)" : "rgba(255,255,255,0)"}` }}>
       <style>{DNAV_CSS}</style>
-      <Wrap style={{ width: "100%", display: "grid", gridTemplateColumns: "1fr auto 1fr", alignItems: "center", gap: 32 }}>
+      <Wrap style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
         {mark}
         <div ref={linksRef} onMouseLeave={() => setHover(null)} style={{ position: "relative", display: "flex", alignItems: "center", gap: "clamp(1.75rem,3vw,3rem)" }}>
           {DNAV.map(([id, label]) => <a key={id} data-id={id} href={`#${id}`} onClick={nav(id)} onMouseEnter={() => setHover(id)} onFocus={() => setHover(id)} onBlur={() => setHover(null)} className="dn-link" aria-current={active === id ? "true" : undefined} style={{ padding: "8px 0" }}>{label}</a>)}
           <span aria-hidden="true" style={{ position: "absolute", bottom: 0, height: 1, left: bar.left, width: bar.width, background: "#E23C41", boxShadow: "0 0 10px rgba(226,60,65,.6)", opacity: bar.on ? 1 : 0, transition: "left .5s var(--ease-signature), width .5s var(--ease-signature), opacity .3s" }} />
-        </div>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", gap: 28 }}>
-          <a href="/portal.html" className="dn-sub">Client portal</a>
         </div>
       </Wrap>
     </nav>
@@ -1199,7 +1191,6 @@ function Footer({ go }) {
           <div style={col}><div style={h}>Contact</div>
             <a href="mailto:bob@boundsearch.com" className="bsp-foot-link" style={lnk}>bob@boundsearch.com</a>
             <a href="https://www.linkedin.com/company/bound-search-partners-llc/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="bsp-foot-link" style={{ ...lnk, display: "inline-flex", alignItems: "center", color: "var(--text-secondary)" }}><LinkedInMark size={18} /></a>
-            <a href="/portal.html" className="bsp-foot-link" style={{ ...lnk, marginTop: 6, fontSize: 11, fontWeight: 700, letterSpacing: ".15em", textTransform: "uppercase", color: "var(--text-secondary)" }}>Client Portal →</a>
           </div>
         </div>
         <div style={{ height: 1, background: "rgba(226,60,65,.1)", margin: "0 0 24px" }} />
@@ -1210,7 +1201,7 @@ function Footer({ go }) {
         <div className="v2-row" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: 24 }}>
           <div>
             <div style={{ fontSize: 12, color: "var(--text-muted)", marginBottom: 6 }}>© 2026 Bound Search Partners LLC. All rights reserved.</div>
-            <div style={{ display: "flex", gap: 18, marginBottom: 6, flexWrap: "wrap" }}>{[["Privacy Policy", "/privacy.html"], ["Terms of Use", "/terms.html"], ["Accessibility", "/accessibility.html"]].map(([l, href]) => <a key={l} href={href} className="bsp-foot-link" style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none" }}>{l}</a>)}</div>
+            <div style={{ display: "flex", gap: 18, marginBottom: 6, flexWrap: "wrap" }}>{[["Privacy Policy", "/privacy.html"], ["Terms of Use", "/terms.html"], ["Accessibility", "/accessibility.html"], ["Client portal", "/portal.html"]].map(([l, href]) => <a key={l} href={href} className="bsp-foot-link" style={{ fontSize: 11, fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "var(--text-muted)", textDecoration: "none" }}>{l}</a>)}</div>
           </div>
           <Skyline />
         </div>
