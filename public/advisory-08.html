@@ -31,8 +31,8 @@ a{color:inherit;text-decoration:none}
 .wrap{max-width:1320px;margin:0 auto;padding:0 var(--gutter)}
 .col{max-width:760px;margin:0 auto;padding:0 var(--gutter);box-sizing:content-box}
 /* nav */
-.nav{position:sticky;top:0;z-index:50;background:rgba(14,11,36,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(226,60,65,.08)}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.nav{position:sticky;top:0;z-index:50;height:0;pointer-events:none}.nav a{pointer-events:auto;display:inline-flex;margin-top:18px;padding:10px;border-radius:10px;background:#0e0b24;box-shadow:0 6px 20px rgba(14,11,36,.25)}
+.nav .wrap{display:flex;align-items:flex-start}
 .nav .mk{height:38px;width:auto;display:block}
 .links{display:flex;gap:2.5rem}
 .nl{position:relative;font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text-secondary);transition:color .3s}
@@ -91,7 +91,7 @@ footer{background:var(--night);border-top:1px solid rgba(226,60,65,.08);color:va
 .legal nav{display:flex;gap:18px;flex-wrap:wrap}.legal nav a{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
 @media (max-width:900px){.links{display:none}.fgrid{grid-template-columns:1fr 1fr}.fgrid>div:first-child{grid-column:1/-1}}
 @media (max-width:640px){
- .nav .wrap{height:64px}.nav .mk{height:32px}
+ .nav .mk{height:28px}
  .para{font-size:17px}
  .flow{grid-template-columns:1fr !important;gap:14px 0 !important}.flow .arrow{transform:rotate(90deg)}.chart{grid-template-columns:minmax(96px,120px) minmax(0,1fr) !important}
  .q{padding-left:18px}}
@@ -101,7 +101,7 @@ footer{background:var(--night);border-top:1px solid rgba(226,60,65,.08);color:va
 </style>
 </head>
 <body>
-<header class="nav"><div class="wrap"><a href="/" aria-label="Bound Search Partners"><svg class="mk" viewBox="0 0 130 140" fill="none" aria-hidden="true"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg></a><nav class="links"><a href="/" class="nl">Home</a><a href="/" class="nl">About</a><a href="/" class="nl">Services</a><a href="/" class="nl">Results</a><a href="/" class="nl">Insights</a><a href="/" class="nl c">Contact</a></nav><span class="mnav">№ 08</span></div></header>
+<header class="nav"><div class="wrap"><a href="/" aria-label="Bound Search Partners"><svg class="mk" viewBox="0 0 130 140" fill="none" aria-hidden="true"><rect x="4" y="4" width="30" height="132" rx="2" fill="#fff" opacity=".92"/><rect x="56" y="4" width="70" height="60" rx="2" fill="#e23c41"/><rect x="56" y="76" width="70" height="60" rx="2" fill="#e23c41" opacity=".9"/></svg></a></div></header>
 <section class="hero"><div class="col">
 <div class="crumb"><a href="/">Insights</a><span class="r">/</span><span>Advisory № 08</span></div>
 <div class="hero-in">
