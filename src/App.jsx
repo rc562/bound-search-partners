@@ -117,6 +117,96 @@ const ADVISORIES = [
 const LinkedInMark = ({ size = 16 }) => <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>;
 const Numero = ({ n, size = 1.45 }) => <span><span style={{ fontSize: `${size}em`, lineHeight: 1, verticalAlign: "-.05em" }}>№</span> {n}</span>;
 
+/* ---------- Desktop nav ----------
+   Two directions behind one switch. 'a' = Quiet glass, 'b' = Floating pill.
+   Mobile nav (below) is untouched and renders at <= 768px regardless of this setting. */
+const navVariant = "a";
+const DNAV = [["about", "About"], ["services", "Services"], ["process", "Process"], ["results", "Results"], ["insights", "Insights"]];
+const DNAV_CSS = `
+.dn a{color:inherit;text-decoration:none}
+.dn a:focus-visible,.dn button:focus-visible{outline:2px solid #E23C41;outline-offset:4px;border-radius:4px}
+.dn-link{position:relative;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary);transition:color .3s var(--ease-signature);white-space:nowrap}
+.dn-link:hover,.dn-link[aria-current="true"]{color:#fff}
+.dn-cta{display:inline-flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff;white-space:nowrap}
+.dn-cta .dn-arrow{display:inline-block;color:#E23C41;transition:transform .4s var(--ease-signature)}
+.dn-cta:hover .dn-arrow,.dn-cta:focus-visible .dn-arrow{transform:translateX(4px)}
+.dn-sub{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap;transition:color .3s}
+.dn-sub:hover{color:#fff}
+.dn-pill-link{position:relative;padding:10px 14px;border-radius:99px;font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--text-secondary);transition:color .3s var(--ease-signature),background .3s var(--ease-signature)}
+.dn-pill-link:hover{color:#fff;background:rgba(255,255,255,.06)}
+.dn-pill-link[aria-current="true"]{color:#fff}
+.dn-dot{position:absolute;left:50%;bottom:3px;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:#E23C41;box-shadow:0 0 8px rgba(226,60,65,.8);transform:scale(0);transition:transform .4s var(--ease-signature)}
+.dn-pill-link[aria-current="true"] .dn-dot{transform:scale(1)}
+.dn-pill-cta{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:99px;background:#E23C41;color:#fff;font-size:12px;font-weight:600;letter-spacing:.08em;white-space:nowrap;transition:background .3s}
+.dn-pill-cta:hover{background:var(--red-hover)}
+@media (prefers-reduced-motion:reduce){.dn,.dn *{transition:none!important;animation:none!important}}
+`;
+function useActiveSection(ids) {
+  const [active, setActive] = React.useState(null);
+  React.useEffect(() => {
+    const h = () => {
+      const line = window.innerHeight * 0.35; let cur = null;
+      for (const id of ids) { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= line) cur = id; }
+      setActive(cur);
+    };
+    h(); window.addEventListener("scroll", h, { passive: true }); window.addEventListener("resize", h);
+    return () => { window.removeEventListener("scroll", h); window.removeEventListener("resize", h); };
+  }, []);
+  return active;
+}
+function DesktopNav({ go }) {
+  const w = useWidth();
+  const [scrolled, setScrolled] = React.useState(false);
+  React.useEffect(() => { const h = () => setScrolled(window.scrollY > 40); h(); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []);
+  const active = useActiveSection([...DNAV.map(([id]) => id), "contact"]);
+  const nav = (id) => (e) => { e.preventDefault(); go(id); };
+  const mark = <a href="#home" onClick={nav("home")} aria-label="Bound Search Partners, back to top" style={{ display: "flex" }}><BrandMark size={navVariant === "b" ? 30 : 34} lockup={navVariant === "a" ? w > 1100 : w > 1240} /></a>;
+  if (navVariant === "b") return (
+    <nav aria-label="Primary" className="dn" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000, display: "flex", justifyContent: "center", pointerEvents: "none" }}>
+      <style>{DNAV_CSS}</style>
+      <div style={{ pointerEvents: "auto", marginTop: scrolled ? 14 : 22, width: scrolled ? "min(980px, calc(100% - 48px))" : "calc(100% - 2 * var(--gutter))", maxWidth: scrolled ? 980 : 1400, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 20, padding: scrolled ? "8px 8px 8px 20px" : "10px 0", borderRadius: 99, background: scrolled ? "rgba(14,11,36,.72)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", border: `1px solid ${scrolled ? "rgba(255,255,255,.1)" : "rgba(255,255,255,0)"}`, boxShadow: scrolled ? "0 18px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06)" : "none", transition: "all .6s var(--ease-signature)" }}>
+        {mark}
+        <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {DNAV.map(([id, label]) => <a key={id} href={`#${id}`} onClick={nav(id)} className="dn-pill-link" aria-current={active === id ? "true" : undefined}>{label}<span className="dn-dot" aria-hidden="true" /></a>)}
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          {w > 1100 && <a href="/portal.html" className="dn-sub">Client portal</a>}
+          <a href="#contact" onClick={nav("contact")} className="dn-pill-cta">Start a conversation <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </nav>
+  );
+  return <QuietGlass go={go} scrolled={scrolled} active={active} nav={nav} mark={mark} w={w} />;
+}
+function QuietGlass({ scrolled, active, nav, mark, w }) {
+  const linksRef = React.useRef(null);
+  const [hover, setHover] = React.useState(null);
+  const [bar, setBar] = React.useState({ left: 0, width: 0, on: false });
+  const target = hover || (DNAV.some(([id]) => id === active) ? active : null);
+  React.useLayoutEffect(() => {
+    const box = linksRef.current; if (!box) return;
+    const el = target && box.querySelector(`[data-id="${target}"]`);
+    if (!el) { setBar((b) => ({ ...b, on: false })); return; }
+    setBar({ left: el.offsetLeft, width: el.offsetWidth, on: true });
+  }, [target, w]);
+  return (
+    <nav aria-label="Primary" className="dn" style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 1000, height: scrolled ? 64 : 88, display: "flex", alignItems: "center", background: scrolled ? "rgba(14,11,36,.78)" : "rgba(14,11,36,0)", backdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(18px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? "rgba(255,255,255,.07)" : "rgba(255,255,255,0)"}`, transition: "height .5s var(--ease-signature), background .5s var(--ease-signature), border-color .5s" }}>
+      <style>{DNAV_CSS}</style>
+      <Wrap style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
+        {mark}
+        <div ref={linksRef} onMouseLeave={() => setHover(null)} style={{ position: "relative", display: "flex", alignItems: "center", gap: "clamp(1.75rem,3vw,3rem)" }}>
+          {DNAV.map(([id, label]) => <a key={id} data-id={id} href={`#${id}`} onClick={nav(id)} onMouseEnter={() => setHover(id)} onFocus={() => setHover(id)} onBlur={() => setHover(null)} className="dn-link" aria-current={active === id ? "true" : undefined} style={{ padding: "8px 0" }}>{label}</a>)}
+          <span aria-hidden="true" style={{ position: "absolute", bottom: 0, height: 1, left: bar.left, width: bar.width, background: "#E23C41", boxShadow: "0 0 10px rgba(226,60,65,.6)", opacity: bar.on ? 1 : 0, transition: "left .5s var(--ease-signature), width .5s var(--ease-signature), opacity .3s" }} />
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+          {w > 1100 && <a href="/portal.html" className="dn-sub">Client portal</a>}
+          <a href="#contact" onClick={nav("contact")} className="dn-cta" aria-current={active === "contact" ? "true" : undefined}>Start a conversation <span className="dn-arrow" aria-hidden="true">→</span></a>
+        </div>
+      </Wrap>
+    </nav>
+  );
+}
+
 /* ---------- Nav ---------- */
 function Nav({ go }) {
   const w = useWidth(); const mobile = w <= 768;
@@ -128,6 +218,7 @@ function Nav({ go }) {
     const h = () => { const y = window.scrollY; setScrolled(y > 60); setHidden(!mobile && y > 200); if (y > 200) setNavOpen(false); };
     h(); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h);
   }, [mobile]);
+  if (!mobile) return <DesktopNav go={go} />;
   const glass = mobile && scrolled;
   return (
     <React.Fragment>
