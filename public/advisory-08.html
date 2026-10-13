@@ -4,243 +4,157 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cyber Readiness Is Everyone's Job Now — Bound Search Partners № 08</title>
-<meta name="description" content="The cyberattacks that stopped plants and distribution centers over the past year and a half came in through suppliers, distributors, and software vendors. Getting ready is spread across the whole leadership team, with IT in one of the seats.">
+<meta name="description" content="The cyberattacks that stopped plants and distribution centers over the past year and a half came in through a customer, a distributor, or software somebody else runs. That changes who has to be ready.">
 <link rel="canonical" href="https://boundsearch.com/advisory-08.html">
-<link rel="icon" href="/favicon.ico" sizes="any">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Bound Search Partners">
 <meta property="og:title" content="Cyber readiness is everyone's job now.">
-<meta property="og:description" content="The cyberattacks that stopped plants over the past year and a half came in through suppliers, distributors, and software vendors. Getting ready is spread across the whole leadership team, with IT in one of the seats.">
+<meta property="og:description" content="The cyberattacks that stopped plants over the past year and a half came in through a customer, a distributor, or software somebody else runs. That changes who has to be ready.">
 <meta property="og:url" content="https://boundsearch.com/advisory-08.html">
 <meta property="og:image" content="https://boundsearch.com/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cyber readiness is everyone's job now.">
-<meta name="twitter:description" content="The cyberattacks that stopped plants over the past year and a half came in through suppliers, distributors, and software vendors. Getting ready is spread across the whole leadership team, with IT in one of the seats.">
+<meta name="twitter:description" content="The cyberattacks that stopped plants over the past year and a half came in through a customer, a distributor, or software somebody else runs. That changes who has to be ready.">
 <meta name="twitter:image" content="https://boundsearch.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Inter:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root{--night:#0e0b24;--night-mid:#181338;--red:#e23c41;--red-hover:#c8333a;--paper:#f6f4ee;--ink:#16132e;--ink-soft:#3b3852;--ink-mute:#6d6a80;--rule:rgba(22,19,46,.16);--rule-soft:rgba(22,19,46,.09);--red-rule:rgba(226,60,65,.28);--text-secondary:#c5c3ce;--text-faint:#73708a;--serif:'Newsreader',Georgia,'Times New Roman',serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;--sans:'Inter','Segoe UI',-apple-system,sans-serif;--gutter:clamp(1.5rem,4vw,4rem);--ease:cubic-bezier(.23,1,.32,1)}
-*{margin:0;padding:0;box-sizing:border-box}
+@font-face{font-family:'Inter';src:url('/inter-var.woff2') format('woff2');font-weight:100 900;font-display:swap}
+
+:root{--red:#e23c41;--red-hover:#c8333a;--paper-ink:#16132e;--paper-ink-soft:#3b3852;--paper-ink-mute:#6d6a80;--paper-rule:rgba(22,19,46,.16);--paper-rule-soft:rgba(22,19,46,.09);--paper-red-rule:rgba(226,60,65,.28);--font-serif:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+*{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--night);color:#fff;font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-::selection{background:rgba(226,60,65,.27);color:#fff}
-a{color:var(--red);text-decoration:none}
-.grain{position:fixed;inset:0;pointer-events:none;z-index:5000;opacity:.026;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E")}
-.wrap{max-width:860px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
-.rule{height:4px;background:var(--red)}
-.mast{padding-top:28px;padding-bottom:28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.mast a{display:inline-flex;color:inherit}
-.mast svg{height:26px;width:auto;display:block}
-.kicker{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--red);white-space:nowrap}
-.num{font-size:1.45em;line-height:1;vertical-align:-.05em}
-.sheet{background:var(--paper);color:var(--ink);font-family:var(--serif);position:relative}
-.sheet::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.35;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
-.sheet>*{position:relative}
-.head{padding-top:clamp(3rem,6vw,4.5rem);padding-bottom:clamp(1.8rem,3.5vw,2.6rem)}
-.date{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:26px}
-h1{font-size:clamp(2.5rem,5.6vw,4.2rem);font-weight:500;line-height:1.06;letter-spacing:-.012em;margin-bottom:24px;text-wrap:pretty}
-h1 em{color:var(--red)}
+body{margin:0;background:#f5f5f4;color:var(--paper-ink);font-family:var(--font-serif);-webkit-font-smoothing:antialiased;padding:48px 24px}
+::selection{background:rgba(226,60,65,.18)}
+a{color:var(--paper-ink);text-decoration:none;border-bottom:1px solid var(--paper-red-rule);transition:color .3s cubic-bezier(.23,1,.32,1),border-color .3s cubic-bezier(.23,1,.32,1)}
+a:hover{color:var(--red);border-bottom-color:var(--red)}
+.page{max-width:816px;margin:0 auto;padding:72px clamp(24px,6vw,72px) 72px;background:#fff;border-radius:7px;box-shadow:0 2px 10px rgba(20,20,19,.12)}
+@media (max-width:640px){body{padding:0}.page{border-radius:0;box-shadow:none}}
+h1,h2,p{margin:0}
+.mono{font-family:var(--font-mono)}
+.para{font-size:18px;line-height:1.72;color:var(--paper-ink-soft);margin:0 0 18px;text-wrap:pretty;max-width:68ch}
+.para:last-child{margin-bottom:0}
+h2{font-size:clamp(1.5rem,3vw,1.8rem);font-weight:500;line-height:1.15;letter-spacing:-.01em;margin:0 0 16px;color:var(--paper-ink)}
+.sec{padding:clamp(1.8rem,4vw,2.6rem) 0;border-top:1px solid var(--paper-rule-soft)}
 .red{color:var(--red)}
-.standfirst{font-size:clamp(1.15rem,2vw,1.35rem);line-height:1.5;color:var(--ink-soft);max-width:54ch;text-wrap:pretty}
-.meta{font-family:var(--mono);display:flex;gap:26px;flex-wrap:wrap;font-size:11px;letter-spacing:.08em;color:var(--ink-mute);margin-top:30px}
-.figwrap{padding-bottom:clamp(2rem,4vw,3rem)}
-.flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr);gap:0 26px;align-items:stretch;padding:6px 0 2px}
-.hit{border:1px solid var(--red-rule);background:rgba(226,60,65,.04);padding:22px 24px;display:flex;flex-direction:column;gap:14px}
-.lead{font-size:1.05rem;font-weight:500;line-height:1.3;color:var(--ink)}
-.name{font-size:1.15rem;font-weight:500;line-height:1.2;color:var(--ink)}
-.hit .name{font-size:1.35rem}
-.small{font-size:15px;line-height:1.6;color:var(--ink-soft);text-wrap:pretty}
-.stack>div{display:flex;flex-direction:column;gap:6px}
-.arrow{display:flex;align-items:center;justify-content:center;color:var(--red);font-size:2.2rem;line-height:1;padding:0 2px;font-family:var(--serif)}
-.down{border-top:1px solid var(--rule);padding-top:22px;display:flex;flex-direction:column;gap:14px}
-.down .row{display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid var(--rule-soft)}
-.down .row:first-child{padding-top:0;border-top:none}
-.down .row:last-child{padding-bottom:0}
-.series{font-size:14.5px;color:var(--ink-mute);font-style:italic;line-height:1.6;margin-top:16px;max-width:62ch}
-section{padding:clamp(2.2rem,4.5vw,3.5rem) 0;border-top:1px solid var(--rule-soft)}
-h2{font-size:clamp(1.55rem,3vw,1.9rem);font-weight:500;line-height:1.15;letter-spacing:-.01em;margin-bottom:18px;color:var(--ink)}
-p.b{font-size:18px;line-height:1.72;color:var(--ink-soft);margin-bottom:20px;text-wrap:pretty;max-width:68ch}
-p.b:last-child{margin-bottom:0}
-p.b a{color:var(--ink);border-bottom:1px solid var(--red-rule);transition:color .3s var(--ease),border-color .3s var(--ease)}
-p.b a:hover{color:var(--red);border-bottom-color:var(--red)}
-blockquote{margin:26px 0 6px;padding:8px 0 8px 22px;border-left:2px solid var(--red)}
-blockquote .lbl{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px}
-blockquote .q{font-size:clamp(1.3rem,2.4vw,1.65rem);font-weight:500;font-style:italic;line-height:1.35;letter-spacing:-.008em;max-width:52ch;color:var(--ink);text-wrap:pretty}
-.chart{margin:4px 0 28px}
-.chart .lead{margin-bottom:18px}
-.chart .grid{display:grid;grid-template-columns:minmax(120px,170px) minmax(0,1fr);gap:16px 16px;align-items:center}
-.ticks{display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--ink);padding-bottom:6px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--ink-mute)}
-.lab{display:flex;flex-direction:column;gap:3px}
-.lab b{font-size:16px;font-weight:500;line-height:1.3;color:var(--ink)}
-.lab span{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--ink-mute);line-height:1.5}
-.track{position:relative;display:grid;grid-template-columns:repeat(6,1fr);height:40px}
-.track span+span{border-left:1px solid var(--rule-soft)}
-.bar{position:absolute;left:0;top:10px;height:20px;background:var(--red)}
-.bar.ink{background:var(--ink)}
-.note{font-size:14px;color:var(--ink-mute);font-style:italic;line-height:1.6;margin-top:14px}
-.signoff{padding-top:clamp(1.5rem,3vw,2.5rem);padding-bottom:clamp(2.5rem,5vw,3.5rem)}
-.signoff>div{border-top:2px solid var(--ink);padding-top:18px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
-.signoff .firm{font-size:1.25rem;font-weight:500}
-.signoff .ser{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--ink-mute)}
-.cta{background:var(--night-mid);border-top:1px solid rgba(226,60,65,.12)}
-.cta .wrap{padding-top:clamp(3rem,6vw,5rem);padding-bottom:clamp(3rem,6vw,5rem);text-align:center;display:flex;flex-direction:column;align-items:center;gap:28px}
-.cta p{font-size:16px;line-height:1.8;color:var(--text-secondary);max-width:600px;text-wrap:pretty}
-.cta .ready{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;letter-spacing:-.02em;line-height:1.1;color:#fff}
-.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--sans);font-size:13px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:16px 36px;background:var(--red);color:#fff;line-height:1;transition:all .4s var(--ease)}
-.btn:hover{background:var(--red-hover);transform:translateY(-2px);box-shadow:0 8px 24px rgba(226,60,65,.3);color:#fff}
-footer{background:var(--night);border-top:1px solid rgba(226,60,65,.08)}
-footer .wrap{padding-top:36px;padding-bottom:40px}
-footer .top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:24px}
-footer .top svg{height:22px;width:auto;display:block}
-footer .top a.site{font-size:13px;font-weight:600;letter-spacing:.1em;color:var(--text-secondary);transition:color .3s var(--ease)}
-footer .top a.site:hover{color:#fff}
-footer .line{height:1px;background:rgba(255,255,255,.05);margin-bottom:20px}
-footer p{font-size:12px;line-height:1.7;color:var(--text-faint);margin-bottom:8px}
-footer p:last-child{margin-bottom:0}
-@media (max-width:720px){.flow{grid-template-columns:1fr;gap:14px 0}.arrow{transform:rotate(90deg);padding:6px 0}.chart .grid{grid-template-columns:minmax(96px,120px) minmax(0,1fr)}}
-@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+.q{margin:22px 0 4px;padding:6px 0 6px 20px;border-left:2px solid var(--red)}
+.q .lbl{font-family:var(--font-mono);font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin:0 0 8px}
+.q .txt{font-size:clamp(1.25rem,2.4vw,1.5rem);font-weight:500;font-style:italic;line-height:1.35;letter-spacing:-.008em;margin:0;max-width:52ch;color:var(--paper-ink);text-wrap:pretty}
+.fig p{margin:0}
+.name{font-size:17px;font-weight:500;line-height:1.2;color:var(--paper-ink)}
+.small{font-size:15px;line-height:1.55;color:var(--paper-ink-soft);text-wrap:pretty}
+.meta{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--paper-ink-mute)}
+@media (max-width:640px){.flow{grid-template-columns:1fr !important;gap:14px 0 !important}.flow .arrow{transform:rotate(90deg)}.chart{grid-template-columns:minmax(96px,120px) minmax(0,1fr) !important}}
 </style>
 </head>
 <body>
-<div class="grain" aria-hidden="true"></div>
-<article>
-<div class="rule"></div>
-<header class="wrap mast">
-  <a href="https://boundsearch.com" aria-label="Bound Search Partners">
-    <svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" fill="none" role="img" aria-label="Bound Search Partners"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"></rect><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"></rect><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"></rect><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" stroke-width="1.5" opacity=".2"></line><text x="64" y="20" fill="#fff" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" font-family="Inter,sans-serif" font-size="8" font-weight="600" letter-spacing="5">SEARCH PARTNERS</text></svg>
-  </a>
-  <span class="kicker"><span class="num">№</span> 08</span>
+<article class="page">
+<header style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-bottom:18px;border-bottom:2px solid var(--paper-ink)">
+  <span style="font-size:20px;font-weight:500;letter-spacing:-.005em">Bound Search Partners<span class="red">.</span></span>
+  <span class="mono" style="font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--red)"><span style="font-size:1.45em;line-height:1;vertical-align:-.05em">№</span> 08</span>
 </header>
 
-<div class="sheet">
-  <div class="wrap head">
-    <p class="date">October 13, 2026</p>
-    <h1>Cyber readiness is <em>everyone's</em> job now<span class="red">.</span></h1>
-    <p class="standfirst">The cyberattacks that stopped plants and distribution centers over the past year and a half came in through a customer, a distributor, or software somebody else runs. That changes who has to be ready: the CFO deciding whether to pay suppliers early, the procurement lead who knows which outside systems the dock runs on, the plant manager shipping on paper for a week. IT has one seat at that table. This is about the others.</p>
-    <div class="meta"><span>BSP-2026-008</span><span>13 OCT 2026</span><span>BOB CWENAR, FOUNDER</span><span>7 MIN READ</span><span>BOUNDSEARCH.COM</span></div>
-  </div>
+<div style="padding:34px 0 26px">
+  <p class="mono" style="font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--paper-ink-mute);margin:0 0 20px">October 13, 2026</p>
+  <h1 style="font-size:44px;font-weight:500;line-height:1.06;letter-spacing:-.012em;margin:0 0 20px;text-wrap:pretty">Cyber readiness is <em class="red">everyone's</em> job now<span class="red">.</span></h1>
+  <p style="font-size:19px;line-height:1.5;color:var(--paper-ink-soft);max-width:54ch;margin:0;text-wrap:pretty">The cyberattacks that stopped plants and distribution centers over the past year and a half came in through a customer, a distributor, or software somebody else runs. That changes who has to be ready: the CFO deciding whether to pay suppliers early, the procurement lead who knows which outside systems the dock runs on, the plant manager shipping on paper for a week. IT has one seat at that table. This is about the others.</p>
+  <div class="meta" style="display:flex;gap:22px;flex-wrap:wrap;margin-top:24px"><span>BSP-2026-008</span><span>13 OCT 2026</span><span>BOB CWENAR, FOUNDER</span><span>7 MIN READ</span><span>BOUNDSEARCH.COM</span></div>
+</div>
 
-  <div class="wrap figwrap">
-    <div class="flow">
-      <div class="hit stack">
-        <p class="lead">Hacked<span class="red">.</span></p>
-        <div>
-          <p class="name">Jaguar Land Rover</p>
-          <p class="small">Attack found around September 1, 2025. Three UK plants, about a thousand cars a day, idle until October 8, 2025.</p>
-        </div>
-      </div>
-      <div class="arrow" aria-hidden="true">→</div>
-      <div class="down">
-        <p class="lead">Never hacked. Stopped anyway<span class="red">.</span></p>
-        <div>
-          <div class="row"><p class="name">Evtec</p><p class="small">Tier-one supplier, 1,250 people. Plants at a virtual standstill by October 2025.</p></div>
-          <div class="row"><p class="name">Genex UK</p><p class="small">Presses metal parts, 18 people. Laid some of them off because the money stopped.</p></div>
-          <div class="row"><p class="name">Smaller shops on 60-day terms</p><p class="small">JLR went to manual payments, then cash up front. The UK government backed a £1.5 billion loan guarantee.</p></div>
-        </div>
-      </div>
+<div class="keep fig flow" style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.25fr);gap:0 22px;align-items:stretch;padding:4px 0 0">
+  <div style="border:1px solid var(--paper-red-rule);background:rgba(226,60,65,.04);padding:18px 20px;display:flex;flex-direction:column;gap:12px">
+    <p class="name">Hacked<span class="red">.</span></p>
+    <div style="display:flex;flex-direction:column;gap:5px">
+      <p style="font-size:20px;font-weight:500;line-height:1.2">Jaguar Land Rover</p>
+      <p class="small">Attack found around September 1, 2025. Three UK plants, about a thousand cars a day, idle until October 8, 2025.</p>
     </div>
-    <p class="series">The eighth in a series of Bound Search Partners briefings on U.S. manufacturing supply chains and the people who run them.</p>
   </div>
-
-  <div class="wrap">
-    <section>
-      <h2>What happened to a metal shop a year ago<span class="red">.</span></h2>
-      <p class="b">A year ago this month, Jaguar Land Rover was about a week into restarting its UK plants after six weeks of nothing. Someone had gotten into JLR's systems around September 1, 2025. JLR shut its own systems down to contain it, which stopped the attack and also stopped the plants. Three factories that build about a thousand vehicles a day went quiet, the workers went home, and the first engines didn't run again until October 8. The lines came back in phases after that.</p>
-      <p class="b">The story I keep telling is smaller than that. About a month into the shutdown, a BBC reporter went and talked to the suppliers. One of them was Genex UK, an 18-person shop that presses metal parts for JLR. Nothing had happened to Genex's computers. Their orders had simply stopped, and with the orders went the invoices, and with the invoices went the cash, and the owner told the reporter he'd had to let some of his people go. Evtec, a tier-one supplier with about 1,250 employees, said its plants were at a virtual standstill. Nobody had attacked either company. The money had just stopped coming down the chain.</p>
-      <p class="b">I've told that story to a handful of CEOs since, because it's the clearest picture I've found of what this risk actually is. Your own plant is usually fine. The trouble is a customer or a vendor that goes down, and you feel it first in receivables or at the shipping dock.</p>
-    </section>
-
-    <section>
-      <h2>What the supply chain people are saying<span class="red">.</span></h2>
-      <p class="b">What surprised me when I went looking for numbers was who's worried. KPMG's 2026 US Supply Chain Survey asked 462 supply chain leaders at U.S. companies with at least a billion dollars in revenue what keeps them up, and cyber security came out as the top supply chain risk, ahead of deeper-tier supplier risk in second place. These are people who run supply chains for a living. They were asked about their own supply chains, and they ranked cyber above the things they manage every day. Seventy-seven percent of the same group said they have a talent gap in procurement and supply chain, which matters later in this piece.</p>
-      <p class="b">The trend line is the reason to have this conversation this year. Verizon's Data Breach Investigations Report had a third party involved in 30 percent of the breaches it studied in its 2025 edition, double the year before. The 2026 edition, published in May, has third-party and supply chain breaches up another 60 percent, to nearly half of everything it looked at. Verizon's own explanation for the speed is AI. Attackers are using it to find and exploit software flaws in hours instead of months, and Microsoft's Digital Defense Report, out October 1, describes the same thing in its own numbers, with the attack timeline shrinking from days to minutes. The tools are getting easier to use on both sides, and the other side doesn't have a budget cycle.</p>
-      <p class="b">Two honest notes. These are billion-dollar companies with real security budgets, and most of the manufacturers I work with are a fraction of that size. My opinion, and only mine: the smaller companies are less ready, not more, because the same handful of people are already running everything and nobody has a spare afternoon for a drill. Second, the sample is American and the biggest story I'm telling is British. I'm using it anyway, because the mechanics are the same in Michigan as in the Midlands, and UNFI, which comes up in a minute, is about as American as a grocery truck.</p>
-    </section>
-
-    <section>
-      <h2>The CEO and the board put a name on it<span class="red">.</span></h2>
-      <p class="b">Go back to JLR for a second and look at the size of it. Six weeks without production. Around £196 million in cyber-related costs in a single quarter, with wholesale volumes down 24 percent. Enough strain in the supply base that the UK government stepped in with a £1.5 billion loan guarantee so the smaller suppliers would still exist on restart day. That is a board-level event by any definition, and my guess is that in most companies the plan for it still lives two floors down, with the head of IT.</p>
-      <p class="b">The question I'd put to any leadership team is who owns the plan for a key supplier or distributor going dark. My guess at the usual answer: a pause, then everyone looks at the IT lead. The IT lead owns the backups and the firewalls, and should. The IT lead does not decide whether to pay a supplier early, and does not run the plant. So the CEO's job here is to put a name on the rest of it, the way there's a name on safety, and to make sure the person whose name it is has actually sat down with the controller and the plant manager. The board's piece is small. Ask for that name once a quarter, and ask what's changed since the last time.</p>
-      <blockquote><p class="lbl">The CEO's question</p><p class="q">Who on this team owns the plan for a supplier or distributor going dark?</p></blockquote>
-    </section>
-
-    <section>
-      <h2>The CFO has the cash conversation<span class="red">.</span></h2>
-      <p class="b">The money is where JLR's problem became everyone else's. JLR's standard terms were sixty days after invoice. A shop with nothing shipping can't wait sixty days for the last check while the next one never gets written, so JLR improvised in public: manual payments first, then a dedicated supplier help desk, then on October 7, 2025, a financing program to pay suppliers cash up front. Those are treasury decisions, made in weeks, under pressure, by people who had probably never been asked to make them.</p>
-      <p class="b">United Natural Foods is the American version. UNFI is the main distributor for Whole Foods. On June 5, 2025, it found someone inside its systems and took them offline on purpose, which meant it couldn't take or fill orders the normal way. Shelves went bare in places. UNFI later put the damage at $350 to $400 million in lost net sales before insurance, and about $20 million of that was just the cost of the manual workarounds it ran while the systems were down. Twenty million dollars of people doing by hand what the system used to do.</p>
-      <p class="b">That's the CFO's side of it, and it's concrete. Who has the authority to pay a supplier early, and how fast can that decision get made on a Tuesday afternoon. What the insurance actually covers once the claim goes in, and whether a supplier's outage counts at all. And the one almost nobody has asked: how much cash runway the small suppliers you can't ship without are carrying right now.</p>
-      <blockquote><p class="lbl">The CFO's question</p><p class="q">Which of our suppliers would be out of cash in six weeks, and have we ever asked them?</p></blockquote>
-    </section>
-
-    <section>
-      <h2>Procurement knows who you actually depend on<span class="red">.</span></h2>
-      <p class="b">KPMG's number two risk was suppliers deeper in the chain, and in practice it's the same risk as number one. The company that gets hit might be two layers below you, a plating shop your tier-one uses and you've never heard of. It might be the freight broker's booking software or the warehouse system at your 3PL. Every manufacturer has a bill of materials for every product. Far fewer have anything like it for the outside systems the shipping dock depends on. I'd bet that list takes an afternoon to build and surprises the people building it.</p>
-      <p class="b">There's a procurement angle on the vendor side too. CISA, the federal cyber agency, published guidance in January 2025 for anyone buying operational technology, the controllers and equipment that actually run a plant. The gist was to make security part of the purchase: ask how the vendor handles updates and who can get into the system remotely, and write the answers into the contract. In shop terms, those are the same questions you already ask about spare parts and service response, pointed at a different part of the machine. The buyer owns that conversation, and the buyer is usually procurement.</p>
-      <blockquote><p class="lbl">The COO's question</p><p class="q">Which three outside companies could stop our shipping by going dark tomorrow?</p></blockquote>
-    </section>
-
-    <section>
-      <h2>The plant figures out the week on paper<span class="red">.</span></h2>
-      <p class="b">UNFI ran on workarounds for about three weeks before its core systems came back. JLR restarted in phases, engines first, then the rest. In both cases somebody on the floor had to work out how to receive material, build product, pick orders, and ship them with the screens dark, and they had to work it out that morning, with whatever was already on the dock.</p>
-      <div class="chart">
-        <p class="lead">How long the systems were down in 2025<span class="red">.</span></p>
-        <div class="grid">
-          <span></span>
-          <div class="ticks"><span>WK 1</span><span>WK 2</span><span>WK 3</span><span>WK 4</span><span>WK 5</span><span>WK 6</span></div>
-          <div class="lab"><b>JLR's UK plants</b><span>Sep 1 → Oct 8, 2025 · about six weeks</span></div>
-          <div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar" style="width:88%"></div></div>
-          <div class="lab"><b>UNFI's core systems</b><span>From Jun 5, 2025 · about three weeks</span></div>
-          <div class="track"><span></span><span></span><span></span><span></span><span></span><span></span><div class="bar ink" style="width:50%"></div></div>
-        </div>
-        <p class="note">Rounded from Reuters (Oct 7, 2025) and CyberScoop (Jul 17, 2025).</p>
-      </div>
-      <p class="b">That piece belongs to the plant manager, and most of it is planning. How do we release work orders and hold quality records on paper for a week, then get them back into the system afterward. Who signs off on shipping a lot without the usual scan. The people who can answer those questions are already in the building, and in my experience the good ones have already thought about it. What's rarer is having tried it. I'd want to see it run once, on a slow shift, before it has to be done for real.</p>
-      <blockquote><p class="lbl">The plant's question</p><p class="q">Has anyone here run a shift without the system, on purpose, to see what breaks?</p></blockquote>
-    </section>
-
-    <section>
-      <h2>IT still runs the defense, and HR has the bench<span class="red">.</span></h2>
-      <p class="b">None of this takes anything away from IT. Backups and the plan to shut systems down fast and bring them back clean are technical work, and IT owns them. UNFI pulled its own plug on June 5, and that call belongs to exactly those people. What IT can't do is write the payroll plan at Genex or the pick-ticket plan in UNFI's warehouses, and those turned out to be the plans that mattered most to the people on the floor.</p>
-      <p class="b">HR's piece is smaller and it's about the bench. KPMG's 77 percent talent gap describes the same thin group of people who'd be running the plant on paper that week. A supervisor who can run a shift without the system is worth knowing about before the week you need her. That's a talent question, and it belongs on the HR agenda next to succession.</p>
-    </section>
-
-    <section>
-      <h2>Back to the metal shop<span class="red">.</span></h2>
-      <p class="b">Bound Search Partners is a retained search firm in Philadelphia, and most of the plant and supply chain leaders I talk to have thought about this more than their companies have asked them to. It's become one of the questions I ask in a search: walk me through the first week your biggest supplier goes dark. The good answers are specific. They name the supplier, and they've already had the conversation with the controller. I read every note personally, at <a href="mailto:bob@boundsearch.com?subject=Bound%20No.%2008">bob@boundsearch.com</a>.</p>
-      <p class="b">I keep coming back to the owner of the metal-parts shop. He ran his business right, and someone else's problem landed on his payroll within a few weeks. Somewhere in your supply chain is a company that depends on you the same way, and a vendor you depend on just as much. I'd want to know who's on the hook for that before the call comes.</p>
-    </section>
-  </div>
-
-  <div class="wrap signoff">
-    <div>
-      <p class="firm">Bound Search Partners<span class="red">.</span></p>
-      <p class="ser">BSP-2026-008 · OCT 2026 · BOUNDSEARCH.COM</p>
+  <div class="arrow" style="display:flex;align-items:center;justify-content:center;color:var(--red);font-size:32px;line-height:1" aria-hidden="true">→</div>
+  <div style="border-top:1px solid var(--paper-rule);padding-top:18px;display:flex;flex-direction:column;gap:12px">
+    <p class="name">Never hacked. Stopped anyway<span class="red">.</span></p>
+    <div style="display:flex;flex-direction:column">
+      <div style="padding:0 0 12px;display:flex;flex-direction:column;gap:3px"><p class="name">Evtec</p><p class="small">Tier-one supplier, 1,250 people. Plants at a virtual standstill by October 2025.</p></div>
+      <div style="padding:12px 0;border-top:1px solid var(--paper-rule-soft);display:flex;flex-direction:column;gap:3px"><p class="name">Genex UK</p><p class="small">Presses metal parts, 18 people. Laid some of them off because the money stopped.</p></div>
+      <div style="padding:12px 0 0;border-top:1px solid var(--paper-rule-soft);display:flex;flex-direction:column;gap:3px"><p class="name">Smaller shops on 60-day terms</p><p class="small">JLR went to manual payments, then cash up front. The UK government backed a £1.5 billion loan guarantee.</p></div>
     </div>
   </div>
 </div>
+<p style="font-size:14px;color:var(--paper-ink-mute);font-style:italic;line-height:1.6;margin:16px 0 26px;max-width:62ch">The eighth in a series of Bound Search Partners briefings on U.S. manufacturing supply chains and the people who run them.</p>
 
-<div class="cta">
-  <div class="wrap">
-    <p>Bound Search Partners is a retained executive search firm focused on U.S. manufacturing, industrial and supply chain leadership. We're glad to talk through any of this.</p>
-    <p class="ready">Ready when you are<span class="red">.</span></p>
-    <a class="btn" href="mailto:bob@boundsearch.com?subject=Bound%20No.%2008">Start a Conversation <span aria-hidden="true">→</span></a>
-  </div>
-</div>
+<section class="sec">
+  <h2>What happened to a metal shop a year ago<span class="red">.</span></h2>
+  <p class="para">A year ago this month, Jaguar Land Rover was about a week into restarting its UK plants after six weeks of nothing. Someone had gotten into JLR's systems around September 1, 2025. JLR shut its own systems down to contain it, which stopped the attack and also stopped the plants. Three factories that build about a thousand vehicles a day went quiet, the workers went home, and the first engines didn't run again until October 8. The lines came back in phases after that.</p>
+  <p class="para">The story I keep telling is smaller than that. About a month into the shutdown, a BBC reporter went and talked to the suppliers. One of them was Genex UK, an 18-person shop that presses metal parts for JLR. Nothing had happened to Genex's computers. Their orders had simply stopped, and with the orders went the invoices, and with the invoices went the cash, and the owner told the reporter he'd had to let some of his people go. Evtec, a tier-one supplier with about 1,250 employees, said its plants were at a virtual standstill. Nobody had attacked either company. The money had just stopped coming down the chain.</p>
+  <p class="para">I've told that story to a handful of CEOs since, because it's the clearest picture I've found of what this risk actually is. Your own plant is usually fine. The trouble is a customer or a vendor that goes down, and you feel it first in receivables or at the shipping dock.</p>
+</section>
 
-<footer>
-  <div class="wrap">
-    <div class="top">
-      <svg xmlns="http://www.w3.org/2000/svg" width="280" height="44" viewBox="0 0 280 44" fill="none" role="img" aria-label="Bound Search Partners"><rect x="2" y="2" width="9" height="40" rx="1" fill="#fff" opacity=".92"></rect><rect x="20" y="2" width="22" height="18" rx="1" fill="#e23c41"></rect><rect x="20" y="24" width="22" height="18" rx="1" fill="#e23c41" opacity=".9"></rect><line x1="54" y1="6" x2="54" y2="38" stroke="#e23c41" stroke-width="1.5" opacity=".2"></line><text x="64" y="20" fill="#fff" font-family="Inter,sans-serif" font-size="18" font-weight="800" letter-spacing="4">BOUND</text><text x="64" y="36" fill="#8a879a" font-family="Inter,sans-serif" font-size="8" font-weight="600" letter-spacing="5">SEARCH PARTNERS</text></svg>
-      <a class="site" href="https://boundsearch.com">boundsearch.com</a>
+<section class="sec">
+  <h2>What the supply chain people are saying<span class="red">.</span></h2>
+  <p class="para">What surprised me when I went looking for numbers was who's worried. KPMG's 2026 US Supply Chain Survey asked 462 supply chain leaders at U.S. companies with at least a billion dollars in revenue what keeps them up, and cyber security came out as the top supply chain risk, ahead of deeper-tier supplier risk in second place. These are people who run supply chains for a living. They were asked about their own supply chains, and they ranked cyber above the things they manage every day. Seventy-seven percent of the same group said they have a talent gap in procurement and supply chain, which matters later in this piece.</p>
+  <p class="para">The trend line is the reason to have this conversation this year. Verizon's Data Breach Investigations Report had a third party involved in 30 percent of the breaches it studied in its 2025 edition, double the year before. The 2026 edition, published in May, has third-party and supply chain breaches up another 60 percent, to nearly half of everything it looked at. Verizon's own explanation for the speed is AI. Attackers are using it to find and exploit software flaws in hours instead of months, and Microsoft's Digital Defense Report, out October 1, describes the same thing in its own numbers, with the attack timeline shrinking from days to minutes. The tools are getting easier to use on both sides, and the other side doesn't have a budget cycle.</p>
+  <p class="para">Two honest notes. These are billion-dollar companies with real security budgets, and most of the manufacturers I work with are a fraction of that size. My opinion, and only mine: the smaller companies are less ready, not more, because the same handful of people are already running everything and nobody has a spare afternoon for a drill. Second, the sample is American and the biggest story I'm telling is British. I'm using it anyway, because the mechanics are the same in Michigan as in the Midlands, and UNFI, which comes up in a minute, is about as American as a grocery truck.</p>
+</section>
+
+<section class="sec">
+  <h2>The CEO and the board put a name on it<span class="red">.</span></h2>
+  <p class="para">Go back to JLR for a second and look at the size of it. Six weeks without production. Around £196 million in cyber-related costs in a single quarter, with wholesale volumes down 24 percent. Enough strain in the supply base that the UK government stepped in with a £1.5 billion loan guarantee so the smaller suppliers would still exist on restart day. That is a board-level event by any definition, and my guess is that in most companies the plan for it still lives two floors down, with the head of IT.</p>
+  <p class="para">The question I'd put to any leadership team is who owns the plan for a key supplier or distributor going dark. My guess at the usual answer: a pause, then everyone looks at the IT lead. The IT lead owns the backups and the firewalls, and should. The IT lead does not decide whether to pay a supplier early, and does not run the plant. So the CEO's job here is to put a name on the rest of it, the way there's a name on safety, and to make sure the person whose name it is has actually sat down with the controller and the plant manager. The board's piece is small. Ask for that name once a quarter, and ask what's changed since the last time.</p>
+  <blockquote class="q"><p class="lbl">The CEO's question</p><p class="txt">Who on this team owns the plan for a supplier or distributor going dark?</p></blockquote>
+</section>
+
+<section class="sec">
+  <h2>The CFO has the cash conversation<span class="red">.</span></h2>
+  <p class="para">The money is where JLR's problem became everyone else's. JLR's standard terms were sixty days after invoice. A shop with nothing shipping can't wait sixty days for the last check while the next one never gets written, so JLR improvised in public: manual payments first, then a dedicated supplier help desk, then on October 7, 2025, a financing program to pay suppliers cash up front. Those are treasury decisions, made in weeks, under pressure, by people who had probably never been asked to make them.</p>
+  <p class="para">United Natural Foods is the American version. UNFI is the main distributor for Whole Foods. On June 5, 2025, it found someone inside its systems and took them offline on purpose, which meant it couldn't take or fill orders the normal way. Shelves went bare in places. UNFI later put the damage at $350 to $400 million in lost net sales before insurance, and about $20 million of that was just the cost of the manual workarounds it ran while the systems were down. Twenty million dollars of people doing by hand what the system used to do.</p>
+  <p class="para">That's the CFO's side of it, and it's concrete. Who has the authority to pay a supplier early, and how fast can that decision get made on a Tuesday afternoon. What the insurance actually covers once the claim goes in, and whether a supplier's outage counts at all. And the one almost nobody has asked: how much cash runway the small suppliers you can't ship without are carrying right now.</p>
+  <blockquote class="q"><p class="lbl">The CFO's question</p><p class="txt">Which of our suppliers would be out of cash in six weeks, and have we ever asked them?</p></blockquote>
+</section>
+
+<section class="sec">
+  <h2>Procurement knows who you actually depend on<span class="red">.</span></h2>
+  <p class="para">KPMG's number two risk was suppliers deeper in the chain, and in practice it's the same risk as number one. The company that gets hit might be two layers below you, a plating shop your tier-one uses and you've never heard of. It might be the freight broker's booking software or the warehouse system at your 3PL. Every manufacturer has a bill of materials for every product. Far fewer have anything like it for the outside systems the shipping dock depends on. I'd bet that list takes an afternoon to build and surprises the people building it.</p>
+  <p class="para">There's a procurement angle on the vendor side too. CISA, the federal cyber agency, published guidance in January 2025 for anyone buying operational technology, the controllers and equipment that actually run a plant. The gist was to make security part of the purchase: ask how the vendor handles updates and who can get into the system remotely, and write the answers into the contract. In shop terms, those are the same questions you already ask about spare parts and service response, pointed at a different part of the machine. The buyer owns that conversation, and the buyer is usually procurement.</p>
+  <blockquote class="q"><p class="lbl">The COO's question</p><p class="txt">Which three outside companies could stop our shipping by going dark tomorrow?</p></blockquote>
+</section>
+
+<section class="sec">
+  <h2>The plant figures out the week on paper<span class="red">.</span></h2>
+  <p class="para">UNFI ran on workarounds for about three weeks before its core systems came back. JLR restarted in phases, engines first, then the rest. In both cases somebody on the floor had to work out how to receive material, build product, pick orders, and ship them with the screens dark, and they had to work it out that morning, with whatever was already on the dock.</p>
+  <div class="keep fig" style="margin:6px 0 22px">
+    <p class="name" style="margin:0 0 14px">How long the systems were down in 2025<span class="red">.</span></p>
+    <div class="chart" style="display:grid;grid-template-columns:170px minmax(0,1fr);gap:14px 16px;align-items:center">
+      <span></span>
+      <div class="mono" style="display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--paper-ink);padding-bottom:5px;font-size:12px;letter-spacing:.1em;color:var(--paper-ink-mute)"><span>WK 1</span><span>WK 2</span><span>WK 3</span><span>WK 4</span><span>WK 5</span><span>WK 6</span></div>
+      <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;font-weight:500;line-height:1.3">JLR's UK plants</span><span class="mono" style="font-size:12px;letter-spacing:.04em;color:var(--paper-ink-mute);line-height:1.5">Sep 1 → Oct 8, 2025 · about six weeks</span></div>
+      <div style="position:relative;display:grid;grid-template-columns:repeat(6,1fr);height:36px"><span></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><div style="position:absolute;left:0;top:9px;height:18px;width:88%;background:var(--red)"></div></div>
+      <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;font-weight:500;line-height:1.3">UNFI's core systems</span><span class="mono" style="font-size:12px;letter-spacing:.04em;color:var(--paper-ink-mute);line-height:1.5">From Jun 5, 2025 · about three weeks</span></div>
+      <div style="position:relative;display:grid;grid-template-columns:repeat(6,1fr);height:36px"><span></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><span style="border-left:1px solid var(--paper-rule-soft)"></span><div style="position:absolute;left:0;top:9px;height:18px;width:50%;background:var(--paper-ink)"></div></div>
     </div>
-    <div class="line"></div>
-    <p>© 2026 Bound Search Partners. All rights reserved. Informational purposes only; not investment, legal, or professional advice. Sharing with attribution is welcome.</p>
-    <p>Sources: KPMG 2026 US Supply Chain Survey (checked Oct 12, 2026) · BBC (Sep 2 and Oct 2025) · Reuters (Oct 7 and Nov 14, 2025) · JLR press release (Oct 7, 2025) · UNFI Form 8-K (Jun 9, 2025) and business update (Jul 2025) · CyberScoop (Jul 17, 2025) · Verizon Data Breach Investigations Report, 2025 and 2026 editions (May 19, 2026) · Microsoft Digital Defense Report 2026 (Oct 1, 2026) · CISA, Secure by Demand OT guidance (Jan 13, 2025).</p>
+    <p style="font-size:14px;color:var(--paper-ink-mute);font-style:italic;line-height:1.6;margin:12px 0 0">Rounded from Reuters (Oct 7, 2025) and CyberScoop (Jul 17, 2025).</p>
   </div>
-</footer>
+  <p class="para">That piece belongs to the plant manager, and most of it is planning. How do we release work orders and hold quality records on paper for a week, then get them back into the system afterward. Who signs off on shipping a lot without the usual scan. The people who can answer those questions are already in the building, and in my experience the good ones have already thought about it. What's rarer is having tried it. I'd want to see it run once, on a slow shift, before it has to be done for real.</p>
+  <blockquote class="q"><p class="lbl">The plant's question</p><p class="txt">Has anyone here run a shift without the system, on purpose, to see what breaks?</p></blockquote>
+</section>
+
+<section class="sec">
+  <h2>IT still runs the defense, and HR has the bench<span class="red">.</span></h2>
+  <p class="para">None of this takes anything away from IT. Backups and the plan to shut systems down fast and bring them back clean are technical work, and IT owns them. UNFI pulled its own plug on June 5, and that call belongs to exactly those people. What IT can't do is write the payroll plan at Genex or the pick-ticket plan in UNFI's warehouses, and those turned out to be the plans that mattered most to the people on the floor.</p>
+  <p class="para">HR's piece is smaller and it's about the bench. KPMG's 77 percent talent gap describes the same thin group of people who'd be running the plant on paper that week. A supervisor who can run a shift without the system is worth knowing about before the week you need her. That's a talent question, and it belongs on the HR agenda next to succession.</p>
+</section>
+
+<section class="sec">
+  <h2>Back to the metal shop<span class="red">.</span></h2>
+  <p class="para">Bound Search Partners is a retained search firm in Philadelphia, and most of the plant and supply chain leaders I talk to have thought about this more than their companies have asked them to. It's become one of the questions I ask in a search: walk me through the first week your biggest supplier goes dark. The good answers are specific. They name the supplier, and they've already had the conversation with the controller. I read every note personally, at <a href="mailto:bob@boundsearch.com?subject=Bound%20No.%2008">bob@boundsearch.com</a>.</p>
+  <p class="para">I keep coming back to the owner of the metal-parts shop. He ran his business right, and someone else's problem landed on his payroll within a few weeks. Somewhere in your supply chain is a company that depends on you the same way, and a vendor you depend on just as much. I'd want to know who's on the hook for that before the call comes.</p>
+</section>
+
+<div class="keep" style="border-top:2px solid var(--paper-ink);margin-top:20px;padding-top:12px;display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
+  <p style="font-size:20px;font-weight:500;margin:0">Bound Search Partners<span class="red">.</span></p>
+  <p class="meta" style="margin:0">BSP-2026-008 · OCT 2026 · BOUNDSEARCH.COM</p>
+</div>
+<p style="font-size:12px;line-height:1.5;color:var(--paper-ink-mute);margin:10px 0 0;text-wrap:pretty">Sources: KPMG 2026 US Supply Chain Survey · BBC (Sep–Oct 2025) · Reuters (Oct 7 and Nov 14, 2025) · JLR (Oct 7, 2025) · UNFI 8-K (Jun 9, 2025) and July 2025 update · CyberScoop (Jul 17, 2025) · Verizon DBIR, 2025 and 2026 editions (May 19, 2026) · Microsoft Digital Defense Report 2026 (Oct 1, 2026) · CISA OT guidance (Jan 13, 2025). Informational only; not investment, legal, or professional advice.</p>
 </article>
 </body>
 </html>
