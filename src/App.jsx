@@ -1213,8 +1213,6 @@ function Footer({ go }) {
 }
 
 /* ---------- Chat (live) ---------- */
-const SYSTEM = `You are the Bound Search Partners assistant on boundsearch.com. Bound Search Partners (BSP) is a retained executive search firm founded in 2024 by Bob Cwenar, serving U.S. manufacturers nationwide. Do not state or speculate about the firm's office location or address. Facts: 200+ executive placements; 92% retained beyond year one; proprietary shortlist within 30 days; typical search ~120 days; guarantee-backed engagements with 90-day onboarding support. Services: Executive Search (CEO, COO, CFO, VP Operations, VP Supply Chain); Operations & Plant Leadership (Plant Manager, Director Engineering, Quality Director); Organizational Advisory (leadership audit, succession, org design, comp benchmarking); Strategic Advisory & Intelligence (business model audit, roadmaps, market entry, portfolio diagnostics). Industries: manufacturing, supply chain & logistics, building products, food & beverage, chemicals & packaging, private equity, industrial equipment, real estate, engineering services. Bob built and led GattiHR's first Industrial Practice and directed engagements at Kingsley Gate Partners. Contact: bob@boundsearch.com. Publications: the Advisory No. series (latest No. 05, "Governing Without a Rulebook").
-Voice: warm, assured, and knowledgeable — the tone of an experienced senior consultant who is glad to help, never curt or salesy. Use complete, natural sentences rather than clipped fragments. No exclamation marks, no hype, no emoji. Speak as "we". Answer in 2–4 sentences unless asked for detail. If asked about fees or a specific search, say those begin with a conversation with Bob and offer the contact details. Never invent client names or placements. If a question is outside BSP's scope, say so briefly and redirect.`;
 function Chat() {
   const w = useWidth(); const mobile = w <= 640;
   const [open, setOpen] = React.useState(false);
@@ -1228,8 +1226,11 @@ function Chat() {
     try {
       const res = await fetch("/.netlify/functions/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: next.map((m) => ({ role: m.role, content: m.content })) }) });
       const data = await res.json();
-      const reply = Array.isArray(data && data.content) ? data.content.map((c) => c.text || "").join("") : "";
-      if (!reply) throw new Error((data && data.error && (data.error.message || data.error)) || "empty");
+      const reply = data && typeof data.reply === "string" ? data.reply : "";
+      if (!reply) {
+        if (res.status === 429 && data && data.error) { setMsgs((m) => [...m, { role: "assistant", content: String(data.error) }]); return; }
+        throw new Error("empty");
+      }
       setMsgs((m) => [...m, { role: "assistant", content: String(reply).trim() }]);
     } catch (e) {
       console.error("Ask BSP:", e);
