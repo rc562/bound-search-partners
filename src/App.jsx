@@ -2,7 +2,7 @@ import React from "react";
 
 /* ---------- design tokens + global rules (from the BSP design system) ---------- */
 const CSS = ":root {\n  --night:        #0e0b24;  \n  --night-mid:    #181338;  \n  --night-light:  #2a2456;  \n  --night-deep:   #1f1a42;  \n  --night-tooltip:#14102e;  \n  --ink-chat:     #26252e;  \n  --red:        #e23c41;  \n  --red-hover:  #c8333a;  \n  --red-bright: #e8474c;  \n  --red-deep:   #cf3238;  \n  --white:          #ffffff;\n  --text-primary:   #ffffff;  \n  --text-body:      #d4d1e0;  \n  --text-secondary: #c5c3ce;  \n  --text-soft:      #ececf2;  \n  --text-muted:     #8a879a;  \n  --text-faint:     #73708a;  \n  --success:        #22c55e;  \n  --success-light:  #86efac;  \n  --red-006: rgba(226, 60, 65, .06);  \n  --red-008: rgba(226, 60, 65, .08);  \n  --red-012: rgba(226, 60, 65, .12);  \n  --red-018: rgba(226, 60, 65, .18);  \n  --red-022: rgba(226, 60, 65, .22);  \n  --red-035: rgba(226, 60, 65, .35);  \n  --red-glow: rgba(226, 60, 65, .15);  \n  --white-05: rgba(255, 255, 255, .05);\n  --white-06: rgba(255, 255, 255, .06);\n  --white-12: rgba(255, 255, 255, .12);\n  --surface-base:     var(--night);\n  --surface-alt:      var(--night-mid);\n  --surface-raised:   var(--night-light);\n  --surface-popover:  var(--night-tooltip);\n  --border-hairline:  var(--white-06);\n  --border-strong:    var(--white-12);  \n  --border-accent:    var(--red-008);\n  --card-fill:        rgba(24, 19, 56, .35);  \n}\n:root {\n  --paper:      #f6f4ee;  \n  --paper-dim:  #eeebe2;  \n  --paper-ink:       #16132e;  \n  --paper-ink-soft:  #3b3852;  \n  --paper-ink-mute:  #6d6a80;  \n  --paper-rule:      rgba(22, 19, 46, .16);  \n  --paper-rule-soft: rgba(22, 19, 46, .09);  \n  --paper-red-rule:  rgba(226, 60, 65, .28); \n  --paper-grain: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .04 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E\"); \n}\n.surface-paper {\n  background: var(--paper);\n  color: var(--paper-ink);\n  --surface-base:    var(--paper);\n  --surface-alt:     var(--paper-dim);\n  --text-primary:    var(--paper-ink);\n  --text-body:       var(--paper-ink);\n  --text-secondary:  var(--paper-ink-soft);\n  --text-muted:      var(--paper-ink-mute);\n  --text-faint:      var(--paper-ink-mute);\n  --border-hairline: var(--paper-rule-soft);\n  --border-strong:   var(--paper-rule);\n  --border-accent:   var(--paper-red-rule);\n  --card-fill:       rgba(22, 19, 46, .04);\n}\n:root {\n  --font-sans: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif; \n  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;  \n  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;  \n  --fw-serif-display: 500;    \n  --lh-serif-display: 1.08;  \n  --ls-serif-display: -.012em; \n  --fs-mono-meta: .68rem;     \n  --ls-mono-meta: .16em;      \n  --fs-hero:      clamp(3rem, 8vw, 6.5rem);       \n  --fs-display:   clamp(2.8rem, 7.5vw, 5.75rem);  \n  --fs-h2:        clamp(2rem, 5vw, 3.75rem);      \n  --fs-h3:        clamp(1.5rem, 2.5vw, 2.25rem);  \n  --fs-h4:        clamp(1.55rem, 3.4vw, 3rem);    \n  --lh-hero:      .92;    \n  --lh-tight:     1.05;  \n  --lh-heading:   1.1;   \n  --ls-display:  -.03em;  \n  --ls-heading:  -.02em;  \n  --fs-lead:   clamp(1.1rem, 2vw, 1.35rem);   \n  --fs-body:   1.05rem;    \n  --fs-body-sm: 15px;      \n  --lh-body:   1.8;        \n  --lh-body-relaxed: 1.85;\n  --fs-eyebrow:  clamp(.65rem, .9vw, .78rem);  \n  --fs-label:    11px;     \n  --fs-label-sm: 10px;     \n  --ls-eyebrow:  .22em;    \n  --ls-label:    .15em;    \n  --ls-nav:      .15em;    \n  --ls-wide:     .2em;     \n  --fw-regular:  400;   \n  --fw-medium:   500;   \n  --fw-semibold: 600;   \n  --fw-bold:     700;    \n  --fw-heavy:    800;    \n}\n:root {\n  --container:      1320px;  \n  --container-narrow: 1180px;\n  --gutter:         clamp(1.5rem, 4vw, 4rem);   \n  --section-y:      clamp(3.5rem, 6vw, 5.5rem);  \n  --section-y-lg:   clamp(4rem, 7vw, 6rem);     \n  --gap-section:    clamp(2.5rem, 5vw, 5.5rem);\n  --space-1:  4px;\n  --space-2:  6px;\n  --space-3:  8px;\n  --space-4:  10px;\n  --space-5:  12px;\n  --space-6:  16px;\n  --space-7:  20px;\n  --space-8:  24px;\n  --space-9:  32px;\n  --space-10: 40px;\n  --space-11: 48px;\n  --space-12: 56px;\n  --radius-0:    0;     \n  --radius-xs:   2px;   \n  --radius-sm:   4px;   \n  --radius-md:   6px;   \n  --radius-lg:   8px;   \n  --radius-xl:   10px;  \n  --radius-2xl:  20px;  \n  --radius-pill: 99px;  \n  --radius-full: 50%;   \n  --btn-pad:       16px 36px;  \n  --input-pad:     14px;       \n  --tap-min:       44px;       \n}\n:root {\n  --ease-signature: cubic-bezier(.23, 1, .32, 1);  \n  --ease-out:       cubic-bezier(0, 0, .2, 1);    \n  --dur-fast:   .25s;  \n  --dur:        .3s;   \n  --dur-slow:   .45s;  \n  --dur-reveal: .9s;    \n  --shadow-button:  0 8px 24px rgba(226, 60, 65, .3);          \n  --shadow-toast:   0 18px 50px rgba(0, 0, 0, .45);            \n  --shadow-panel:   0 24px 64px rgba(0, 0, 0, .6),\n                    inset 0 1px 0 rgba(255, 255, 255, .05);    \n  --shadow-launcher:0 8px 32px rgba(0, 0, 0, .45),\n                    inset 0 1px 0 rgba(255, 255, 255, .06);    \n  --shadow-login:   0 40px 90px rgba(0, 0, 0, .5);             \n  --shadow-text:    0 2px 22px rgba(8, 6, 20, .9),\n                    0 1px 4px rgba(8, 6, 20, .6);              \n  --blur-nav:    blur(16px);          \n  --blur-glass:  blur(28px);          \n  --glass-nav:   rgba(14, 11, 36, .6);\n  --glass-panel: rgba(12, 11, 18, .94);\n  --divider-red: linear-gradient(90deg, transparent, rgba(226, 60, 65, .15), transparent); \n  --grain: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E\"); \n  --glow-red: radial-gradient(circle, rgba(226, 60, 65, .5), transparent 60%); \n}\n@keyframes bsp-rise {\n  to { transform: translateY(0); }\n}\n@keyframes bsp-fade-up {\n  from { opacity: 0; transform: translateY(20px); }\n  to   { opacity: 1; transform: translateY(0); }\n}\n@keyframes bsp-blink {\n  0%, 100% { opacity: 1; }\n  50%      { opacity: 0; }\n}\n*{margin:0;padding:0;box-sizing:border-box}\nhtml{scroll-behavior:smooth}\nbody{background:#0e0b24;color:#fff;font-family:var(--font-sans);overflow-x:hidden}\na{color:#fff}a:hover{color:var(--red)}\n::selection{background:rgba(226,60,65,.27);color:#fff}\n.bsp-navlink{position:relative}\n.bsp-navlink::after{content:\"\";position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--red);transition:width var(--dur) ease}\n.bsp-navlink:hover{color:#fff !important}\n.bsp-navlink:hover::after{width:100%}\n.bsp-portal:hover{border-color:var(--red) !important;color:#fff !important}\n.bsp-foot-link:hover{color:var(--red) !important}\n.bsp-orb-core{width:14px;height:14px;border-radius:50%;background:var(--red);flex-shrink:0;box-shadow:0 0 14px rgba(226,60,65,.8);animation:orbBreathe 3.2s ease-in-out infinite}\n@keyframes v2-twinkle{0%,100%{opacity:.18}50%{opacity:.85}}\n@keyframes v2-beacon{0%,100%{opacity:.9}50%{opacity:.15}}\n@keyframes v2-ping{0%{transform:scale(1);opacity:.7}100%{transform:scale(3.4);opacity:0}}\n@keyframes v2-flip{0%{transform:rotateX(0)}100%{transform:rotateX(-180deg)}}\n@keyframes orbBreathe{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(226,60,65,.55)}50%{transform:scale(1.18);box-shadow:0 0 20px rgba(226,60,65,.95)}}\n.bsp-orb:hover{border-color:rgba(226,60,65,.8) !important;box-shadow:0 14px 44px rgba(226,60,65,.28),inset 0 1px 0 rgba(255,255,255,.12) !important;transform:translateY(-2px)}\n.bsp-orb:hover .bsp-orb-core{opacity:0 !important}\n.bsp-orb:hover .bsp-orb-mark{opacity:1 !important;transform:scale(1) !important}\n.bsp-orb-ring{animation:orbRing 2.6s cubic-bezier(.23,1,.32,1) infinite}\n@keyframes orbRing{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.7);opacity:0}}\n.bsp-dditem:hover{background:rgba(226,60,65,.06);color:#fff !important}\n.bsp-navorb:hover{border-color:rgba(226,60,65,.4) !important}\n.bsp-advrow:hover{background:rgba(226,60,65,.03)}\n.bsp-signal:hover{background:rgba(14,11,36,.8) !important}\n.bsp-ghost{-webkit-text-stroke:1.2px rgba(255,255,255,.3)}\n.v2-sheet:hover{transform:translateY(-4px);box-shadow:0 50px 110px rgba(0,0,0,.6) !important}\n.v2-card:hover{border-color:rgba(226,60,65,.5) !important;transform:translateY(-2px)}\n.v2-hscroll{scrollbar-width:none}.v2-hscroll::-webkit-scrollbar{display:none}\n.v2-range{-webkit-appearance:none;appearance:none;height:2px;background:linear-gradient(90deg,var(--red) 0,var(--red) var(--p,0%),rgba(226,60,65,.2) var(--p,0%));outline:none}\n.v2-range::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--night);border:2px solid var(--red);box-shadow:0 0 16px rgba(226,60,65,.6);cursor:grab}\n.v2-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--night);border:2px solid var(--red);cursor:grab}\n@media (max-width:1100px){.v2-foot{grid-template-columns:1fr 1fr 1fr !important}.v2-foot>div:first-child{grid-column:1 / -1}}\n@media (max-width:880px){.bsp-about-grid,.bsp-founder-grid,.bsp-contact-grid,.v2-grid-2{grid-template-columns:1fr !important}.v2-grid-4{grid-template-columns:1fr 1fr !important}}\n@media (max-width:640px){.v2-foot{grid-template-columns:1fr 1fr !important}}\n/* mobile */\n@media (max-width:640px){\n  .v2-row{flex-direction:column !important;align-items:flex-start !important;gap:12px !important}\n  .v2-cta{flex-direction:column !important;align-items:stretch !important;gap:12px !important}\n  .v2-cta>*{width:100% !important;justify-content:center !important}\n  .v2-grid-4{grid-template-columns:1fr 1fr !important}\n  h1{font-size:clamp(2.4rem,11vw,3rem) !important;letter-spacing:-.035em !important}\n  h2{font-size:clamp(1.8rem,8vw,2.3rem) !important}\n}\n@media (prefers-reduced-motion:reduce){.bsp-orb-core,.bsp-orb-ring{animation:none}}\n";
-const MOBILE_CSS = "/* ---------- Mobile polish (<= 640px only; desktop and tablet untouched) ---------- */\n@media (max-width:640px){\n  html{-webkit-text-size-adjust:100%}\n  :root{--section-y:4.5rem;--section-y-lg:5rem}\n  body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}\n\n  /* Type scale: closer to the desktop's display weight */\n  h1{font-size:clamp(2.6rem,12.4vw,3.3rem) !important;line-height:.95 !important;letter-spacing:-.045em !important;text-wrap:balance}\n  h2{font-size:clamp(2rem,9vw,2.55rem) !important;line-height:1.04 !important;letter-spacing:-.034em !important;text-wrap:balance}\n  #process h2{font-size:clamp(1.8rem,8vw,2.2rem) !important}\n  section p{text-wrap:pretty}\n\n  /* Hero */\n  #home{min-height:100svh !important;padding-bottom:3rem !important}\n  #home h1::before{content:\"\";display:block;width:44px;height:2px;background:var(--red);margin-bottom:26px}\n  #home h1+p{font-size:1.06rem !important;line-height:1.55 !important;max-width:32ch !important;margin-bottom:34px !important}\n  #home .v2-cta{gap:10px !important}\n  #home .v2-cta>button:last-child{width:auto !important;align-self:flex-start;justify-content:flex-start !important;padding:14px 0 !important}\n\n  /* About: every step readable on touch (no hover state on phones) */\n  #about h4{color:#fff !important}\n  #about h4+span{opacity:.85 !important}\n  #about p{opacity:1 !important}\n\n  /* Services accordion: titles read as live links, not disabled text */\n  #services h2+div>div:first-child{border-top:1px solid var(--red-008)}\n  #services h3{color:var(--text-soft) !important;font-size:clamp(1.4rem,6.4vw,1.8rem) !important;letter-spacing:-.025em !important}\n  #services h2+div>div>div:first-child{padding:1.3rem 0 !important;min-height:56px}\n\n  /* Results */\n  #results .v2-grid-4>button{min-height:136px !important;padding:16px 16px 18px !important}\n\n  /* Industries list */\n  #industries [role=\"button\"]{font-size:1.2rem !important;padding:17px 0 !important;color:var(--text-soft) !important}\n\n  /* Bond: room for the explanation, and a touch hint */\n  #bond .bsp-bond-mean{height:104px !important}\n  #bond .bsp-bond-mean p{font-size:1.02rem !important}\n\n  /* Bench check: full-size answer buttons */\n  #bench button{min-height:46px;flex:1 1 0}\n\n  /* Contact: 16px fields stop iOS zooming the page on focus */\n  #contact input,#contact select,#contact textarea{font-size:16px !important}\n  #contact form>div{margin-bottom:22px !important}\n  #contact form button[type=\"submit\"]{min-height:54px}\n\n  /* Closer: keep the desktop's display scale */\n  #closer{padding:6.5rem 0 6rem !important}\n  #closer>div:first-child{background-position:6% 38% !important}\n  #closer h2{font-size:clamp(2.6rem,12.4vw,3.4rem) !important;line-height:.95 !important;letter-spacing:-.045em !important}\n\n  /* Footer: comfortable tap targets */\n  footer .v2-foot{row-gap:2.25rem !important;column-gap:1.5rem !important}\n  footer .v2-foot .bsp-foot-link{font-size:14px !important;padding:5px 0;line-height:1.45}\n  footer .v2-row a.bsp-foot-link{display:inline-block;padding:10px 0}\n}\n/* Gentle reveal on scroll for section headings (phones only, browsers that support it) */\n@media (max-width:640px) and (prefers-reduced-motion:no-preference){\n  @supports (animation-timeline:view()){\n    section:not(#home) h2{animation:bsp-mob-rise linear both;animation-timeline:view();animation-range:entry 0% entry 70%}\n  }\n}\n@keyframes bsp-mob-rise{from{opacity:.25;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}\n";
+const MOBILE_CSS = "/* ---------- Phone design (<= 640px only; tablet and desktop untouched) ---------- */\n@media (max-width:640px){\n  html{-webkit-text-size-adjust:100%}\n  :root{--gutter:24px;--section-y:5rem;--section-y-lg:5rem}\n  body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}\n  h1{font-size:clamp(2.6rem,12.6vw,3.3rem) !important;line-height:.94 !important;letter-spacing:-.045em !important;text-wrap:balance}\n  h2{font-size:clamp(2rem,9vw,2.55rem) !important;line-height:1.04 !important;letter-spacing:-.034em !important;text-wrap:balance}\n  section p{text-wrap:pretty}\n  button,a,[role=button]{-webkit-tap-highlight-color:transparent}\n  button:active,[role=button]:active{opacity:.82}\n\n  /* shared phone primitives (8pt rhythm) */\n  .m-sec{padding:var(--section-y) 0}\n  .m-eyebrow{margin-bottom:16px !important}\n  .m-h2{margin:0 0 24px !important}\n  .m-h2-sm{font-size:clamp(1.8rem,8vw,2.2rem) !important;margin:0 !important}\n  .m-intro{font-size:15px;line-height:1.7;color:var(--text-secondary);margin:0 0 32px}\n  .m-note{font-size:12px;line-height:1.6;color:var(--text-muted);font-style:italic;margin:0 0 32px;max-width:34ch}\n  .m-kick{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin:0 0 8px}\n  .m-kick-dim{opacity:.75}\n\n  /* swipeable rails */\n  .m-snap{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1 * var(--gutter));padding:0 var(--gutter) 4px;scroll-padding:0 var(--gutter);overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;outline:none}\n  .m-snap-item{flex:0 0 86%;scroll-snap-align:start;display:flex;transition:opacity .5s var(--ease-signature)}\n  .m-snap-item>*{flex:1}\n  .m-snap-item:not(.is-on){opacity:.55}\n  .m-pager{display:flex;align-items:center;margin-top:24px}\n  .m-pager-bar{display:flex;gap:4px;flex:1}\n  .m-pager-bar button{flex:1;height:24px;background:none;border:0;padding:0;cursor:pointer;display:flex;align-items:center}\n  .m-pager-bar button span{display:block;width:100%;height:2px;background:rgba(255,255,255,.12);transition:background .4s var(--ease-signature)}\n  .m-pager-bar button.is-done span{background:rgba(226,60,65,.45)}\n  .m-pager-bar button.is-on span{background:var(--red);height:3px}\n\n  /* cards */\n  .m-card{display:flex;flex-direction:column;padding:32px 24px;background:linear-gradient(180deg,rgba(226,60,65,.06),rgba(24,19,56,.35) 40%);border:1px solid var(--red-012);border-top:2px solid var(--red);min-width:0}\n  .m-card-title{font-size:1.65rem;font-weight:700;line-height:1.08;letter-spacing:-.025em;margin:0 0 16px;color:#fff}\n  .m-card-tag{font-size:14px;font-style:italic;color:var(--red);opacity:.85;line-height:1.5;margin:0 0 16px}\n  .m-card-body{font-size:15px;line-height:1.75;color:var(--text-body);margin:0 0 24px}\n  .m-list{list-style:none;margin:0 0 24px;padding:0;border-top:1px solid var(--white-06)}\n  .m-list li{font-size:14px;line-height:1.5;color:var(--text-body);padding:12px 0 12px 20px;border-bottom:1px solid var(--white-06);position:relative}\n  .m-list li::before{content:\"\";position:absolute;left:0;top:19px;width:8px;height:1px;background:var(--red)}\n\n  /* insights: paper sheets */\n  .m-sheet{display:flex;flex-direction:column;text-decoration:none !important;padding:32px 24px;min-height:440px;box-shadow:0 32px 72px rgba(0,0,0,.5)}\n  .m-snap-item:has(.m-sheet){padding-bottom:24px}\n\n  /* hero: editorial portrait cover */\n  .m-hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;background:var(--night);overflow:hidden;padding-bottom:40px}\n  .m-hero-img{position:absolute;left:0;right:0;top:0;height:64svh;overflow:hidden}\n  .m-hero-img>div{position:absolute;inset:0;background:url(/hero-poster.jpg) 47% 30%/auto 118% no-repeat;filter:grayscale(.55) saturate(.75) brightness(.72) contrast(1.05);transform-origin:50% 60%;animation:m-drift 18s var(--ease-out) both}\n  .m-hero-img::after{content:\"\";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,11,36,.55) 0%,rgba(14,11,36,0) 26%,rgba(14,11,36,.15) 55%,var(--night) 100%),linear-gradient(90deg,rgba(226,60,65,.10),transparent 60%)}\n  .m-hero-copy{animation:bsp-fade-up .8s var(--ease-signature) .15s both}\n  .m-hero-h{margin:0 0 24px;filter:drop-shadow(0 2px 18px rgba(8,6,20,.7))}\n  .m-hero-h::before{content:\"\";display:block;width:48px;height:2px;background:var(--red);margin-bottom:24px}\n  .m-hero-p{font-size:1.06rem;line-height:1.55;color:var(--text-soft);font-weight:500;max-width:30ch;margin:0 0 32px}\n  .m-hero-cta{display:flex;flex-direction:column;align-items:flex-start;gap:8px}\n  @keyframes m-drift{from{transform:scale(1.12)}to{transform:scale(1)}}\n\n  /* about: display lead + ghost numerals */\n  #about .bsp-about-grid{gap:56px !important}\n  #about .bsp-about-grid>div:first-child>p:first-of-type{font-size:1.2rem !important;line-height:1.55 !important;color:#fff !important;font-weight:500;letter-spacing:-.01em;margin-bottom:24px !important}\n  #about .bsp-about-grid>div:last-child>div:not(:first-child){gap:0 !important;padding:24px 0;border-top:1px solid var(--white-06)}\n  #about .bsp-about-grid>div:last-child>div:not(:first-child){flex-direction:column !important}\n  #about .bsp-about-grid>div:last-child>div:not(:first-child)::before{content:\"\";display:block;width:24px;height:2px;background:var(--red);margin-bottom:16px}\n  #about .bsp-about-grid>div:last-child>div:not(:first-child)>div:first-child{display:none !important}\n  #about .bsp-about-grid>div:last-child>div:not(:first-child)>div:last-child{padding-bottom:0 !important}\n  #about h4{color:#fff !important;font-size:17px !important}\n  #about h4+span{opacity:.85 !important}\n  #about p{opacity:1 !important}\n\n  /* process */\n  .m-process-head{display:grid;grid-template-columns:1fr 104px;gap:16px;align-items:center;margin-bottom:24px}\n  .m-phase{padding-top:24px}\n  .m-phase-rail{position:relative;height:2px;background:rgba(255,255,255,.1);margin-bottom:24px}\n  .m-phase-rail span{position:absolute;top:-1px;height:4px;background:var(--red);box-shadow:0 0 12px rgba(226,60,65,.6)}\n  .m-phase-meta{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:16px}\n  .m-phase-title{font-size:2rem}\n  .m-phase-what{font-size:1.02rem;line-height:1.65;color:#fff;font-weight:500;letter-spacing:-.005em;margin:0}\n\n  /* results: big-figure cards */\n  .m-case-fig{font-size:3.1rem;font-weight:700;line-height:.95;letter-spacing:-.045em;color:#fff;margin:16px 0 8px}\n  .m-case-figl{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}\n  .m-case-rule{height:1px;background:linear-gradient(90deg,var(--red),rgba(226,60,65,0));margin:24px 0}\n  .m-case .m-card-title{font-size:1.45rem;margin-bottom:8px}\n  .m-case-focus{font-size:13px;line-height:1.5;color:var(--text-muted);letter-spacing:.02em;margin-bottom:16px}\n\n  /* industries: indexed list */\n  #industries [role=\"button\"]{font-size:1.25rem !important;padding:20px 0 !important;color:var(--text-soft) !important;letter-spacing:-.02em}\n  #industries [role=\"button\"]>span:first-child::before{content:\"\";display:inline-block;width:12px;height:2px;background:var(--red);margin-right:16px;vertical-align:.3em}\n  #industries [role=\"button\"]+div>div{padding-left:28px !important}\n\n  /* bond */\n  #bond .bsp-bond-mean{height:104px !important}\n  #bond .bsp-bond-mean p{font-size:1.02rem !important}\n\n  /* leadership */\n  #leadership .bsp-founder-grid{gap:40px !important}\n  #leadership .bsp-founder-grid>div:last-child::after{content:\"\";display:block;width:48px;height:2px;background:var(--red);margin-top:16px}\n  #leadership img{border-radius:0 !important;aspect-ratio:4/3;object-fit:cover;object-position:50% 25%}\n\n  /* bench */\n  #bench button{min-height:48px;flex:1 1 0}\n\n  /* contact: editorial form */\n  #contact .bsp-contact-grid{gap:48px !important}\n  #contact a[href^=\"mailto\"]{font-size:1.15rem;font-weight:600;letter-spacing:-.01em;border-bottom:1px solid var(--red-035);padding-bottom:2px}\n  #contact form{position:relative;padding:32px 24px;margin:0 calc(-1 * var(--gutter));background:linear-gradient(180deg,rgba(226,60,65,.05),rgba(24,19,56,.4));border-top:2px solid var(--red)}\n  #contact form>div{margin-bottom:24px !important;gap:24px !important}\n  #contact input,#contact select,#contact textarea{font-size:16px !important;background-color:transparent !important;border:0 !important;border-bottom:1px solid rgba(255,255,255,.2) !important;padding:12px 0 !important;transition:border-color .3s var(--ease-signature)}\n  #contact select{padding-right:32px !important;background-position:right 2px center !important}\n  #contact textarea{border:1px solid rgba(255,255,255,.2) !important;padding:12px !important;margin-top:4px}\n  #contact input:focus,#contact select:focus,#contact textarea:focus{border-color:var(--red) !important}\n  #contact form label>span{font-family:var(--font-mono);letter-spacing:.14em !important;color:var(--text-muted) !important}\n  #contact form button[type=\"submit\"]{min-height:56px;justify-content:space-between !important;padding:0 24px !important}\n\n  /* closer: full-bleed band */\n  #closer{padding:8rem 0 7rem !important}\n  #closer>div:first-child{background-position:6% 38% !important;filter:grayscale(.4) saturate(.7) brightness(.8) !important}\n  #closer h2{font-size:clamp(2.7rem,13vw,3.5rem) !important;line-height:.94 !important;letter-spacing:-.045em !important}\n\n  /* footer */\n  footer{padding-top:64px !important}\n  footer .v2-foot{grid-template-columns:1fr 1fr !important;row-gap:40px !important;column-gap:24px !important;margin-bottom:40px !important}\n  footer .v2-foot>div:first-child{padding-bottom:32px;border-bottom:1px solid var(--white-06)}\n  footer .v2-foot>div:first-child p{font-size:15px !important;color:var(--text-secondary) !important;max-width:none !important}\n  footer .v2-foot>div:nth-child(4),footer .v2-foot>div:nth-child(5){grid-column:1 / -1}\n  footer .v2-foot>div>div:first-child{font-family:var(--font-mono);letter-spacing:.16em !important;color:var(--red) !important;padding-bottom:8px;border-bottom:1px solid var(--white-06);margin-bottom:4px !important}\n  footer .v2-foot .bsp-foot-link{font-size:14px !important;line-height:1.45;padding:6px 0}\n  footer .v2-foot>div:nth-child(4) a.bsp-foot-link{color:var(--text-soft) !important;padding:12px 0;border-bottom:1px solid var(--white-06)}\n  footer .v2-foot>div:nth-child(5) a[href^=\"mailto\"]{font-size:1.15rem !important;font-weight:600;color:#fff !important}\n  footer .v2-row{flex-direction:column-reverse !important;align-items:stretch !important;gap:24px !important}\n  footer .v2-row svg{width:100% !important;height:auto !important}\n  footer .v2-row a.bsp-foot-link{display:inline-block;padding:10px 0}\n\n  /* sticky-free reveals */\n  .m-rv{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease-signature),transform .8s var(--ease-signature)}\n  .m-rv.m-in{opacity:1;transform:none}\n}\n@media (max-width:640px) and (prefers-reduced-motion:reduce){\n  .m-hero-img>div,.m-hero-copy{animation:none !important}\n  .m-snap-item,.m-rv{transition:none !important}\n}\n";
 function GlobalStyle() {
   React.useEffect(() => {
     if (document.getElementById("bsp-v2-css")) return;
@@ -1271,28 +1271,184 @@ function Chat() {
 }
 
 /* ---------- Composition ---------- */
+/* ---------- Phone layouts (<= 640px only) ----------
+   Rendered instead of the desktop/tablet sections on phones. Same copy, composed for a portrait screen.
+   Desktop and tablet (>= 641px) never render anything in this block. */
+const PHONE_MAX = 640;
+function Snap({ items, render, label, onIndex }) {
+  const ref = React.useRef(null); const [i, setI] = React.useState(0);
+  const onScroll = () => {
+    const el = ref.current; if (!el || !el.children.length) return;
+    const step = el.children[0].getBoundingClientRect().width + 12;
+    const k = Math.max(0, Math.min(items.length - 1, Math.round(el.scrollLeft / step)));
+    if (k !== i) { setI(k); if (onIndex) onIndex(k); }
+  };
+  const goTo = (k) => { const el = ref.current; if (!el) return; const c = el.children[k]; if (c) el.scrollTo({ left: c.offsetLeft - el.children[0].offsetLeft, behavior: "smooth" }); };
+  return (
+    <div className="m-snap-wrap">
+      <div ref={ref} className="m-snap v2-hscroll" onScroll={onScroll} role="region" aria-label={label} tabIndex={0}>
+        {items.map((it, k) => <div key={k} className={"m-snap-item" + (k === i ? " is-on" : "")} aria-roledescription="slide" aria-label={`${k + 1} of ${items.length}`}>{render(it, k, k === i)}</div>)}
+      </div>
+      <div className="m-pager">
+        <div className="m-pager-bar">{items.map((_, k) => <button key={k} type="button" aria-label={`Show ${k + 1} of ${items.length}`} className={k === i ? "is-on" : k < i ? "is-done" : ""} onClick={() => goTo(k)}><span /></button>)}</div>
+      </div>
+    </div>
+  );
+}
+function MHero({ go }) {
+  return (
+    <section id="home" data-screen-label="Hero" className="m-hero">
+      <div className="m-hero-img" aria-hidden="true"><div /></div>
+      <Wrap style={{ position: "relative", zIndex: 2 }}>
+        <div className="m-hero-copy">
+          <h1 className="m-hero-h">The leaders who move <span style={{ color: "var(--red)", fontStyle: "italic" }}>industries</span> start here.</h1>
+          <p className="m-hero-p">Retained search for manufacturing, industrial, and supply chain leadership.</p>
+          <div className="m-hero-cta">
+            <Button arrow onClick={() => go("contact")} style={{ width: "100%", justifyContent: "space-between", padding: "20px 24px" }}>Start a Conversation</Button>
+            <Button variant="ghost" arrow onClick={() => go("process")}>Our Process</Button>
+          </div>
+        </div>
+      </Wrap>
+    </section>
+  );
+}
+function MServices() {
+  return (
+    <section id="services" data-screen-label="Services" className="m-sec" style={{ background: "var(--night)", position: "relative", overflow: "hidden" }}>
+      <Wrap style={{ position: "relative" }}>
+        <Eyebrow className="m-eyebrow">Services</Eyebrow>
+        <Heading className="m-h2">Retained search for the leaders who <em style={{ color: "var(--red)", fontStyle: "italic" }}>run</em> plants, supply chains, and P&amp;Ls.</Heading>
+        <Snap items={SRVS} label="Services" render={(s) => (
+          <article className="m-card">
+            <h3 className="m-card-title">{s.t}<span style={{ color: "var(--red)" }}>.</span></h3>
+            <p className="m-card-tag">{s.tag}</p>
+            <p className="m-card-body">{s.d}</p>
+            <div className="m-kick">Deliverables</div>
+            <ul className="m-list">{s.del.map((d) => <li key={d}>{d}</li>)}</ul>
+            <div className="m-kick">{s.rl}</div>
+            <Terms items={s.r.split(" · ")} size={14} />
+          </article>
+        )} />
+      </Wrap>
+    </section>
+  );
+}
+function MTimeline() {
+  const [active, setActive] = React.useState(0);
+  return (
+    <section id="process" data-screen-label="Timeline" className="m-sec" style={{ background: "var(--night-mid)", overflow: "hidden" }}>
+      <Wrap>
+        <Eyebrow className="m-eyebrow">How we work</Eyebrow>
+        <div className="m-process-head">
+          <Heading className="m-h2 m-h2-sm">A search unfolds over <em style={{ color: "var(--red)", fontStyle: "italic" }}>120</em> days.</Heading>
+          <SearchWatch day={PHASES[active].day} size={104} />
+        </div>
+        <p className="m-intro">Every search moves through five phases. Tap one to see the work involved and what you receive along the way.</p>
+        <Snap items={PHASES} label="Search phases" onIndex={setActive} render={(p, i) => {
+          const end = i < PHASES.length - 1 ? PHASES[i + 1].day : 120;
+          return (
+            <article className="m-card m-phase">
+              <div className="m-phase-rail" aria-hidden="true"><span style={{ left: `${(p.day / 120) * 100}%`, width: `${((end - p.day) / 120) * 100}%` }} /></div>
+              <div className="m-phase-meta"><span>{p.d}</span></div>
+              <h3 className="m-card-title m-phase-title">{p.t}<span style={{ color: "var(--red)" }}>.</span></h3>
+              <p className="m-phase-what">{p.what}</p>
+            </article>
+          );
+        }} />
+      </Wrap>
+    </section>
+  );
+}
+function MCases() {
+  return (
+    <section id="results" data-screen-label="Results" className="m-sec" style={{ background: "var(--night)", overflow: "hidden" }}>
+      <Wrap>
+        <Eyebrow className="m-eyebrow">Placement outcomes</Eyebrow>
+        <Heading className="m-h2">Recent searches,<br />and what came of them.</Heading>
+        <p className="m-note">Client identities are protected. Every outcome shown here is real and verified.</p>
+        <Snap items={CASES} label="Placement outcomes" render={(c) => (
+          <article className="m-card m-case">
+            <div className="m-kick">{c.ind}</div>
+            <div className="m-case-fig">{c.m}</div>
+            <div className="m-case-figl">{c.ml}</div>
+            <div className="m-case-rule" />
+            <h3 className="m-card-title">{c.role}</h3>
+            <div className="m-case-focus">{c.focus} · {c.rev}</div>
+            <StatusPill style={{ alignSelf: "flex-start", marginBottom: 24 }}>{c.status}</StatusPill>
+            <div className="m-kick m-kick-dim">The Challenge</div>
+            <p className="m-card-body">{c.challenge}</p>
+            <div className="m-kick m-kick-dim">The Outcome</div>
+            <p className="m-card-body" style={{ marginBottom: 0 }}>{c.outcome}</p>
+          </article>
+        )} />
+      </Wrap>
+    </section>
+  );
+}
+function MInsights() {
+  const meta = { fontFamily: "var(--font-mono)", fontSize: "var(--fs-mono-meta)", letterSpacing: "var(--ls-mono-meta)", textTransform: "uppercase" };
+  return (
+    <section id="insights" data-screen-label="Insights" className="m-sec" style={{ background: "var(--night)", position: "relative", overflow: "hidden" }}>
+      <Wrap style={{ position: "relative" }}>
+        <Eyebrow className="m-eyebrow">Insights</Eyebrow>
+        <Heading className="m-h2">Perspective for the people who <em style={{ color: "var(--red)", fontStyle: "italic" }}>run</em> the real economy.</Heading>
+        <p className="m-intro">Client advisories, published when there is something worth saying. Read by operators, boards, and sponsors across U.S. manufacturing.</p>
+        <Snap items={ADVISORIES} label="Advisories" render={(x, i) => (
+          <a href={x.href} target="_blank" rel="noopener noreferrer" className="surface-paper m-sheet" style={{ backgroundImage: "var(--paper-grain)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, ...meta, color: "var(--paper-ink-mute)", marginBottom: 32 }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 8 }}>{i === 0 && <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--red)" }} />}<span style={{ color: i === 0 ? "var(--red)" : "var(--paper-ink-mute)" }}>{i === 0 ? "Latest advisory" : "Client advisory"}</span></span>
+              <span>{x.date}</span>
+            </div>
+            <h3 style={{ fontFamily: "var(--font-serif)", fontWeight: 500, fontSize: "1.85rem", lineHeight: 1.08, letterSpacing: "-.014em", color: "var(--paper-ink)", margin: "0 0 16px" }}>{x.title}<span style={{ color: "var(--red)" }}>.</span></h3>
+            <p style={{ fontFamily: "var(--font-serif)", fontSize: "1.02rem", lineHeight: 1.55, color: "var(--paper-ink-soft)", margin: "0 0 auto" }}>{x.desc}</p>
+            <div style={{ borderTop: "1px solid var(--paper-rule)", paddingTop: 16, marginTop: 32, display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
+              <span style={{ fontFamily: "var(--font-serif)", fontSize: 14, fontWeight: 500, color: "var(--paper-ink)" }}>Bound Search Partners<span style={{ color: "var(--red)" }}>.</span></span>
+              <span style={{ ...meta, color: "var(--red)" }}>{x.read} read →</span>
+            </div>
+          </a>
+        )} />
+        <p className="m-note" style={{ marginTop: 24, marginBottom: 0 }}>Advisories are shared with clients first and published here shortly after.</p>
+      </Wrap>
+    </section>
+  );
+}
+/* Sticky-free reveal for phones: content rises in once as it enters the screen. */
+function usePhoneReveal(phone) {
+  React.useEffect(() => {
+    if (!phone || typeof window === "undefined" || !("IntersectionObserver" in window)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const els = Array.from(document.querySelectorAll("section:not(#home) .m-eyebrow, section:not(#home) h2, .m-snap-wrap, #about p, #about .bsp-about-grid>div:last-child>div, #industries [role=button], #leadership img, #contact form, footer .v2-foot>div"));
+    els.forEach((el) => el.classList.add("m-rv"));
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("m-in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -6% 0px", threshold: .08 });
+    els.forEach((el) => io.observe(el));
+    return () => { io.disconnect(); els.forEach((el) => el.classList.remove("m-rv", "m-in")); };
+  }, [phone]);
+}
+
 export default function App() {
   const variant = "d";
+  const phone = useWidth() <= PHONE_MAX;
+  usePhoneReveal(phone);
   const go = (id) => { const el = document.getElementById(id); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 70, behavior: "smooth" }); };
   return (
     <div>
       <GlobalStyle />
       <div aria-hidden="true" style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 5000, opacity: .026, backgroundImage: "var(--grain)" }} />
       <Nav go={go} />
-      <Hero go={go} variant={variant} />
+      {phone ? <MHero go={go} /> : <Hero go={go} variant={variant} />}
       <About />
       <Divider />
-      <Services />
+      {phone ? <MServices /> : <Services />}
       <Divider />
-      <Timeline variant={variant} />
+      {phone ? <MTimeline /> : <Timeline variant={variant} />}
       <Divider />
-      <Cases variant={variant} />
+      {phone ? <MCases /> : <Cases variant={variant} />}
       <Divider />
       <Industries />
       <Bond />
       <Leadership />
       <Divider />
-      <Insights variant={variant} />
+      {phone ? <MInsights /> : <Insights variant={variant} />}
       <Divider />
       <BenchCheck go={go} />
       <Divider />
